@@ -87,6 +87,8 @@ export function cardNode(event, voicing, { selected = false, onSelect } = {}) {
   const card = h('div', {
     class: `tarjeta${pending ? ' pendiente' : ''}${selected ? ' sel' : ''}`,
     style: familyStyle(event.family),
+    'data-event-id': event.id,
+    'data-voicing-id': voicing ? voicing.id : '',
     'aria-current': selected ? 'true' : null,
     onclick: onSelect ? (e) => { e.stopPropagation(); onSelect(); } : null,
   },

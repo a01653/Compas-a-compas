@@ -2,7 +2,7 @@
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar canciones, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-**Estado: fase 0 validada por el supervisor; fase 1 (edición y persistencia) implementada, pendiente de validación.** Ver [docs/ESTADO.md](docs/ESTADO.md) para la evidencia real de cada fase.
+**Estado: fases 0 a 3 validadas por el supervisor; fase 4 (paginación y exportación) implementada, pendiente de validación.** Ver [docs/ESTADO.md](docs/ESTADO.md) para la evidencia real de cada fase.
 
 ## Abrir la aplicación
 
@@ -40,9 +40,16 @@ npm test
 - **Recuperación:** los cambios pendientes se copian en `localStorage` del navegador y se ofrecen al volver a abrir la aplicación. Es una red de seguridad, no un guardado; si el almacenamiento no está disponible, la aplicación funciona igual. Se borra al guardar, abrir o crear una canción.
 - **Guardar JSON** usa el selector de archivos del navegador si existe; si no, una descarga normal (en ese caso el navegador no confirma que se haya guardado).
 
-Siguen deshabilitados con explicación: Exportar HTML e Imprimir/PDF (fase 4).
-
 **Marcas musicales (fase 3):** el panel «Marcas musicales» permite añadir, editar y borrar repeticiones ×N, casillas de una o varias pasadas, Segno, Coda, Fine y los siete saltos. Los compases y destinos se eligen por ID con etiquetas legibles; un destino que ya no existe se conserva como opción pendiente. Borrar una marca muestra sus consecuencias y permite cancelar. Las marcas se dibujan en la hoja (Segno y Coda como SVG propio, barras de repetición, ×N y corchetes de casilla) sin expandir el recorrido.
+
+## Hojas, exportación e impresión (fase 4, sin validar en navegador)
+
+- **Vista previa:** varias hojas A4 apaisadas (297 × 210 mm, márgenes de 10 mm, área útil 277 × 190 mm) con `actual/total` arriba a la derecha y canción + tonalidad en la cabecera. Tras cada edición se espera a que carguen las fuentes, se mide el DOM real y se reparten compases en filas y hojas. El zoom solo escala lo dibujado (no vuelve a medir) y «Ajustar al ancho» admite escalas inferiores al 30 % para caber en móviles de 360 px. Seleccionar un compás o tarjeta solo cambia clases: no se repagina ni se pierde el desplazamiento.
+- **Reparto:** todas las tarjetas aparecen en su orden, sin máximos ocultos. Un compás que no cabe en una fila se mueve a la siguiente; si no cabe ni así, se parte entre tarjetas en fragmentos con la misma etiqueta y la marca «continuación». Inicio/fin de repetición y símbolos «antes»/«después» solo se dibujan en el primer/último fragmento; casillas y repeticiones se muestran como continuación al cruzar fila u hoja. Un acorde cuyos voicings quedan en dos fragmentos se marca con un trazo de puntos en el lado cortado.
+- **Textos largos:** título, nombre del acorde y texto interior ajustan línea al ancho del mástil; la cabecera reserva su columna al número de hoja.
+- **Bloqueo:** si una digitación abarca más de 32 trastes, o si una tarjeta o la cabecera no caben ni solas, la vista previa lo avisa, se conservan los datos y **Exportar HTML e Imprimir / PDF se bloquean** con la lista de problemas.
+- **Exportar HTML:** un único archivo con las hojas, `references/fonts.css` y los estilos incluidos; sin editor, sin JavaScript y sin peticiones externas. Las fuentes y estilos se leen con `fetch` desde los archivos locales de la aplicación (por eso hace falta el servidor local). Antes de exportar espera a la última paginación; si se edita mientras tanto, no se exporta la hoja anterior. Si hay referencias musicales pendientes, se muestran y se pide confirmación; la exportación conserva las marcas tal cual y **no valida el recorrido**.
+- **Imprimir / PDF:** abre el diálogo de impresión del navegador sobre ese mismo HTML (marco oculto): no hay descarga de PDF nativa. En el diálogo del navegador elige «Guardar como PDF», A4 horizontal, márgenes «Ninguno» y desactiva «Encabezados y pies de página»; la aplicación lo recuerda antes de imprimir. Ctrl+P sobre el editor no imprime la interfaz y remite a ese botón.
 
 ## Empezar con Claude
 

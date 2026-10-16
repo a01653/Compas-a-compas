@@ -1,0 +1,22 @@
+/* Variables compartidas por la aplicación y por el HTML exportado (tinta, fondos y familias tipográficas). */
+:root {
+  --ink: #1b2a78;
+  --ink-deep: #14183a;
+  --ink-soft: #44539f;
+  --ink-mute: #5c6ab0;
+  --bg: #eef0f6;
+  --panel: #ffffff;
+  --line: #d9deea;
+  --line-strong: #b9c1d6;
+  --text: #1c2140;
+  --text-soft: #4d5578;
+  --focus: #2f6bff;
+  --danger: #b3261e;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 1px 2px rgba(20, 24, 58, 0.06), 0 6px 20px rgba(20, 24, 58, 0.06);
+  --f-marker: "Caveat Brush", "Segoe Print", "Comic Sans MS", cursive;
+  --f-hand: "Gochi Hand", "Segoe Print", "Comic Sans MS", cursive;
+  --f-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}

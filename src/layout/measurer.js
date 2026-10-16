@@ -1,0 +1,59 @@
+import { h } from '../render/dom.js';
+import { fragmentNode, headerNode } from '../render/sheet.js';
+import { pageStyleVars } from './spec.js';
+
+/**
+ * Medición real en el DOM, con las fuentes ya cargadas. Dibuja los mismos nodos que la vista previa y la
+ * exportación (fragmentNode, headerNode) en una caja fuera de pantalla y lee su tamaño. No decide dónde
+ * va nada: eso es paginate.js.
+ */
+export function createMeasurer() {
+  const row = h('div', { class: 'fila' });
+  const box = h('div', { class: 'hoja-medida', 'aria-hidden': 'true', style: pageStyleVars() }, row);
+  document.body.append(box);
+
+  const sizeOf = (node) => {
+    const rect = node.getBoundingClientRect();
+    return { width: rect.width, height: rect.height };
+  };
+
+  return {
+    /** Área útil de la hoja: tamaño exterior menos márgenes, leído del CSS real. */
+    content() {
+      const probe = h('section', { class: 'hoja' });
+      box.append(probe);
+      const style = getComputedStyle(probe);
+      const rect = probe.getBoundingClientRect();
+      const px = (name) => parseFloat(style[name]) || 0;
+      const content = {
+        width: rect.width - px('paddingLeft') - px('paddingRight') - px('borderLeftWidth') - px('borderRightWidth'),
+        height: rect.height - px('paddingTop') - px('paddingBottom') - px('borderTopWidth') - px('borderBottomWidth'),
+      };
+      probe.remove();
+      return content;
+    },
+
+    /** Altura de la cabecera con el ancho útil y el mayor formato de numeración razonable. */
+    headerHeight(song, contentWidth) {
+      const holder = h('div', { class: 'cab-medida' });
+      holder.style.width = `${contentWidth}px`;
+      holder.append(headerNode(song, '99/99'));
+      box.append(holder);
+      const height = holder.getBoundingClientRect().height;
+      holder.remove();
+      return height;
+    },
+
+    fragment(ctx, unitIndex, from, to) {
+      const node = fragmentNode(ctx, unitIndex, from, to);
+      row.append(node);
+      const size = sizeOf(node);
+      node.remove();
+      return size;
+    },
+
+    dispose() {
+      box.remove();
+    },
+  };
+}

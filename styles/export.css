@@ -1,0 +1,22 @@
+/*
+ * Documento HTML exportado (solo hojas, sin JavaScript). Se concatena tras fonts.css, tokens.css y sheet.css.
+ * Impresión: A4 apaisado en milímetros exactos, sin márgenes de página (los márgenes son los de cada hoja).
+ * `margin: 0` también deja sin sitio los encabezados y pies que añade el navegador.
+ */
+@page { size: 297mm 210mm; margin: 0; }
+
+html, body { margin: 0; padding: 0; }
+body.exportada { font: 16px/1.3 var(--f-ui); color: var(--ink); }
+.hojas { display: block; }
+
+@media screen {
+  body.exportada { padding: 16px 0; background: #dfe3ee; }
+  .exportada .hoja { margin: 0 auto 24px; box-shadow: 0 2px 18px rgba(20, 24, 58, 0.22); }
+}
+
+@media print {
+  body.exportada { background: none; }
+  .exportada .hoja { margin: 0; box-shadow: none; break-after: page; page-break-after: always; }
+  /* Sin salto tras la última hoja: evita una página final vacía. */
+  .exportada .hoja:last-child { break-after: auto; page-break-after: auto; }
+}

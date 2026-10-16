@@ -1,0 +1,51 @@
+/**
+ * Unidades de reparto. Módulo puro: no mide ni dibuja.
+ *
+ * Cada compás es una unidad y cada tarjeta (un voicing, o un evento sin digitación) es un átomo indivisible:
+ * el título exterior y su tarjeta nunca se separan. Un compás se parte siempre entre átomos, en fragmentos
+ * contiguos [from, to) que conservan el orden escrito.
+ */
+
+/** @returns {Array<{ measureId: string, label: string, index: number, atoms: Array<object> }>} */
+export function buildUnits(song) {
+  return song.measures.map((measure, index) => {
+    const atoms = [];
+    measure.chordEvents.forEach((event, eventIndex) => {
+      if (!event.voicings.length) {
+        atoms.push({ eventId: event.id, voicingId: null, eventIndex, firstOfEvent: true, lastOfEvent: true });
+        return;
+      }
+      event.voicings.forEach((voicing, i) => {
+        atoms.push({
+          eventId: event.id,
+          voicingId: voicing.id,
+          eventIndex,
+          firstOfEvent: i === 0,
+          lastOfEvent: i === event.voicings.length - 1,
+        });
+      });
+    });
+    return { measureId: measure.id, label: measure.label, index, atoms };
+  });
+}
+
+/** Primer y último fragmento de un compás: de ellos depende qué símbolos de borde se dibujan (ver fragmentMarks). */
+export function fragmentFlags(unit, from, to) {
+  return { isFirst: from === 0, isLast: to >= unit.atoms.length };
+}
+
+/**
+ * Agrupa los átomos [from, to) por evento. `cutBefore`/`cutAfter` indican que el evento continúa en el
+ * fragmento anterior o en el siguiente, para que los voicings de un mismo acorde sigan siendo reconocibles.
+ */
+export function groupAtoms(unit, from, to) {
+  const groups = [];
+  for (let i = from; i < to; i++) {
+    const atom = unit.atoms[i];
+    const last = groups[groups.length - 1];
+    if (last && last.eventId === atom.eventId) last.atoms.push(atom);
+    else groups.push({ eventId: atom.eventId, eventIndex: atom.eventIndex, atoms: [atom], cutBefore: !atom.firstOfEvent, cutAfter: false });
+  }
+  for (const group of groups) group.cutAfter = !group.atoms[group.atoms.length - 1].lastOfEvent;
+  return groups;
+}

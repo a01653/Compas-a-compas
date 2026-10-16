@@ -249,9 +249,36 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
   border-radius: var(--radius-sm);
   background: #dfe3ee;
   overscroll-behavior: contain;
+  /* Ancho útil constante con o sin barra: escalar la vista no puede activar bucles del ResizeObserver. */
+  scrollbar-gutter: stable;
 }
 .viewport:focus-visible { outline-offset: -3px; }
 .stage { position: relative; margin: 0 auto; }
+
+/* Hojas de la vista previa: apiladas, escaladas con transform (zoom independiente de la paginación). */
+.vista-hojas { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; transform-origin: top left; }
+.vista-hojas .hoja { flex: none; box-shadow: 0 2px 18px rgba(20, 24, 58, 0.22); }
+/* Edición sobre la hoja (no forma parte de la exportación). */
+.vista-hojas .compas { cursor: pointer; }
+.vista-hojas .compas:hover { background: rgba(27, 42, 120, 0.03); }
+.vista-hojas .compas.sel { background: rgba(166, 203, 233, 0.22); box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); border-radius: 0 6px 6px 0; }
+.vista-hojas .compas.sel.en-rep { box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); }
+.vista-hojas .tarjeta { cursor: pointer; }
+.vista-hojas .tarjeta.sel { outline: 3px solid rgba(47, 107, 255, 0.7); outline-offset: 2px; }
+
+/* Marco oculto desde el que se imprime exactamente el HTML exportado. */
+.print-frame { position: fixed; right: 0; bottom: 0; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }
+
+/* Ctrl+P sobre la aplicación no imprime el editor: se remite al botón que imprime solo las hojas. */
+@media print {
+  body > * { display: none !important; }
+  body::before {
+    content: "Para imprimir las hojas usa el botón «Imprimir / PDF» de la aplicación: así se imprimen solo las hojas, en A4 horizontal.";
+    display: block;
+    padding: 20px;
+    font: 16px/1.4 var(--f-ui);
+  }
+}
 
 .toast {
   position: fixed;

@@ -7,6 +7,7 @@ import { mountChordPanel } from './ui/chord.js';
 import { mountMarksPanel } from './ui/marks.js';
 import { mountPreviewPanel } from './ui/preview.js';
 import { mountDisabledActions } from './ui/disabled.js';
+import { mountExportControls } from './ui/exporter.js';
 import { mountFileControls } from './ui/file.js';
 import { confirmDialog } from './ui/dialog.js';
 import { notify } from './ui/notify.js';
@@ -98,7 +99,8 @@ async function boot() {
   mountMeasuresPanel(document.getElementById('panel-compases'), store);
   mountChordPanel(document.getElementById('panel-acorde'), store);
   mountMarksPanel(document.getElementById('panel-marcas'), store);
-  mountPreviewPanel(document.getElementById('panel-vista'), store);
+  const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store);
+  mountExportControls(store, paginator);
   mountStatus(store);
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));

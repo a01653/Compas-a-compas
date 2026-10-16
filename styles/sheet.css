@@ -1,15 +1,26 @@
-/* Hoja A4 apaisada (297 × 210 mm ≈ 1123 × 794 px). Tinta y proporciones de la plantilla. */
+/*
+ * Hojas A4 apaisadas (297 × 210 mm). Este archivo se usa tal cual en la vista previa y se incluye en el HTML
+ * exportado: no debe contener reglas de edición (selección, cursor, hover). Esas viven en app.css.
+ * Las medidas de página y separaciones llegan como variables (--hoja-w, --hoja-h, --hoja-margen, --col-gap,
+ * --fila-gap, --cab-gap) escritas por el renderizador desde src/layout/spec.js.
+ */
+*, *::before, *::after { box-sizing: border-box; }
+
 .hoja {
-  position: absolute;
-  left: 0; top: 0;
-  width: 1123px;
-  min-height: 794px;
-  padding: 26px 32px 32px;
-  transform-origin: top left;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--hoja-w, 297mm);
+  height: var(--hoja-h, 210mm);
+  padding: var(--hoja-margen, 10mm);
+  overflow: hidden;
   background: #fff;
   color: var(--ink);
-  box-shadow: 0 2px 18px rgba(20, 24, 58, 0.22);
+  break-inside: avoid;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
+/* Una hoja con algo que no cabe deja ver el desbordamiento en lugar de recortarlo (la exportación está bloqueada). */
+.hoja.desborda { overflow: visible; outline: 2px dashed var(--danger); }
 
 .hoja-cab {
   display: flex;
@@ -19,7 +30,7 @@
   padding-bottom: 8px;
   border-bottom: 2px solid var(--ink-deep);
 }
-.hoja-titulos { min-width: 0; }
+.hoja-titulos { flex: 1 1 auto; min-width: 0; }
 .hoja-titulo {
   font: 34px/1.1 var(--f-marker);
   letter-spacing: 1px;
@@ -27,19 +38,31 @@
   overflow-wrap: anywhere;
 }
 .hoja-tono { margin-top: 2px; font: 17px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
-.hoja-pagina { flex: none; font: 18px/1 var(--f-hand); color: var(--ink-mute); }
+.hoja-pagina { flex: none; min-width: 6em; text-align: right; font: 18px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-.hoja-cuerpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px 14px; padding-top: 30px; }
+/* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
+.hoja-cuerpo { margin-top: var(--cab-gap, 22px); }
+.fila { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: var(--col-gap, 14px); }
+.fila + .fila { margin-top: var(--fila-gap, 30px); }
+
+/* Caja fuera de pantalla donde se miden cabecera y fragmentos con los mismos estilos. */
+.hoja-medida { position: absolute; left: -30000px; top: 0; visibility: hidden; pointer-events: none; }
+.hoja-medida .fila { width: max-content; }
 
 .compas {
   position: relative;
-  max-width: 100%;
+  flex: none;
+  display: flex;
+  flex-direction: column;
   padding: 4px 0 4px 8px;
   border-left: 2px solid var(--ink-deep);
-  cursor: pointer;
 }
-.compas:hover { background: rgba(27, 42, 120, 0.03); }
-.compas.sel { background: rgba(166, 203, 233, 0.22); box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); border-radius: 0 6px 6px 0; }
+/* Etiqueta del compás en el flujo (se mide con el resto); en un fragmento posterior lleva «continuación». */
+.compas-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; margin-bottom: 4px; font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
+.compas-num { min-width: 0; overflow-wrap: anywhere; }
+.compas-continuacion { font-style: italic; color: var(--ink-soft); }
+.compas-cont { border-left-style: dashed; }
+
 /* Marcas musicales: bloque propio sobre las tarjetas (no invade los títulos); varias marcas se apilan o saltan de línea. */
 .marcas { display: flex; flex-direction: column; gap: 3px; margin: 0 0 8px; color: var(--ink-deep); }
 .marcas-fila { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 2px 14px; }
@@ -71,18 +94,21 @@
 .barra-rep .punto.a { top: calc(50% - 9px); }
 .barra-rep .punto.b { top: calc(50% + 4px); }
 .compas.en-rep { box-shadow: inset 0 3px 0 -1px rgba(27, 42, 120, 0.12); }
-.compas.sel.en-rep { box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); }
 
-.compas-num { position: absolute; left: 6px; top: -17px; font: 14px/1 var(--f-hand); color: var(--ink-mute); }
-.compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); }
+.compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-.eventos { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.eventos { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 12px; }
+.evento, .tarjeta-col { flex: none; }
 
-/* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración. */
-.evento { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; max-width: 100%; }
+/* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración.
+   Si el acorde sigue en otra fila u hoja, el lado cortado se marca con un trazo de puntos. */
+.evento { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
+.evento.corta-ini { padding-left: 4px; border-left: 3px dotted var(--fam-bd, #c3c9d6); }
+.evento.corta-fin { padding-right: 4px; border-right: 3px dotted var(--fam-bd, #c3c9d6); }
 
 .tarjeta-col { display: flex; flex-direction: column; gap: 3px; }
-.t-titulo { min-height: 18px; padding-left: 4px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); }
+/* El título, el nombre y el texto interior toman el ancho del mástil y ajustan línea: nunca ensanchan la tarjeta. */
+.t-titulo { width: 0; min-width: 100%; min-height: 18px; padding-left: 4px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 
 .tarjeta {
   display: flex;
@@ -92,12 +118,10 @@
   border-radius: 10px;
   background: var(--fam-bg, #f1f2f6);
 }
-.tarjeta { cursor: pointer; }
-.tarjeta.sel { outline: 3px solid rgba(47, 107, 255, 0.7); outline-offset: 2px; }
 .tarjeta.pendiente { border-style: dashed; justify-content: center; min-width: 120px; min-height: 90px; }
-.t-cab { display: flex; flex-direction: column; gap: 1px; min-height: 36px; }
-.t-nom { font: 21px/1.1 var(--f-marker); color: var(--ink-deep); white-space: nowrap; }
-.t-txt { min-height: 14px; font: 13px/1.1 var(--f-hand); color: var(--ink-soft); }
+.t-cab { display: flex; flex-direction: column; gap: 1px; width: 0; min-width: 100%; min-height: 36px; }
+.t-nom { font: 21px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
+.t-txt { min-height: 14px; font: 13px/1.1 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 .t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
 .mastil { display: block; overflow: visible; }
 /* La leyenda no ensancha la tarjeta: toma el ancho del mástil y ajusta el texto. */

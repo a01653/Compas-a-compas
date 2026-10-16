@@ -6,6 +6,7 @@
   <title>Compás a compás</title>
   <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
   <link rel="stylesheet" href="references/fonts.css">
+  <link rel="stylesheet" href="styles/tokens.css">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/app.css">
   <link rel="stylesheet" href="styles/sheet.css">
@@ -19,7 +20,7 @@
       <img class="brand-icon" src="assets/icon.svg" alt="" width="40" height="40">
       <div class="brand-text">
         <h1>Compás a compás</h1>
-        <span class="brand-version">Prototipo · fase 1</span>
+        <span class="brand-version">Prototipo · fase 4</span>
       </div>
     </div>
 
@@ -29,10 +30,9 @@
       <button type="button" id="btn-nuevo" class="btn btn-ghost">Nuevo</button>
       <button type="button" id="btn-abrir" class="btn btn-ghost">Abrir JSON</button>
       <button type="button" id="btn-guardar" class="btn btn-ghost">Guardar JSON</button>
-      <button type="button" class="btn btn-ghost" aria-disabled="true" aria-describedby="why-export" data-reason="La exportación HTML y la impresión llegan en la fase 4.">Exportar HTML</button>
-      <button type="button" class="btn btn-ghost" aria-disabled="true" aria-describedby="why-export" data-reason="La exportación HTML y la impresión llegan en la fase 4.">Imprimir / PDF</button>
+      <button type="button" id="btn-exportar-html" class="btn btn-ghost">Exportar HTML</button>
+      <button type="button" id="btn-imprimir" class="btn btn-ghost">Imprimir / PDF</button>
     </div>
-    <span id="why-export" class="sr-only">No disponible todavía: la exportación HTML y la impresión llegan en la fase 4.</span>
     <input type="file" id="archivo-json" accept=".json,application/json" hidden>
   </header>
 
