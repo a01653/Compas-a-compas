@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "documentVersion": "1.0",
+  "title": "Demostración del editor",
+  "key": "Si bemol mayor",
+  "measures": [
+    {
+      "id": "m1",
+      "label": "1",
+      "chordEvents": [
+        {
+          "id": "e1",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v1",
+              "frets": [
+                null,
+                3,
+                5,
+                3,
+                4,
+                3
+              ],
+              "insideText": "Posición 1"
+            },
+            {
+              "id": "v2",
+              "frets": [
+                8,
+                10,
+                8,
+                8,
+                8,
+                8
+              ],
+              "insideText": "Posición 2",
+              "aboveText": "Otra posición"
+            }
+          ],
+          "aboveText": "Introducción"
+        }
+      ]
+    },
+    {
+      "id": "m2",
+      "label": "2",
+      "chordEvents": [
+        {
+          "id": "e2",
+          "chordName": "F7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v3",
+              "frets": [
+                1,
+                3,
+                1,
+                2,
+                1,
+                1
+              ]
+            }
+          ],
+          "aboveText": "Dominante"
+        },
+        {
+          "id": "e3",
+          "chordName": "Bbmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v4",
+              "frets": [
+                null,
+                1,
+                3,
+                2,
+                3,
+                1
+              ]
+            }
+          ],
+          "insideText": "Resolución"
+        }
+      ]
+    },
+    {
+      "id": "m3",
+      "label": "3",
+      "chordEvents": [
+        {
+          "id": "e4",
+          "chordName": "E5",
+          "family": "other",
+          "voicings": [
+            {
+              "id": "v5",
+              "frets": [
+                0,
+                2,
+                2,
+                4,
+                0,
+                0
+              ]
+            }
+          ],
+          "aboveText": "Prueba de cuatro trastes",
+          "insideText": "Cuerdas al aire y traste 4"
+        }
+      ]
+    },
+    {
+      "id": "m4",
+      "label": "4",
+      "chordEvents": []
+    }
+  ],
+  "structure": {
+    "repeats": [
+      {
+        "id": "rep1",
+        "startMeasureId": "m1",
+        "endMeasureId": "m2",
+        "times": 3
+      }
+    ],
+    "endings": [
+      {
+        "id": "end1",
+        "startMeasureId": "m2",
+        "endMeasureId": "m2",
+        "passes": [
+          1,
+          2
+        ],
+        "repeatId": "rep1"
+      },
+      {
+        "id": "end2",
+        "startMeasureId": "m3",
+        "endMeasureId": "m3",
+        "passes": [
+          3
+        ],
+        "repeatId": "rep1"
+      }
+    ],
+    "markers": [
+      {
+        "id": "seg1",
+        "type": "segno",
+        "measureId": "m1",
+        "edge": "before"
+      },
+      {
+        "id": "coda1",
+        "type": "coda",
+        "measureId": "m4",
+        "edge": "before"
+      },
+      {
+        "id": "fine1",
+        "type": "fine",
+        "measureId": "m4",
+        "edge": "after"
+      }
+    ],
+    "jumps": [
+      {
+        "id": "jump1",
+        "type": "to-coda",
+        "measureId": "m2",
+        "edge": "after",
+        "codaMarkerId": "coda1"
+      },
+      {
+        "id": "jump2",
+        "type": "ds-al-coda",
+        "measureId": "m3",
+        "edge": "after",
+        "segnoMarkerId": "seg1",
+        "codaMarkerId": "coda1"
+      }
+    ]
+  }
+}

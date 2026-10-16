@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intro Drop 2 Set 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Gochi+Hand&display=swap">
+<style>
+  /* Concepto: hoja A4 apaisada de lead-sheet. Cada sección es una línea de 4 compases; cada compás lleva sus tarjetas de mástil horizontal compactas (trastes según el ancho de la fila). */
+  :root {
+    --bg: #e8ebf2;
+    --ink: #14183a;
+    --sheet: #ffffff;
+    --shadow: 0 2px 18px rgba(20, 24, 58, 0.16);
+    --f-marker: "Caveat Brush", "Segoe Print", "Comic Sans MS", cursive;
+    --f-hand: "Gochi Hand", "Segoe Print", "Comic Sans MS", cursive;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #12151f; --shadow: 0 2px 22px rgba(0, 0, 0, 0.55); color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #12151f; --shadow: 0 2px 22px rgba(0, 0, 0, 0.55); color-scheme: dark; }
+
+  body { background: var(--bg); color: var(--ink); padding-block: 20px 28px; padding-inline: 16px; }
+  .visor { max-width: 1410px; margin-inline: auto; overflow-x: auto; overflow-y: hidden; }
+  .marco { position: relative; }
+  .pliego { position: absolute; left: 0; top: 0; width: 1123px; transform-origin: top left; display: flex; flex-direction: column; gap: 24px; }
+  .hoja { position: relative; flex: none; width: 1123px; height: 794px; background: var(--sheet); color: #1b2a78;
+          box-shadow: var(--shadow); padding: 8px 14px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; }
+
+  .cuerpo { display: flex; flex-direction: column; gap: 18px; }
+  .seccion { display: flex; flex-direction: column; gap: 6px; }
+  .seccion + .seccion { margin-top: 2px; }
+  .cab { display: flex; align-items: center; gap: 14px; min-height: 28px; }
+  .rehearsal { font: 17px/1 var(--f-marker); letter-spacing: 1px; border: 2px solid #14183a; padding: 3px 8px 2px; color: #14183a; }
+  .cab .anot { font: 15px/1.2 var(--f-hand); color: #44539f; }
+  .cab .tit { margin-left: auto; font: 15px/1.2 var(--f-hand); color: #5c6ab0; text-align: right; }
+
+  .filas { display: flex; flex-direction: column; gap: 22px; padding-top: 12px; }
+  .fila { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .compas { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; border-left: 2px solid #14183a; padding-left: 5px; min-width: 0; }
+  .num { position: absolute; left: 4px; top: -13px; font: 12px/1 var(--f-hand); color: #5c6ab0; }
+
+  .tarjeta { border: 1.6px solid; border-radius: 10px; padding: 3px 6px 7px; display: flex; flex-direction: column; min-width: 0; }
+  .t-cab { display: flex; flex-direction: column; gap: 1px; min-height: 30px; }
+  .t-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; }
+  .t-rn { font: 15px/1 var(--f-hand); white-space: nowrap; font-weight: 700; }
+  .t-nom { font: 17px/1.1 var(--f-marker); white-space: nowrap; }
+  .t-fam { font: 9px/1.1 var(--f-hand); letter-spacing: 0.3px; color: #5c6ab0; white-space: nowrap; }
+  .mastil { position: relative; margin: 8px 0 15px 17px; height: 86px; }
+  .mastil svg.rej { position: absolute; left: 0; top: 0; overflow: visible; }
+  .ceja { position: absolute; left: -2px; top: -2px; width: 4px; height: 90px; background: #14183a; border-radius: 2px; }
+  .cuerdas { position: absolute; left: -22px; top: -8.5px; width: 11px; text-align: right; font: 11px/17px var(--f-hand); white-space: pre-line; }
+  .mute { position: absolute; left: -4.5px; width: 9px; height: 9px; }
+  .trastes span { position: absolute; top: 94px; text-align: center; font: 10px/1 var(--f-hand); color: #5c6ab0; }
+  .punto.fantasma { background: #eceef3 !important; color: #a3abba !important; border: 1px dashed #c3c9d6; }
+  .punto { position: absolute; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; font: 10.5px/1 var(--f-hand); display: flex; align-items: center; justify-content: center; padding-bottom: 1px; }
+
+  /* página de armonía: partitura sólo con acordes y análisis funcional */
+  .arm-cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 2px; }
+  .arm-tit { font: 26px/1.1 var(--f-marker); letter-spacing: 1px; }
+  .arm-sub { font: 15px/1.2 var(--f-hand); color: #44539f; }
+  .arm-fila { display: block; width: 1095px; height: 116px; overflow: visible; }
+  .arm-seccion { display: flex; flex-direction: column; gap: 4px; }
+  .arm-seccion .cab { min-height: 26px; }
+  .s-ac { font: 24px var(--f-marker); fill: #1b2a78; }
+  .s-ac .sup { font-size: 15px; }
+  .s-rn { font: 14px var(--f-hand); }
+  .s-ac.chico { font-size: 19px; }
+  .s-ac.chico .sup { font-size: 12px; }
+  .s-rn.chico { font-size: 12px; }
+  .s-lab { font: 12px var(--f-hand); fill: #44539f; text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+  .s-num { font: 12px var(--f-hand); fill: #5c6ab0; }
+</style>
+</head>
+<body>
+<div class="visor" id="visor">
+  <div class="marco" id="marco">
+    <div class="pliego" id="pliego"></div>
+  </div>
+</div>
+
+<script>
+  var vAfinacion = [40, 45, 50, 55, 59, 64];   /* MIDI cuerdas 6..1 */
+  var vSg = 17, vFretIdeal = 28, vTinta = "#14183a";
+
+  var vFam = {
+    min:  { bg: "#efeafc", bd: "#bfb1e8" },
+    dom:  { bg: "#e7f8f3", bd: "#93d6c4" },
+    alt:  { bg: "#e7f8f3", bd: "#93d6c4" },
+    maj:  { bg: "#eaf4fe", bd: "#a6cbe9" },
+    hdim: { bg: "#fdf6e2", bd: "#e6cd92" }
+  };
+  /* grado según la calidad del acorde (semitonos desde la fundamental) */
+  var vMapaGrados = {
+    min:  { 0: "1", 2: "9", 3: "b3", 5: "11", 7: "5", 10: "b7" },
+    dom:  { 0: "1", 1: "b9", 2: "9", 4: "3", 7: "5", 9: "13", 10: "b7" },
+    alt:  { 0: "1", 1: "b9", 2: "9", 3: "#9", 4: "3", 5: "11", 6: "#11", 7: "5", 8: "b13", 9: "13", 10: "b7" },
+    maj:  { 0: "1", 2: "9", 4: "3", 7: "5", 11: "7" },
+    hdim: { 0: "1", 3: "b3", 6: "b5", 10: "b7" }
+  };
+  var vGradoCol = {
+    "1":  { bg: "#E11D48", fg: "#ffffff" },
+    "b3": { bg: "#0284C7", fg: "#ffffff" },
+    "3":  { bg: "#0284C7", fg: "#ffffff" },
+    "5":  { bg: "#059669", fg: "#ffffff" },
+    "b5": { bg: "#059669", fg: "#ffffff" },
+    "b7": { bg: "#EDBC07", fg: "#3d2f00" },
+    "7":  { bg: "#EDBC07", fg: "#3d2f00" },
+    "13": { bg: "#EDBC07", fg: "#3d2f00" },
+    "9":  { bg: "#7C3AED", fg: "#ffffff" },
+    "b9": { bg: "#7C3AED", fg: "#ffffff" },
+    "11": { bg: "#7C3AED", fg: "#ffffff" },
+    "#9": { bg: "#7C3AED", fg: "#ffffff" },
+    "#11": { bg: "#7C3AED", fg: "#ffffff" },
+    "b13": { bg: "#EDBC07", fg: "#3d2f00" }
+  };
+
+  /* trastes por cuerda 6·5·4·3·2·1; -1 = muda */
+  var A = {
+    Fm:      { n: "Fm",      q: "min",  raiz: 5,  t: [-1, -1, 6, -1, 6, 8],  fam: "Tríada · 1ª Inv." },
+    Ab7:     { n: "Ab7",     q: "dom",  raiz: 8,  t: [-1, -1, 6, 8, 7, 8],   fam: "Fundamental" },
+    Gm7:     { n: "Gm7",     q: "min",  raiz: 7,  t: [-1, -1, 5, 7, 6, 6],   fam: "Fundamental" },
+    C7:      { n: "C7",      q: "dom",  raiz: 0,  t: [-1, -1, 5, 5, 5, 6],   fam: "2ª Inv." },
+    Fm7:     { n: "Fm7",     q: "min",  raiz: 5,  t: [-1, -1, 3, 5, 4, 4],   fam: "Fundamental" },
+    Bb7:     { n: "Bb7",     q: "dom",  raiz: 10, t: [-1, -1, 3, 3, 3, 4],   fam: "2ª Inv." },
+    Ebmaj7:  { n: "Ebmaj7",  q: "maj",  raiz: 3,  t: [-1, -1, 1, 3, 3, 3],   fam: "Fundamental" },
+    C7b9:    { n: "C7(b9)",  q: "dom",  raiz: 0,  t: [-1, -1, 2, 3, 2, 3],   fam: "Sin fund." },
+    vEbmaj7: { n: "Ebmaj7",  q: "maj",  raiz: 3,  t: [-1, -1, 5, 7, 4, 6],   fam: "1ª Inv." },
+    vC7b9:   { n: "C7(b9)",  q: "dom",  raiz: 0,  t: [-1, -1, 5, 6, 5, 6],   fam: "Sin fund." },
+    /* sección A: notas guía + una nota más aguda */
+    aFm7:    { n: "Fm7",     q: "min",  raiz: 5,  t: [-1, -1, 6, 8, 8, -1],  fam: "guías + 9", g: [[2, 6], [1, 8]] },
+    aBb7:    { n: "Bb7",     q: "dom",  raiz: 10, t: [-1, -1, 6, 7, 8, -1],  fam: "guías + 13", g: [[2, 6], [1, 6]] },
+    aEbmaj7: { n: "Ebmaj7",  q: "maj",  raiz: 3,  t: [-1, -1, 5, 7, 6, -1],  fam: "guías + 9", g: [[2, 4], [1, 6]] },
+    aCm7:    { n: "Cm7",     q: "min",  raiz: 0,  t: [-1, -1, -1, 3, 4, 3],  fam: "guías + 5" },
+
+    aCm7i:   { n: "Cm7",     q: "min",  raiz: 0,  t: [-1, -1, -1, 3, 4, 3],  fam: "guías + 5", g: [[4, 1], [2, 1]] },
+    aDm7b5:  { n: "Dm7(b5)", q: "hdim", raiz: 2,  t: [-1, -1, -1, 5, 6, 4],  fam: "guías + b5", g: [[4, 3], [2, 3]] },
+    aG7b9:   { n: "G7(b9)",  q: "dom",  raiz: 7,  t: [-1, -1, -1, 4, 6, 4],  fam: "guías + b9", g: [[4, 3], [2, 3], [1, 3]] },
+    aCm7d2:  { n: "Cm7",     q: "min",  raiz: 0,  t: [-1, -1, 5, 5, 4, 6],   fam: "Drop 2" },
+    aCm7Bb:  { n: "Cm7/Bb",  q: "min",  raiz: 0,  t: [-1, -1, -1, 3, 4, 3],  fam: "guías + 5" },
+    aAm7b5:  { n: "Am7(b5)", q: "hdim", raiz: 9,  t: [-1, -1, 5, 5, 4, -1],  fam: "guías + b5" },
+    aD7b9:   { n: "D7(b9)",  q: "dom",  raiz: 2,  t: [-1, -1, 4, 5, 4, -1],  fam: "guías + b9" },
+    aG7:     { n: "G7",      q: "dom",  raiz: 7,  t: [-1, -1, 3, 4, 3, -1],  fam: "guías + 5" },
+    /* sección B: acordes de 4 notas (Drop 3 en cuerdas 6·4·3·2, Drop 2 en 5·4·3·2) */
+    bAm7b5:  { n: "Am7(b5)", q: "hdim", raiz: 9,  t: [5, -1, 5, 5, 4, -1],   fam: "Drop 3" },
+    bD7b9:   { n: "D7(b9)",  q: "dom",  raiz: 2,  t: [5, -1, 4, 5, 4, -1],   fam: "Drop 3" },
+    bG7:     { n: "G7",      q: "dom",  raiz: 7,  t: [7, -1, 5, 7, 6, -1],   fam: "Drop 3" },
+    bGm7b5:  { n: "Gm7(b5)", q: "hdim", raiz: 7,  t: [6, -1, 5, 6, 6, -1],   fam: "Drop 3" },
+    bC7b9:   { n: "C7(b9)",  q: "dom",  raiz: 0,  t: [6, -1, 5, 6, 5, -1],   fam: "Drop 3" },
+    bFm7:    { n: "Fm7",     q: "min",  raiz: 5,  t: [-1, -1, 6, 8, 6, 8],   fam: "Drop 2 · 1ª Inv." },
+    bFm7r:   { n: "Fm7",     q: "min",  raiz: 5,  t: [8, 8, 6, 8, -1, -1],   fam: "Drop 2" },
+    bFm7i:   { n: "Fm7",     q: "min",  raiz: 5,  t: [-1, 6, 6, 5, 6, -1],   fam: "Drop 2" },
+    bBb7:    { n: "Bb7",     q: "dom",  raiz: 10, t: [6, -1, 6, 7, 6, -1],   fam: "Drop 3" },
+    bGm7:    { n: "Gm7",     q: "min",  raiz: 7,  t: [6, -1, 5, 7, 6, -1],   fam: "Drop 3" },
+    bEbmaj7: { n: "Ebmaj7",  q: "maj",  raiz: 3,  t: [-1, 6, 8, 7, 8, -1],   fam: "Drop 2" },
+    bGm7b5d2:{ n: "Gm7(b5)", q: "hdim", raiz: 7,  t: [-1, 8, 8, 6, 8, -1],   fam: "Drop 2" },
+    bC7b9d2: { n: "C7(b9)",  q: "dom",  raiz: 0,  t: [-1, 7, 8, 6, 8, -1],   fam: "Drop 2" }
+  };
+
+  /* cada página es una lista de secciones; cada sección, filas de 4 compases; cada compás, sus acordes */
+  var vPaginas = [
+    [
+      { marca: "INTRO", nota: "(Solo usando acordes tipo Joe Pass)", titulo: "I Fall in Love Too Easily · ♩ = 65 · Swing",
+        filas: [[[A.Fm, A.Ab7], [A.Gm7, A.C7], [A.Fm7, A.Bb7], [A.Ebmaj7, A.C7b9]]] },
+      { marca: "A", nota: "(Jim Hall, pero rellenar con más que notas guía)", titulo: "",
+        filas: [
+          [[A.aFm7, A.aBb7], [A.aEbmaj7, A.aCm7], [A.aDm7b5, A.aG7b9], [A.aCm7i]],
+          [[A.aDm7b5, A.aG7b9], [A.aCm7d2, A.aCm7Bb], [A.aAm7b5, A.aD7b9], [A.aG7]]
+        ] }
+    ],
+    [
+      { marca: "B", nota: "(Intención Freddie Green, pero con acordes más grandes + fills armónicos a lo Joe Pass)", titulo: "",
+        filas: [
+          [[A.bAm7b5, A.bD7b9], [A.bG7], [A.bGm7b5, A.bC7b9], [A.bFm7r]],
+          [[A.bFm7i, A.bBb7], [A.bGm7, A.bC7b9], [A.bFm7, A.bBb7], [A.bEbmaj7, A.bGm7b5d2, A.bC7b9d2]]
+        ] }
+    ]
+  ];
+
+  /* ---------- Armonía: acordes solos + análisis funcional ---------- */
+  var vFunc = { T: "#0284C7", P: "#059669", D: "#E11D48", S: "#7C3AED" };
+  var vTipoBr = { cad: "#0284C7", sec: "#E11D48", sub: "#7C3AED", bajo: "#D4A106", ev: "#8a94a6", rel: "#8a94a6" };
+  function ch(n, s, rn, f) { return { n: n, s: s, rn: rn, f: f }; }
+
+  /* br: a/b = índice de acorde dentro de la fila; l = carril; arrow = continúa en la fila siguiente */
+  var vArm = [
+    { marca: "INTRO", nota: "(Solo usando acordes tipo Joe Pass)", filas: [ {
+        bars: [ [ch("Fm", "", "ii", "P"), ch("Ab7", "", "subV7/iii", "S")], [ch("Gm7", "", "iii7", "T"), ch("C7", "", "V7/ii", "D")],
+                [ch("Fm7", "", "ii7", "P"), ch("Bb7", "", "V7", "D")], [ch("Ebmaj7", "", "Imaj7", "T"), ch("C7", "(b9)", "V7b9/ii", "D")] ],
+        br: [ { a: 1, b: 2, l: 0, t: "sub", x: "subV7/iii: Ab7 por D7" }, { a: 3, b: 4, l: 0, t: "sec", x: "V7/ii \u2192 ii" },
+              { a: 4, b: 6, l: 1, t: "cad", x: "ii\u2013V\u2013I  Mib" }, { a: 7, l: 0, t: "sec", x: "V7b9/ii \u2192 Fm7", arrow: true } ] } ] },
+    { marca: "A", nota: "(Jim Hall, pero rellenar con más que notas guía)", filas: [ {
+        bars: [ [ch("Fm7", "", "ii7", "P"), ch("Bb7", "", "V7", "D")], [ch("Ebmaj7", "", "Imaj7", "T"), ch("Cm7", "", "vi7", "T")],
+                [ch("Dm7", "(b5)", "ii\u00f8", "P"), ch("G7", "(b9)", "V7b9", "D")], [ch("Cm7", "", "i7", "T")] ],
+        br: [ { a: 0, b: 2, l: 0, t: "cad", x: "ii\u2013V\u2013I  Mib" }, { a: 2, b: 3, l: 1, t: "rel", x: "I \u2013 vi  (relativo)" },
+              { a: 4, b: 6, l: 0, t: "cad", x: "ii\u00f8\u2013V7b9\u2013i  Do menor" } ] },
+      { bars: [ [ch("Dm7", "(b5)", "ii\u00f8", "P"), ch("G7", "(b9)", "V7b9", "D")], [ch("Cm7", "", "i7", "T"), ch("Cm7/Bb", "", "i7/b7", "T")],
+                [ch("Am7", "(b5)", "ii\u00f8/V", "P"), ch("D7", "(b9)", "V7b9/V", "D")], [ch("G7", "", "V7", "D")] ],
+        br: [ { a: 0, b: 2, l: 0, t: "cad", x: "ii\u00f8\u2013V7b9\u2013i  Do menor" }, { a: 2, b: 4, l: 1, t: "bajo", x: "bajo C \u2013 Bb \u2013 A  (Am7b5 = Cm6/A)" },
+              { a: 4, b: 6, l: 0, t: "sec", x: "ii\u2013V de V  (G7)" } ] } ] },
+    { marca: "B", nota: "(Intención Freddie Green, pero con acordes más grandes + fills armónicos a lo Joe Pass)", filas: [ {
+        bars: [ [ch("Am7", "(b5)", "ii\u00f8/V", "P"), ch("D7", "(b9)", "V7b9/V", "D")], [ch("G7", "", "V7", "D")],
+                [ch("Gm7", "(b5)", "ii\u00f8/ii", "P"), ch("C7", "(b9)", "V7b9/ii", "D")], [ch("Fm7", "", "ii7", "P")] ],
+        br: [ { a: 0, b: 2, l: 0, t: "sec", x: "ii\u2013V de V  (G7)" }, { a: 3, b: 5, l: 0, t: "cad", x: "ii\u00f8\u2013V7b9\u2013i  Fa menor  (= ii de Mib)" } ] },
+      { bars: [ [ch("Fm7", "", "ii7", "P"), ch("Bb7", "", "V7", "D")], [ch("Gm7", "", "iii7", "T"), ch("C7", "(b9)", "V7b9/ii", "D")],
+                [ch("Fm7", "", "ii7", "P"), ch("Bb7", "", "V7", "D")], [ch("Ebmaj7", "", "Imaj7", "T"), ch("Gm7", "(b5)", "ii\u00f8/ii", "P"), ch("C7", "(b9)", "V7b9/ii", "D")] ],
+        br: [ { a: 0, b: 1, l: 0, t: "cad", x: "ii\u2013V" }, { a: 1, b: 2, l: 1, t: "ev", x: "V7 \u2192 iii  (evitada)" },
+              { a: 2, b: 4, l: 0, t: "sec", x: "iii \u2013 VI7b9 \u2013 ii" }, { a: 4, b: 6, l: 1, t: "cad", x: "ii\u2013V\u2013I  Mib" },
+              { a: 7, b: 8, l: 0, t: "sec", x: "ii\u00f8\u2013V7b9 \u2192 Fm7", arrow: true } ] } ] }
+  ];
+
+  var vAW = 1095, vBW = vAW / 4;
+  var vBeats = { 1: [0], 2: [0, 2], 3: [0, 2, 3] };
+
+  function fnFilaArm(vRow, vNum, vFinDoble) {
+    var o = ['<svg class="arm-fila" viewBox="0 0 ' + vAW + ' 116" role="img" aria-label="Compases ' + vNum + ' a ' + (vNum + 3) + '">'];
+    var vCh = [];   /* acordes aplanados de la fila */
+    /* pentagrama */
+    for (var l = 0; l < 5; l++) o.push('<line x1="0" x2="' + vAW + '" y1="' + (36 + l * 6) + '" y2="' + (36 + l * 6) + '" stroke="#14183a" stroke-width="1"/>');
+    for (var b = 0; b <= 4; b++) o.push('<line x1="' + (b * vBW) + '" x2="' + (b * vBW) + '" y1="36" y2="60" stroke="#14183a" stroke-width="1.6"/>');
+    if (vFinDoble) o.push('<line x1="' + (vAW - 4) + '" x2="' + (vAW - 4) + '" y1="36" y2="60" stroke="#14183a" stroke-width="1.6"/>');
+    vRow.bars.forEach(function (vBar, bi) {
+      var x0 = bi * vBW, vSlot = vBW / 4, vBt = vBeats[vBar.length];
+      o.push('<text class="s-num" x="' + (x0 + 4) + '" y="11">' + (vNum + bi) + '</text>');
+      for (var k = 0; k < 4; k++) {
+        var cx = x0 + k * vSlot + 26, vCambio = vBt.indexOf(k) >= 0;
+        o.push('<line x1="' + (cx - 7) + '" y1="57" x2="' + (cx + 7) + '" y2="39" stroke="' + (vCambio ? "#14183a" : "#9aa3c9") + '" stroke-width="' + (vCambio ? 2.8 : 2.2) + '" stroke-linecap="round"' + (vCambio ? "" : ' opacity="0.7"') + '/>');
+      }
+      vBar.forEach(function (c, ci) {
+        var x = x0 + vBt[ci] * vSlot + 10;
+        vCh.push({ x: x, w: (c.n.length + c.s.length) * 9.5 });
+        var vCh3 = vBar.length === 3 ? ' chico' : '';
+        o.push('<text class="s-ac' + vCh3 + '" x="' + x + '" y="29">' + c.n + (c.s ? '<tspan class="sup" dy="-7">' + c.s + '</tspan>' : '') + '</text>');
+        o.push('<text class="s-rn' + vCh3 + '" x="' + x + '" y="77" fill="' + vFunc[c.f] + '">' + c.rn + '</text>');
+      });
+    });
+    /* corchetes de análisis */
+    vRow.br.forEach(function (vB) {
+      var y = 93 + vB.l * 20, c = vTipoBr[vB.t];
+      var x1 = vCh[vB.a].x - 2;
+      var x2 = vB.arrow ? vAW - 8 : vCh[vB.b !== undefined ? vB.b : vB.a].x + Math.max(30, vCh[vB.b !== undefined ? vB.b : vB.a].w);
+      o.push('<path d="M' + x1 + ',' + (y - 5) + ' V' + y + ' H' + x2 + (vB.arrow ? '' : ' V' + (y - 5)) + '" fill="none" stroke="' + c + '" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>');
+      if (vB.arrow) o.push('<path d="M' + (x2 - 2) + ',' + (y - 4) + ' L' + (x2 + 6) + ',' + y + ' L' + (x2 - 2) + ',' + (y + 4) + ' Z" fill="' + c + '"/>');
+      var vLw = vB.x.length * 6 + 8;
+      o.push('<rect x="' + ((x1 + x2) / 2 - vLw / 2) + '" y="' + (y - 8) + '" width="' + vLw + '" height="16" fill="#fff"/>');
+      o.push('<text class="s-lab" x="' + ((x1 + x2) / 2) + '" y="' + (y + 4) + '">' + vB.x + '</text>');
+    });
+    o.push('</svg>');
+    return o.join("");
+  }
+
+  function fnPaginaArmonia() {
+    var o = ['<div class="hoja"><div class="cuerpo" style="gap:8px">'];
+    o.push('<div class="arm-cab"><div><div class="arm-tit">ARMONÍA — I FALL IN LOVE TOO EASILY</div>' +
+      '<div class="arm-sub">Do menor / Mi♭ mayor (3♭) · análisis funcional de los compases trabajados</div></div></div>');
+    var vNum = 1;
+    vArm.forEach(function (vS, si) {
+      o.push('<section class="arm-seccion"><div class="cab"><span class="rehearsal">' + vS.marca + '</span><span class="anot">' + vS.nota + '</span></div>');
+      vS.filas.forEach(function (vF, fi) {
+        o.push(fnFilaArm(vF, vNum, fi === vS.filas.length - 1));
+        vNum += 4;
+      });
+      o.push('</section>');
+    });
+    o.push('</div></div>');
+    return o.join("");
+  }
+
+  function fnVoces(vA) {
+    var vRes = [];
+    for (var i = 0; i < 6; i++) {
+      if (vA.t[i] < 0) continue;
+      var vPc = (vAfinacion[i] + vA.t[i]) % 12;
+      vRes.push({ cuerda: 6 - i, traste: vA.t[i], grado: vMapaGrados[vA.q][(vPc - vA.raiz + 12) % 12] });
+    }
+    return vRes;
+  }
+
+  function fnRejilla(vNF, vFw) {
+    var vAn = vNF * vFw, vAl = 5 * vSg;
+    var o = ['<svg class="rej" width="' + (vAn + 1) + '" height="' + (vAl + 1) + '" viewBox="0 0 ' + (vAn + 1) + ' ' + (vAl + 1) + '"><g stroke="' + vTinta + '">'];
+    for (var r = 0; r <= 5; r++) o.push('<line x1="0" y1="' + r * vSg + '" x2="' + vAn + '" y2="' + r * vSg + '" stroke-width="1.3"/>');
+    for (var c = 0; c <= vNF; c++) o.push('<line x1="' + c * vFw + '" y1="0" x2="' + c * vFw + '" y2="' + vAl + '" stroke-width="1.5"/>');
+    o.push('</g></svg>');
+    return o.join("");
+  }
+
+  /* vNFBase = trastes que caben en la tarjeta según cuántas tarjetas tiene la fila (todas del mismo tamaño) */
+  function fnTarjeta(vA, vNFBase, vAvail, vRn) {
+    var vVoces = fnVoces(vA);
+    var vFan = (vA.g || []).map(function (x) {
+      var vPc = (vAfinacion[6 - x[0]] + x[1]) % 12;
+      return { cuerda: x[0], traste: x[1], grado: vMapaGrados[vA.q][(vPc - vA.raiz + 12) % 12] };
+    });
+    var vTr = vVoces.concat(vFan).map(function (v) { return v.traste; });
+    var vIni = Math.min.apply(null, vTr);
+    var vSpan = Math.max.apply(null, vTr) - vIni + 1;
+    var vNF = Math.max(vNFBase, vSpan);
+    var vFw = Math.min(vFretIdeal, vAvail / vNF);   /* ~28 px por traste; sólo se estrecha si hace falta para que quepa */
+    var vCol = vFam[vA.q];
+    var o = ['<div class="tarjeta" style="background:' + vCol.bg + ';border-color:' + vCol.bd + '">'];
+    o.push('<div class="t-cab"><div class="t-fila"><div class="t-nom">' + vA.n + '</div>' +
+      (vRn ? '<div class="t-rn" style="color:' + vFunc[vRn.f] + '">' + vRn.rn + '</div>' : '') + '</div><div class="t-fam">' + vA.fam + '</div></div>');
+    o.push('<div class="mastil" style="width:' + (vNF * vFw + 1) + 'px">' + fnRejilla(vNF, vFw));
+    if (vIni === 1) o.push('<div class="ceja"></div>');
+    o.push('<div class="cuerdas">1\n2\n3\n4\n5\n6</div>');
+    for (var s = 1; s <= 6; s++) {
+      if (vA.t[6 - s] >= 0) continue;
+      o.push('<svg class="mute" style="top:' + ((s - 1) * vSg - 4.5) + 'px" viewBox="0 0 11 11">' +
+        '<line x1="1.6" y1="1.6" x2="9.4" y2="9.4" stroke="' + vTinta + '" stroke-width="2.2" stroke-linecap="round"/>' +
+        '<line x1="9.4" y1="1.6" x2="1.6" y2="9.4" stroke="' + vTinta + '" stroke-width="2.2" stroke-linecap="round"/></svg>');
+    }
+    o.push('<div class="trastes">');
+    for (var i = 0; i < vNF; i++) o.push('<span style="left:' + (i * vFw) + 'px;width:' + vFw + 'px">' + (vIni + i) + '</span>');
+    o.push('</div>');
+    vFan.forEach(function (v) {
+      o.push('<div class="punto fantasma" style="left:' + ((v.traste - vIni) * vFw + vFw / 2 - 8) + 'px;top:' + ((v.cuerda - 1) * vSg - 8) + 'px">' + v.grado + '</div>');
+    });
+    vVoces.forEach(function (v) {
+      var c = vGradoCol[v.grado];
+      o.push('<div class="punto" style="left:' + ((v.traste - vIni) * vFw + vFw / 2 - 8) + 'px;top:' + ((v.cuerda - 1) * vSg - 8) + 'px;background:' + c.bg + ';color:' + c.fg + '">' + v.grado + '</div>');
+    });
+    o.push('</div></div>');
+    return o.join("");
+  }
+
+  /* ancho útil de la hoja: 1123 - 28 de margen; 3 huecos de 8 px entre compases; cada compás gasta 7 px de barra y 5 px entre tarjetas */
+  function fnAnchoFila(vFila) {
+    var vTarj = vFila.reduce(function (a, b) { return a + b.length; }, 0);
+    var vCard = (1095 - 24 - 4 * 7 - 5 * (vTarj - 4)) / vTarj;
+    var vAvail = vCard - 34.2;                       /* borde, relleno y margen izquierdo del mástil */
+    return { avail: vAvail, nf: Math.max(3, Math.round(vAvail / vFretIdeal)) };
+  }
+
+  /* hoja 4: copia de la hoja 1 con el compás 4 al revés (sube hacia el Fm7 del compás 5 en lugar de bajar y volver a saltar) */
+  var vVariante = vPaginas[0].map(function (vS) {
+    return Object.assign({}, vS, { filas: vS.filas.map(function (vF) { return vF.map(function (vB) { return vB.slice(); }); }) });
+  });
+  vVariante[0].nota = "(Variante: compás 4 en sentido contrario, más cerca del Fm7 del compás 5)";
+  vVariante[0].filas[0][3] = [A.vEbmaj7, A.vC7b9];
+
+  /* función romana de cada acorde, tomada de la página de armonía (mismo orden de compases) */
+  function fnRnCompas(vNumCompas, vCi) {
+    var vN = 0, vRes = null;
+    vArm.forEach(function (vS) { vS.filas.forEach(function (vF) { vF.bars.forEach(function (vB) {
+      vN++;
+      if (vN === vNumCompas) vRes = vB[vCi] || null;
+    }); }); });
+    return vRes;
+  }
+
+  function fnPaginas() {
+    var vNum = 0;   /* numeración correlativa entre secciones y páginas */
+    var vHtml = vPaginas.concat([vVariante]).map(function (vSecs) {
+      if (vSecs === vVariante) vNum = 0;   /* la variante repite los compases 1-12 */
+      var o = ['<div class="hoja"><div class="cuerpo">'];
+      vSecs.forEach(function (vS) {
+        o.push('<section class="seccion"><div class="cab"><span class="rehearsal">' + vS.marca + '</span><span class="anot">' + vS.nota + '</span>' +
+          (vS.titulo ? '<span class="tit">' + vS.titulo + '</span>' : '') + '</div><div class="filas">');
+        vS.filas.forEach(function (vFila) {
+          var vW = fnAnchoFila(vFila);
+          o.push('<div class="fila" style="grid-template-columns:' + vFila.map(function (b) { return b.length + 'fr'; }).join(' ') + '">');
+          vFila.forEach(function (vBar) {
+            vNum++;
+            o.push('<div class="compas" style="grid-template-columns:repeat(' + vBar.length + ',1fr)">' + (vS.sinNum ? '' : '<span class="num">' + vNum + '</span>') + vBar.map(function (vA, vCi) { return fnTarjeta(vA, vW.nf, vW.avail, vS.sinNum ? null : fnRnCompas(vNum, vCi)); }).join("") + '</div>');
+          });
+          o.push('</div>');
+        });
+        o.push('</div></section>');
+      });
+      o.push('</div></div>');
+      return o.join("");
+    });
+    vHtml.splice(vHtml.length - 1, 0, fnPaginaArmonia());   /* armonía = hoja 3; la variante queda al final */
+    document.getElementById("pliego").innerHTML = vHtml.join("");
+  }
+
+  function fnEscala() {
+    var vW = document.getElementById("visor").clientWidth;
+    var vS = Math.max(0.55, Math.min(1.25, vW / 1123));
+    var vPliego = document.getElementById("pliego");
+    vPliego.style.transform = "scale(" + vS + ")";
+    var vMarco = document.getElementById("marco");
+    vMarco.style.width = (1123 * vS) + "px";
+    vMarco.style.height = (vPliego.offsetHeight * vS) + "px";
+  }
+
+  fnPaginas();
+  fnEscala();
+  window.addEventListener("resize", fnEscala);
+  var vRaf = 0;   /* se aplaza al siguiente fotograma: evita el aviso "ResizeObserver loop completed with undelivered notifications" */
+  if (window.ResizeObserver) new ResizeObserver(function () { cancelAnimationFrame(vRaf); vRaf = requestAnimationFrame(fnEscala); }).observe(document.getElementById("visor"));
+</script>
+
+</body>
+</html>

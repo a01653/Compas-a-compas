@@ -1,0 +1,65 @@
+
+  /* Concepto: hoja A4 apaisada de lead-sheet. Cada sección es una línea de 4 compases; cada compás lleva sus tarjetas de mástil horizontal compactas (trastes según el ancho de la fila). */
+  :root {
+    --bg: #e8ebf2;
+    --ink: #14183a;
+    --sheet: #ffffff;
+    --shadow: 0 2px 18px rgba(20, 24, 58, 0.16);
+    --f-marker: "Caveat Brush", "Segoe Print", "Comic Sans MS", cursive;
+    --f-hand: "Gochi Hand", "Segoe Print", "Comic Sans MS", cursive;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #12151f; --shadow: 0 2px 22px rgba(0, 0, 0, 0.55); color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #12151f; --shadow: 0 2px 22px rgba(0, 0, 0, 0.55); color-scheme: dark; }
+
+  body { background: var(--bg); color: var(--ink); padding-block: 20px 28px; padding-inline: 16px; }
+  .visor { max-width: 1410px; margin-inline: auto; overflow-x: auto; overflow-y: hidden; }
+  .marco { position: relative; }
+  .pliego { position: absolute; left: 0; top: 0; width: 1123px; transform-origin: top left; display: flex; flex-direction: column; gap: 24px; }
+  .hoja { position: relative; flex: none; width: 1123px; height: 794px; background: var(--sheet); color: #1b2a78;
+          box-shadow: var(--shadow); padding: 8px 14px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; }
+
+  .cuerpo { display: flex; flex-direction: column; gap: 18px; }
+  .seccion { display: flex; flex-direction: column; gap: 6px; }
+  .seccion + .seccion { margin-top: 2px; }
+  .cab { display: flex; align-items: center; gap: 14px; min-height: 28px; }
+  .rehearsal { font: 17px/1 var(--f-marker); letter-spacing: 1px; border: 2px solid #14183a; padding: 3px 8px 2px; color: #14183a; }
+  .cab .anot { font: 15px/1.2 var(--f-hand); color: #44539f; }
+  .cab .tit { margin-left: auto; font: 15px/1.2 var(--f-hand); color: #5c6ab0; text-align: right; }
+
+  .filas { display: flex; flex-direction: column; gap: 22px; padding-top: 12px; }
+  .fila { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .compas { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; border-left: 2px solid #14183a; padding-left: 5px; min-width: 0; }
+  .num { position: absolute; left: 4px; top: -13px; font: 12px/1 var(--f-hand); color: #5c6ab0; }
+
+  .tarjeta { border: 1.6px solid; border-radius: 10px; padding: 3px 6px 7px; display: flex; flex-direction: column; min-width: 0; }
+  .t-cab { display: flex; flex-direction: column; gap: 1px; min-height: 30px; }
+  .t-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; }
+  .t-rn { font: 15px/1 var(--f-hand); white-space: nowrap; font-weight: 700; }
+  .t-nom { font: 17px/1.1 var(--f-marker); white-space: nowrap; }
+  .t-fam { font: 9px/1.1 var(--f-hand); letter-spacing: 0.3px; color: #5c6ab0; white-space: nowrap; }
+  .mastil { position: relative; margin: 8px 0 15px 17px; height: 86px; }
+  .mastil svg.rej { position: absolute; left: 0; top: 0; overflow: visible; }
+  .ceja { position: absolute; left: -2px; top: -2px; width: 4px; height: 90px; background: #14183a; border-radius: 2px; }
+  .cuerdas { position: absolute; left: -22px; top: -8.5px; width: 11px; text-align: right; font: 11px/17px var(--f-hand); white-space: pre-line; }
+  .mute { position: absolute; left: -4.5px; width: 9px; height: 9px; }
+  .trastes span { position: absolute; top: 94px; text-align: center; font: 10px/1 var(--f-hand); color: #5c6ab0; }
+  .punto.fantasma { background: #eceef3 !important; color: #a3abba !important; border: 1px dashed #c3c9d6; }
+  .punto { position: absolute; width: 16px; height: 16px; box-sizing: border-box; border-radius: 50%; font: 10.5px/1 var(--f-hand); display: flex; align-items: center; justify-content: center; padding-bottom: 1px; }
+
+  /* página de armonía: partitura sólo con acordes y análisis funcional */
+  .arm-cab { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 2px; }
+  .arm-tit { font: 26px/1.1 var(--f-marker); letter-spacing: 1px; }
+  .arm-sub { font: 15px/1.2 var(--f-hand); color: #44539f; }
+  .arm-fila { display: block; width: 1095px; height: 116px; overflow: visible; }
+  .arm-seccion { display: flex; flex-direction: column; gap: 4px; }
+  .arm-seccion .cab { min-height: 26px; }
+  .s-ac { font: 24px var(--f-marker); fill: #1b2a78; }
+  .s-ac .sup { font-size: 15px; }
+  .s-rn { font: 14px var(--f-hand); }
+  .s-ac.chico { font-size: 19px; }
+  .s-ac.chico .sup { font-size: 12px; }
+  .s-rn.chico { font-size: 12px; }
+  .s-lab { font: 12px var(--f-hand); fill: #44539f; text-anchor: middle; paint-order: stroke; stroke: #fff; stroke-width: 5px; stroke-linejoin: round; }
+  .s-num { font: 12px var(--f-hand); fill: #5c6ab0; }

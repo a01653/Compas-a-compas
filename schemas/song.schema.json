@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Canción Compás a compás, versión 1",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "documentVersion": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "measures": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/measure"
+      },
+      "minItems": 0
+    },
+    "structure": {
+      "$ref": "#/$defs/structure"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "title",
+    "key",
+    "measures",
+    "structure"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "voicing": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "frets": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          }
+        },
+        "degrees": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "aboveText": {
+          "type": "string"
+        },
+        "insideText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "frets"
+      ],
+      "additionalProperties": false
+    },
+    "chordEvent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chordName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aboveText": {
+          "type": "string"
+        },
+        "insideText": {
+          "type": "string"
+        },
+        "family": {
+          "enum": [
+            "major",
+            "minor",
+            "dominant",
+            "half-diminished",
+            "diminished",
+            "other"
+          ]
+        },
+        "voicings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/voicing"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "chordName",
+        "voicings"
+      ],
+      "additionalProperties": false
+    },
+    "measure": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "chordEvents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/chordEvent"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "chordEvents"
+      ],
+      "additionalProperties": false
+    },
+    "repeat": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startMeasureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endMeasureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "times": {
+          "type": "integer",
+          "minimum": 2
+        }
+      },
+      "required": [
+        "id",
+        "startMeasureId",
+        "endMeasureId",
+        "times"
+      ],
+      "additionalProperties": false
+    },
+    "ending": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startMeasureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "endMeasureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "passes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "repeatId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "startMeasureId",
+        "endMeasureId",
+        "passes"
+      ],
+      "additionalProperties": false
+    },
+    "marker": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "segno",
+            "coda",
+            "fine"
+          ]
+        },
+        "measureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge": {
+          "enum": [
+            "before",
+            "after"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "measureId",
+        "edge"
+      ],
+      "additionalProperties": false
+    },
+    "jump": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "dc",
+            "ds",
+            "dc-al-coda",
+            "ds-al-coda",
+            "dc-al-fine",
+            "ds-al-fine",
+            "to-coda"
+          ]
+        },
+        "measureId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge": {
+          "enum": [
+            "before",
+            "after"
+          ]
+        },
+        "segnoMarkerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "codaMarkerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fineMarkerId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "measureId",
+        "edge"
+      ],
+      "additionalProperties": false
+    },
+    "structure": {
+      "type": "object",
+      "properties": {
+        "repeats": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/repeat"
+          },
+          "minItems": 0
+        },
+        "endings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ending"
+          },
+          "minItems": 0
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/marker"
+          },
+          "minItems": 0
+        },
+        "jumps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/jump"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "repeats",
+        "endings",
+        "markers",
+        "jumps"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
