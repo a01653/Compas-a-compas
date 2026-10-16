@@ -4,7 +4,7 @@
 
 La aplicación completa debe parecer una herramienta musical terminada. Cabecera con icono y nombre a la izquierda; acciones de archivo y exportación visibles; editor de compases, controles claros y vista previa. Evitar una colección de formularios sin jerarquía.
 
-Dirección visual propuesta: fondo neutro, tinta azul de las hojas, acentos pastel por familia, espacio entre grupos y controles con estados de foco y selección reconocibles. No existe todavía un diseño de interfaz validado visualmente; la primera fase producirá esa propuesta.
+Dirección visual propuesta: fondo neutro, tinta azul de las hojas, acentos pastel por familia, espacio entre grupos y controles con estados de foco y selección reconocibles. La interfaz sigue esta dirección visual y se ha revisado en escritorio y móvil; la evidencia está en ESTADO.md.
 
 Usar Caveat Brush para títulos y nombres de acorde, Gochi Hand para anotaciones de hoja. Están en `references/fonts.css`. Los controles densos pueden usar una fuente de sistema legible. El usuario debe poder reconocer el estilo de las plantillas en la salida; no sustituirlo por una estética genérica de partitura.
 
@@ -50,7 +50,7 @@ Una posición muy extendida puede obligar a dedicarle una fila o una página. Si
 
 ## Paginación e impresión
 
-- A4 apaisado: 297 × 210 mm. Definir márgenes y área útil de forma explícita.
+- A4 apaisado: 297 × 210 mm. Definir márgenes y área útil de forma explícita. Desde 0.1.3: margen de 5 mm (área útil 287 × 200 mm); separaciones de columna 6 px, fila 12 px y cabecera 14 px; huecos de 4 px entre compases, acordes y posiciones; traste de 28 px, separación entre cuerdas de 17 px y zona exterior de 26 px (números de cuerda 1–6, cuerdas al aire y mudas). Referencia medida en la plantilla: tarjetas de la primera fila de 128 × 161 px y rejilla de 3 trastes de 84 × 85 px; no hay altura fija ni límite de 3 trastes. Trazos del mástil: horizontales 1,3, verticales 1,5, puntos de radio 8, números de traste de 10 px. Las mismas medidas (`src/layout/spec.js`, `GEOM`) rigen vista previa, medición y exportación. La paginación sigue siendo adaptativa por espacio disponible, sin cupo fijo de compases por fila.
 - Cabecera de cada hoja con canción y tonalidad; número `actual/total` en la esquina superior derecha, sin colisiones con títulos largos.
 - Agrupar tarjetas por compás. Empezar otra fila o página cuando falte espacio.
 - Un compás con muchas tarjetas puede continuar en otra fila o página, con el mismo número y la etiqueta «continuación». No imponer un máximo oculto de tarjetas.

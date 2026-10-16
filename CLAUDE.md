@@ -11,4 +11,4 @@ Antes de desarrollar, leer en este orden:
 
 El prompt de arranque y los encargos por fase están en `docs/INICIO_CLAUDE.md`.
 
-La aplicación todavía no está implementada. No confundir el ejemplo JSON, la plantilla histórica ni los documentos con funcionalidades entregadas. Los tres trastes son un mínimo inicial, no un máximo. El diseño moderno y musical afecta a toda la interfaz, mientras que la salida conserva la identidad de las hojas existentes.
+La aplicación está implementada (versión 0.1.0); el estado real y la evidencia por fase están en `docs/ESTADO.md`. No confundir el ejemplo JSON ni la plantilla histórica con funcionalidades. Los tres trastes son un mínimo inicial, no un máximo. El diseño moderno y musical afecta a toda la interfaz, mientras que la salida conserva la identidad de las hojas existentes.
