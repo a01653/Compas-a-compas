@@ -4,7 +4,7 @@
 
 La aplicación completa debe parecer una herramienta musical terminada. Cabecera con icono y nombre a la izquierda; acciones de archivo y exportación visibles; editor de compases, controles claros y vista previa. Evitar una colección de formularios sin jerarquía.
 
-Dirección visual propuesta: fondo neutro, tinta azul de las hojas, acentos pastel por familia, espacio entre grupos y controles con estados de foco y selección reconocibles. No existe todavía un diseño de interfaz validado visualmente; la primera fase producirá esa propuesta.
+Dirección visual propuesta: fondo neutro, tinta azul de las hojas, acentos pastel por familia, espacio entre grupos y controles con estados de foco y selección reconocibles. La interfaz sigue esta dirección visual y se ha revisado en escritorio y móvil; la evidencia está en ESTADO.md.
 
 Usar Caveat Brush para títulos y nombres de acorde, Gochi Hand para anotaciones de hoja. Están en `references/fonts.css`. Los controles densos pueden usar una fuente de sistema legible. El usuario debe poder reconocer el estilo de las plantillas en la salida; no sustituirlo por una estética genérica de partitura.
 

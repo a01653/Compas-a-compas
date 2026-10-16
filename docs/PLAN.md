@@ -1,6 +1,6 @@
 # Plan de desarrollo
 
-No hay fases de implementación terminadas. Cada fase deja una entrega pequeña, revisable y comprobada. El cierre exige los resultados descritos, no solo que Claude termine de responder.
+Las fases 0 a 4 están validadas y la 5 cierra la versión 0.1.0 (ver `ESTADO.md`). Cada fase deja una entrega pequeña, revisable y comprobada. El cierre exige los resultados descritos, no solo que Claude termine de responder.
 
 ## Fase 0. Arranque y propuesta visual
 
