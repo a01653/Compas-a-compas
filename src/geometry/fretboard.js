@@ -1,13 +1,13 @@
 /** Geometría del mástil horizontal. Pura: solo calcula posiciones a partir de las notas. */
 
 export const GEOM = {
-  cell: 30,       // ancho de un traste
+  cell: 28,       // ancho de un traste
   gap: 16,        // separación entre cuerdas
-  zone: 26,       // zona exterior para cuerdas al aire y mudas
+  zone: 22,      // zona exterior para cuerdas al aire y mudas
   padTop: 10,
   padBottom: 18,  // números de traste
   minFrets: 3,
-  maxFrets: 32,   // capacidad legible de UNA fila A4 (1123 - 64 márgenes - 48 barra/relleno - 30 zone+4) / 30 = 32 trastes
+  maxFrets: 32,   // capacidad legible de UNA fila A4 (1123 - 38 márgenes - 48 barra/relleno - 26 zone+4) / 28 = 36 trastes; se mantiene 32 con holgura
 };
 
 const isFret = (f) => Number.isInteger(f) && f >= 0;

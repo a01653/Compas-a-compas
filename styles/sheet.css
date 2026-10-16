@@ -11,7 +11,7 @@
   box-sizing: border-box;
   width: var(--hoja-w, 297mm);
   height: var(--hoja-h, 210mm);
-  padding: var(--hoja-margen, 10mm);
+  padding: var(--hoja-margen, 5mm);
   overflow: hidden;
   background: #fff;
   color: var(--ink);
@@ -27,23 +27,23 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 24px;
-  padding-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 2px solid var(--ink-deep);
 }
 .hoja-titulos { flex: 1 1 auto; min-width: 0; }
 .hoja-titulo {
-  font: 34px/1.1 var(--f-marker);
+  font: 27px/1.1 var(--f-marker);
   letter-spacing: 1px;
   color: var(--ink-deep);
   overflow-wrap: anywhere;
 }
-.hoja-tono { margin-top: 2px; font: 17px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
-.hoja-pagina { flex: none; min-width: 6em; text-align: right; font: 18px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
+.hoja-tono { margin-top: 2px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.hoja-pagina { flex: none; min-width: 6em; text-align: right; font: 14px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
 /* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
-.hoja-cuerpo { margin-top: var(--cab-gap, 22px); }
-.fila { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: var(--col-gap, 14px); }
-.fila + .fila { margin-top: var(--fila-gap, 30px); }
+.hoja-cuerpo { margin-top: var(--cab-gap, 14px); }
+.fila { display: flex; flex-wrap: nowrap; align-items: stretch; gap: var(--col-gap, 6px); }
+.fila + .fila { margin-top: var(--fila-gap, 18px); }
 
 /* Caja fuera de pantalla donde se miden cabecera y fragmentos con los mismos estilos. */
 .hoja-medida { position: absolute; left: -30000px; top: 0; visibility: hidden; pointer-events: none; }
@@ -97,20 +97,22 @@
 
 .compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-.eventos { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 12px; }
-.evento, .tarjeta-col { flex: none; }
+.eventos { flex: 1; display: flex; flex-wrap: nowrap; align-items: stretch; gap: 8px; }
+.evento { flex: none; }
+.tarjeta-col { flex: 1 0 auto; }
 
 /* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración.
    Si el acorde sigue en otra fila u hoja, el lado cortado se marca con un trazo de puntos. */
-.evento { display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
+.evento { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
 .evento.corta-ini { padding-left: 4px; border-left: 3px dotted var(--fam-bd, #c3c9d6); }
 .evento.corta-fin { padding-right: 4px; border-right: 3px dotted var(--fam-bd, #c3c9d6); }
 
-.tarjeta-col { display: flex; flex-direction: column; gap: 3px; }
+.tarjeta-col { display: flex; flex-direction: column; gap: 2px; }
 /* El título, el nombre y el texto interior toman el ancho del mástil y ajustan línea: nunca ensanchan la tarjeta. */
-.t-titulo { width: 0; min-width: 100%; min-height: 18px; padding-left: 4px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.t-titulo { width: 0; min-width: 100%; min-height: 14px; padding-left: 4px; font: 12px/1.15 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 
 .tarjeta {
+  flex: 1;
   display: flex;
   flex-direction: column;
   padding: 3px 6px 6px;
@@ -119,11 +121,11 @@
   background: var(--fam-bg, #f1f2f6);
 }
 .tarjeta.pendiente { border-style: dashed; justify-content: center; min-width: 120px; min-height: 90px; }
-.t-cab { display: flex; flex-direction: column; gap: 1px; width: 0; min-width: 100%; min-height: 36px; }
-.t-nom { font: 21px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
-.t-txt { min-height: 14px; font: 13px/1.1 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.t-cab { display: flex; flex-direction: column; gap: 1px; width: 0; min-width: 100%; min-height: 30px; }
+.t-nom { font: 17px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
+.t-txt { min-height: 12px; font: 9.5px/1.15 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 .t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
-.mastil { display: block; overflow: visible; }
+.mastil { display: block; overflow: visible; margin-top: auto; align-self: center; }
 /* La leyenda no ensancha la tarjeta: toma el ancho del mástil y ajusta el texto. */
 .t-leyenda { width: 0; min-width: 100%; margin: 4px 0 0; padding: 0; list-style: none; font: 11px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 .mastil-aviso { box-sizing: border-box; max-width: 210px; min-height: 86px; padding: 8px; border: 1.5px dashed #b3261e; border-radius: 6px; font: 13px/1.25 var(--f-hand); color: #7a1f1a; background: #fff8f7; overflow-wrap: anywhere; }

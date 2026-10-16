@@ -2,7 +2,7 @@
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.1.1 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.1.2 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 ## Empezar
 
@@ -55,7 +55,7 @@ Un compás que no cabe en una fila pasa a la siguiente; si no cabe ni así, se p
 | **Exportar HTML** | Un archivo único con las hojas, fuentes y estilos incluidos. Sin editor, sin JavaScript y sin peticiones externas; se abre sin conexión. No se puede volver a editar. |
 | **Imprimir / PDF** | Abre el diálogo de impresión del navegador sobre ese mismo HTML. No hay descarga de PDF nativa. |
 
-- **Impresión A4:** en el diálogo elige «Guardar como PDF» (o la impresora), A4 horizontal, márgenes «Ninguno» y desactiva «Encabezados y pies de página». La hoja mide 297 × 210 mm con márgenes de 10 mm y `actual/total` arriba a la derecha. Ctrl+P sobre el editor no imprime la interfaz.
+- **Impresión A4:** en el diálogo elige «Guardar como PDF» (o la impresora), A4 horizontal, márgenes «Ninguno» y desactiva «Encabezados y pies de página». La hoja mide 297 × 210 mm con márgenes de 5 mm y `actual/total` arriba a la derecha. Ctrl+P sobre el editor no imprime la interfaz.
 - Si hay referencias musicales pendientes, se muestran y se pide confirmar antes de exportar o imprimir.
 - **Archivo:** Nuevo, Abrir JSON y Guardar JSON. Un archivo inválido o de otra versión se rechaza con errores legibles y la canción abierta queda intacta. Los campos desconocidos bloquean la apertura en vez de descartarse.
 - **Versión del documento:** campo opcional de texto libre para tus revisiones. No es la versión de la aplicación ni la del formato del archivo; abrir un archivo no la modifica.

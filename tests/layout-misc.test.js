@@ -43,12 +43,12 @@ test('ajustar al ancho cabe en 360 px: el contenedor de 304 px ya no queda desbo
 });
 
 test('A4 apaisado en milímetros con márgenes explícitos', () => {
-  assert.deepEqual([PAGE.widthMm, PAGE.heightMm, PAGE.marginMm], [297, 210, 10]);
+  assert.deepEqual([PAGE.widthMm, PAGE.heightMm, PAGE.marginMm], [297, 210, 5]);
   assert.ok(Math.abs(PAGE_PX.width - 297 * MM_PX) < 1e-9);
   const vars = pageStyleVars();
   assert.match(vars, /--hoja-w:297mm/);
   assert.match(vars, /--hoja-h:210mm/);
-  assert.match(vars, /--hoja-margen:10mm/);
+  assert.match(vars, /--hoja-margen:5mm/);
   assert.doesNotMatch(vars, /794px|1123px/, 'sin píxeles redondeados que superen 210 mm');
 });
 

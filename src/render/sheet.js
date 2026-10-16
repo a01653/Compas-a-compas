@@ -34,7 +34,7 @@ function eventNode(ctx, group, measureId, onSelect) {
   const cls = ['evento', group.cutBefore ? 'corta-ini' : '', group.cutAfter ? 'corta-fin' : ''].filter(Boolean).join(' ');
   return h('div', {
     class: cls,
-    style: familyStyle(event.family),
+    style: `${familyStyle(event.family)};flex-grow:${Math.max(1, group.atoms.length)}`,
     role: 'group',
     'aria-label': `Acorde ${event.chordName || 'sin nombre'}`,
     'data-event-id': event.id,
@@ -56,6 +56,7 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
 
   return h('div', {
     class: ['compas', isFirst ? '' : 'compas-cont', ...parts.classes].filter(Boolean).join(' '),
+    style: `flex-grow:${Math.max(1, to - from)}`,
     'data-measure-id': unit.measureId,
     onclick: onSelect ? () => onSelect({ measureId: unit.measureId }) : null,
   },

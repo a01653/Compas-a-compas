@@ -5,13 +5,13 @@
 
 export const MM_PX = 96 / 25.4;
 
-/** A4 apaisado con márgenes explícitos. El área útil es 277 × 190 mm. */
-export const PAGE = { widthMm: 297, heightMm: 210, marginMm: 10 };
+/** A4 apaisado con márgenes explícitos. El área útil es 287 × 200 mm. */
+export const PAGE = { widthMm: 297, heightMm: 210, marginMm: 5 };
 
 export const PAGE_PX = { width: PAGE.widthMm * MM_PX, height: PAGE.heightMm * MM_PX };
 
 /** Separaciones en píxeles CSS: entre compases de una fila, entre filas y entre la cabecera y la primera fila. */
-export const GAPS = { column: 14, row: 30, header: 22 };
+export const GAPS = { column: 6, row: 18, header: 14 };
 
 /** Margen que se resta al área útil al repartir, para que una diferencia de subpíxel no desborde una fila. */
 export const SAFETY_PX = 1;

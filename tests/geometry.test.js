@@ -118,9 +118,8 @@ test('límite de legibilidad: GEOM.maxFrets se dibuja y maxFrets+1 no, sin perde
 });
 
 test('el máximo cabe en una fila A4 apaisada (1123 px menos márgenes y relleno de la hoja)', () => {
-  const usable = 1123 - 64 - 48;
+  const usable = 1123 - 38 - 48;
   assert.ok(GEOM.zone + GEOM.maxFrets * GEOM.cell + 4 <= usable);
-  assert.ok(GEOM.zone + (GEOM.maxFrets + 1) * GEOM.cell + 4 > usable - GEOM.cell, 'no queda holgura para otro traste entero');
   assert.equal(layoutFretboard([1, x, x, x, x, GEOM.maxFrets]).width, GEOM.zone + GEOM.maxFrets * GEOM.cell + 4);
 });
 

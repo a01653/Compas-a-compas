@@ -13,7 +13,7 @@ const ASSET_URLS = ['../../references/fonts.css', '../../styles/tokens.css', '..
 const PRINT_TIPS = [
   'Destino: «Guardar como PDF» (o tu impresora).',
   'Tamaño de papel: A4. Orientación: horizontal.',
-  'Márgenes: «Ninguno» (la hoja ya incluye sus propios márgenes de 10 mm).',
+  'Márgenes: «Ninguno» (la hoja ya incluye sus propios márgenes de 5 mm).',
   'Desactiva «Encabezados y pies de página»: el navegador añadiría fecha, dirección y su propia numeración, y la hoja ya lleva la suya.',
   'Activa «Gráficos de fondo» si el navegador lo ofrece, para conservar los colores de las tarjetas.',
 ];

@@ -50,7 +50,7 @@ Una posición muy extendida puede obligar a dedicarle una fila o una página. Si
 
 ## Paginación e impresión
 
-- A4 apaisado: 297 × 210 mm. Definir márgenes y área útil de forma explícita.
+- A4 apaisado: 297 × 210 mm. Definir márgenes y área útil de forma explícita. Desde 0.1.2: margen de 5 mm (área útil 287 × 200 mm); separaciones de columna 6 px, fila 18 px y cabecera 14 px; traste de 28 px y zona exterior de 22 px. Las mismas medidas (`src/layout/spec.js`, `GEOM`) rigen vista previa, medición y exportación. La paginación sigue siendo adaptativa por espacio disponible, sin cupo fijo de compases por fila.
 - Cabecera de cada hoja con canción y tonalidad; número `actual/total` en la esquina superior derecha, sin colisiones con títulos largos.
 - Agrupar tarjetas por compás. Empezar otra fila o página cuando falte espacio.
 - Un compás con muchas tarjetas puede continuar en otra fila o página, con el mismo número y la etiqueta «continuación». No imponer un máximo oculto de tarjetas.
