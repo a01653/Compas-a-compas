@@ -8,6 +8,10 @@ Versión 0.1.2 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [
 
 Requiere Node.js 18 o superior. No hay dependencias que instalar.
 
+**En Windows, doble clic en `Abrir-Compas.cmd`.** Arranca el servidor en esa ventana y abre el navegador en <http://127.0.0.1:5174>. Si la aplicación ya estaba en marcha, solo abre el navegador. Si el puerto 5174 lo usa otra aplicación, avisa y no cierra nada. La ventana es el servidor: cierra la ventana o pulsa Ctrl+C para detenerlo, y la aplicación deja de responder. Si falta Node.js, la ventana lo indica y espera una tecla.
+
+**Opción manual:**
+
 ```text
 npm start
 ```
