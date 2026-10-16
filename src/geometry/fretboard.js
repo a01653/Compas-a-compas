@@ -2,8 +2,8 @@
 
 export const GEOM = {
   cell: 28,       // ancho de un traste
-  gap: 16,        // separación entre cuerdas
-  zone: 22,      // zona exterior para cuerdas al aire y mudas
+  gap: 17,        // separación entre cuerdas
+  zone: 26,      // zona exterior para cuerdas al aire y mudas
   padTop: 10,
   padBottom: 18,  // números de traste
   minFrets: 3,

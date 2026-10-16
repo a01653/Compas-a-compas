@@ -43,7 +43,7 @@
 /* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
 .hoja-cuerpo { margin-top: var(--cab-gap, 14px); }
 .fila { display: flex; flex-wrap: nowrap; align-items: stretch; gap: var(--col-gap, 6px); }
-.fila + .fila { margin-top: var(--fila-gap, 18px); }
+.fila + .fila { margin-top: var(--fila-gap, 12px); }
 
 /* Caja fuera de pantalla donde se miden cabecera y fragmentos con los mismos estilos. */
 .hoja-medida { position: absolute; left: -30000px; top: 0; visibility: hidden; pointer-events: none; }
@@ -54,7 +54,7 @@
   flex: none;
   display: flex;
   flex-direction: column;
-  padding: 4px 0 4px 8px;
+  padding: 4px 0 4px 4px;
   border-left: 2px solid var(--ink-deep);
 }
 /* Etiqueta del compás en el flujo (se mide con el resto); en un fragmento posterior lleva «continuación». */
@@ -97,13 +97,13 @@
 
 .compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-.eventos { flex: 1; display: flex; flex-wrap: nowrap; align-items: stretch; gap: 8px; }
-.evento { flex: none; }
+.eventos { flex: 1; display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px; }
+.evento { flex: 1 0 auto; }
 .tarjeta-col { flex: 1 0 auto; }
 
 /* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración.
    Si el acorde sigue en otra fila u hoja, el lado cortado se marca con un trazo de puntos. */
-.evento { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
+.evento { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
 .evento.corta-ini { padding-left: 4px; border-left: 3px dotted var(--fam-bd, #c3c9d6); }
 .evento.corta-fin { padding-right: 4px; border-right: 3px dotted var(--fam-bd, #c3c9d6); }
 
@@ -112,10 +112,10 @@
 .t-titulo { width: 0; min-width: 100%; min-height: 14px; padding-left: 4px; font: 12px/1.15 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 
 .tarjeta {
-  flex: 1;
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  padding: 3px 6px 6px;
+  padding: 3px 6px 4px;
   border: 1.6px solid var(--fam-bd, #c3c9d6);
   border-radius: 10px;
   background: var(--fam-bg, #f1f2f6);
@@ -123,9 +123,9 @@
 .tarjeta.pendiente { border-style: dashed; justify-content: center; min-width: 120px; min-height: 90px; }
 .t-cab { display: flex; flex-direction: column; gap: 1px; width: 0; min-width: 100%; min-height: 30px; }
 .t-nom { font: 17px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
-.t-txt { min-height: 12px; font: 9.5px/1.15 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.t-txt { min-height: 15px; font: 9px/1.1 var(--f-hand); letter-spacing: .3px; color: var(--ink-soft); overflow-wrap: anywhere; }
 .t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
-.mastil { display: block; overflow: visible; margin-top: auto; align-self: center; }
+.mastil { display: block; flex: none; overflow: visible; margin-top: auto; align-self: center; }
 /* La leyenda no ensancha la tarjeta: toma el ancho del mástil y ajusta el texto. */
 .t-leyenda { width: 0; min-width: 100%; margin: 4px 0 0; padding: 0; list-style: none; font: 11px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 .mastil-aviso { box-sizing: border-box; max-width: 210px; min-height: 86px; padding: 8px; border: 1.5px dashed #b3261e; border-radius: 6px; font: 13px/1.25 var(--f-hand); color: #7a1f1a; background: #fff8f7; overflow-wrap: anywhere; }

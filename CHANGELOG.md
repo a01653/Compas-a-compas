@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.1.3
+
+- Proporciones ajustadas a la plantilla medida (primera fila de tarjetas de 128 × 161 px; rejilla de 3 trastes de 84 × 85 px): separación entre cuerdas 17 px, zona exterior 26 px, separación entre filas 12 px, huecos de 4 px entre compases, acordes y posiciones, y tarjeta con menos relleno inferior. El texto interior pasa a 9 px con interlineado 1,1 y espaciado de 0,3 px. Los textos de usuario no se recortan; no hay altura fija ni límite de 3 trastes.
+- Mástil: números de cuerda 1–6 en la zona exterior, líneas horizontales de 1,3 y verticales de 1,5, puntos de 8 px de radio y números de traste de 10 px. Solo cambia el dibujo; no se tocan datos ni grados, y las cuerdas al aire y mudas se conservan.
+- Aclaración sobre la comparación anterior: las 3 hojas del HTML exportado se debían a los textos «Escala» y «Tiempos» que el supervisor añadió al primer JSON, no a textos del usuario. El JSON se corrige por separado; la aplicación no lo modifica automáticamente.
+
 ## 0.1.2
 
 - Proporciones de hoja más cercanas a la plantilla: márgenes de 5 mm, separaciones menores (columna 6 px, fila 18 px, cabecera 14 px), mástil con traste de 28 px y zona exterior de 22 px, y tipografías de cabecera y tarjeta más compactas. Una hoja admite más compases; la paginación sigue siendo adaptativa por espacio disponible, sin cupo fijo. Medida, vista previa y exportación comparten las mismas medidas. Sin cambios de datos, controles ni scroll.

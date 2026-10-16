@@ -37,17 +37,19 @@ export function fretboardSvg(voicing) {
 
   const x0 = g.fretLines[0].x;
   const x1 = g.fretLines[g.fretLines.length - 1].x;
-  for (const str of g.strings) {
-    svg.append(s('line', { x1: x0, y1: str.y, x2: x1, y2: str.y, stroke: INK, 'stroke-width': 1.1 }));
-  }
+  g.strings.forEach((str, row) => {
+    svg.append(s('line', { x1: x0, y1: str.y, x2: x1, y2: str.y, stroke: INK, 'stroke-width': 1.3 }));
+    // Número de cuerda 1–6 (primera arriba), en la zona exterior; es solo rotulación, no un dato.
+    svg.append(s('text', { x: 2, y: str.y + 3.5, 'font-size': 11, fill: INK }, String(row + 1)));
+  });
   for (const line of g.fretLines) {
     svg.append(s('line', {
       x1: line.x, y1: g.strings[0].y, x2: line.x, y2: g.stringsBottom,
-      stroke: INK, 'stroke-width': line.nut ? 4.5 : 1.1, 'stroke-linecap': 'round',
+      stroke: INK, 'stroke-width': line.nut ? 4.5 : 1.5, 'stroke-linecap': 'round',
     }));
   }
   for (const label of g.labels) {
-    svg.append(s('text', { x: label.x, y: label.y, 'text-anchor': 'middle', 'font-size': 11, fill: MUTED }, label.text));
+    svg.append(s('text', { x: label.x, y: label.y, 'text-anchor': 'middle', 'font-size': 10, fill: MUTED }, label.text));
   }
   for (const mark of g.marks) {
     if (mark.kind === 'open') {
@@ -60,7 +62,7 @@ export function fretboardSvg(voicing) {
         stroke: INK, 'stroke-width': 1.6, 'stroke-linecap': 'round',
       }));
     } else {
-      svg.append(degreeDot(mark, 7.5));
+      svg.append(degreeDot(mark, 8));
     }
   }
   return svg;
