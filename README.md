@@ -40,7 +40,9 @@ npm test
 - **Recuperación:** los cambios pendientes se copian en `localStorage` del navegador y se ofrecen al volver a abrir la aplicación. Es una red de seguridad, no un guardado; si el almacenamiento no está disponible, la aplicación funciona igual. Se borra al guardar, abrir o crear una canción.
 - **Guardar JSON** usa el selector de archivos del navegador si existe; si no, una descarga normal (en ese caso el navegador no confirma que se haya guardado).
 
-Siguen deshabilitados con explicación: Exportar HTML, Imprimir/PDF (fase 4) y la edición y dibujo de marcas (fase 3). Las marcas se leen, se conservan y se listan, pero no se dibujan en la hoja.
+Siguen deshabilitados con explicación: Exportar HTML e Imprimir/PDF (fase 4).
+
+**Marcas musicales (fase 3):** el panel «Marcas musicales» permite añadir, editar y borrar repeticiones ×N, casillas de una o varias pasadas, Segno, Coda, Fine y los siete saltos. Los compases y destinos se eligen por ID con etiquetas legibles; un destino que ya no existe se conserva como opción pendiente. Borrar una marca muestra sus consecuencias y permite cancelar. Las marcas se dibujan en la hoja (Segno y Coda como SVG propio, barras de repetición, ×N y corchetes de casilla) sin expandir el recorrido.
 
 ## Empezar con Claude
 

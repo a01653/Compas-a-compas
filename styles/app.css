@@ -222,8 +222,17 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
   font-size: 0.92rem;
 }
 .mark-kind { flex: none; min-width: 5.2em; font: 18px/1.1 var(--f-marker); color: var(--ink); }
-.mark-add { margin-top: 12px; }
-.mark-add .btn { width: 100%; }
+.mark-item { flex-wrap: wrap; }
+.mark-det { flex: 1 1 12em; min-width: 0; overflow-wrap: anywhere; }
+.mark-acc { display: flex; gap: 6px; margin-left: auto; }
+.mark-acc .btn { padding: 4px 10px; min-height: 36px; }
+.mark-add { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.mark-add .btn-row .btn { flex: 1 1 auto; }
+.passes { margin: 0 0 12px; padding: 0; border: 0; min-width: 0; }
+.pass-row { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.pass-box { display: inline-flex; align-items: center; gap: 4px; min-height: 36px; }
+.form-errors { margin: 0 0 10px; }
+.form-errors.on { padding: 8px 12px; border: 1px solid var(--danger); border-radius: var(--radius-sm); background: #fff8f7; color: var(--danger); }
 
 /* ---------- Vista previa ---------- */
 .panel-vista { display: flex; flex-direction: column; }

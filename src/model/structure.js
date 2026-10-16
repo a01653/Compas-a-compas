@@ -12,7 +12,7 @@ export const JUMP_NAMES = {
 export const MARKER_NAMES = { segno: 'Segno', coda: 'Coda', fine: 'Fine' };
 
 /** Destinos que necesita cada salto: [campo, tipo de marca]. */
-const JUMP_NEEDS = {
+export const JUMP_NEEDS = {
   dc: [],
   ds: [['segnoMarkerId', 'segno']],
   'dc-al-coda': [['codaMarkerId', 'coda']],

@@ -33,6 +33,27 @@ export function findDuplicateIds(song) {
 /** Generador de IDs nuevos que no colisiona con el documento ni con los ya generados. */
 export function createIdFactory(song) {
   const used = new Set(listIds(song).map(([id]) => id));
+
+  const st = song.structure && typeof song.structure === 'object' ? song.structure : {};
+  for (const r of (Array.isArray(st.repeats) ? st.repeats : [])) {
+    if (typeof r.startMeasureId === 'string') used.add(r.startMeasureId);
+    if (typeof r.endMeasureId === 'string') used.add(r.endMeasureId);
+  }
+  for (const e of (Array.isArray(st.endings) ? st.endings : [])) {
+    if (typeof e.startMeasureId === 'string') used.add(e.startMeasureId);
+    if (typeof e.endMeasureId === 'string') used.add(e.endMeasureId);
+    if (typeof e.repeatId === 'string') used.add(e.repeatId);
+  }
+  for (const m of (Array.isArray(st.markers) ? st.markers : [])) {
+    if (typeof m.measureId === 'string') used.add(m.measureId);
+  }
+  for (const j of (Array.isArray(st.jumps) ? st.jumps : [])) {
+    if (typeof j.measureId === 'string') used.add(j.measureId);
+    if (typeof j.segnoMarkerId === 'string') used.add(j.segnoMarkerId);
+    if (typeof j.codaMarkerId === 'string') used.add(j.codaMarkerId);
+    if (typeof j.fineMarkerId === 'string') used.add(j.fineMarkerId);
+  }
+
   return (prefix) => {
     let n = used.size + 1;
     while (used.has(`${prefix}${n}`)) n++;

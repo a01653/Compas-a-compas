@@ -40,6 +40,39 @@
 }
 .compas:hover { background: rgba(27, 42, 120, 0.03); }
 .compas.sel { background: rgba(166, 203, 233, 0.22); box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); border-radius: 0 6px 6px 0; }
+/* Marcas musicales: bloque propio sobre las tarjetas (no invade los títulos); varias marcas se apilan o saltan de línea. */
+.marcas { display: flex; flex-direction: column; gap: 3px; margin: 0 0 8px; color: var(--ink-deep); }
+.marcas-fila { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 2px 14px; }
+.marcas-izq, .marcas-der { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; min-width: 0; }
+.marcas-der { margin-left: auto; justify-content: flex-end; }
+.m-marca { display: inline-flex; align-items: center; gap: 5px; font: 19px/1.1 var(--f-marker); white-space: nowrap; }
+.m-fine { font-style: italic; border-right: 3px double var(--ink-deep); padding-right: 6px; }
+.m-salto { font-size: 17px; }
+.m-veces { font: 22px/1 var(--f-marker); }
+.m-cont { font: 14px/1 var(--f-hand); color: var(--ink-mute); }
+.glifo { flex: none; display: block; }
+.casilla { box-sizing: border-box; min-height: 20px; padding: 1px 8px 0 6px; border-top: 1.8px solid var(--ink-deep); font: 15px/1.2 var(--f-hand); white-space: nowrap; }
+.casilla.abre { border-left: 1.8px solid var(--ink-deep); }
+.casilla.cont-ant { margin-left: -10px; padding-left: 16px; }
+.casilla.cont-sig { margin-right: -14px; padding-right: 14px; border-right: 0; }
+.casilla.cont-ant .casilla-txt, .casilla.cont-sig .casilla-txt { color: var(--ink-soft); }
+/* Barras de repetición: grueso + fino y dos puntos; el compás reserva su ancho. */
+.compas.rep-ini { padding-left: 24px; }
+.compas.rep-fin { padding-right: 24px; }
+.barra-rep { position: absolute; top: 0; bottom: 0; width: 14px; pointer-events: none; }
+.barra-rep.ini { left: -2px; border-left: 5px solid var(--ink-deep); }
+.barra-rep.fin { right: 0; border-right: 5px solid var(--ink-deep); }
+.barra-rep::before { content: ''; position: absolute; top: 0; bottom: 0; width: 1.6px; background: var(--ink-deep); }
+.barra-rep.ini::before { left: 8px; }
+.barra-rep.fin::before { right: 8px; }
+.barra-rep .punto { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--ink-deep); }
+.barra-rep.ini .punto { left: 13px; }
+.barra-rep.fin .punto { right: 13px; }
+.barra-rep .punto.a { top: calc(50% - 9px); }
+.barra-rep .punto.b { top: calc(50% + 4px); }
+.compas.en-rep { box-shadow: inset 0 3px 0 -1px rgba(27, 42, 120, 0.12); }
+.compas.sel.en-rep { box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); }
+
 .compas-num { position: absolute; left: 6px; top: -17px; font: 14px/1 var(--f-hand); color: var(--ink-mute); }
 .compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); }
 

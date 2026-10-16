@@ -14,9 +14,9 @@ Fecha: 16/10/2026. Especificación: 1.0.
 | Fase | Estado |
 | --- | --- |
 | 0. Arranque y propuesta visual | Validada por el supervisor (ver registro) |
-| 1. Edición y persistencia | Implementada; el supervisor informa de 45 pruebas Node superadas en copia de revisión y verificación en navegador en curso (no confirmada aquí) |
-| 2. Mástil y tarjetas | Implementada; pendiente de validación del supervisor (pruebas escritas, no ejecutadas por quien implementa) |
-| 3. Estructura musical | No iniciada |
+| 1. Edición y persistencia | Validada por el supervisor (ver registro) |
+| 2. Mástil y tarjetas | Validada por el supervisor (ver registro) |
+| 3. Estructura musical | Implementada; pendiente de validación del supervisor (pruebas escritas, no ejecutadas por quien implementa) |
 | 4. Paginación y exportación | No iniciada |
 | 5. Validación y guía de uso | No iniciada |
 
@@ -45,11 +45,12 @@ Añadir por cada entrega: fase, fecha, archivos, comandos realmente ejecutados, 
 
 ### Fase 1: edición y persistencia (16/10/2026)
 
-- Estado: implementada, **pendiente de validación del supervisor**. No se ha ejecutado ninguna prueba ni se ha abierto la aplicación en esta entrega (sin terminal); las pruebas de `tests/` están escritas y por ejecutar con `npm test`.
+- Estado: **validada por el supervisor**. Evidencia aportada por el supervisor: 45 pruebas Node superadas; 1575 casos de paridad entre AJV 2020 y la validación manual; navegador Chromium 153 con archivo, listas y recuperación; anchuras 360, 390, 430, 1280 y 1440 px. El texto siguiente de esta entrada describe la entrega original (escrita sin terminal ni navegador).
+- Entrega original: implementada sin ejecutar pruebas ni abrir la aplicación; las pruebas de `tests/` se ejecutaron después por el supervisor con `npm test`.
 - Archivos nuevos: `package.json`; `src/model/ids.js`, `song.js`, `structure.js`, `validate.js`, `serialize.js`, `listImport.js`; `src/persist/recovery.js`; `src/ui/dialog.js`, `notify.js`, `textOverride.js`, `file.js`, `importList.js`; `tests/helpers.js`, `validate.test.js`, `structure.test.js`, `song-ops.test.js`, `list-import.test.js`, `store.test.js`.
 - Archivos modificados: `index.html`, `styles/app.css`, `styles/sheet.css`, `src/main.js`, `src/store.js`, `src/render/card.js`, `src/render/sheet.js`, `src/ui/song.js`, `measures.js`, `chord.js`, `marks.js`, `preview.js`, `disabled.js`; `README.md`; este documento.
 - Implementado: alta, inserción, duplicado, movimiento y borrado de compases con IDs estables; varios acordes y voicings; edición de cada tarjeta con título encima y texto dentro heredados, personalizados u ocultos (cadena vacía) por voicing, más valores por defecto del acorde; los editores no se reconstruyen al escribir (ámbito `text` del estado); selección de tarjeta desde la hoja; validación de forma, `schemaVersion` 1, seis cuerdas, IDs únicos y campos permitidos; avisos de referencias musicales incompletas sin perder las marcas; Nuevo, Abrir y Guardar JSON; cambios pendientes con diálogo y `beforeunload`; copia de recuperación en `localStorage` explicada en la interfaz; entrada por lista con previsualización, errores por línea y aplicación todo o nada; consecuencias al borrar compases y aviso de tramos invertidos al mover.
-- Deshabilitado con explicación: Exportar HTML, Imprimir/PDF, edición de marcas.
+- Deshabilitado con explicación en esa entrega: Exportar HTML, Imprimir/PDF, edición de marcas (la edición de marcas se implementó después, en la fase 3).
 - Decisiones de implementación: los campos no permitidos bloquean la apertura en vez de descartarse; no se guarda con nombre de acorde o etiqueta vacíos; el borrado de un compás conserva las marcas con referencias pendientes; las listas se añaden al final.
 - Limitaciones: sin comprobar en navegador (diálogos `<dialog>`, selector de archivos, `localStorage`, `beforeunload`); la hoja sigue siendo una sola y sin paginación; la descripción «se muestra el valor del acorde» de una tarjeta que hereda no se refresca hasta volver a seleccionarla si se edita el valor por defecto; no hay deshacer.
 - Siguiente tarea: validación de la fase 1 por el supervisor; después, fase 2.
@@ -58,8 +59,8 @@ Añadir por cada entrega: fase, fecha, archivos, comandos realmente ejecutados, 
 
 Distinción entre lo implementado y lo validado:
 
-- **Implementado (sin validar):** todo lo listado a continuación. Quien lo escribió no tiene terminal ni navegador; no ha ejecutado pruebas ni visto la interfaz.
-- **Validado:** nada de esta fase todavía. Las pruebas de `tests/geometry.test.js`, `tests/degrees.test.js` y `tests/frets.test.js` están escritas y por ejecutar con `npm test`; su resultado lo informará el supervisor. Esta entrada no afirma que pasen.
+- **Implementado:** todo lo listado a continuación (escrito sin terminal ni navegador).
+- **Validado por el supervisor.** Evidencia aportada por el supervisor: 76 pruebas Node superadas; en navegador, grados manuales con leyenda completa, cuerda al aire, herencia de texto sin perder el foco, 16 trastes y aviso de 99 trastes sin perder datos. Esta evidencia es la del supervisor; los puntos de «Limitaciones» que no menciona (p. ej. revisión visual de cejuela o grados muy largos) siguen sin revisar.
 
 Archivos nuevos: `src/model/degrees.js`; `tests/geometry.test.js`, `tests/degrees.test.js`, `tests/frets.test.js`.
 Archivos modificados: `src/geometry/fretboard.js`, `src/render/card.js`, `src/model/song.js`, `src/model/structure.js`, `src/ui/chord.js`, `src/ui/textOverride.js`, `src/ui/preview.js`, `styles/app.css`, `styles/sheet.css`, `README.md`, este documento. No se han tocado el esquema ni `references/`.
@@ -77,4 +78,23 @@ Limitaciones y pendiente real:
 - Corrección posterior a la revisión del supervisor: se retiró de `src/geometry/fretboard.js` un `require` que rompía los módulos ES; la geometría vuelve a ser pura y sin imports. La leyenda de grados abreviados (cuerda → grado completo) se calcula ahora en `src/render/card.js` y se muestra bajo el mástil solo si `degreeDisplay` abrevia alguna etiqueta de una cuerda dibujada. Implementado, sin validar.
 - Sin revisión visual de grados largos, notas al aire con grado, cejuela ni tarjetas ilegibles; sin comprobar en navegador la actualización de la ayuda de herencia.
 - Las tarjetas con aviso ocupan ancho fijo; la reorganización de filas por ancho real llega con la paginación (fase 4).
-- Fases 3 (estructura musical) y 4 (paginación y exportación) siguen pendientes; exportar HTML e imprimir siguen deshabilitados.
+- En el momento de esta entrega la fase 3 y la fase 4 estaban pendientes; ahora la fase 3 está implementada (ver su entrada) y la fase 4 sigue pendiente, con exportar HTML e imprimir deshabilitados.
+
+### Fase 3: estructura musical (16/10/2026)
+
+- Estado: **implementada, pendiente de validación del supervisor**. Quien la escribió no tiene terminal ni navegador: no se ha ejecutado ninguna prueba ni se ha visto la interfaz. Las pruebas están escritas y por ejecutar con `npm test`.
+- Archivos nuevos: `src/model/marks.js` (alta, edición, borrado, validación, consecuencias, etiquetas y opciones pendientes); `src/model/marksProjection.js` (proyección pura de marcas por compás y por fragmento, pensada para que la fase 4 la reutilice al paginar y partir un compás); `src/render/marks.js` (SVG de Segno y Coda, barras de repetición, ×N y corchetes); `tests/marks.test.js`, `tests/marks-projection.test.js`.
+- Archivos modificados: `src/ui/marks.js` (panel reescrito), `src/render/sheet.js`, `src/model/structure.js` (solo exporta `JUMP_NEEDS`), `styles/sheet.css`, `styles/app.css`, `README.md`, este documento. No se han tocado el esquema, `references/` ni la geometría del mástil.
+- Implementado:
+  - Panel con lista, **Editar**/**Borrar** por marca y formulario único para repeticiones ×N (entero ≥ 2), casillas (casillas de pasadas, varias a la vez, únicas y enteras; con repetición asociada no pueden superar sus pasadas), Segno/Coda/Fine y los siete saltos (cada uno pide exactamente sus destinos). Opciones cerradas por el esquema; tramos invertidos bloqueados.
+  - Compases y destinos se eligen por ID con etiqueta legible («Compás 3 (posición 3) · Cm7, F7»). Un compás, repetición o destino ausente se muestra como opción pendiente seleccionada y se conserva al guardar, con aviso; nunca se sustituye por la primera opción. Un destino sin elegir se guarda como salto incompleto con aviso.
+  - Un formulario inválido no aplica nada ni borra lo escrito; la marca original queda intacta. Al cambiar el tipo de salto solo se escriben los destinos que ese tipo usa.
+  - Borrar una marca presenta las consecuencias con Cancelar y Borrar; las referencias a ella quedan pendientes. Los IDs de marcas borradas con referencias pendientes no se reutilizan, para que un destino pendiente no se enlace en silencio a una marca nueva.
+  - Hoja: bloque de marcas propio sobre las tarjetas (no ocupa el espacio de los títulos), con varias marcas apiladas o en varias líneas sin ocultarse; Segno y Coda como SVG propio; barras de repetición con puntos y ×N; corchete de casilla con etiqueta («1., 2.», «1.–3.»); fine con doble barra; saltos como texto. Una casilla o repetición que atraviesa compases sigue identificable («cont. 1.», «cont. ×3», corchete abierto a los lados). La numeración escrita no cambia y no se expande ningún recorrido.
+  - Proyección (`projectMarks` + `fragmentMarks`): para un fragmento de compás, el inicio de repetición y las marcas «antes» solo van en el primer fragmento, el final y las marcas «después» solo en el último; los fragmentos intermedios solo llevan continuidad.
+- Pruebas escritas (por ejecutar): CRUD, IDs únicos y sin reutilización, pasadas y tramos, tipos cerrados, requisitos de cada salto, destinos pendientes, consecuencias de borrado, etiquetas, proyección con bordes y continuidad, marcas múltiples y tramos no dibujables.
+- Limitaciones y pendiente real:
+  - Sin revisión visual en navegador: no se ha comprobado el aspecto de las barras de repetición, el corchete al cruzar fila, la altura reservada ni el panel a 390 px.
+  - La hoja sigue siendo única, sin paginación; la continuidad al cruzar fila es la de la maquetación actual de la hoja. La fase 4 deberá llamar a `fragmentMarks` con `isFirst`/`isLast` reales.
+  - Las marcas no pueden seleccionarse desde la hoja. No hay deshacer. Las marcas aún no se incluyen en ninguna exportación (Exportar HTML e Imprimir/PDF siguen deshabilitados).
+  - La exportación (fase 4) deberá advertir de destinos pendientes; esa advertencia todavía no existe.
