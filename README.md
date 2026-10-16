@@ -2,7 +2,44 @@
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar canciones, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-**Estado: especificación preparada; aplicación pendiente de desarrollar.** Este repositorio todavía no contiene un editor funcional. No se han ejecutado pruebas de una aplicación.
+**Estado: fase 0 validada por el supervisor; fase 1 (edición y persistencia) implementada, pendiente de validación.** Ver [docs/ESTADO.md](docs/ESTADO.md) para la evidencia real de cada fase.
+
+## Abrir la aplicación
+
+Los módulos JavaScript y la carga del ejemplo necesitan HTTP; no funciona con `file://`. No hay dependencias que instalar.
+
+- Con el servidor local del conector: <http://127.0.0.1:5174>.
+- Tras clonar el repositorio, desde su carpeta raíz (requiere Python 3):
+
+```text
+python -m http.server 5174 --bind 127.0.0.1
+```
+
+y abrir <http://127.0.0.1:5174>.
+
+## Pruebas
+
+Requiere Node.js 18 o superior; no hay dependencias.
+
+```text
+npm test
+```
+
+(equivale a `node --test`; ejecuta los archivos `tests/*.test.js`).
+
+## Uso (fase 1)
+
+- **Compases:** añadir al final, insertar después del seleccionado, duplicar (IDs nuevos), subir, bajar y borrar. La etiqueta visible es editable y no se renumera sola. Al borrar se listan las consecuencias para las marcas y se puede cancelar; ninguna marca se redirige a otro compás. Al mover se avisa de los tramos que quedan invertidos.
+- **Acordes y voicings:** varios acordes por compás y varios voicings por acorde. Un acorde sin digitación se conserva como pendiente; un voicing nuevo empieza con todas las cuerdas mudas.
+- **Digitación:** seis valores de sexta a primera: traste, `0` al aire, `x` muda. Compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). Una entrada inválida muestra el error y no cambia el voicing.
+- **Textos de la tarjeta:** el acorde define valores por defecto de «título encima» y «texto dentro». Cada tarjeta puede heredarlos, sustituirlos (override) u ocultarlos (cadena vacía); cambiar una tarjeta no toca las demás.
+- **Importar lista:** una línea por compás, `etiqueta | acorde @ digitación ; acorde @ digitación`; otro voicing del mismo acorde se separa con ` / ` (con espacios) después de `@`, por lo que `C/E` sigue siendo un acorde con bajo. Se previsualiza y se añade al final solo si no hay ningún error; no hay importación parcial.
+- **Archivo:** Nuevo, Abrir JSON y Guardar JSON. Antes de abrir se valida la forma (`schemaVersion` 1, tipos, seis cuerdas, IDs únicos, campos permitidos); un archivo inválido o de otra versión se rechaza con errores legibles y la canción abierta queda intacta. Los campos desconocidos bloquean la apertura en lugar de descartarse. Las marcas con referencias incompletas se abren con avisos y se conservan. No se puede guardar con un acorde o una etiqueta sin texto, porque el archivo no podría volver a abrirse.
+- **Cambios sin guardar:** el encabezado los indica; Nuevo y Abrir piden decidir (guardar, descartar o cancelar) y el navegador avisa al cerrar la pestaña.
+- **Recuperación:** los cambios pendientes se copian en `localStorage` del navegador y se ofrecen al volver a abrir la aplicación. Es una red de seguridad, no un guardado; si el almacenamiento no está disponible, la aplicación funciona igual. Se borra al guardar, abrir o crear una canción.
+- **Guardar JSON** usa el selector de archivos del navegador si existe; si no, una descarga normal (en ese caso el navegador no confirma que se haya guardado).
+
+Siguen deshabilitados con explicación: Exportar HTML, Imprimir/PDF (fase 4) y la edición y dibujo de marcas (fase 3). Las marcas se leen, se conservan y se listan, pero no se dibujan en la hoja.
 
 ## Empezar con Claude
 

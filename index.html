@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compás a compás</title>
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="stylesheet" href="references/fonts.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/sheet.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <a class="skip" href="#panel-acorde">Saltar al editor de acordes</a>
+
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-icon" src="assets/icon.svg" alt="" width="40" height="40">
+      <div class="brand-text">
+        <h1>Compás a compás</h1>
+        <span class="brand-version">Prototipo · fase 1</span>
+      </div>
+    </div>
+
+    <p id="estado-archivo" class="file-state" aria-live="polite"></p>
+
+    <div class="topbar-file" role="group" aria-label="Archivo y exportación">
+      <button type="button" id="btn-nuevo" class="btn btn-ghost">Nuevo</button>
+      <button type="button" id="btn-abrir" class="btn btn-ghost">Abrir JSON</button>
+      <button type="button" id="btn-guardar" class="btn btn-ghost">Guardar JSON</button>
+      <button type="button" class="btn btn-ghost" aria-disabled="true" aria-describedby="why-export" data-reason="La exportación HTML y la impresión llegan en la fase 4.">Exportar HTML</button>
+      <button type="button" class="btn btn-ghost" aria-disabled="true" aria-describedby="why-export" data-reason="La exportación HTML y la impresión llegan en la fase 4.">Imprimir / PDF</button>
+    </div>
+    <span id="why-export" class="sr-only">No disponible todavía: la exportación HTML y la impresión llegan en la fase 4.</span>
+    <input type="file" id="archivo-json" accept=".json,application/json" hidden>
+  </header>
+
+  <p id="aviso-carga" class="aviso-carga" role="alert" hidden></p>
+
+  <main class="layout">
+    <div class="col col-lista">
+      <section class="panel" id="panel-cancion" aria-labelledby="t-cancion"></section>
+      <section class="panel" id="panel-compases" aria-labelledby="t-compases"></section>
+    </div>
+    <div class="col col-editor">
+      <section class="panel" id="panel-acorde" aria-labelledby="t-acorde"></section>
+      <section class="panel" id="panel-marcas" aria-labelledby="t-marcas"></section>
+    </div>
+    <div class="col col-vista">
+      <section class="panel panel-vista" id="panel-vista" aria-labelledby="t-vista"></section>
+    </div>
+  </main>
+
+  <p id="estado-vivo" class="sr-only" role="status" aria-live="polite"></p>
+  <p id="toast" class="toast" aria-hidden="true" hidden></p>
+</body>
+</html>

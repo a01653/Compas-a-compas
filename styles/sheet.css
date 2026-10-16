@@ -1,0 +1,70 @@
+/* Hoja A4 apaisada (297 × 210 mm ≈ 1123 × 794 px). Tinta y proporciones de la plantilla. */
+.hoja {
+  position: absolute;
+  left: 0; top: 0;
+  width: 1123px;
+  min-height: 794px;
+  padding: 26px 32px 32px;
+  transform-origin: top left;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 2px 18px rgba(20, 24, 58, 0.22);
+}
+
+.hoja-cab {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--ink-deep);
+}
+.hoja-titulos { min-width: 0; }
+.hoja-titulo {
+  font: 34px/1.1 var(--f-marker);
+  letter-spacing: 1px;
+  color: var(--ink-deep);
+  overflow-wrap: anywhere;
+}
+.hoja-tono { margin-top: 2px; font: 17px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.hoja-pagina { flex: none; font: 18px/1 var(--f-hand); color: var(--ink-mute); }
+
+.hoja-cuerpo { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 30px 14px; padding-top: 30px; }
+
+.compas {
+  position: relative;
+  max-width: 100%;
+  padding: 4px 0 4px 8px;
+  border-left: 2px solid var(--ink-deep);
+  cursor: pointer;
+}
+.compas:hover { background: rgba(27, 42, 120, 0.03); }
+.compas.sel { background: rgba(166, 203, 233, 0.22); box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); border-radius: 0 6px 6px 0; }
+.compas-num { position: absolute; left: 6px; top: -17px; font: 14px/1 var(--f-hand); color: var(--ink-mute); }
+.compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); }
+
+.eventos { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+
+/* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración. */
+.evento { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 6px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; max-width: 100%; }
+
+.tarjeta-col { display: flex; flex-direction: column; gap: 3px; }
+.t-titulo { min-height: 18px; padding-left: 4px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); }
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  padding: 3px 6px 6px;
+  border: 1.6px solid var(--fam-bd, #c3c9d6);
+  border-radius: 10px;
+  background: var(--fam-bg, #f1f2f6);
+}
+.tarjeta { cursor: pointer; }
+.tarjeta.sel { outline: 3px solid rgba(47, 107, 255, 0.7); outline-offset: 2px; }
+.tarjeta.pendiente { border-style: dashed; justify-content: center; min-width: 120px; min-height: 90px; }
+.t-cab { display: flex; flex-direction: column; gap: 1px; min-height: 36px; }
+.t-nom { font: 21px/1.1 var(--f-marker); color: var(--ink-deep); white-space: nowrap; }
+.t-txt { min-height: 14px; font: 13px/1.1 var(--f-hand); color: var(--ink-soft); }
+.t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
+.mastil { display: block; overflow: visible; }
+.mastil text { font-family: var(--f-hand); }
