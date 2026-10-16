@@ -92,6 +92,10 @@ export function applySelection(root, selection) {
   for (const el of root.querySelectorAll('.compas')) {
     el.classList.toggle('sel', el.dataset.measureId === selection.measureId);
   }
+  // Ayuda del editor: marca el grupo del acorde seleccionado; no cambia dimensiones ni paginación.
+  for (const el of root.querySelectorAll('.evento')) {
+    el.classList.toggle('sel-evento', Boolean(selection.eventId) && el.dataset.eventId === selection.eventId);
+  }
   for (const el of root.querySelectorAll('.tarjeta')) {
     const voicingMatches = el.dataset.voicingId === '' ? selection.voicingId === null : el.dataset.voicingId === selection.voicingId;
     const on = el.dataset.eventId === selection.eventId && voicingMatches;

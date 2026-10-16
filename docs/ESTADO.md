@@ -1,6 +1,19 @@
 # Estado de trabajo
 
-Fecha: 16/10/2026. Especificación: 1.0. Versión de la aplicación: 0.1.0.
+Fecha: 16/10/2026. Especificación: 1.0. Versión de la aplicación: 0.1.1.
+
+Parche 0.1.1 (UX del editor de acordes y scroll independiente en ancho ≥761 px): implementado en `src/ui/chord.js`, `src/ui/measures.js`, `src/ui/scrollRegions.js`, `src/render/sheet.js`, `index.html` y `styles/app.css`; sin cambios de modelo, esquema, paginación ni exportación.
+
+Validación del parche 0.1.1 (realizada por el supervisor, según su informe; Claude no ejecutó comprobaciones):
+
+- Node: 126 pruebas pasan.
+- Chromium 153 en Linux, a 1440×900, 1280×720, 1181×600, 1180×600, 1024×768, 800×600, 761×600 y 360×800. La rueda sobre el editor mueve solo el editor: la posición superior del visor no cambia y `window.scrollY` es 0. Escribir grados conserva el foco, funciona PageDown con teclado y el último botón es accesible en móvil.
+- Grupos de 2 acordes y de 2+1 posiciones claros. Añadir posición suma solo al acorde seleccionado; añadir acorde crea un grupo. Contadores, foco, selección desde la hoja y JSON intactos.
+- HTML exportado de control idéntico byte a byte al original 0.1.0: las guías del editor no afectan al papel.
+- Aviso de 99 trastes: ocultaba el visor a 800×600. Corregido en `styles/app.css` (`warn-vista` con `max-height: min(22vh, 130px)` y scroll propio); validado a 1440, 800 y 761×600, con exportación bloqueada y diálogo cerrable.
+- Captura en Windows: no se declara todavía; falta la captura final.
+
+Accesibilidad: el `aria-label` de `.posiciones` se actualiza al cambiar el nombre del acorde, sin reconstruir inputs (`src/ui/chord.js`). Implementado; el supervisor dará la última prueba.
 
 ## Estado actual
 

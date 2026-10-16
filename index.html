@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="styles/app.css">
   <link rel="stylesheet" href="styles/sheet.css">
   <script type="module" src="src/main.js"></script>
+  <script type="module" src="src/ui/scrollRegions.js"></script>
 </head>
 <body>
   <a class="skip" href="#panel-acorde">Saltar al editor de acordes</a>
@@ -20,7 +21,7 @@
       <img class="brand-icon" src="assets/icon.svg" alt="" width="40" height="40">
       <div class="brand-text">
         <h1>Compás a compás</h1>
-        <span class="brand-version">Versión 0.1.0</span>
+        <span class="brand-version">Versión 0.1.1</span>
       </div>
     </div>
 
@@ -39,13 +40,15 @@
   <p id="aviso-carga" class="aviso-carga" role="alert" hidden></p>
 
   <main class="layout">
-    <div class="col col-lista">
-      <section class="panel" id="panel-cancion" aria-labelledby="t-cancion"></section>
-      <section class="panel" id="panel-compases" aria-labelledby="t-compases"></section>
-    </div>
-    <div class="col col-editor">
-      <section class="panel" id="panel-acorde" aria-labelledby="t-acorde"></section>
-      <section class="panel" id="panel-marcas" aria-labelledby="t-marcas"></section>
+    <div class="edicion" id="edicion" data-region="Edición: canción, compases, acordes y marcas">
+      <div class="col col-lista" id="col-lista" data-region="Canción y lista de compases">
+        <section class="panel" id="panel-cancion" aria-labelledby="t-cancion"></section>
+        <section class="panel" id="panel-compases" aria-labelledby="t-compases"></section>
+      </div>
+      <div class="col col-editor" id="col-editor" data-region="Editor de acorde y marcas">
+        <section class="panel" id="panel-acorde" aria-labelledby="t-acorde"></section>
+        <section class="panel" id="panel-marcas" aria-labelledby="t-marcas"></section>
+      </div>
     </div>
     <div class="col col-vista">
       <section class="panel panel-vista" id="panel-vista" aria-labelledby="t-vista"></section>

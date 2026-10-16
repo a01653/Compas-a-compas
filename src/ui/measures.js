@@ -13,7 +13,7 @@ function summary(measure) {
     const n = event.voicings.length;
     return h('span', { class: 'tag', style: familyStyle(event.family) },
       event.chordName || 'Sin nombre',
-      h('small', null, n === 0 ? 'pendiente' : n === 1 ? '1 voicing' : `${n} voicings`));
+      h('small', null, n === 0 ? 'pendiente' : n === 1 ? '1 posición' : `${n} posiciones`));
   }));
 }
 
