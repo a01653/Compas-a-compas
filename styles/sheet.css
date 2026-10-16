@@ -67,4 +67,7 @@
 .t-txt { min-height: 14px; font: 13px/1.1 var(--f-hand); color: var(--ink-soft); }
 .t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
 .mastil { display: block; overflow: visible; }
+/* La leyenda no ensancha la tarjeta: toma el ancho del mástil y ajusta el texto. */
+.t-leyenda { width: 0; min-width: 100%; margin: 4px 0 0; padding: 0; list-style: none; font: 11px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.mastil-aviso { box-sizing: border-box; max-width: 210px; min-height: 86px; padding: 8px; border: 1.5px dashed #b3261e; border-radius: 6px; font: 13px/1.25 var(--f-hand); color: #7a1f1a; background: #fff8f7; overflow-wrap: anywhere; }
 .mastil text { font-family: var(--f-hand); }

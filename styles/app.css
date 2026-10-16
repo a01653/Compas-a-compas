@@ -295,6 +295,16 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
   background: #fdf6e2;
 }
 
+.warn-vista { margin: 0 0 12px; border-left-color: var(--danger); background: #fdecea; }
+.warn-box[hidden] { display: none; }
+.degrees { margin: 0 0 12px; }
+.degrees legend { padding: 0; margin-bottom: 6px; font-size: 0.85rem; font-weight: 600; }
+.degree-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+.degree-cell { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.degree-cell label { font-size: 0.72rem; color: var(--text-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.degree-cell input { width: 100%; min-width: 0; min-height: 44px; padding: 6px 4px; border: 1.5px solid var(--line-strong); border-radius: var(--radius-sm); text-align: center; }
+.degrees .hint { display: block; margin-top: 6px; }
+
 .dialog {
   width: min(92vw, 640px);
   max-height: 88vh;

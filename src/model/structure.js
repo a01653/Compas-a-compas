@@ -34,7 +34,7 @@ function structureOf(song) {
 
 export function measureName(song, id) {
   const m = song.measures.find((x) => x.id === id);
-  return m ? `compás ${m.label}` : `compás desaparecido (${id})`;
+  return m ? `compás ${m.label}` : 'compás desaparecido';
 }
 
 /**
@@ -52,8 +52,8 @@ export function checkStructure(song) {
   const checkSpan = (item, what) => {
     const a = index.get(item.startMeasureId);
     const b = index.get(item.endMeasureId);
-    if (a === undefined) warn('missing', item.id, `${what}: el compás de inicio ya no existe (${item.startMeasureId}).`);
-    if (b === undefined) warn('missing', item.id, `${what}: el compás final ya no existe (${item.endMeasureId}).`);
+    if (a === undefined) warn('missing', item.id, `${what}: el compás de inicio ya no existe.`);
+    if (b === undefined) warn('missing', item.id, `${what}: el compás final ya no existe.`);
     if (a !== undefined && b !== undefined && a > b) {
       warn('inverted', item.id, `${what}: el tramo está invertido (empieza en el ${measureName(song, item.startMeasureId)} y termina antes, en el ${measureName(song, item.endMeasureId)}).`);
     }
@@ -65,23 +65,23 @@ export function checkStructure(song) {
     checkSpan(e, what);
     if (e.repeatId !== undefined) {
       const rep = repeats.get(e.repeatId);
-      if (!rep) warn('ref', e.id, `${what}: la repetición asociada ya no existe (${e.repeatId}).`);
+      if (!rep) warn('ref', e.id, `${what}: la repetición asociada ya no existe.`);
       else if (e.passes.some((p) => p > rep.times)) warn('ref', e.id, `${what}: alguna pasada supera las ${rep.times} de su repetición.`);
     }
   }
   for (const m of st.markers) {
-    if (!index.has(m.measureId)) warn('missing', m.id, `${MARKER_NAMES[m.type]}: el compás asociado ya no existe (${m.measureId}).`);
+    if (!index.has(m.measureId)) warn('missing', m.id, `${MARKER_NAMES[m.type]}: el compás asociado ya no existe.`);
   }
   for (const j of st.jumps) {
     const what = JUMP_NAMES[j.type] || j.type;
-    if (!index.has(j.measureId)) warn('missing', j.id, `${what}: el compás asociado ya no existe (${j.measureId}).`);
+    if (!index.has(j.measureId)) warn('missing', j.id, `${what}: el compás asociado ya no existe.`);
     for (const [field, type] of JUMP_NEEDS[j.type] || []) {
       const targetId = j[field];
       if (!targetId) warn('ref', j.id, `${what}: falta el destino ${MARKER_NAMES[type]}.`);
       else {
         const target = markers.get(targetId);
-        if (!target) warn('missing', j.id, `${what}: el destino ${MARKER_NAMES[type]} ya no existe (${targetId}).`);
-        else if (target.type !== type) warn('ref', j.id, `${what}: el destino ${targetId} no es un ${MARKER_NAMES[type]}.`);
+        if (!target) warn('missing', j.id, `${what}: el destino ${MARKER_NAMES[type]} ya no existe.`);
+        else if (target.type !== type) warn('ref', j.id, `${what}: el destino elegido no es un ${MARKER_NAMES[type]}.`);
       }
     }
   }

@@ -14,8 +14,8 @@ Fecha: 16/10/2026. Especificación: 1.0.
 | Fase | Estado |
 | --- | --- |
 | 0. Arranque y propuesta visual | Validada por el supervisor (ver registro) |
-| 1. Edición y persistencia | Implementada; pendiente de validación del supervisor |
-| 2. Mástil y tarjetas | No iniciada (la geometría reutilizable existe desde la fase 0, sin validar) |
+| 1. Edición y persistencia | Implementada; el supervisor informa de 45 pruebas Node superadas en copia de revisión y verificación en navegador en curso (no confirmada aquí) |
+| 2. Mástil y tarjetas | Implementada; pendiente de validación del supervisor (pruebas escritas, no ejecutadas por quien implementa) |
 | 3. Estructura musical | No iniciada |
 | 4. Paginación y exportación | No iniciada |
 | 5. Validación y guía de uso | No iniciada |
@@ -53,3 +53,28 @@ Añadir por cada entrega: fase, fecha, archivos, comandos realmente ejecutados, 
 - Decisiones de implementación: los campos no permitidos bloquean la apertura en vez de descartarse; no se guarda con nombre de acorde o etiqueta vacíos; el borrado de un compás conserva las marcas con referencias pendientes; las listas se añaden al final.
 - Limitaciones: sin comprobar en navegador (diálogos `<dialog>`, selector de archivos, `localStorage`, `beforeunload`); la hoja sigue siendo una sola y sin paginación; la descripción «se muestra el valor del acorde» de una tarjeta que hereda no se refresca hasta volver a seleccionarla si se edita el valor por defecto; no hay deshacer.
 - Siguiente tarea: validación de la fase 1 por el supervisor; después, fase 2.
+
+### Fase 2: mástil, tarjetas y grados manuales (16/10/2026)
+
+Distinción entre lo implementado y lo validado:
+
+- **Implementado (sin validar):** todo lo listado a continuación. Quien lo escribió no tiene terminal ni navegador; no ha ejecutado pruebas ni visto la interfaz.
+- **Validado:** nada de esta fase todavía. Las pruebas de `tests/geometry.test.js`, `tests/degrees.test.js` y `tests/frets.test.js` están escritas y por ejecutar con `npm test`; su resultado lo informará el supervisor. Esta entrada no afirma que pasen.
+
+Archivos nuevos: `src/model/degrees.js`; `tests/geometry.test.js`, `tests/degrees.test.js`, `tests/frets.test.js`.
+Archivos modificados: `src/geometry/fretboard.js`, `src/render/card.js`, `src/model/song.js`, `src/model/structure.js`, `src/ui/chord.js`, `src/ui/textOverride.js`, `src/ui/preview.js`, `styles/app.css`, `styles/sheet.css`, `README.md`, este documento. No se han tocado el esquema ni `references/`.
+
+Implementado:
+- Edición opcional de los seis grados por cuerda (sexta→primera). Campo vacío o solo espacios = `null`; si los seis están vacíos se elimina `degrees`. No se infiere ningún grado. Se conservan `frets`, textos e IDs.
+- Color de cada nota según su grado manual con los colores de la plantilla (acepta ♭ y ♯), también en cuerdas al aire (círculo relleno con la etiqueta). Un grado sin color definido usa la tinta; en cuerdas mudas el grado se conserva y no se dibuja. Las etiquetas de más de 3 caracteres se abrevian solo en el dibujo (el dato y el título del punto conservan el texto completo).
+- Geometría: primera cuerda arriba, centrado entre divisiones, mínimo tres trastes, crecimiento automático, con notas al aire comienza en el traste 1 con cejuela. `fretRange` recorre las seis notas una sola vez, sin copias ni spread.
+- Spans muy grandes: por encima de 32 trastes (`GEOM.maxFrets`, capacidad de una fila A4 a 30 px por traste) la geometría devuelve `drawable: false` y un motivo, sin construir listas por traste; la tarjeta muestra un aviso en lugar del mástil, el editor avisa bajo la digitación y la vista previa lista las tarjetas afectadas. Los datos no se modifican. `findUndrawableVoicings(song)` queda como punto de enganche para que la fase 4 bloquee una exportación incompleta; **ese bloqueo aún no existe**.
+- Ayuda de herencia de texto: al editar el valor por defecto del acorde se actualiza el texto de ayuda de la tarjeta sin reconstruir ningún input (no se pierde foco ni cursor).
+- Ayuda de la etiqueta del compás sin identificadores internos; los avisos de marcas incompletas ya no muestran IDs técnicos.
+
+Limitaciones y pendiente real:
+- El límite de 32 trastes sale del ancho útil de una fila A4 (`GEOM.maxFrets`); un mástil así de ancho ocupa toda la fila y debe revisarse con la paginación de la fase 4.
+- Corrección posterior a la revisión del supervisor: se retiró de `src/geometry/fretboard.js` un `require` que rompía los módulos ES; la geometría vuelve a ser pura y sin imports. La leyenda de grados abreviados (cuerda → grado completo) se calcula ahora en `src/render/card.js` y se muestra bajo el mástil solo si `degreeDisplay` abrevia alguna etiqueta de una cuerda dibujada. Implementado, sin validar.
+- Sin revisión visual de grados largos, notas al aire con grado, cejuela ni tarjetas ilegibles; sin comprobar en navegador la actualización de la ayuda de herencia.
+- Las tarjetas con aviso ocupan ancho fijo; la reorganización de filas por ancho real llega con la paginación (fase 4).
+- Fases 3 (estructura musical) y 4 (paginación y exportación) siguen pendientes; exportar HTML e imprimir siguen deshabilitados.

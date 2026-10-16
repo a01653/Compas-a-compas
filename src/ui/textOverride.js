@@ -1,5 +1,5 @@
 import { h } from '../render/dom.js';
-import { setTextMode, textState } from '../model/song.js';
+import { describeTextMode, setTextMode, textState } from '../model/song.js';
 import { focusSoon } from './notify.js';
 
 // «Personalizar» con texto vacío guarda cadena vacía (= ocultar); esto recuerda que el usuario eligió personalizar.
@@ -45,15 +45,21 @@ export function overrideField({ id, label, event, voicing, key, store }) {
     detail = null;
   }
 
-  const description = mode === 'inherit'
-    ? (state.inherited ? `Se muestra el valor del acorde: «${state.inherited}».` : 'El acorde no define este texto; no se muestra nada.')
-    : mode === 'hidden'
-      ? 'El texto queda oculto en esta tarjeta (cadena vacía).'
-      : 'Vacío equivale a ocultar el texto en esta tarjeta.';
-
   return h('div', { class: 'field' },
     h('label', { for: `${id}-modo` }, label),
     select,
     detail,
-    h('span', { class: 'hint', id: descId }, description));
+    h('span', { class: 'hint', id: descId }, describeTextMode(mode, state.inherited)));
+}
+
+/**
+ * Tras editar el valor por defecto del acorde, refresca la ayuda de herencia de la tarjeta.
+ * Solo cambia el texto de la ayuda: ningún input se reconstruye, así que no se pierde foco ni cursor.
+ */
+export function refreshTextHelp(id, event, voicing, key) {
+  const el = document.getElementById(`${id}-desc`);
+  if (!el || !voicing) return;
+  const state = textState(event, voicing, key);
+  const mode = state.mode === 'hidden' && customIntent.has(`${voicing.id}:${key}`) ? 'custom' : state.mode;
+  el.textContent = describeTextMode(mode, state.inherited);
 }

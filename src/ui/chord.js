@@ -5,7 +5,29 @@ import { addEvent, addVoicing, duplicateVoicing, removeEvent, removeVoicing, set
 import { selectedEvent, selectedMeasure, selectedVoicing } from '../store.js';
 import { confirmDialog } from './dialog.js';
 import { focusSoon } from './notify.js';
-import { overrideField } from './textOverride.js';
+import { overrideField, refreshTextHelp } from './textOverride.js';
+import { fretRange, spanMessage } from '../geometry/fretboard.js';
+import { applyDegrees, degreesToInputs } from '../model/degrees.js';
+
+const STRING_NAMES = ['6ª (grave)', '5ª', '4ª', '3ª', '2ª', '1ª (aguda)'];
+
+function degreeInputs(voicing, store) {
+  const inputs = degreesToInputs(voicing.degrees).map((value, i) => h('input', {
+    id: `f-grado-${i}`, type: 'text', value, autocomplete: 'off', spellcheck: 'false',
+    'aria-label': `Grado de la cuerda ${STRING_NAMES[i]}`,
+    'aria-describedby': 'f-grados-hint',
+    oninput: () => {
+      applyDegrees(voicing, inputs.map((el) => el.value));
+      store.emit('text');
+    },
+  }));
+  return h('fieldset', { class: 'degrees' },
+    h('legend', null, 'Grados manuales (opcional)'),
+    h('div', { class: 'degree-grid' }, inputs.map((input, i) => h('div', { class: 'degree-cell' },
+      h('label', { for: `f-grado-${i}` }, STRING_NAMES[i]), input))),
+    h('span', { class: 'hint', id: 'f-grados-hint' },
+      'De la sexta a la primera cuerda. Vacío = sin grado; no se inventa ninguno. Colorean la nota, también en cuerdas al aire. En cuerdas mudas se conservan pero no se dibujan. Las etiquetas de más de 3 caracteres se abrevian en el dibujo.'));
+}
 
 function textField(id, label, value, onInput, { hint, invalidWhenEmpty = false } = {}) {
   const input = h('input', {
@@ -44,7 +66,7 @@ export function mountChordPanel(root, store) {
     const nodes = [];
 
     nodes.push(textField('f-etiqueta', 'Etiqueta del compás', measure.label, (v) => { measure.label = v; store.emit('text'); }, {
-      hint: 'Es el número visible; el identificador interno no cambia al editarla o mover el compás.',
+      hint: 'Es el número o nombre que se ve en la hoja, por ejemplo 1, 2 o «Puente». Cambiarlo no altera el contenido del compás ni sus marcas, y al mover compases no se renumera solo.',
       invalidWhenEmpty: true,
     }));
 
@@ -96,8 +118,16 @@ export function mountChordPanel(root, store) {
           }, Object.entries(FAMILIES).map(([key, f]) => h('option', { value: key, selected: (event.family || 'other') === key }, f.label)))),
         h('h3', null, 'Valores por defecto del acorde'),
         h('p', { class: 'hint' }, 'Los heredan las tarjetas de este acorde que no tengan su propio valor.'),
-        textField('f-encima-ev', 'Título encima (por defecto)', event.aboveText || '', (v) => { setEventDefault(event, 'aboveText', v); store.emit('text'); }),
-        textField('f-dentro-ev', 'Texto dentro (por defecto)', event.insideText || '', (v) => { setEventDefault(event, 'insideText', v); store.emit('text'); }),
+        textField('f-encima-ev', 'Título encima (por defecto)', event.aboveText || '', (v) => {
+          setEventDefault(event, 'aboveText', v);
+          refreshTextHelp('f-encima', event, voicing, 'aboveText');
+          store.emit('text');
+        }),
+        textField('f-dentro-ev', 'Texto dentro (por defecto)', event.insideText || '', (v) => {
+          setEventDefault(event, 'insideText', v);
+          refreshTextHelp('f-dentro', event, voicing, 'insideText');
+          store.emit('text');
+        }),
 
         /* ---- Voicings ---- */
         h('h3', null, 'Voicings del acorde'));
@@ -133,6 +163,12 @@ export function mountChordPanel(root, store) {
 
       if (voicing) {
         const error = h('span', { class: 'error', id: 'f-frets-error', role: 'alert' });
+        const span = h('span', { class: 'error', id: 'f-frets-span' });
+        const refreshSpan = () => {
+          const message = spanMessage(fretRange(voicing.frets));
+          span.textContent = message ? `Aviso: esta digitación ${message}` : '';
+        };
+        refreshSpan();
         const input = h('input', {
           id: 'f-frets', type: 'text', class: 'mono', value: formatFrets(voicing.frets), autocomplete: 'off', spellcheck: 'false',
           'aria-describedby': 'f-frets-hint f-frets-error',
@@ -147,6 +183,7 @@ export function mountChordPanel(root, store) {
             e.target.removeAttribute('aria-invalid');
             error.textContent = '';
             voicing.frets = result.frets;
+            refreshSpan();
             store.emit('text');
           },
         });
@@ -156,7 +193,9 @@ export function mountChordPanel(root, store) {
             h('label', { for: 'f-frets' }, 'Digitación (sexta a primera)'),
             input,
             h('span', { class: 'hint', id: 'f-frets-hint' }, 'Traste, 0 al aire, x muda. Ejemplos: x35343 o x 10 12 10 11 10.'),
-            error),
+            error,
+            span),
+          degreeInputs(voicing, store),
           overrideField({ id: 'f-encima', label: 'Título encima de esta tarjeta', event, voicing, key: 'aboveText', store }),
           overrideField({ id: 'f-dentro', label: 'Texto dentro de esta tarjeta', event, voicing, key: 'insideText', store }));
       }

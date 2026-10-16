@@ -144,6 +144,15 @@ export function textState(event, voicing, key) {
   return { mode: 'custom', value: voicing[key], inherited };
 }
 
+/** Ayuda visible bajo un campo de tarjeta; depende del valor actual del acorde. */
+export function describeTextMode(mode, inherited) {
+  if (mode === 'inherit') {
+    return inherited ? `Se muestra el valor del acorde: «${inherited}».` : 'El acorde no define este texto; no se muestra nada.';
+  }
+  if (mode === 'hidden') return 'El texto queda oculto en esta tarjeta (cadena vacía).';
+  return 'Vacío equivale a ocultar el texto en esta tarjeta.';
+}
+
 export function setTextMode(event, voicing, key, mode) {
   if (mode === 'inherit') delete voicing[key];
   else if (mode === 'hidden') voicing[key] = '';
