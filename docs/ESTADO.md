@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Acceso web privado — 17/10/2026
+
+Aplicación 0.3.0 publicada en Sites: https://compas-a-compas.a01653.chatgpt.site. Despliegue confirmado como correcto por Sites. Los 57 archivos de ejecución coinciden con main en ed65dceb86d149572bd5444ff111574279650be8; 133 referencias de recursos comprobadas y 138 pruebas Node superadas. Sin cambios de código de aplicación ni de acceso al repositorio. No se realizó una nueva sesión de navegador sobre la URL publicada porque el navegador compatible con Sites no estaba disponible. GitHub y la publicación web se actualizan por separado. Enlace y procedimiento en README.md y docs/WEB.md.
+
 ## Versión 0.3.0: colores por familia y grado — 17/10/2026
 
 Panel **Colores** añadido a la cabecera, con fondos para las seis familias, grados naturales, bemoles y sostenidos del 1 al 13, etiquetas personalizadas de hasta 32 caracteres y notas sin grado o sin color propio. Hay restauración individual y completa con confirmación. Los cambios se aplican a toda la canción y permanecen en su JSON, vista previa, HTML e impresión.
