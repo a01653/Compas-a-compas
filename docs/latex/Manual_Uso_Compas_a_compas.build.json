@@ -1,6 +1,6 @@
 {
   "document": "uso",
-  "applicationVersion": "0.4.0",
+  "applicationVersion": "0.4.1",
   "edition": "2026-10-17",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "0b31c7ef2f05fb32be4e724fe5f01d105938575436a9943664c588993dd4d7eb",
+      "sha256": "2205928fafb875718ea58a8509ef2fffd51f74b6233ec476b5181ca0cdfc3b14",
       "role": "source"
     },
     {
@@ -23,42 +23,42 @@
     },
     {
       "path": "package.json",
-      "sha256": "c6f4facecdddf1e29034a6cd246e371030943cc535f2971879e13f737a51a9f1",
+      "sha256": "845559af1fe9108958eec75c50cbcb944ac010afa883cc769c3a733cf75c00e8",
       "role": "application-version"
     },
     {
       "path": "docs/manuals/capturas/editor-general.png",
-      "sha256": "85ebf2c316871b3b3ec649256df77d95c77ac96262fc4be5fc5419a17524f46d",
+      "sha256": "8795ac935499579353f06c1ba49c18999d8e47fe5f821fb9d363633878c56991",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/colores-acordes.png",
-      "sha256": "7d096e0190f9ca508778f82bef094358eba8e46d355265d9b810aac9b28b09b7",
+      "sha256": "8d22409887328b8aa4046d7878897d4d2c69bc957cde3bd0e91a174eab868961",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/textos-deshacer.png",
-      "sha256": "ffc63261a45570a502c8a55fcfb724006302f14d9ec4e0a9df14903d4e836b4e",
+      "sha256": "31099f3e7bf0f6850d132dab69248aac124dcc2743efbe28cde943e4f9394150",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/editor-posiciones.png",
-      "sha256": "ee971115b9f445bc000f7d76711dd1558752b8c8dba70dbfdbb11434f7584703",
+      "sha256": "95488e5ddc55f11388c357093442acaee6e23ff31a9de856845fcc7d917dbebb",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/marcas-compas.png",
-      "sha256": "c18806a2f76e212cfe07e47758c100c38b98e120d17b1766bcf7ce6b29e2266a",
+      "sha256": "0c9b4ff709a3e79b429a43551d6506e7682eb23976aa6f6e109d1f2964a906eb",
       "role": "capture"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "654c170114523d0d290bfa6ca039045a32b224ee5ec144314ec9c96fa5ceee7c",
+      "sha256": "565e4a4fc0970b0f74f6c86ea015996b1b02b32f6d9b233204236333566f60be",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "7ab667916fd47a0bfe848972a6b6e83ed064130ff039018765fdfc78258bcb6a",
+      "sha256": "a68188ea5d88f5b9f9ee9e42d956560a6b9666dd3e0c1e575032e1f3ad1030b2",
       "role": "pdf"
     }
   ]

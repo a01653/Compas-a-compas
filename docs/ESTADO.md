@@ -1,5 +1,13 @@
 # Estado de trabajo
 
+## Versión 0.4.1: digitación, grados y textos sin pestañas — 17/10/2026
+
+Claude trabaja en un worktree nuevo del PC desde main 0.4.0; se conserva el espacio antiguo con sus cambios. Se retiran la navegación de pestañas del editor de acordes y sus atributos ARIA asociados. Digitación/grados y los dos textos se muestran siempre en secciones apiladas con títulos discretos. Se mantienen el selector de alcance por posición y Deshacer/Rehacer. Las pestañas de Colores conservan sus reglas compartidas.
+
+Validación final: 150 pruebas Node superadas en Windows mediante el conector. Chromium en Linux comprueba secciones siempre visibles, edición de textos, guardar/abrir, Deshacer/Rehacer, marcas, recuperación, colores, seis ventanas de escritorio y móvil, con 40 posiciones y 30 compases. El editor habitual cabe sin scroll en 1440×900, 1366×768 y 1280×720; en 800×600 necesita desplazamiento interno y conserva todos los campos. Sin desbordamiento horizontal ni scroll de página en escritorio. La captura del PC confirma 0.4.1 sin errores JavaScript. El HTML del ejemplo sin editar sigue idéntico al control anterior.
+
+El desarrollo se ha realizado con Sonnet, esfuerzo medium. El supervisor revisa el diff, copia los archivos para comprobación independiente y mide el ajuste con Chromium. La versión se publica desde GitHub; no es necesario integrar cada paso intermedio en main para que Claude continúe en su rama.
+
 ## Versión 0.4.0: textos claros e historial de acciones — 17/10/2026
 
 La pestaña de textos muestra solo Título sobre la tarjeta y Anotación dentro de la tarjeta, con el valor efectivo visible de cada posición. Se retiran los bloques de texto común y sobrescritura y el controlador ui/textOverride.js. El selector permite aplicar cada campo a esta posición o a todas las posiciones del acorde; la opción de todas retira las excepciones de ese campo, conservando el otro. Cambiar de posición vuelve a la edición individual. Los JSON anteriores conservan sus datos y se mantiene el esquema 1.

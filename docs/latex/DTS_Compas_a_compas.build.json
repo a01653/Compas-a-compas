@@ -1,6 +1,6 @@
 {
   "document": "dts",
-  "applicationVersion": "0.4.0",
+  "applicationVersion": "0.4.1",
   "edition": "2026-10-17",
   "source": "docs/DTS.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/DTS.md",
-      "sha256": "11169c7942a5913ca3b5a6ac11cace25245d16add1807ed10050c688b5d11386",
+      "sha256": "25e114f85d1bf0789d9a085adfedb72b86fc2012827635d55e68f77396f3fe91",
       "role": "source"
     },
     {
@@ -23,17 +23,17 @@
     },
     {
       "path": "package.json",
-      "sha256": "c6f4facecdddf1e29034a6cd246e371030943cc535f2971879e13f737a51a9f1",
+      "sha256": "845559af1fe9108958eec75c50cbcb944ac010afa883cc769c3a733cf75c00e8",
       "role": "application-version"
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.tex",
-      "sha256": "be9bdf1fcc2db95fc4a4fa07266135767e4e3f5ff7ad9c926b155ee218ca4bdb",
+      "sha256": "57a1f19993fe971d5b8bf0ffab29c49d12a67f83d0d659a5785681dc4f73d44f",
       "role": "latex"
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.pdf",
-      "sha256": "9b2e14cb391f73f2d87943410d804a0c4962db04a3a92334f87b5d15107cc260",
+      "sha256": "ba166cdfefd6d820e9d3543e873549870ab650df8f35866881f7a92d7c78a170",
       "role": "pdf"
     }
   ]

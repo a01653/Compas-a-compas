@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.4.1 — 17/10/2026
+
+- Digitación, grados y textos siempre visibles en dos secciones apiladas. Se eliminan las dos pestañas del editor de acordes.
+- Ajustes de espacio según la altura disponible, con los campos de texto en una fila en escritorio y apilados en móvil. Se conservan Deshacer/Rehacer y el selector de las posiciones a las que aplicar los textos.
+
 ## 0.4.0 — 17/10/2026
 
 - Textos de tarjeta sin bloques duplicados: edición del título y la anotación que realmente aparecen, con elección entre esta posición y todas las posiciones del acorde. Se conservan los datos de los JSON anteriores.

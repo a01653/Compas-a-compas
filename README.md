@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.4.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.4.1 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 ## Empezar
 
@@ -47,9 +47,9 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 ### Textos de la tarjeta
 
-Se editan en la pestaña **Textos de la tarjeta**. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
+Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
-Solo hay dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro de la tarjeta**, bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
+Solo hay dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro**, bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
 Si el acorde tiene varias posiciones, **Aplicar los cambios a** permite elegir esta posición o todas las del acorde. La opción de todas sustituye también los textos propios, solo del campo que cambies. Cambiar de posición vuelve a seleccionar «Solo esta posición».
 

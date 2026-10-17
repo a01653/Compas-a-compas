@@ -1,6 +1,6 @@
 {
   "document": "instalacion",
-  "applicationVersion": "0.4.0",
+  "applicationVersion": "0.4.1",
   "edition": "2026-10-17",
   "source": "docs/manuals/INSTALACION.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/INSTALACION.md",
-      "sha256": "0cb0be604cb615b80ccc4f83127be1fb638e133f5348cbf97b94625fcf6b1872",
+      "sha256": "997925910bd73ca0173fb46c7a13ad6a06166aa56236ec773a85589a3e8cb9a0",
       "role": "source"
     },
     {
@@ -23,17 +23,17 @@
     },
     {
       "path": "package.json",
-      "sha256": "c6f4facecdddf1e29034a6cd246e371030943cc535f2971879e13f737a51a9f1",
+      "sha256": "845559af1fe9108958eec75c50cbcb944ac010afa883cc769c3a733cf75c00e8",
       "role": "application-version"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.tex",
-      "sha256": "648b10b13d5d1515f8781d001f85ba1db41b31dab6c90618c711ae50f8fddf43",
+      "sha256": "796401e0db7d3e55e89be973f11d0747b3cf7ebccfbdc74ef8bfbd2d73fd9c05",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.pdf",
-      "sha256": "93ebbdcddd719ce3e45464127fcd48ad6d326b4cfd02afb7dfe276daa8c0d733",
+      "sha256": "63aa3344fa720d11829fd4a190fc6616565c285f994b4b465c092b714d74233a",
       "role": "pdf"
     }
   ]

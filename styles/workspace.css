@@ -57,9 +57,24 @@
 .editor-tabs { display: flex; padding: 3px; gap: 3px; background: #f1f3f8; border-radius: 8px; margin: 18px 0; }
 .editor-tabs > button { flex: 1; border: 0; border-radius: 6px; padding: 8px 5px; font-size: 11px; font-weight: 600; background: none; color: #737e97; cursor: pointer; }
 .editor-tabs > button[aria-selected=true] { background: white; color: var(--ink); box-shadow: 0 1px 4px #24396c16; }
+.compact-workspace .editor-section { margin-top: 8px; padding-top: 7px; border-top: 1px solid #edf0f7; }
+.compact-workspace .editor-section > .editor-subtitle { margin: 0 0 4px; font-size: 10px; font-weight: 650; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: #77829a; }
+.compact-workspace .card-text-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; align-items: start; }
+.compact-workspace .card-text-row .card-text-field { margin-top: 0; min-width: 0; }
+.compact-workspace .card-text-field .hint, .compact-workspace .editing-tip { display: none; }
+.compact-workspace .target-field { flex-direction: row; align-items: center; gap: 8px; margin-bottom: 6px; }
+.compact-workspace .target-field label { flex: none; }
+.compact-workspace .target-field select { min-width: 0; flex: 1; }
+.compact-workspace .text-help { margin: 0 0 6px; }
+.compact-workspace .editor-section .field, .compact-workspace .editor-section .degrees { margin-bottom: 6px; }
+.compact-workspace .editor-section .degrees { margin-top: 8px; margin-bottom: 0; }
+.compact-workspace .position-section { margin-top: 0; padding-top: 7px; }
+.compact-workspace .selector-row { margin-bottom: 8px; }
+.compact-workspace .chord-body > .field-row { margin-bottom: 0; }
+.compact-workspace .editor-heading { margin-bottom: 10px; }
 .field-heading { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
 .range-badge { font-size: 10px; color: #8a92a5; }
-.compact-workspace .fret-field #f-frets { height: 49px; font: 20px/1.2 ui-monospace, Consolas, monospace; text-align: center; letter-spacing: .12em; background: #fafbfe; border-color: #c7d2eb; color: var(--ink); }
+.compact-workspace .fret-field #f-frets { height: 42px; font: 20px/1.2 ui-monospace, Consolas, monospace; text-align: center; letter-spacing: .12em; background: #fafbfe; border-color: #c7d2eb; color: var(--ink); }
 .compact-workspace .hint { font-size: 10px; line-height: 1.5; }
 .compact-workspace .error { font-size: 11px; min-height: 0; }
 .compact-workspace .error:empty, #f-frets-note:empty { display: none; }
@@ -121,6 +136,12 @@
   .editor-tabs > button { padding-block: 7px; }
   .editing-tip { display: none; }
   .compact-workspace .degrees { margin-top: 10px; }
+  .compact-workspace .editor-heading, .compact-workspace .chord-body .section-label { display: none; }
+  .compact-workspace .editor-section { margin-top: 5px; padding-top: 5px; }
+  .compact-workspace .editor-section .degrees { margin-top: 5px; }
+  .compact-workspace .field input[type=text], .compact-workspace select { min-height: 32px; }
+  .compact-workspace .fret-field #f-frets { height: 36px; }
+  .compact-workspace .selector-row { margin-bottom: 6px; }
 }
 @media (min-width: 761px) and (max-height: 680px) {
   .compact-workspace .topbar { height: 56px; }
@@ -185,7 +206,7 @@
 .marks-context-bar select { flex: 1; min-width: 0; width: 0; }
 .marks-context-help { margin-bottom: 14px; }
 @media (min-width: 761px) and (max-height: 780px) {
-  .compact-workspace .chord-workspace { padding-bottom: 8px !important; }
+  .compact-workspace .chord-workspace { padding-bottom: 4px !important; }
   .compact-workspace .degrees legend { margin-bottom: 7px; }
 }
 @media (min-width: 761px) and (max-height: 680px) {
@@ -196,10 +217,12 @@
   .compact-workspace .section-label { margin-bottom: 3px; }
   .compact-workspace .position-section { padding-top: 6px; }
   .compact-workspace .editor-tabs { margin-block: 4px; }
+  .compact-workspace .editor-section > .editor-subtitle { margin-bottom: 2px; }
   .compact-workspace .fret-field #f-frets { height: 36px; }
   .compact-workspace .field { gap: 3px; }
 }
 @media (max-width: 480px) {
+  .card-text-row { grid-template-columns: minmax(0, 1fr); }
   .marks-context-bar { flex-wrap: wrap; }
   .marks-context-bar select { flex-basis: 100%; width: 100%; }
 }
