@@ -1,0 +1,35 @@
+{
+  "document": "dts",
+  "applicationVersion": "0.1.3",
+  "edition": "2026-10-17",
+  "source": "docs/DTS.md",
+  "command": "python scripts/build_docs.py",
+  "engine": "xelatex",
+  "files": [
+    {
+      "path": "docs/DTS.md",
+      "sha256": "8cf8eb25b5789fd7899e33e9fec33930366281a1f174003ab71570180af2b73c",
+      "role": "source"
+    },
+    {
+      "path": "docs/latex/document-template.tex",
+      "sha256": "56f6f86a72bb3cb244075477369d6af3b53a3a3f3c5166fcb927e59e9909e57b",
+      "role": "template"
+    },
+    {
+      "path": "scripts/build_docs.py",
+      "sha256": "96f6599625691469aa410944dd4c2a626c4b86c0423625fc3eb47aa9ed716176",
+      "role": "generator"
+    },
+    {
+      "path": "docs/latex/DTS_Compas_a_compas.tex",
+      "sha256": "baa24e7022cff234fe3bb61e1d1237219e618dc27af808dcb62c3d5cb3bbc70e",
+      "role": "latex"
+    },
+    {
+      "path": "docs/latex/DTS_Compas_a_compas.pdf",
+      "sha256": "1bf274d7449067baf6d8b8b6eb401113c61e2600748b1c1e465dcfff2cbb370a",
+      "role": "pdf"
+    }
+  ]
+}

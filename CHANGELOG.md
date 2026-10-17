@@ -1,5 +1,10 @@
 # Cambios
 
+## Documentación — 17/10/2026
+
+- Manual breve de uso e instalación y DTS de la aplicación 0.1.3, en Markdown, LaTeX y PDF. Incluyen capturas reales, arranque desde la carpeta principal, guardado JSON, impresión, arquitectura y límites de la evidencia.
+- Generador `scripts/build_docs.py`, plantilla compartida, manifiestos SHA-256 y enlaces desde README. Sin cambios de comportamiento ni de versión de la aplicación.
+
 ## 0.1.3
 
 - Proporciones ajustadas a la plantilla medida (primera fila de tarjetas de 128 × 161 px; rejilla de 3 trastes de 84 × 85 px): separación entre cuerdas 17 px, zona exterior 26 px, separación entre filas 12 px, huecos de 4 px entre compases, acordes y posiciones, y tarjeta con menos relleno inferior. El texto interior pasa a 9 px con interlineado 1,1 y espaciado de 0,3 px. Los textos de usuario no se recortan; no hay altura fija ni límite de 3 trastes.

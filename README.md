@@ -32,7 +32,7 @@ npm test
 - **Acordes y voicings:** cada compás admite varios acordes y cada acorde varios voicings (digitaciones). Un acorde sin digitación se conserva como pendiente; un voicing nuevo empieza con todas las cuerdas mudas.
 - **Digitación:** seis valores de sexta a primera cuerda: traste, `0` al aire, `x` muda. Compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). Una entrada inválida muestra el error y no cambia el voicing.
 - **Mástil:** mínimo tres trastes visibles; crece solo cuando la digitación lo necesita.
-- **Límite de 32 trastes:** es la capacidad de una fila A4. Una digitación más ancha no se dibuja, se avisa, los datos se conservan y Exportar HTML e Imprimir / PDF quedan bloqueados hasta corregirla.
+- **Límite de 32 trastes visibles:** es un límite conservador del intervalo que se dibuja, no del número de traste más alto. Una digitación más ancha no se dibuja, se avisa, los datos se conservan y Exportar HTML e Imprimir / PDF quedan bloqueados hasta corregirla.
 - **Grados:** seis campos opcionales de la sexta a la primera cuerda. Vacío = sin grado. Colorean la nota según la plantilla, también en cuerdas al aire. No se calculan solos.
 
 ### Textos de la tarjeta
@@ -72,8 +72,13 @@ Comprobado en Chromium. Firefox y Safari no se han probado. El diálogo de impre
 
 ## Documentación
 
+Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_compas.pdf), [instalación y arranque](docs/latex/Manual_Instalacion_Compas_a_compas.pdf) y [DTS](docs/latex/DTS_Compas_a_compas.pdf). El [índice de manuales](docs/manuals/README.md) explica cómo regenerarlos.
+
 | Archivo | Contenido |
 | --- | --- |
+| [Manual de uso](docs/manuals/USO.md) | Primeros pasos, acordes y posiciones, marcas, guardado e impresión |
+| [Instalación y arranque](docs/manuals/INSTALACION.md) | Doble clic en Windows, actualización y resolución de problemas |
+| [DTS](docs/DTS.md) | Arquitectura, contrato JSON, geometría, paginación y evidencia técnica |
 | [Requisitos](docs/REQUISITOS.md) | Funciones acordadas y límites de alcance |
 | [Diseño](docs/DISENO.md) | Aplicación completa, tarjetas e impresión |
 | [Modelo de datos](docs/DATOS.md) | Canción, compases, acordes, voicings y navegación musical |

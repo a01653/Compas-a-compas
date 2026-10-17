@@ -1,0 +1,45 @@
+{
+  "document": "uso",
+  "applicationVersion": "0.1.3",
+  "edition": "2026-10-17",
+  "source": "docs/manuals/USO.md",
+  "command": "python scripts/build_docs.py",
+  "engine": "xelatex",
+  "files": [
+    {
+      "path": "docs/manuals/USO.md",
+      "sha256": "7ce07199c4cabcd2d46ce12ba763c7c4aca4a9586d7c33af5b2c5d3e17bb1cd5",
+      "role": "source"
+    },
+    {
+      "path": "docs/latex/document-template.tex",
+      "sha256": "56f6f86a72bb3cb244075477369d6af3b53a3a3f3c5166fcb927e59e9909e57b",
+      "role": "template"
+    },
+    {
+      "path": "scripts/build_docs.py",
+      "sha256": "96f6599625691469aa410944dd4c2a626c4b86c0423625fc3eb47aa9ed716176",
+      "role": "generator"
+    },
+    {
+      "path": "docs/manuals/capturas/editor-general.png",
+      "sha256": "805035fce50cfb94c6dc2c1be6a833dd17e0b81d873965d7e83a75ff6c64a273",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/editor-posiciones.png",
+      "sha256": "a30668793936327e59a07761c1a6284b1a09e91c23cdb0e2c805b237df591bac",
+      "role": "capture"
+    },
+    {
+      "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
+      "sha256": "b4bf7c62640a13732e2e73694a80e2dc9166cb9c0df45d47dc5ddbaf7d54f257",
+      "role": "latex"
+    },
+    {
+      "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
+      "sha256": "fbeff1b23b764e4ef278a89dd1e2cfad21c62d48b93697c1b9ff804f2e28fe8b",
+      "role": "pdf"
+    }
+  ]
+}
