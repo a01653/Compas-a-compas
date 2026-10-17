@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.4.0 — 17/10/2026
+
+- Textos de tarjeta sin bloques duplicados: edición del título y la anotación que realmente aparecen, con elección entre esta posición y todas las posiciones del acorde. Se conservan los datos de los JSON anteriores.
+- Deshacer y Rehacer para los cambios de canción, con botones en cabecera y diálogos. Escritura agrupada por campo, selección restaurada e historial limitado a la sesión. Guardar conserva los pasos; abrir otra canción los reinicia.
+- Atajos fuera de los campos: Ctrl+Z, Ctrl+Y y Ctrl+Mayús+Z. Los campos conservan la edición nativa del navegador. Sin cambios en el esquema JSON ni en la geometría de las hojas.
+
 ## 0.3.0 — 17/10/2026
 
 - Panel Colores en cabecera: fondos por familia, notas por grado natural, bemol o sostenido del 1 al 13, etiquetas personalizadas y notas sin grado. Restauración individual y completa.

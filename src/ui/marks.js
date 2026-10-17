@@ -267,7 +267,7 @@ export function mountMarksPanel(root, store) {
       updateSelectOptions();
       return;
     }
-    if (scope === 'document' || contextId !== state.selection.measureId) {
+    if (scope === 'document' || scope === 'history' || contextId !== state.selection.measureId) {
       contextId = state.selection.measureId;
       showAll = false;
       resetDraft();

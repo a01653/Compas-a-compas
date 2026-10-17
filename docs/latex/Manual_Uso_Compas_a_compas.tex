@@ -1,4 +1,4 @@
-% Source-SHA256: d2b083a59bae03a57da3ab38a084d3e78e7054f458f06954b82655b307d4bf9b
+% Source-SHA256: 0b31c7ef2f05fb32be4e724fe5f01d105938575436a9943664c588993dd4d7eb
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.3.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.3.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.4.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.3.0 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.4.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -111,8 +111,10 @@ Jesús Quevedo Rodríguez.
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Abre \texttt{Abrir-Compas.cmd} desde la carpeta del proyecto. Conserva
-  abierta la consola que arranca el servidor.
+  Abre la aplicación en
+  \href{https://a01653.github.io/Compas-a-compas/}{GitHub Pages} o con
+  \texttt{Abrir-Compas.cmd} desde la carpeta del proyecto. En local,
+  conserva abierta la consola que arranca el servidor.
 \item
   Abre el menú superior de tres puntos y pulsa \textbf{Nueva canción}, o
   pulsa \textbf{Abrir} para continuar una canción guardada. Para
@@ -245,10 +247,44 @@ con el campo \texttt{palette}; utiliza la aplicación actualizada.
 \hypertarget{texto-encima-y-dentro}{%
 \subsection{Texto encima y dentro}\label{texto-encima-y-dentro}}
 
-Abre la pestaña \textbf{Textos de la tarjeta} y escribe los textos
-comunes en el acorde. Para cada posición puedes \textbf{heredarlos},
-\textbf{personalizarlos} u \textbf{ocultarlos}. Así puedes mantener un
-título compartido y poner una indicación distinta en cada tarjeta.
+Abre la pestaña \textbf{Textos de la tarjeta}. Solo aparecen dos campos:
+\textbf{Título sobre la tarjeta}, fuera del recuadro, y
+\textbf{Anotación dentro de la tarjeta}, bajo el nombre del acorde.
+Muestran el texto visible de la posición, incluso si el JSON antiguo
+tenía un valor propio que sustituía al texto común. Editar cambia lo que
+ves. Vaciar un campo lo quita de esa tarjeta.
+
+Con varias posiciones, elige \textbf{Solo esta posición} o \textbf{Todas
+las posiciones del acorde}. Cada campo que cambies con la opción de
+todas sustituye sus textos propios en las demás posiciones; el otro
+campo no cambia. El selector por sí solo no modifica nada. Al
+seleccionar otra posición vuelve a «Solo esta posición».
+
+\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/textos-deshacer.png}
+
+\hypertarget{deshacer-y-rehacer}{%
+\subsection{Deshacer y rehacer}\label{deshacer-y-rehacer}}
+
+Pulsa la flecha hacia la izquierda de la cabecera para \textbf{Deshacer}
+y la flecha hacia la derecha para \textbf{Rehacer}. También están dentro
+de los diálogos de datos, marcas y colores, por lo que puedes deshacer
+una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la
+canción: textos, digitaciones, grados, colores, compases, acordes,
+posiciones y marcas musicales.
+
+La escritura continua en un campo se agrupa hasta salir de él. Fuera de
+los campos funcionan \textbf{Ctrl+Z} y \textbf{Ctrl+Y} o
+\textbf{Ctrl+Mayús+Z}; en Mac se puede usar Cmd. Dentro de un campo se
+conserva el deshacer habitual del navegador, también para los borradores
+de marcas que todavía no se han añadido.
+
+Guardar JSON conserva el historial de esta sesión. Abrir otra canción,
+crear una nueva o recuperar una copia empieza otro historial. Al
+recargar se conserva la canción que ofrezca la recuperación, pero no sus
+pasos de deshacer. Hay hasta 100 pasos, sujetos a un presupuesto de
+tamaño; la última acción siempre se conserva. El historial no se incluye
+en el JSON. Una acción nueva después de deshacer elimina la rama de
+rehacer.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-posiciones.png}
 
@@ -361,7 +397,8 @@ almacenamiento. Se borra al guardar, abrir o crear una canción.
 \textbf{La recuperación no sustituye al archivo JSON.}
 
 Exportar HTML o imprimir no equivale a guardar los cambios del proyecto.
-Guarda el JSON antes de cerrar. La aplicación no tiene deshacer.
+Guarda el JSON antes de cerrar. Deshacer permite corregir acciones de
+esta sesión; no sustituye al archivo guardado.
 
 \Needspace{3.5cm}
 \hypertarget{exportar-e-imprimir}{%
@@ -417,8 +454,8 @@ Situación & Qué revisar \\
 \endlastfoot
 He añadido una posición y parece vacía & Empieza con seis cuerdas mudas.
 Escribe una digitación distinta para verla. \\
-Dos posiciones muestran el mismo texto & Comprueba si heredan el texto
-del acorde; personaliza una de ellas. \\
+Dos posiciones muestran el mismo texto & Selecciona una y edita sus
+textos con «Solo esta posición». \\
 La siguiente hoja tiene tarjetas más anchas & Las filas parciales
 reparten el ancho disponible. El zoom no cambia el tamaño exportado. \\
 El grado no aparece & Comprueba el orden de las cuerdas y si esa cuerda
@@ -429,7 +466,7 @@ El navegador no abre la aplicación & Consulta el manual de instalación;
 el editor necesita el servidor local. \\
 \end{longtable}
 
-La versión 0.3.0 se ha comprobado en Chromium. Firefox, Safari y el
+La versión 0.4.0 se ha comprobado en Chromium. Firefox, Safari y el
 diálogo de impresión nativo de Windows siguen pendientes de
 comprobación.
 \end{document}

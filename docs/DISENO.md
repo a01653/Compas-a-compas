@@ -10,12 +10,12 @@ Usar Caveat Brush para títulos y nombres de acorde, Gochi Hand para anotaciones
 
 El icono debe ser una pieza vectorial original y sencilla, legible a tamaño de cabecera y favicon. Integrarlo en toda la aplicación. No hace falta una imagen generada ni copiar marcas de terceros.
 
-## Editor vigente desde 0.2.0
+## Editor vigente desde 0.4.0
 
 1. Cabecera con icono, canción activa, Abrir, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Nueva canción.
 2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas.
 3. Editor compacto de acorde y posición, con botones separados para añadir cada uno e iconos para duplicar y borrar.
-4. Digitación y grados visibles en una pestaña; textos comunes y de posición en otra.
+4. Digitación y grados visibles en una pestaña; dos campos de texto efectivo en otra, con selector para esta posición o todas las posiciones del acorde.
 5. Panel de marcas ligado al compás activo, con selector de contexto y Ver todas las marcas. Incluye tramos que atraviesan el compás. La selección solo cambia la vista y el punto de partida de nuevas marcas; no mueve las ya guardadas.
 6. Vista previa más ancha a la derecha. El editor habitual cabe sin scroll en las ventanas de escritorio comprobadas; contenido extenso y móvil conservan desplazamiento cuando hace falta.
 
@@ -60,3 +60,5 @@ Una posición muy extendida puede obligar a dedicarle una fila o una página. Si
 - El total se obtiene de las páginas reales, sin páginas vacías al final. Usar numeración propia de la hoja; recomendar desactivar los encabezados y pies automáticos del navegador al imprimir.
 
 El HTML histórico incluye lógica, datos de una obra y análisis ajenos a este producto. No copiar textos de esa canción ni ejecutar ese código dentro de la aplicación.
+
+Las flechas Deshacer y Rehacer permanecen en cabecera y en los diálogos de edición. El historial restaura la canción y la selección, sin guardar pasos en el JSON.

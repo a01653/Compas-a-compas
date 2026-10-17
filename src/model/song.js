@@ -164,3 +164,13 @@ export function setEventDefault(event, key, value) {
   if (value === '') delete event[key];
   else event[key] = value;
 }
+
+/** Edita el texto visible; aplicar a todas sustituye también los valores propios de ese campo. */
+export function setCardText(event, voicing, key, value, allPositions = false) {
+  if (allPositions) {
+    setEventDefault(event, key, value);
+    for (const position of event.voicings) delete position[key];
+  } else if (effectiveText(event, voicing, key) !== value) {
+    voicing[key] = value; // Cadena vacía oculta el texto heredado en esta posición.
+  }
+}

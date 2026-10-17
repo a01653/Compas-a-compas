@@ -72,6 +72,10 @@
 .editing-tip { border-top: 1px solid #edf0f7; padding-top: 16px; margin-top: 23px; font-size: 10px; color: #8a93a8; }
 .text-help { font-size: 10px; color: #7b869d; margin-bottom: 10px; }
 .text-help:not(:first-child) { margin-top: 8px; }
+.card-text-field { margin-top: 14px; }
+.compact-workspace .card-text-field .field { margin-bottom: 3px; }
+.card-text-field .hint { color: #7b869d; }
+.history-actions { display: inline-flex; gap: 6px; margin-right: auto; }
 .empty-editor { padding: 30px 0; font-size: 13px; color: #64718f; }
 .compact-workspace .panel-vista { display: grid; grid-template-columns: minmax(140px, 1fr) auto; grid-template-rows: auto auto minmax(0, 1fr); padding: 17px !important; column-gap: 12px; min-width: 0; min-height: 0; }
 .compact-workspace .panel-vista .panel-head { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; gap: 2px; margin: 0 0 15px; }

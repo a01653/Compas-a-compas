@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.3.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.4.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 ## Empezar
 
@@ -49,7 +49,15 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 Se editan en la pestaña **Textos de la tarjeta**. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
-El acorde define valores por defecto de «título encima» y «texto dentro». Cada voicing puede **heredarlos**, **personalizarlos** (sustituir el valor) u **ocultarlos** (cadena vacía). Cambiar una tarjeta no toca las demás.
+Solo hay dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro de la tarjeta**, bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
+
+Si el acorde tiene varias posiciones, **Aplicar los cambios a** permite elegir esta posición o todas las del acorde. La opción de todas sustituye también los textos propios, solo del campo que cambies. Cambiar de posición vuelve a seleccionar «Solo esta posición».
+
+### Deshacer y rehacer
+
+Las dos flechas de la cabecera deshacen y rehacen textos, digitaciones, grados, colores, compases, acordes, posiciones y marcas musicales. También están en los diálogos de datos, marcas y colores. La escritura continua de un campo se agrupa hasta salir de él. Fuera de los campos, usa **Ctrl+Z** y **Ctrl+Y** o **Ctrl+Mayús+Z**; dentro, se conserva el deshacer habitual del navegador.
+
+Guardar conserva el historial. Abrir, crear una canción o recuperar otra copia empieza uno nuevo; al recargar no se conserva el historial. La selección y el zoom no cuentan como cambios. Se retienen hasta 100 pasos con un presupuesto de tamaño; la última acción se conserva aunque lo supere. El JSON contiene la canción, sin el historial.
 
 ### Importar lista
 
@@ -103,4 +111,4 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 
 ## Alcance
 
-Sin deshacer, OCR, reproducción de audio, teoría o generación automática de acordes, ni alojamiento web. La planificación no autoriza publicar ni desplegar.
+Sin OCR, reproducción de audio, teoría ni generación automática de acordes. La aplicación se puede abrir desde el lanzador local o en GitHub Pages. Las canciones se guardan en JSON y no se sincronizan entre dispositivos.

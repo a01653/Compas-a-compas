@@ -34,6 +34,6 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
   setRecoveryHint(recoveryAvailable);
   sync(store.state);
   // Solo al sustituir la canción se reescriben los campos; al escribir no se toca el input activo.
-  store.subscribe((state, scope) => { if (scope === 'document') sync(state); });
+  store.subscribe((state, scope) => { if (scope === 'document' || scope === 'history') sync(state); });
   return { setRecoveryHint };
 }

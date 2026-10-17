@@ -1,10 +1,10 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.3.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.4.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
-1. Abre `Abrir-Compas.cmd` desde la carpeta del proyecto. Conserva abierta la consola que arranca el servidor.
+1. Abre la aplicación en [GitHub Pages](https://a01653.github.io/Compas-a-compas/) o con `Abrir-Compas.cmd` desde la carpeta del proyecto. En local, conserva abierta la consola que arranca el servidor.
 2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
 3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. Aparecen en la cabecera de cada hoja. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
 4. Añade compases y sus posiciones. Revisa el resultado a la derecha y guarda con **Guardar JSON**.
@@ -63,7 +63,19 @@ Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el ar
 
 ### Texto encima y dentro
 
-Abre la pestaña **Textos de la tarjeta** y escribe los textos comunes en el acorde. Para cada posición puedes **heredarlos**, **personalizarlos** u **ocultarlos**. Así puedes mantener un título compartido y poner una indicación distinta en cada tarjeta.
+Abre la pestaña **Textos de la tarjeta**. Solo aparecen dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro de la tarjeta**, bajo el nombre del acorde. Muestran el texto visible de la posición, incluso si el JSON antiguo tenía un valor propio que sustituía al texto común. Editar cambia lo que ves. Vaciar un campo lo quita de esa tarjeta.
+
+Con varias posiciones, elige **Solo esta posición** o **Todas las posiciones del acorde**. Cada campo que cambies con la opción de todas sustituye sus textos propios en las demás posiciones; el otro campo no cambia. El selector por sí solo no modifica nada. Al seleccionar otra posición vuelve a «Solo esta posición».
+
+![Dos campos de texto y elección de las posiciones a las que aplicar los cambios.](capturas/textos-deshacer.png)
+
+### Deshacer y rehacer
+
+Pulsa la flecha hacia la izquierda de la cabecera para **Deshacer** y la flecha hacia la derecha para **Rehacer**. También están dentro de los diálogos de datos, marcas y colores, por lo que puedes deshacer una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la canción: textos, digitaciones, grados, colores, compases, acordes, posiciones y marcas musicales.
+
+La escritura continua en un campo se agrupa hasta salir de él. Fuera de los campos funcionan **Ctrl+Z** y **Ctrl+Y** o **Ctrl+Mayús+Z**; en Mac se puede usar Cmd. Dentro de un campo se conserva el deshacer habitual del navegador, también para los borradores de marcas que todavía no se han añadido.
+
+Guardar JSON conserva el historial de esta sesión. Abrir otra canción, crear una nueva o recuperar una copia empieza otro historial. Al recargar se conserva la canción que ofrezca la recuperación, pero no sus pasos de deshacer. Hay hasta 100 pasos, sujetos a un presupuesto de tamaño; la última acción siempre se conserva. El historial no se incluye en el JSON. Una acción nueva después de deshacer elimina la rama de rehacer.
 
 ![Selectores de acorde y posición, digitación y grados.](capturas/editor-posiciones.png)
 
@@ -117,7 +129,7 @@ Las marcas se dibujan, pero **no hay reproducción ni comprobación del recorrid
 
 El navegador guarda además una recuperación local y la ofrece al volver a entrar si quedaron cambios pendientes. Depende del mismo navegador, perfil y dirección de la aplicación; otro puerto usa otro almacenamiento. Se borra al guardar, abrir o crear una canción. **La recuperación no sustituye al archivo JSON.**
 
-Exportar HTML o imprimir no equivale a guardar los cambios del proyecto. Guarda el JSON antes de cerrar. La aplicación no tiene deshacer.
+Exportar HTML o imprimir no equivale a guardar los cambios del proyecto. Guarda el JSON antes de cerrar. Deshacer permite corregir acciones de esta sesión; no sustituye al archivo guardado.
 
 ## Exportar e imprimir
 
@@ -141,10 +153,10 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Situación | Qué revisar |
 | --- | --- |
 | He añadido una posición y parece vacía | Empieza con seis cuerdas mudas. Escribe una digitación distinta para verla. |
-| Dos posiciones muestran el mismo texto | Comprueba si heredan el texto del acorde; personaliza una de ellas. |
+| Dos posiciones muestran el mismo texto | Selecciona una y edita sus textos con «Solo esta posición». |
 | La siguiente hoja tiene tarjetas más anchas | Las filas parciales reparten el ancho disponible. El zoom no cambia el tamaño exportado. |
 | El grado no aparece | Comprueba el orden de las cuerdas y si esa cuerda está muda. |
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
 | El navegador no abre la aplicación | Consulta el manual de instalación; el editor necesita el servidor local. |
 
-La versión 0.3.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
+La versión 0.4.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.

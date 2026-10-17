@@ -1,4 +1,4 @@
-% Source-SHA256: bc706ed8e9921b0f4298d84493ee362bfefcd02412c96152168dd29971aff590
+% Source-SHA256: 11169c7942a5913ca3b5a6ac11cace25245d16add1807ed10050c688b5d11386
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.3.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.3.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.4.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.3.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
+Aplicación 0.4.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -112,17 +112,18 @@ Organiza una canción en compases, admite varios acordes por compás y
 varias digitaciones por acorde. Genera una vista previa paginada y una
 salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.3.0, con interfaz compacta, marcas
-por compás y paleta editable. Incluye el lanzador de Windows. Los
-requisitos originales permanecen en \texttt{docs/REQUISITOS.md}; el
-historial de implementación y sus comprobaciones está en
-\texttt{docs/ESTADO.md}. Este DTS describe el comportamiento vigente,
-por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.4.0, con interfaz compacta, textos
+sin bloques duplicados, historial de acciones, marcas por compás y
+paleta editable. Incluye el lanzador de Windows. Los requisitos
+originales permanecen en \texttt{docs/REQUISITOS.md}; el historial de
+implementación y sus comprobaciones está en \texttt{docs/ESTADO.md}.
+Este DTS describe el comportamiento vigente, por encima de las medidas
+históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico,
-generación automática de posiciones, sincronización en la nube ni
-deshacer. Las marcas musicales son notación escrita: no hay un motor que
-ejecute o expanda el recorrido.
+generación automática de posiciones ni sincronización en la nube. Las
+marcas musicales son notación escrita: no hay un motor que ejecute o
+expanda el recorrido.
 
 \Needspace{3.5cm}
 \hypertarget{arquitectura-y-ejecuciuxf3n}{%
@@ -305,7 +306,7 @@ Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
 textos en el mismo orden. La versión de esquema es numérica y vale 1; la
 versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.3.0 del programa.
+versión 0.4.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -356,7 +357,13 @@ listas}\label{textos-e-importaciuxf3n-de-listas}}
 El acorde puede definir \texttt{aboveText} e \texttt{insideText}. En una
 posición, la ausencia del campo significa heredar; una cadena propia
 sustituye el texto y la cadena vacía lo oculta. Se mantiene la
-diferencia al guardar y abrir.
+diferencia al guardar y abrir. El formulario 0.4.0 muestra solo el texto
+efectivo, sin dos bloques superpuestos de controles.
+\texttt{setCardText} modifica el valor propio de la posición; el modo de
+todas las posiciones cambia el valor común y retira las excepciones solo
+de ese campo. Vaciar el campo individual guarda cadena vacía; vaciarlo
+para todas retira el común y sus excepciones. Cambiar de posición
+reinicia el destino de edición a individual.
 
 El importador usa una línea por compás:
 \texttt{etiqueta\ \textbar{}\ acorde\ @\ digitación}. Separa eventos por
@@ -377,11 +384,11 @@ guardado y el indicador de cambios pendientes. La firma se obtiene con
 guardado.
 
 Los tipos de cambio son \texttt{text}, \texttt{structure},
-\texttt{document}, \texttt{selection}, \texttt{zoom} y \texttt{status}.
-Un cambio de texto actualiza la hoja sin reconstruir todos los
-controles, para conservar el foco. Cambios estructurales o de documento
-normalizan la selección a objetos existentes. Selección, zoom y estado
-de guardado no provocan una nueva paginación.
+\texttt{document}, \texttt{history}, \texttt{selection}, \texttt{zoom} y
+\texttt{status}. Un cambio de texto actualiza la hoja sin reconstruir
+todos los controles, para conservar el foco. Cambios estructurales o de
+documento normalizan la selección a objetos existentes. Selección, zoom
+y estado de guardado no provocan una nueva paginación.
 
 Nuevo y Abrir gestionan los cambios pendientes antes de reemplazar el
 documento. Guardar usa el selector de archivos cuando el navegador lo
@@ -398,9 +405,36 @@ persistente elegida por el usuario.
 
 \texttt{localStorage} pertenece al origen: cambiar de navegador, perfil
 o puerto no comparte esa recuperación. Se usa también el aviso de salida
-con cambios pendientes cuando el navegador lo admite. No existe
-historial de deshacer ni guardado automático sobre un archivo con
-nombre.
+con cambios pendientes cuando el navegador lo admite. No se sobrescribe
+automáticamente un archivo con nombre.
+
+\hypertarget{historial-de-acciones}{%
+\subsection{Historial de acciones}\label{historial-de-acciones}}
+
+\texttt{createStore} conserva estados anterior y posterior de cada
+cambio de canción, con su selección por IDs. \texttt{emit} registra
+cambios reales de texto o estructura; selección, zoom y guardado no
+añaden pasos. \texttt{ui/history.js} agrupa las entradas mientras el
+mismo campo conserva el foco. Un cambio estructural, guardar o cambiar
+de selección cierra el grupo. Deshacer y Rehacer restauran una copia de
+la canción, normalizan la selección, comparan con el último guardado y
+notifican \texttt{history}; se refrescan los formularios, el paginador y
+la recuperación. Los borradores de marcas se reinician al restaurar para
+no conservar una edición de un objeto que ya no exista.
+
+Hay hasta 100 pasos, con un presupuesto aproximado de 8 MiB para las
+cadenas serializadas contadas de forma conservadora. Se mantiene al
+menos el último paso aunque una canción grande supere ese presupuesto.
+Abrir, crear o recuperar otro documento limpia las dos pilas; guardar
+las conserva y actualiza la firma de guardado. Una edición nueva
+descarta la pila de rehacer. El historial pertenece a la sesión y no se
+guarda en el JSON ni en localStorage.
+
+Los botones están en cabecera y dentro de los tres diálogos de edición.
+Ctrl+Z, Ctrl+Y y Ctrl+Mayús+Z operan fuera de campos; dentro se conserva
+el deshacer nativo. Los atajos globales no actúan sobre un diálogo de
+confirmación o importación, para no invalidar referencias mientras una
+operación espera respuesta.
 
 \Needspace{3.5cm}
 \hypertarget{geometruxeda-y-notaciuxf3n}{%
@@ -607,9 +641,9 @@ desarrollo. No participan en el arranque ni en el uso de la aplicación.
 \section{Comprobaciones y límites de la
 evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
-La paleta 0.3.0 se ha validado en esta edición. La evidencia de
-versiones anteriores permanece identificada en la tabla y en
-\texttt{docs/ESTADO.md}.
+Los textos y el historial 0.4.0 se han validado en esta edición. La
+evidencia de versiones anteriores permanece identificada en la tabla y
+en \texttt{docs/ESTADO.md}.
 
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
@@ -618,8 +652,11 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Pruebas Node, 0.3.0 & 138 superadas; incluye ocho pruebas de paleta y
-cuatro de contexto de marcas \\
+Pruebas Node, 0.4.0 & 150 superadas; incluye doce casos de historial y
+texto visible \\
+Interfaz 0.4.0 & Texto propio visible, cambio individual y conjunto,
+guardar y abrir, Coda/Fine, deshacer y rehacer, datos, notas, colores,
+teclado y seis tamaños de ventana \\
 Paleta 0.3.0 & JSON, reapertura, grados naturales y alterados,
 etiquetas, contraste, restauración, exportación e impresión con estilos
 de impresión \\
@@ -680,9 +717,8 @@ de hoja, revisar vista previa, HTML, continuaciones y PDF sobre el mismo
 conjunto de datos. No se modifica \texttt{references/} para forzar una
 comparación visual.
 
-Las comprobaciones nuevas deben registrar su versión y entorno en
-\texttt{docs/ESTADO.md}. Los archivos se actualizan desde \texttt{main}
-con \texttt{git\ pull\ -\/-ff-only}, preservando los cambios locales del
-usuario. Los manuales de instalación describen el uso desde la carpeta
-principal, sin depender de una copia de desarrollo o de Claude.
+Registrar versión y entorno de cada comprobación en
+\texttt{docs/ESTADO.md}. Actualizar desde \texttt{main} con
+\texttt{git\ pull\ -\/-ff-only}, conservando los cambios locales. Los
+manuales parten de la carpeta principal.
 \end{document}
