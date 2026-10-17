@@ -1,4 +1,4 @@
-% Source-SHA256: 941dba7f697bbf8a3e377aac533a1bc696a097df2eebc43cc53360bc4ad4787b
+% Source-SHA256: bc706ed8e9921b0f4298d84493ee362bfefcd02412c96152168dd29971aff590
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.2.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.3.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -44,7 +44,7 @@
 \setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=5pt}
 \usepackage{fvextra,framed,seqsplit}
 \fvset{fontsize=\small,breaklines=true,breakanywhere=true,frame=leftline,framerule=1.4pt,rulecolor=\color{lightblue},framesep=8pt}
-\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,fontsize=\small}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,samepage=true,fontsize=\small}
 \let\originaltexttt\texttt
 \renewcommand{\texttt}[1]{\originaltexttt{\seqsplit{#1}}}
 \providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.2.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.3.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.2.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
+Aplicación 0.3.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -112,12 +112,12 @@ Organiza una canción en compases, admite varios acordes por compás y
 varias digitaciones por acorde. Genera una vista previa paginada y una
 salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.2.0, con interfaz compacta y marcas
-por compás. Incluye el lanzador de Windows. Los requisitos originales
-permanecen en \texttt{docs/REQUISITOS.md}; el historial de
-implementación y sus comprobaciones está en \texttt{docs/ESTADO.md}.
-Este DTS describe el comportamiento vigente, por encima de las medidas
-históricas de fases anteriores.
+Este documento describe la versión 0.3.0, con interfaz compacta, marcas
+por compás y paleta editable. Incluye el lanzador de Windows. Los
+requisitos originales permanecen en \texttt{docs/REQUISITOS.md}; el
+historial de implementación y sus comprobaciones está en
+\texttt{docs/ESTADO.md}. Este DTS describe el comportamiento vigente,
+por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico,
 generación automática de posiciones, sincronización en la nube ni
@@ -234,6 +234,41 @@ varias hojas mantienen desplazamiento cuando se necesita. El rediseño no
 cambia la geometría ni el HTML exportado.
 
 \Needspace{3.5cm}
+\hypertarget{paleta-editable}{%
+\section{Paleta editable}\label{paleta-editable}}
+
+\texttt{src/model/palette.js} define la resolución de colores, sus
+valores originales y el contraste del texto. El campo opcional
+\texttt{song.palette} contiene \texttt{families}, \texttt{degrees} y
+\texttt{note}. La paleta se valida con el mismo contrato en el esquema
+JSON y el validador manual. Los colores son exclusivamente hexadecimales
+de seis cifras; no se aceptan valores CSS arbitrarios. Las etiquetas
+personalizadas tienen entre 1 y 32 caracteres y excluyen claves
+reservadas de objetos JavaScript.
+
+El esquema 1 se amplía de forma opcional: los archivos anteriores siguen
+válidos y se guardan sin cambios si no se personalizan. Un archivo con
+\texttt{palette} requiere 0.3.0 o posterior; los lectores anteriores
+rechazan el campo desconocido. No se presenta esa compatibilidad como
+lectura posible en ambos sentidos.
+
+El panel \texttt{ui/colors.js} ofrece familias, grados naturales y
+alterados del 1 al 13, etiquetas personalizadas y notas sin grado. Solo
+modifica la paleta de la canción; las notas, IDs, textos y destinos se
+conservan. La normalización acepta ♭/♯ como b/\#. Cada etiqueta puede
+personalizarse de forma independiente. La restauración individual retira
+su entrada; la restauración completa, tras confirmar, elimina
+\texttt{palette}.
+
+El contexto de hoja pasa la paleta a tarjetas y mástiles, compartiendo
+medición, vista previa y exportación. Los textos y trazos interiores se
+adaptan al fondo; los títulos exteriores mantienen su color sobre el
+papel. Los colores de notas se serializan en SVG y los fondos como
+variables CSS locales. La impresión usa el mismo documento. No se
+modifican geometría ni digitaciones al cambiar un color. Las notas al
+aire conservan el dibujo de círculo o punto según tengan grado.
+
+\Needspace{3.5cm}
 \hypertarget{modelo-y-contrato-json}{%
 \section{Modelo y contrato JSON}\label{modelo-y-contrato-json}}
 
@@ -270,7 +305,7 @@ Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
 textos en el mismo orden. La versión de esquema es numérica y vale 1; la
 versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.2.0 del programa.
+versión 0.3.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -572,7 +607,7 @@ desarrollo. No participan en el arranque ni en el uso de la aplicación.
 \section{Comprobaciones y límites de la
 evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
-La interfaz 0.2.0 se ha validado en esta edición. La evidencia de
+La paleta 0.3.0 se ha validado en esta edición. La evidencia de
 versiones anteriores permanece identificada en la tabla y en
 \texttt{docs/ESTADO.md}.
 
@@ -583,8 +618,13 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Pruebas Node, 0.2.0 & 130 superadas; incluye cuatro casos de filtrado
-por compás, tramos, reordenación y referencias pendientes \\
+Pruebas Node, 0.3.0 & 138 superadas; incluye ocho pruebas de paleta y
+cuatro de contexto de marcas \\
+Paleta 0.3.0 & JSON, reapertura, grados naturales y alterados,
+etiquetas, contraste, restauración, exportación e impresión con estilos
+de impresión \\
+Esquema 0.3.0 & 1685 casos de paridad entre validador manual y AJV con
+paleta \\
 Interfaz 0.2.0 & Seis tamaños de escritorio de 800×600 a 1440×900, móvil
 390×844, JSON, menús, edición, 40 posiciones y 30 compases \\
 Marcas por compás, 0.2.0 & Contexto inicial, cambio de compás, vista

@@ -11,6 +11,7 @@ export function mountWorkspace(store, { marksPanel }) {
   };
   document.getElementById('open-song').addEventListener('click', () => open('song-dialog'));
   document.getElementById('open-song-menu').addEventListener('click', () => open('song-dialog'));
+  document.getElementById('open-colors').addEventListener('click', () => open('colors-dialog'));
   document.getElementById('open-marks').addEventListener('click', () => {
     marksPanel.openForSelectedMeasure();
     open('marks-dialog');

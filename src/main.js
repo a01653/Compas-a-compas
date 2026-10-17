@@ -14,6 +14,7 @@ import { notify } from './ui/notify.js';
 import { h } from './render/dom.js';
 import { validateSong, formatError } from './model/validate.js';
 import { mountWorkspace } from './ui/workspace.js';
+import { mountColorsPanel } from './ui/colors.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -100,6 +101,7 @@ async function boot() {
   mountMeasuresPanel(document.getElementById('panel-compases'), store);
   mountChordPanel(document.getElementById('panel-acorde'), store);
   const marksPanel = mountMarksPanel(document.getElementById('panel-marcas'), store);
+  mountColorsPanel(document.getElementById('panel-colors'), store);
   const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store);
   mountExportControls(store, paginator);
   mountStatus(store);

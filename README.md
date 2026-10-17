@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.2.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.3.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 ## Empezar
 
@@ -36,6 +36,12 @@ npm test
 - **Mástil:** mínimo tres trastes visibles; crece solo cuando la digitación lo necesita.
 - **Límite de 32 trastes visibles:** es un límite conservador del intervalo que se dibuja, no del número de traste más alto. Una digitación más ancha no se dibuja, se avisa, los datos se conservan y Exportar HTML e Imprimir / PDF quedan bloqueados hasta corregirla.
 - **Grados:** seis campos opcionales de la sexta a la primera cuerda. Vacío = sin grado. Colorean la nota según la plantilla, también en cuerdas al aire. No se calculan solos.
+
+### Colores
+
+**Colores**, en la cabecera, configura el fondo de cada familia de acorde y el de las notas por grado. Incluye naturales, bemoles y sostenidos del 1 al 13, etiquetas personalizadas como `bb7` o `R` y notas sin grado. Se aplican a toda la canción, se guardan en su JSON y se conservan en HTML e impresión. Hay restauración individual y de la paleta completa. Texto y trazos se adaptan a fondos oscuros.
+
+Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palette` necesita la aplicación 0.3.0 o posterior; las versiones antiguas lo rechazan para no perder los colores.
 
 ### Textos de la tarjeta
 

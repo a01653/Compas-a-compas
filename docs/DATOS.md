@@ -64,3 +64,9 @@ Primera versión: una línea por compás. Formato documentado: `etiqueta | acord
 ```
 
 La barra de un nombre como `C/E` no es un separador de voicings: solo se analiza ` / ` en la digitación, después de `@`. Rechazar una línea inválida con número y motivo; no importar una mitad sin avisar. Previsualizar el lote antes de añadirlo a la canción. Los campos libres y marcas se completan desde el editor. Este formato puede simplificarse si se conserva la capacidad de introducir listas sin ambigüedad.
+
+## Paleta opcional desde 0.3.0
+
+`palette` es una extensión opcional del esquema 1. `families` asigna colores a las seis claves de familia; `degrees` asigna colores a etiquetas de 1 a 32 caracteres; `note` cambia el color de las notas sin grado o sin color específico. Solo se admiten colores `#RRGGBB`. Se rechazan propiedades desconocidas y las etiquetas reservadas `__proto__`, `constructor` y `prototype`.
+
+Los documentos previos siguen siendo válidos y no reciben el campo al abrirlos o guardarlos sin personalizar. Un documento que incluya `palette` requiere la aplicación 0.3.0 o posterior: los lectores antiguos lo rechazan por campo desconocido, conservando así la regla de no descartar datos. El estado de selección, las notas, IDs y referencias musicales son independientes de la paleta. Restaurar toda la paleta elimina el campo opcional.

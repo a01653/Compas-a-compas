@@ -16,6 +16,7 @@
     <button id="open-song" class="song-context" type="button" aria-haspopup="dialog" aria-controls="song-dialog" title="Editar datos de la canción"><span id="song-title">Canción</span><span class="song-context-meta"><span id="song-key"></span><span class="context-edit">Editar datos</span></span></button>
     <div class="topbar-file" role="group" aria-label="Archivo y exportación">
       <button type="button" id="btn-abrir" class="btn" data-icon="folder">Abrir</button>
+      <button type="button" id="open-colors" class="btn" data-icon="palette" aria-haspopup="dialog" aria-controls="colors-dialog">Colores</button>
       <button type="button" id="btn-guardar" class="btn btn-primary" data-icon="save">Guardar JSON</button>
       <details class="action-menu" id="export-menu"><summary class="btn" data-icon="export">Exportar</summary><div class="menu-content"><button type="button" id="btn-exportar-html" class="btn">Exportar HTML</button><button type="button" id="btn-imprimir" class="btn">Imprimir / PDF</button></div></details>
       <details class="action-menu"><summary class="btn tool-icon" aria-label="Más opciones de archivo" title="Más opciones de archivo" data-icon="more"></summary><div class="menu-content"><button type="button" id="btn-nuevo" class="btn">Nueva canción</button><button type="button" id="open-song-menu" class="btn">Datos de la canción</button></div></details>
@@ -27,9 +28,10 @@
     <div class="editor-workspace" id="edicion"><section class="panel measure-navigator" id="panel-compases" aria-labelledby="t-compases"></section><section class="panel chord-workspace" id="panel-acorde" aria-labelledby="t-acorde"></section></div>
     <section class="panel panel-vista" id="panel-vista" aria-labelledby="t-vista"></section>
   </main>
-  <footer class="workspace-status"><p id="estado-archivo" class="file-state" aria-live="polite"></p><span>Versión 0.2.0</span></footer>
+  <footer class="workspace-status"><p id="estado-archivo" class="file-state" aria-live="polite"></p><span>Versión 0.3.0</span></footer>
   <dialog id="song-dialog" class="dialog settings-dialog" aria-labelledby="t-cancion"><button type="button" class="btn tool-icon dialog-close" data-close="song-dialog" aria-label="Cerrar datos de la canción" data-icon="close"></button><section id="panel-cancion"></section><div class="dialog-actions"><button type="button" class="btn btn-primary" data-close="song-dialog">Listo</button></div></dialog>
   <dialog id="marks-dialog" class="dialog settings-dialog" aria-labelledby="t-marcas"><button type="button" class="btn tool-icon dialog-close" data-close="marks-dialog" aria-label="Cerrar estructura musical" data-icon="close"></button><section id="panel-marcas" class="panel"></section><div class="dialog-actions"><button type="button" class="btn btn-primary" data-close="marks-dialog">Listo</button></div></dialog>
+  <dialog id="colors-dialog" class="dialog settings-dialog colors-dialog" aria-labelledby="t-colors"><button type="button" class="btn tool-icon dialog-close" data-close="colors-dialog" aria-label="Cerrar colores" data-icon="close"></button><section id="panel-colors"></section><div class="dialog-actions"><button type="button" class="btn" id="reset-colors">Restaurar paleta original</button><button type="button" class="btn btn-primary" data-close="colors-dialog">Listo</button></div></dialog>
   <p id="estado-vivo" class="sr-only" role="status" aria-live="polite"></p><p id="toast" class="toast" aria-hidden="true" hidden></p>
 </body>
 </html>
