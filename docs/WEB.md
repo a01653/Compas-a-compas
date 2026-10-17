@@ -1,21 +1,26 @@
-# Acceso web
+# Aplicación en GitHub Pages
 
-[**Abrir Compás a compás**](https://compas-a-compas.a01653.chatgpt.site)
+La publicación prevista es **https://a01653.github.io/Compas-a-compas/**. Esta dirección no se da por activa hasta que GitHub confirme el despliegue. El enlace confirmado aparecerá en el entorno `github-pages` y en la ejecución de Actions.
 
-La aplicación 0.3.0 está publicada en Sites con acceso público: cualquiera con el enlace puede abrirla sin iniciar sesión en ChatGPT. El repositorio de GitHub permanece privado. No hace falta arrancar el servidor local ni mantener el PC encendido.
+## Activación inicial
 
-## Canciones
+1. Abrir [Settings → Pages](https://github.com/a01653/Compas-a-compas/settings/pages).
+2. En **Build and deployment → Source**, seleccionar **GitHub Actions**.
+3. En [Actions](https://github.com/a01653/Compas-a-compas/actions), abrir **Publicar en GitHub Pages** y ejecutar **Run workflow** sobre `main`. También se ejecuta al subir cambios a `main`.
+4. Esperar a que los trabajos `build` y `deploy` terminen correctamente. Abrir la dirección que muestre GitHub.
 
-La aplicación funciona en el navegador. Abre una canción con **Abrir** y conserva su archivo con **Guardar JSON**. Las exportaciones HTML y la impresión utilizan el mismo código que la versión local.
+El repositorio es privado. GitHub Pages requiere GitHub Pro o un plan compatible para publicar desde un repositorio privado. Si GitHub pide cambiar de plan, detenerse antes de cambiar la visibilidad: hacer público el repositorio es una decisión distinta. El conector utilizado permite editar el código pero no activar Pages en los ajustes de administración.
 
-La recuperación de cambios pertenece a cada navegador y dirección web. La web no lee los archivos de tu PC por sí sola, no comparte la recuperación de localhost y no sincroniza canciones entre dispositivos. Para continuar una canción en otro dispositivo, lleva su JSON y ábrelo allí.
+## Qué se publica
 
-## Publicación y actualizaciones
+`scripts/build-pages.mjs` genera `_site/` con `index.html`, `src/`, `styles/`, `assets/`, `examples/`, `references/fonts.css` y `.nojekyll`. El workflow publica solo esa carpeta, después de superar las pruebas. Los recursos usan rutas relativas para que funcionen bajo la ruta del proyecto.
 
-El código de ejecución procede del commit `ed65dceb86d149572bd5444ff111574279650be8` de este repositorio, sin cambios: `index.html`, `src/`, `styles/`, `assets/`, `examples/` y `references/fonts.css`.
+No se incluyen los scripts de arranque de Windows, pruebas, manuales ni las plantillas históricas completas. La aplicación local sigue abriéndose con `Abrir-Compas.cmd`. No necesita cambios para funcionar en GitHub Pages.
 
-La publicación de Sites se actualiza por separado; un commit en GitHub no cambia automáticamente la web. Para publicar otra revisión, actualizar esos archivos desde una revisión comprobada, conservar la identidad del sitio y guardar y desplegar una nueva versión.
+## Canciones y actualizaciones
 
-Identidad de Sites: `appgprj_6ad394e468988191b1859a2bcf09b885`. Fuente de publicación inicial: `0c141cd8b91670887bac6c4f2be8868bc4f7adb2`.
+Abre una canción con **Abrir** y conserva su archivo con **Guardar JSON**. La recuperación pertenece a cada navegador y dirección; no comparte los cambios de localhost ni de la publicación anterior de Sites y no sincroniza dispositivos. Lleva el JSON cuando cambies de dirección o dispositivo.
 
-Comprobaciones de esta publicación: los 57 archivos de ejecución coinciden con la revisión de origen, 133 referencias de recursos resueltas y 138 pruebas Node superadas. Sites confirmó el despliegue correcto. No se ha realizado una nueva sesión de navegador sobre la dirección publicada; se conserva la revisión de Chromium de la aplicación 0.3.0 descrita en ESTADO.md.
+Una vez activado GitHub Pages, los cambios que se integren en `main` se probarán y publicarán automáticamente. La publicación anterior en el dominio de Sites no es GitHub Pages y no es la dirección elegida para este proyecto.
+
+Documentación oficial: [workflows de GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) y [planes compatibles](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages).

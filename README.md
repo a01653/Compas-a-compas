@@ -8,7 +8,7 @@ Versión 0.3.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [
 
 ## Empezar
 
-**Acceso web público:** [Abrir Compás a compás](https://compas-a-compas.a01653.chatgpt.site). No requiere Node.js ni mantener el PC encendido. Consulta [acceso y guardado en la web](docs/WEB.md). La opción local sigue disponible:
+**GitHub Pages:** publicación preparada, pendiente de activación en los ajustes del repositorio. Consulta [acceso web y activación](docs/WEB.md). La opción local sigue disponible:
 
 Requiere Node.js 18 o superior. No hay dependencias que instalar.
 

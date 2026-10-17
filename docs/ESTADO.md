@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Preparación de GitHub Pages — 17/10/2026
+
+El usuario solicita que el alojamiento sea GitHub Pages. Se añade .github/workflows/pages.yml con pruebas, empaquetado de archivos de ejecución y despliegue desde main; scripts/build-pages.mjs prepara _site/ con rutas relativas y sin documentación ni scripts locales. README.md y docs/WEB.md sustituyen el enlace principal de Sites por el procedimiento de GitHub Pages. El repositorio sigue privado. Pages todavía no está activado: requiere seleccionar GitHub Actions en Settings → Pages y disponer de un plan compatible. No se declara publicación correcta ni URL activa hasta comprobar el despliegue. El conector no ofrece la operación de administración para activarlo. Validación local: 138 pruebas Node superadas, paquete con 58 archivos, 128 referencias relativas sin destinos ausentes y sintaxis YAML comprobada. El contenido de ejecución coincide con el origen; el paquete excluye docs/ y scripts/.
+
 ## Acceso web público — 17/10/2026
 
 Acceso de Sites cambiado a público por petición expresa del usuario. La política devuelta y una lectura posterior confirman `public`, revisión 2. Se conserva la misma URL, versión 0.3.0 y repositorio privado. README.md y docs/WEB.md actualizados para indicar que no hace falta iniciar sesión. Sin cambios de código ni nueva publicación de la aplicación.
