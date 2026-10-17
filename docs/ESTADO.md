@@ -1,5 +1,15 @@
 # Estado de trabajo
 
+## Versión 0.6.1: encuadre y alineación entre compases — 17/10/2026
+
+El usuario aporta una captura y los JSON de I Fall in Love Too Easily y Havana. Reproducción en Chromium 153: un título como «Intro · Joe Pass», «Jim Hall» o «B · Tema» desplazaba solo su compás. El desnivel máximo era 31,56 px tanto en vista previa como en exportación.
+
+Claude Sonnet, esfuerzo medium, corrige estilos, renderizador, medidor DOM y reparto. La rejilla se comparte a lo largo de toda la fila: marcas, títulos, tonalidades y zona del compás. Cada tarjeta conserva su ancho natural y participa en el reparto del espacio libre. El medidor informa de las pistas; la paginación suma sus máximos por fila para no infravalorar alturas complementarias de distintos compases. Sin cambios de esquema, digitaciones ni geometría del mástil.
+
+Validación: 196 pruebas Node superadas en Windows mediante el conector, con seis pruebas nuevas de alturas combinadas, salto de página, compás vacío, continuaciones y compatibilidad del medidor. Chromium 153 en Linux con los dos JSON completos: guardado idéntico al original, mismas tarjetas e IDs en orden, desnivel de 0 px en bandas y bordes de tarjetas en todas las filas de vista previa y HTML. Se mantienen 3 páginas para los 19 compases de I Fall y 6 para los 78 de Havana. HTML autónomo sin peticiones externas y PDF A4 horizontal de todas las hojas revisado.
+
+Casos adicionales: títulos y tonalidades de varias líneas, anotaciones altas en otro compás, franjas visibles y ocultas, compás vacío, repeticiones y casillas; sin solapamientos ni desbordamiento vertical. Caso extenso anterior de 40 tarjetas en un compás y 24 compases en total, continuaciones y trastes variables: correcto, con PDF de 6 hojas. No se incorporan los JSON personales al repositorio. Firefox, Safari e impresión nativa en Windows siguen pendientes; las comprobaciones visuales son en Linux.
+
 ## Versión 0.6.0: tarjetas independientes y bandas rectangulares — 17/10/2026
 
 Claude Sonnet, esfuerzo medium, implementa el selector plano y la edición independiente en el worktree del PC. El supervisor incorpora el ajuste visual de la plantilla, revisa la integración y comprueba la interfaz. El formato sigue siendo esquema 1: no se migra al abrir o guardar. Cambiar nombre o calidad separa solo la tarjeta afectada; añadir, duplicar y quitar operan inmediatamente junto a la tarjeta activa.

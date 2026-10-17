@@ -56,7 +56,7 @@ Una posición muy extendida puede obligar a dedicarle una fila o una página. Si
 - Agrupar tarjetas por compás. Empezar otra fila o página cuando falte espacio.
 - Un compás con muchas tarjetas puede continuar en otra fila o página, con el mismo número y la etiqueta «continuación». No imponer un máximo oculto de tarjetas.
 - Esperar a `document.fonts.ready` antes de medir, paginar o exportar. Recalcular si cambian textos o digitaciones.
-- Compartir filas de títulos, franjas y zona del compás mediante subgrid, evitando offsets de altura fijos. Mantener título exterior y tarjeta juntos. Evitar cortes de dibujos y barras musicales. Repetir o continuar los corchetes de casilla de manera reconocible al cruzar una fila.
+- Compartir las pistas de marcas, títulos, franjas y zona del compás mediante subgrid entre todos los compases de cada fila, evitando offsets de altura fijos. Medir esas pistas por fragmento y sumar sus máximos al calcular la altura de una fila; el máximo de alturas individuales puede ser insuficiente. Mantener título exterior y tarjeta juntos. Evitar cortes de dibujos y barras musicales. Repetir o continuar los corchetes de casilla de manera reconocible al cruzar una fila.
 - Usar el mismo renderizador para la vista previa y la exportación. El HTML exportado contiene solo las hojas y los recursos necesarios; no lleva herramientas de edición ni necesita servidor.
 - El total se obtiene de las páginas reales, sin páginas vacías al final. Usar numeración propia de la hoja; recomendar desactivar los encabezados y pies automáticos del navegador al imprimir.
 

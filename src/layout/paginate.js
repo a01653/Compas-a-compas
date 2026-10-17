@@ -1,8 +1,9 @@
 /**
  * Reparto de compases en filas y hojas. Módulo puro: recibe tamaños ya medidos y devuelve un plan.
  *
- * `measureFragment(unitIndex, from, to)` devuelve { width, height } del fragmento [from, to) del compás
- * (con sus marcas, etiqueta y tarjetas). Quien llama decide cómo se mide; aquí solo se decide dónde va cada cosa.
+ * `measureFragment(unitIndex, from, to)` devuelve { width, height, rows?, extra? } del fragmento [from, to) del compás
+ * (con sus marcas, etiqueta y tarjetas); `rows` desglosa la altura en las pistas que la fila comparte (ver heightParts).
+ * Quien llama decide cómo se mide; aquí solo se decide dónde va cada cosa.
  *
  * Reglas:
  *  - El orden escrito se conserva y cada tarjeta aparece exactamente una vez.
@@ -14,6 +15,29 @@
  */
 
 const round = (n) => Math.round(n * 10) / 10;
+
+/**
+ * Altura por componentes. Una fila comparte sus pistas (marcas, títulos, franjas, zona del compás) entre todos sus
+ * compases: su altura es la SUMA del máximo de cada pista, que puede superar al máximo de las alturas individuales
+ * (un compás con título largo y otro con tarjetas altas). Un tamaño medido puede traer `rows` (altura de cada pista)
+ * y `extra` (lo que no se alinea); sin `rows` se trata como una sola pista, y la combinación es el máximo de siempre.
+ */
+const sum = (list) => list.reduce((total, n) => total + n, 0);
+export function heightParts(size) {
+  if (Array.isArray(size.rows) && size.rows.length) {
+    const rows = size.rows.map((n) => (Number.isFinite(n) && n > 0 ? n : 0));
+    return { rows, extra: Number.isFinite(size.extra) ? Math.max(0, size.extra) : Math.max(0, size.height - sum(rows)) };
+  }
+  return { rows: [size.height], extra: 0 };
+}
+export function mergeHeights(a, b) {
+  const length = Math.max(a.rows.length, b.rows.length);
+  return {
+    rows: Array.from({ length }, (_, i) => Math.max(a.rows[i] ?? 0, b.rows[i] ?? 0)),
+    extra: Math.max(a.extra, b.extra),
+  };
+}
+export const totalHeight = (parts) => sum(parts.rows) + parts.extra;
 
 /**
  * @param {object} p
@@ -65,13 +89,14 @@ export function paginate({ units, measureFragment, content, headerHeight, column
   };
   const fitsRow = (size) => {
     const w = row ? row.width + columnGap + size.width : size.width;
-    const hgt = row ? Math.max(row.height, size.height) : size.height;
+    const hgt = totalHeight(row ? mergeHeights(row.heights, heightParts(size)) : heightParts(size));
     return w <= maxW && y + hgt <= bodyH;
   };
   const add = (ui, from, to, size) => {
-    if (!row) row = { fragments: [], width: 0, height: 0 };
+    if (!row) row = { fragments: [], width: 0, height: 0, heights: { rows: [], extra: 0 } };
     row.width += (row.fragments.length ? columnGap : 0) + size.width;
-    row.height = Math.max(row.height, size.height);
+    row.heights = mergeHeights(row.heights, heightParts(size));
+    row.height = totalHeight(row.heights);
     row.fragments.push({ unitIndex: ui, from, to, width: size.width, height: size.height });
   };
 
