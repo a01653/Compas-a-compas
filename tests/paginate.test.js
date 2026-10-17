@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { paginate } from '../src/layout/paginate.js';
+import { heightParts, mergeHeights, paginate, totalHeight } from '../src/layout/paginate.js';
 
 // Área útil 1000 × 600; cabecera 100 → altura de cuerpo 500. Separaciones de 10.
 const BASE = { content: { width: 1000, height: 600 }, headerHeight: 100, columnGap: 10, rowGap: 10, headerGap: 0, safety: 0 };
@@ -130,6 +130,79 @@ test('las medidas se piden con rangos válidos y sin repetir', () => {
   for (const [ui, from, to] of calls) {
     assert.ok(from >= 0 && from <= to && to <= units[ui].atoms.length);
   }
+});
+
+/* ---------- Alturas por pistas compartidas (marcas, títulos, franjas, zona del compás) ---------- */
+
+/** Compás de `atoms` tarjetas de 100 de ancho cuya altura medida se desglosa en `rows`. */
+function tracked(id, rows, atoms = 4) {
+  return { measureId: id, label: id.toUpperCase(), rows, atoms: Array.from({ length: atoms }, () => ({})) };
+}
+function trackedMeasurer(units) {
+  return (ui, from, to) => {
+    const { rows } = units[ui];
+    return { width: (to - from) * 100 + 50, height: rows.reduce((a, b) => a + b, 0), rows };
+  };
+}
+const runTracked = (units, extra = {}) => paginate({ ...BASE, units, measureFragment: trackedMeasurer(units), ...extra });
+
+test('heightParts y mergeHeights: sin desglose es una sola pista y el resto se combina por pistas', () => {
+  assert.deepEqual(heightParts({ width: 1, height: 80 }), { rows: [80], extra: 0 });
+  assert.deepEqual(heightParts({ width: 1, height: 100, rows: [10, 20, 30] }), { rows: [10, 20, 30], extra: 40 });
+  assert.deepEqual(heightParts({ width: 1, height: 60, rows: [10, NaN, -5, 50], extra: 3 }), { rows: [10, 0, 0, 50], extra: 3 });
+  const merged = mergeHeights({ rows: [0, 60, 0, 100], extra: 0 }, { rows: [20, 0, 0, 150], extra: 4 });
+  assert.deepEqual(merged, { rows: [20, 60, 0, 150], extra: 4 });
+  assert.equal(totalHeight(merged), 234);
+  assert.deepEqual(mergeHeights({ rows: [], extra: 0 }, { rows: [5], extra: 0 }), { rows: [5], extra: 0 }, 'primera fila: sin pistas previas');
+  assert.deepEqual(mergeHeights({ rows: [7], extra: 0 }, { rows: [0, 0, 0, 9], extra: 0 }), { rows: [7, 0, 0, 9], extra: 0 }, 'longitudes distintas');
+});
+
+test('una fila suma el máximo de cada pista: puede superar al máximo de las alturas individuales', () => {
+  const units = [tracked('a', [0, 60, 0, 100], 4), tracked('b', [0, 0, 0, 150], 4)]; // 160 y 150 por separado
+  const plan = runTracked(units);
+  assert.deepEqual(plan.errors, []);
+  assert.deepEqual(plan.pages[0].rows.map((r) => r.fragments.length), [2]);
+  assert.equal(plan.pages[0].rows[0].height, 210, '60 de título de uno + 150 de tarjetas del otro');
+  assert.deepEqual(plan.pages[0].rows[0].heights.rows, [0, 60, 0, 150]);
+});
+
+test('el salto de hoja cuenta la altura combinada, no la mayor individual', () => {
+  // Cada fila [a, b] mide 210. Con el máximo individual (160) cabrían tres filas (500); con la suma solo dos (430).
+  const units = ['a', 'b', 'a', 'b', 'a', 'b'].map((kind, i) => tracked(`m${i}`, kind === 'a' ? [0, 60, 0, 100] : [0, 0, 0, 150], 4));
+  const plan = runTracked(units);
+  assert.deepEqual(plan.errors, []);
+  assert.deepEqual(plan.pages.map((p) => p.rows.length), [2, 1]);
+  for (const page of plan.pages) {
+    const used = page.rows.reduce((sum, r) => sum + r.height, 0) + (page.rows.length - 1) * BASE.rowGap;
+    assert.ok(used <= plan.bodyHeight, `la hoja no invade el pie (${used} ≤ ${plan.bodyHeight})`);
+  }
+});
+
+test('un compás que cabe en ancho pero cuya combinación no cabe en alto pasa a la fila o hoja siguiente', () => {
+  const units = [tracked('a', [0, 350, 0, 100], 2), tracked('b', [0, 0, 0, 160], 2)]; // 450 y 160; juntos 510 > 500
+  const plan = runTracked(units);
+  assert.deepEqual(plan.errors, []);
+  assert.deepEqual(flat(plan).map((f) => [f.page, f.row, f.unitIndex]), [[0, 0, 0], [1, 0, 1]]);
+});
+
+test('compases vacíos y sin pistas previas: la fila toma la altura de lo que sí tiene', () => {
+  const units = [tracked('a', [0, 0, 0, 40], 0), tracked('b', [0, 0, 0, 120], 1), tracked('c', [30, 0, 0, 20], 1)];
+  const plan = runTracked(units);
+  assert.deepEqual(plan.errors, []);
+  assert.deepEqual(plan.pages[0].rows.map((r) => r.height), [150]); // 30 de marcas + 120 de tarjetas
+  // Un medidor antiguo (sin rows) sigue funcionando con el máximo.
+  const legacy = run([unit('x', 2), unit('y', 1, { h: 300 })]);
+  assert.equal(legacy.pages[0].rows[0].height, 320);
+});
+
+test('un compás con título que se divide mantiene cada fragmento dentro del alto de la hoja', () => {
+  const units = [tracked('a', [0, 90, 0, 100], 12)]; // 190 de alto; cada fila admite 9 tarjetas (950) como máximo
+  const plan = runTracked(units);
+  assert.deepEqual(plan.errors, []);
+  const parts = flat(plan);
+  assert.ok(parts.length >= 2);
+  assert.equal(parts[parts.length - 1].to, 12);
+  for (const row of plan.pages[0].rows) assert.ok(row.height <= plan.bodyHeight);
 });
 
 // Generador pseudoaleatorio determinista para el recorrido por muchos casos.

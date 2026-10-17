@@ -44,24 +44,35 @@
 
 /* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
 .hoja-cuerpo { margin-top: var(--cab-gap, 14px); }
-.fila { display: flex; flex-wrap: nowrap; align-items: stretch; gap: var(--col-gap, 6px); }
+/* Cada fila es una rejilla de cuatro pistas de altura compartidas por TODOS sus compases: marcas, títulos, franjas de
+   tonalidad y zona del compás (número, línea y tarjetas). Un compás sin título o sin marcas deja el hueco que ocupan los
+   demás, así que bandas, números y bordes de tarjeta arrancan a la misma altura en toda la fila. Las columnas son una por
+   tarjeta (pistas «auto»: ancho natural más un reparto igual del espacio libre); compases, acordes y columnas son
+   subrejillas de esas pistas. La altura de la fila es la suma del máximo de cada pista (ver layout/paginate.js). */
+.fila { display: grid; grid-auto-flow: column; grid-auto-columns: auto; grid-template-rows: auto auto auto minmax(min-content, 1fr); column-gap: var(--col-gap, 6px); row-gap: 0; }
 .fila + .fila { margin-top: var(--fila-gap, 12px); }
 
 /* Caja fuera de pantalla donde se miden cabecera y fragmentos con los mismos estilos. */
 .hoja-medida { position: absolute; left: -30000px; top: 0; visibility: hidden; pointer-events: none; }
 .hoja-medida .fila { width: max-content; }
 
+/* El compás ocupa tantas columnas como tarjetas tiene el fragmento (grid-column en línea) y las cuatro pistas de la fila. */
 .compas {
   position: relative;
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  padding: 4px 0;
+  grid-row: 1 / span 4;
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  column-gap: 4px;
+  row-gap: 0;
 }
+.compas > .marcas { grid-row: 1; grid-column: 1 / -1; }
+.compas > .eventos { grid-row: 2 / span 3; grid-column: 1 / -1; }
+.compas > .t-pos-vacio { grid-row: 4; grid-column: 1 / -1; }
 /* Zona del compás de cada columna: hueco del número (en flujo, también en las columnas sin número) y tarjeta.
    La línea del compás es el borde de la primera columna: empieza junto al número y baja hasta el pie de la tarjeta,
    por debajo del título y de la franja de tonalidad, que quedan fuera. */
-.t-pos { position: relative; flex: none; display: flex; flex-direction: column; }
+.t-pos { position: relative; display: flex; flex-direction: column; margin-bottom: 4px; }
 .t-pos-lead { padding-left: 4px; border-left: 2px solid var(--ink-deep); }
 .compas-cont .t-pos-lead { border-left-style: dashed; }
 .t-num { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; min-height: 1.2em; margin-bottom: 4px; font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
@@ -105,12 +116,12 @@
 
 .compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-/* Rejilla compartida por todo el fragmento: una columna por tarjeta y tres filas (títulos, franjas, zona del compás).
-   Los acordes (.evento) y las columnas (.tarjeta-col) son subrejillas de esas filas y columnas, así que:
-   - todos los títulos están en una fila y todas las franjas en otra, por encima de la zona del compás;
-   - la zona del compás (número, línea y tarjetas) empieza a la misma altura en todas las columnas, sea cual sea el contenido;
-   - el ancho de cada columna sigue siendo su ancho natural más un reparto igual del espacio libre (pistas «auto»), como antes. */
-.eventos { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: auto; grid-template-rows: auto auto minmax(min-content, 1fr); column-gap: 4px; row-gap: 0; }
+/* Los contenedores .eventos, .evento y .tarjeta-col son subrejillas de las pistas de la fila (ver .fila):
+   - todos los títulos de la fila están en una pista y todas las franjas en otra, por encima de la zona del compás;
+   - la zona del compás (número, línea y tarjetas) empieza a la misma altura en todas las columnas de todos los compases,
+     sea cual sea el contenido de cada uno;
+   - el ancho de cada columna es su ancho natural más un reparto igual del espacio libre (pistas «auto»). */
+.eventos { display: grid; grid-auto-flow: column; grid-template-columns: subgrid; grid-template-rows: subgrid; column-gap: 4px; row-gap: 0; }
 
 /* .evento es solo un contenedor de distribución: reparte sus tarjetas en las columnas y filas del fragmento y no se dibuja
    (sin barra, borde ni trazos de continuación). Cada tarjeta es independiente; no se añade duración. */

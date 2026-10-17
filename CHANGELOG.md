@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.6.1 — 17/10/2026
+
+- Alineación de títulos, bandas de tonalidad, números y tarjetas en toda la fila, incluso cuando solo un compás tiene título o marcas.
+- La paginación suma los máximos de las pistas compartidas, en vez de tomar solo el fragmento más alto. Así reserva la altura real necesaria antes de repartir las hojas.
+- Verificados los dos JSON aportados: I Fall in Love Too Easily (19 compases, 3 páginas) y Havana (78 compases, 6 páginas), sin cambios en sus datos.
+
 ## 0.6.0 — 17/10/2026
 
 - Un solo selector de tarjetas con Añadir, Duplicar y Quitar. Nombre, calidad y textos se editan de forma independiente. Se eliminan el selector de posiciones y el alcance para todas.

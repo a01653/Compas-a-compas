@@ -12,11 +12,6 @@ export function createMeasurer() {
   const box = h('div', { class: 'hoja-medida', 'aria-hidden': 'true', style: pageStyleVars() }, row);
   document.body.append(box);
 
-  const sizeOf = (node) => {
-    const rect = node.getBoundingClientRect();
-    return { width: rect.width, height: rect.height };
-  };
-
   return {
     /** Área útil de la hoja: tamaño exterior menos márgenes, leído del CSS real. */
     content() {
@@ -44,12 +39,16 @@ export function createMeasurer() {
       return height;
     },
 
+    /** Tamaño del fragmento solo en una fila, con la altura desglosada en las pistas que la fila comparte entre compases. */
     fragment(ctx, unitIndex, from, to) {
       const node = fragmentNode(ctx, unitIndex, from, to);
       row.append(node);
-      const size = sizeOf(node);
+      const rect = row.getBoundingClientRect();
+      const width = node.getBoundingClientRect().width;
+      const tracks = getComputedStyle(row).gridTemplateRows.split(/\s+/).map(parseFloat);
       node.remove();
-      return size;
+      const rows = tracks.length > 1 && tracks.every(Number.isFinite) ? tracks : undefined;
+      return rows ? { width, height: rect.height, rows } : { width, height: rect.height };
     },
 
     dispose() {

@@ -75,7 +75,7 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
 
   return h('div', {
     class: ['compas', isFirst ? '' : 'compas-cont', ...parts.classes].filter(Boolean).join(' '),
-    style: `flex-grow:${Math.max(1, to - from)}`,
+    style: `grid-column:span ${Math.max(1, to - from)}`,
     'data-measure-id': unit.measureId,
     onclick: onSelect ? () => onSelect({ measureId: unit.measureId }) : null,
   },
