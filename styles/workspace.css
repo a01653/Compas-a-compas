@@ -171,3 +171,31 @@
   .selector-row { gap: 4px; }
   .compact-workspace .selector-row .btn { padding-inline: 7px; gap: 3px; }
 }
+
+/* Marcas asociadas al compás activo. */
+.navigator-caption { display: flex; align-items: baseline; gap: 10px; }
+#open-marks { padding: 2px 6px; min-height: 24px; border-radius: 5px; background: #edf1fc; color: var(--ink); font-weight: 600; }
+#open-marks:hover { background: #e0e8fb; }
+#open-marks .ui-icon { width: 14px; height: 14px; }
+.marks-context-bar { display: flex; gap: 8px; align-items: center; margin: 0 0 10px; }
+.marks-context-bar select { flex: 1; min-width: 0; width: 0; }
+.marks-context-help { margin-bottom: 14px; }
+@media (min-width: 761px) and (max-height: 780px) {
+  .compact-workspace .chord-workspace { padding-bottom: 8px !important; }
+  .compact-workspace .degrees legend { margin-bottom: 7px; }
+}
+@media (min-width: 761px) and (max-height: 680px) {
+  .compact-workspace .navigator-heading { display: flex; margin-bottom: 4px; }
+  .navigator-caption .hint { display: none; }
+  .compact-workspace .measure-navigator { padding-block: 6px !important; }
+  .compact-workspace .selector-row { margin-bottom: 4px; }
+  .compact-workspace .section-label { margin-bottom: 3px; }
+  .compact-workspace .position-section { padding-top: 6px; }
+  .compact-workspace .editor-tabs { margin-block: 4px; }
+  .compact-workspace .fret-field #f-frets { height: 36px; }
+  .compact-workspace .field { gap: 3px; }
+}
+@media (max-width: 480px) {
+  .marks-context-bar { flex-wrap: wrap; }
+  .marks-context-bar select { flex-basis: 100%; width: 100%; }
+}

@@ -1,5 +1,17 @@
 # Estado de trabajo
 
+## Versión 0.2.0: interfaz aprobada y marcas por compás — 17/10/2026
+
+El usuario aprobó la propuesta y autorizó integrarla en `main`. Se conserva la rama `design/editor-sin-scroll` como origen del cambio. Sin creación de release, tag ni despliegue.
+
+Acceso **Marcas** trasladado al bloque Compás. El panel lleva el compás activo en el título, muestra símbolos y saltos escritos allí y todos los tramos que lo incluyen. **Ver todas las marcas** mantiene la revisión global, con avisos pendientes siempre visibles. El selector del panel cambia también el compás del editor. Cambiar de compás prepara un borrador nuevo; no modifica marcas guardadas. Editar un tramo desde un compás intermedio conserva sus extremos. Cambiar solo de acorde o posición mantiene el borrador.
+
+Archivos: `src/model/marksContext.js` y cuatro pruebas nuevas, `src/ui/{marks,measures,workspace}.js`, `src/main.js`, `index.html`, `styles/workspace.css`, `package.json`, README, CHANGELOG, manuales, DTS, generador y plantilla de PDF, capturas y esta ficha. Versión de aplicación 0.2.0; esquema JSON sigue en 1. El generador documental toma la versión de `package.json`.
+
+Validación en Linux: 130 pruebas Node superadas. Chromium 153: seis tamaños de escritorio entre 800×600 y 1440×900 y móvil 390×844; JSON, notas, grados, textos, altas, duplicado, cancelación/borrado, 40 posiciones y 30 compases; sin errores JS. HTML exportado del ejemplo idéntico byte a byte al de `main` 0.1.3. Prueba específica del contexto: filtro local/global, extremos e interior, edición sin mover destinos, alta de salto al Coda y repetición desde el compás elegido, borrador conservado al cambiar de voicing y etiqueta visible actualizada. Los avisos y referencias pendientes se conservan.
+
+Manual de uso, instalación y DTS regenerados con Pandoc/XeLaTeX para 0.2.0; capturas reales actualizadas. Validación documental: enlaces locales y manifiestos SHA-256, sin desbordamientos ni caracteres ausentes en LaTeX; PDF renderizados y revisados. Siguen pendientes Windows nativo y otros navegadores. La integración final se verifica leyendo la rama por defecto en GitHub.
+
 ## Propuesta de interfaz compacta — 17/10/2026
 
 Rama `design/editor-sin-scroll`, desde `main` `e33d87c`. Propuesta solicitada por el usuario, pendiente de su revisión visual. Sin fusión en `main`, sin release ni despliegue. Aplicación 0.1.3; sin cambios de modelo, esquema, geometría de hoja ni exportador.

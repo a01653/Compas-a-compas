@@ -99,13 +99,13 @@ async function boot() {
   const songPanel = mountSongPanel(document.getElementById('panel-cancion'), store);
   mountMeasuresPanel(document.getElementById('panel-compases'), store);
   mountChordPanel(document.getElementById('panel-acorde'), store);
-  mountMarksPanel(document.getElementById('panel-marcas'), store);
+  const marksPanel = mountMarksPanel(document.getElementById('panel-marcas'), store);
   const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store);
   mountExportControls(store, paginator);
   mountStatus(store);
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
-  mountWorkspace(store);
+  mountWorkspace(store, { marksPanel });
 
   await offerRecovery(store, recovery);
 }

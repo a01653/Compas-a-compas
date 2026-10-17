@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.2.0 — 17/10/2026
+
+- Interfaz compacta de dos columnas, selectores de compás, acorde y posición, digitación y grados visibles, textos en pestaña, menús e iconos para operaciones secundarias.
+- Datos de canción en un diálogo y acceso a Marcas dentro del bloque Compás. El panel muestra símbolos del compás y tramos que lo incluyen; Ver todas conserva la revisión global. Cambiar de compás prepara las nuevas marcas sin mover las guardadas.
+- Manuales, DTS y capturas actualizados. Esquema JSON 1 y salida de las hojas conservados.
+
 ## Documentación — 17/10/2026
 
 - Manual breve de uso e instalación y DTS de la aplicación 0.1.3, en Markdown, LaTeX y PDF. Incluyen capturas reales, arranque desde la carpeta principal, guardado JSON, impresión, arquitectura y límites de la evidencia.

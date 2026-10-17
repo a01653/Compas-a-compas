@@ -1,17 +1,17 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.1.3 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.2.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
 1. Abre `Abrir-Compas.cmd` desde la carpeta del proyecto. Conserva abierta la consola que arranca el servidor.
-2. Pulsa **Nuevo** para comenzar una hoja o **Abrir JSON** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
-3. Escribe el **nombre de la canción** y la **tonalidad**. Aparecen en la cabecera de cada hoja. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
+2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
+3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. Aparecen en la cabecera de cada hoja. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
 4. Añade compases y sus posiciones. Revisa el resultado a la derecha y guarda con **Guardar JSON**.
 
-La interfaz separa los datos de la canción, el editor y la vista previa. En ordenador, cada zona tiene su propio desplazamiento; puedes bajar por los acordes manteniendo visible la hoja. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
+La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás, acorde y posición evitan listas verticales largas. En una pantalla de portátil puedes escribir digitación y grados sin bajar por el formulario. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
 
-![Vista general: canción y compases a la izquierda, posiciones en el centro y hoja a la derecha.](capturas/editor-general.png)
+![Vista general: editor compacto a la izquierda y hoja a la derecha.](capturas/editor-general.png)
 
 ## Compás, acorde y posición
 
@@ -25,7 +25,7 @@ Un **compás** contiene uno o varios **acordes**. Cada acorde puede tener varias
 
 Añadir una posición no crea otro acorde ni asigna tiempos. La aplicación tampoco calcula cuánto dura cada acorde.
 
-Selecciona un compás en la lista o pulsa una tarjeta de la hoja para editarla. Puedes insertar, duplicar, mover o borrar compases. Su etiqueta visible se puede escribir y **no se renumera automáticamente** al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
+Selecciona un compás en el desplegable superior o con las flechas; también puedes pulsar una tarjeta de la hoja. Usa los selectores de acorde y posición para elegir qué editar. El botón + añade un compás y el menú de tres puntos ofrece las demás operaciones. Puedes insertar, duplicar, mover o borrar compases. Su etiqueta visible se puede escribir y **no se renumera automáticamente** al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
 
 ## Escribir digitaciones, grados y textos
 
@@ -51,13 +51,13 @@ El selector de familia cambia la presentación del acorde. No analiza sus notas 
 
 ### Texto encima y dentro
 
-Escribe los textos comunes en el acorde. Para cada posición puedes **heredarlos**, **personalizarlos** u **ocultarlos**. Así puedes mantener un título compartido y poner una indicación distinta en cada tarjeta.
+Abre la pestaña **Textos de la tarjeta** y escribe los textos comunes en el acorde. Para cada posición puedes **heredarlos**, **personalizarlos** u **ocultarlos**. Así puedes mantener un título compartido y poner una indicación distinta en cada tarjeta.
 
-![Detalle de un acorde con dos posiciones editables.](capturas/editor-posiciones.png)
+![Selectores de acorde y posición, digitación y grados.](capturas/editor-posiciones.png)
 
 ## Añadir varios compases mediante una lista
 
-Abre **Importar lista** e introduce una línea por compás:
+Abre el menú de tres puntos del bloque Compás y pulsa **Importar lista** e introduce una línea por compás:
 
 ```text
 1 | Cm7 @ x 3 5 3 4 3 / 8 10 8 8 8 8
@@ -75,7 +75,15 @@ Comprueba la previsualización. La lista se **añade al final** de la canción y
 
 ## Repeticiones, casillas y saltos
 
-El panel **Marcas musicales** permite añadir y editar la estructura escrita:
+Pulsa **Marcas**, junto al selector del compás. El título del panel indica **Marcas del compás 4**, por ejemplo. Muestra las marcas escritas en ese compás y las repeticiones o casillas cuyo tramo lo incluye.
+
+Al cambiar de compás, también desde el selector del propio panel, las nuevas marcas parten del elegido. Las marcas ya guardadas conservan su ubicación. Si estabas rellenando una marca sin guardar, cambiar de compás prepara un formulario nuevo; pulsa **Añadir marca** o **Guardar cambios** antes si quieres conservar esa edición.
+
+**Ver todas las marcas** muestra el conjunto de la canción, incluidas referencias pendientes que no puedan asociarse a un compás existente. **Ver este compás** vuelve al filtro local. Los avisos pendientes de toda la canción permanecen visibles.
+
+![Marcas del compás seleccionado y acceso a la vista global.](capturas/marcas-compas.png)
+
+El formulario permite añadir y editar la estructura escrita:
 
 | Marca | Cómo prepararla |
 | --- | --- |
@@ -101,7 +109,7 @@ Exportar HTML o imprimir no equivale a guardar los cambios del proyecto. Guarda 
 
 ## Exportar e imprimir
 
-**Exportar HTML** crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes abrirlo sin conexión y compartirlo. No contiene el editor ni sirve para recuperar una canción editable.
+Abre el menú **Exportar** de la cabecera. **Exportar HTML** crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes abrirlo sin conexión y compartirlo. No contiene el editor ni sirve para recuperar una canción editable.
 
 **Imprimir / PDF** abre la impresión del navegador con las mismas hojas. Para guardar como PDF:
 
@@ -124,7 +132,7 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Dos posiciones muestran el mismo texto | Comprueba si heredan el texto del acorde; personaliza una de ellas. |
 | La siguiente hoja tiene tarjetas más anchas | Las filas parciales reparten el ancho disponible. El zoom no cambia el tamaño exportado. |
 | El grado no aparece | Comprueba el orden de las cuerdas y si esa cuerda está muda. |
-| Hay un destino pendiente | Vuelve a elegir la marca o el compás en Marcas musicales. |
+| Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
 | El navegador no abre la aplicación | Consulta el manual de instalación; el editor necesita el servidor local. |
 
-La versión 0.1.3 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
+La versión 0.2.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.

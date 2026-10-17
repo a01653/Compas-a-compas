@@ -1,6 +1,6 @@
 # Propuesta: editor sin scroll para las acciones habituales
 
-Rama `design/editor-sin-scroll`, creada desde `main` en `e33d87c`. Diseño en revisión con el usuario, sin fusionar ni publicar una versión nueva.
+Diseño aprobado por el usuario e incorporado a la versión 0.2.0. Se preparó en `design/editor-sin-scroll` desde `main` `e33d87c`.
 
 ## Distribución
 
@@ -9,7 +9,7 @@ Rama `design/editor-sin-scroll`, creada desde `main` en `e33d87c`. Diseño en re
 - Selectores de acorde y posición, con botones separados para añadir cada uno. Duplicar y borrar posición usan iconos con nombre accesible y ayuda al pasar el cursor.
 - Nombre del acorde, familia, digitación y seis grados visibles en la edición habitual. Los textos tienen su propia pestaña.
 - Título, tonalidad y versión del documento se editan al pulsar el nombre de canción en la cabecera.
-- Repeticiones, casillas, Segno, Coda y Fine se abren desde **Estructura musical**. El acceso muestra cuántas marcas hay y resalta las referencias pendientes.
+- Repeticiones, casillas, Segno, Coda y Fine se abren con **Marcas**, dentro del bloque Compás. El panel muestra las marcas del compás y los tramos que lo incluyen; **Ver todas las marcas** abre el conjunto. Cambiar de selección prepara las marcas nuevas desde ese compás y conserva la ubicación de las guardadas. Los avisos globales siguen visibles.
 - Abrir y Guardar JSON siguen a mano; HTML e impresión se agrupan en Exportar.
 
 El editor no despliega una lista vertical por cada acorde o posición. Los selectores permiten llegar a cualquier elemento sin aumentar la altura del formulario. En pantallas pequeñas, los paneles se apilan; los diálogos largos, los avisos extensos y el visor de varias hojas conservan desplazamiento cuando hace falta.
@@ -28,7 +28,7 @@ Chromium 153 en Linux, escala de dispositivo 1,5. Se abrió el JSON de 19 compas
 
 ## Comprobaciones realizadas
 
-- 126 pruebas Node superadas.
+- 130 pruebas Node superadas.
 - A 1440×900, 1366×768, 1280×720, 1180×720, 1024×768 y 800×600: sin desplazamiento exterior ni desbordamiento horizontal; los seis grados quedan visibles. Comprobado también que añadir una posición vacía cabe sin scroll en 1280×720 y 800×600.
 - Abrir/guardar JSON, nombre de canción, nombre de acorde, digitación válida e inválida, grados, añadir acorde y posición, duplicar, cancelar y confirmar el borrado de posición, cambiar selección y editar la etiqueta del compás.
 - Textos comunes y personalizados conservados en JSON, con la pestaña seleccionada estable al cambiar la herencia. Navegación de pestañas con flechas.
@@ -38,8 +38,8 @@ Chromium 153 en Linux, escala de dispositivo 1,5. Se abrió el JSON de 19 compas
 - HTML exportado del ejemplo idéntico byte a byte al de `main`; modelo, esquema, geometría, renderizador de hoja y exportador sin cambios.
 - Capturas de escritorio, portátil, pestaña de textos y diálogos revisadas visualmente. Sin errores JavaScript en las comprobaciones de interacción.
 
-Pendiente: valoración del usuario, pruebas nativas en Windows y revisión en otros navegadores. Los manuales PDF existentes describen la interfaz aprobada 0.1.3; se actualizarán si se acepta esta propuesta.
+Pendiente: pruebas nativas en Windows y revisión en otros navegadores. Manuales y DTS actualizados a 0.2.0. La selección de otro compás reinicia las entradas del formulario que aún no se han añadido o guardado; los cambios ya guardados permanecen intactos.
 
 ## Archivos
 
-`index.html`, `src/main.js`, `src/ui/chord.js`, `src/ui/measures.js`, `src/ui/textOverride.js`; nuevos `src/ui/icons.js`, `src/ui/workspace.js` y `styles/workspace.css`. La hoja conserva sus estilos y medidas anteriores. Esta carpeta y `docs/ESTADO.md` registran la propuesta.
+`index.html`, `src/main.js`, `src/ui/chord.js`, `src/ui/measures.js`, `src/ui/textOverride.js`; nuevos `src/ui/icons.js`, `src/ui/workspace.js`, `src/model/marksContext.js` y `styles/workspace.css`. La hoja conserva sus estilos y medidas anteriores. Esta carpeta y `docs/ESTADO.md` registran la propuesta.

@@ -82,7 +82,10 @@ export function mountMeasuresPanel(root, store) {
     if (m) { m.label = e.target.value; store.emit('text'); }
   } });
   root.append(
-    h('div', { class: 'navigator-heading' }, h('h2', { id: 't-compases' }, 'Compás'), h('span', { id: 'cuenta-compases', class: 'hint' })),
+    h('div', { class: 'navigator-heading' },
+      h('div', { class: 'navigator-caption' }, h('h2', { id: 't-compases' }, 'Compás'), h('span', { id: 'cuenta-compases', class: 'hint' })),
+      h('button', { id: 'open-marks', type: 'button', 'aria-haspopup': 'dialog', 'aria-controls': 'marks-dialog' },
+        icon('repeat'), h('span', { id: 'marks-label' }, 'Marcas'), h('span', { id: 'marks-count' }))),
     h('div', { class: 'navigator-row' }, previous, select, next, bAdd,
       h('details', { class: 'action-menu' },
         h('summary', { class: 'btn tool-icon', 'aria-label': 'Opciones del compás', title: 'Opciones del compás' }, icon('more')),

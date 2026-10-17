@@ -7,6 +7,7 @@ import {
 } from '../model/marks.js';
 import { confirmDialog } from './dialog.js';
 import { notify } from './notify.js';
+import { marksForMeasure } from '../model/marksContext.js';
 
 const FORM_KINDS = [['repeat', 'Repetición ×N'], ['ending', 'Casilla de pasadas'], ['marker', 'Segno, Coda o Fine'], ['jump', 'Salto (D.C., D.S., To Coda…)']];
 const MIN_PASS_BOXES = 4;
@@ -25,11 +26,22 @@ function selectField(id, labelText, options, value, onchange, { hint } = {}) {
 export function mountMarksPanel(root, store) {
   // Borrador del formulario: sobrevive a repintados y a entradas inválidas.
   let draft = { editingId: null, kind: 'repeat', fields: defaultFields('repeat') };
+  let showAll = false;
+  let contextId = store.state.selection.measureId;
+  const heading = h('h2', { id: 't-marcas' });
+  const contextSelect = h('select', { id: 'marks-measure-select', 'aria-label': 'Compás de las marcas',
+    onchange: e => store.selectMeasure(e.target.value) });
+  const viewButton = h('button', { type: 'button', class: 'btn', id: 'marks-view-all', onclick: () => {
+    showAll = !showAll;
+    renderList(store.state);
+  } });
 
   const list = h('div');
   const formBox = h('form', { class: 'mark-add', novalidate: true, 'aria-labelledby': 't-marca-form', onsubmit: (e) => { e.preventDefault(); save(); } });
   root.append(
-    h('div', { class: 'panel-head' }, h('h2', { id: 't-marcas' }, 'Marcas musicales'), h('span', { class: 'hint' }, 'Se dibujan en la hoja')),
+    h('div', { class: 'panel-head' }, heading),
+    h('div', { class: 'marks-context-bar' }, contextSelect, viewButton),
+    h('p', { class: 'hint marks-context-help' }, 'Las marcas guardadas conservan su ubicación al cambiar de compás. Las nuevas parten del compás seleccionado.'),
     list, formBox);
 
   const song = () => store.state.song;
@@ -41,7 +53,15 @@ export function mountMarksPanel(root, store) {
 
   /* ---------- Lista ---------- */
   function renderList(state) {
-    const items = listMarks(state.song);
+    const measure = state.song.measures.find(m => m.id === state.selection.measureId);
+    heading.textContent = showAll ? 'Todas las marcas de la canción' : `Marcas del compás ${measure?.label || 'sin seleccionar'}`;
+    viewButton.textContent = showAll ? 'Ver este compás' : 'Ver todas las marcas';
+    viewButton.setAttribute('aria-pressed', String(showAll));
+    contextSelect.replaceChildren(...measureOptions(state.song).map(option => h('option', {
+      value: option.value, selected: option.value === measure?.id,
+    }, option.label)));
+    contextSelect.disabled = !measure;
+    const items = showAll ? listMarks(state.song) : marksForMeasure(state.song, measure?.id);
     const warnings = checkStructure(state.song);
     replace(list,
       items.length
@@ -51,10 +71,10 @@ export function mountMarksPanel(root, store) {
             h('span', { class: 'mark-acc' },
               h('button', { type: 'button', class: 'btn', 'aria-label': `Editar: ${m.title}, ${m.detail}`, onclick: () => startEdit(m) }, 'Editar'),
               h('button', { type: 'button', class: 'btn btn-danger', 'aria-label': `Borrar: ${m.title}, ${m.detail}`, onclick: () => remove(m) }, 'Borrar')))))
-        : h('p', { class: 'hint' }, 'Esta canción no tiene marcas. Añade una con el formulario.'),
+        : h('p', { class: 'hint' }, showAll ? 'Esta canción no tiene marcas.' : 'No hay marcas que afecten a este compás. Añade una con el formulario.'),
       warnings.length
         ? h('div', { class: 'warn-box', role: 'region', 'aria-label': 'Avisos de marcas' },
-            h('h3', null, `Avisos (${warnings.length})`),
+            h('h3', null, `Avisos en la canción (${warnings.length})`),
             h('ul', { class: 'dialog-list' }, warnings.map((w) => h('li', null, w.message))),
             h('p', { class: 'hint' }, 'Las marcas incompletas se conservan tal cual; nada se redirige solo. Edítalas para elegir un destino.'))
         : null);
@@ -228,18 +248,38 @@ export function mountMarksPanel(root, store) {
     }
   }
 
+  resetDraft();
   renderList(store.state);
   renderForm();
   store.subscribe((state, scope) => {
-    if (scope === 'zoom' || scope === 'selection' || scope === 'status') return;
+    if (scope === 'zoom' || scope === 'status') return;
+    if (scope === 'selection') {
+      if (contextId === state.selection.measureId) return;
+      contextId = state.selection.measureId;
+      showAll = false;
+      resetDraft();
+      renderList(state);
+      renderForm();
+      return;
+    }
     if (scope === 'text') {
       renderList(state);
       updateSelectOptions();
       return;
     }
-    if (scope === 'document') resetDraft();
+    if (scope === 'document' || contextId !== state.selection.measureId) {
+      contextId = state.selection.measureId;
+      showAll = false;
+      resetDraft();
+    }
     else if (draft.editingId && !listMarks(state.song).some((m) => m.item.id === draft.editingId)) resetDraft();
     renderList(state);
     renderForm();
   });
+  return {
+    openForSelectedMeasure() {
+      showAll = false;
+      renderList(store.state);
+    },
+  };
 }
