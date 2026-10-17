@@ -13,6 +13,7 @@ import { confirmDialog } from './ui/dialog.js';
 import { notify } from './ui/notify.js';
 import { h } from './render/dom.js';
 import { validateSong, formatError } from './model/validate.js';
+import { mountWorkspace } from './ui/workspace.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -98,12 +99,13 @@ async function boot() {
   const songPanel = mountSongPanel(document.getElementById('panel-cancion'), store);
   mountMeasuresPanel(document.getElementById('panel-compases'), store);
   mountChordPanel(document.getElementById('panel-acorde'), store);
-  mountMarksPanel(document.getElementById('panel-marcas'), store);
+  const marksPanel = mountMarksPanel(document.getElementById('panel-marcas'), store);
   const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store);
   mountExportControls(store, paginator);
   mountStatus(store);
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
+  mountWorkspace(store, { marksPanel });
 
   await offerRecovery(store, recovery);
 }

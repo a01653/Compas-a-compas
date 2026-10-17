@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / "docs/latex"
 TEMPLATE = DEST / "document-template.tex"
 GENERATOR = Path(__file__).resolve()
+VERSION_FILE = ROOT / "package.json"
+APP_VERSION = json.loads(VERSION_FILE.read_text(encoding="utf-8"))["version"]
 DOCS = [
     ("uso", "Manual_Uso_Compas_a_compas", "Manual de uso",
      "docs/manuals/USO.md", "Editar, guardar e imprimir hojas de acordes"),
@@ -58,7 +60,7 @@ def build(doc, engine):
              "--no-highlight", "--shift-heading-level-by=-1",
              "--template=" + str(TEMPLATE), "--output=" + str(tex),
              "--variable=covertitle:" + title, "--variable=coversubtitle:" + subtitle,
-             "--variable=headtitle:" + title], cwd=ROOT)
+             "--variable=headtitle:" + title, "--variable=appversion:" + APP_VERSION], cwd=ROOT)
         latex = tex.read_text(encoding="utf-8")
         def columns(match):
             count = len(match.group(1))
@@ -98,10 +100,10 @@ def build(doc, engine):
         DEST.mkdir(parents=True, exist_ok=True)
         for suffix in (".tex", ".pdf"):
             shutil.copyfile(build_dir / (name + suffix), DEST / (name + suffix))
-    inputs = [(source, "source"), (TEMPLATE, "template"), (GENERATOR, "generator")]
+    inputs = [(source, "source"), (TEMPLATE, "template"), (GENERATOR, "generator"), (VERSION_FILE, "application-version")]
     inputs += [(capture, "capture") for capture in captures]
     outputs = [(DEST / (name + ext), role) for ext, role in ((".tex", "latex"), (".pdf", "pdf"))]
-    manifest = {"document": key, "applicationVersion": "0.1.3", "edition": "2026-10-17",
+    manifest = {"document": key, "applicationVersion": APP_VERSION, "edition": "2026-10-17",
                 "source": source_name, "command": "python scripts/build_docs.py", "engine": engine,
                 "files": [{"path": rel(p), "sha256": sha(p), "role": role} for p, role in inputs + outputs]}
     (DEST / (name + ".build.json")).write_text(

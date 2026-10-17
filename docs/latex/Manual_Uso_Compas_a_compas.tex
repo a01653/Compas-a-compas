@@ -1,4 +1,4 @@
-% Source-SHA256: 7ce07199c4cabcd2d46ce12ba763c7c4aca4a9586d7c33af5b2c5d3e17bb1cd5
+% Source-SHA256: b724e50addb2f3a26b692a06f84a490efc60a559be170c69aeb55593b297829f
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.1.3 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.2.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.1.3 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.2.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.1.3 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.2.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -114,24 +114,26 @@ Jesús Quevedo Rodríguez.
   Abre \texttt{Abrir-Compas.cmd} desde la carpeta del proyecto. Conserva
   abierta la consola que arranca el servidor.
 \item
-  Pulsa \textbf{Nuevo} para comenzar una hoja o \textbf{Abrir JSON} para
-  continuar una canción guardada. Para practicar puedes abrir
-  \texttt{examples/cancion-demo.json}.
+  Abre el menú superior de tres puntos y pulsa \textbf{Nueva canción}, o
+  pulsa \textbf{Abrir} para continuar una canción guardada. Para
+  practicar puedes abrir \texttt{examples/cancion-demo.json}.
 \item
-  Escribe el \textbf{nombre de la canción} y la \textbf{tonalidad}.
-  Aparecen en la cabecera de cada hoja. La \textbf{versión del
-  documento} es una etiqueta opcional para tus revisiones; no cambia la
-  versión de la aplicación.
+  Pulsa el título de la cabecera para abrir los datos y escribe el
+  \textbf{nombre de la canción} y la \textbf{tonalidad}. Aparecen en la
+  cabecera de cada hoja. La \textbf{versión del documento} es una
+  etiqueta opcional para tus revisiones; no cambia la versión de la
+  aplicación.
 \item
   Añade compases y sus posiciones. Revisa el resultado a la derecha y
   guarda con \textbf{Guardar JSON}.
 \end{enumerate}
 
-La interfaz separa los datos de la canción, el editor y la vista previa.
-En ordenador, cada zona tiene su propio desplazamiento; puedes bajar por
-los acordes manteniendo visible la hoja. En móvil se apilan las zonas.
-\textbf{Ajustar al ancho} y los botones de zoom solo cambian la vista,
-no el tamaño de impresión.
+La interfaz tiene un editor compacto a la izquierda y la hoja a la
+derecha. Los selectores de compás, acorde y posición evitan listas
+verticales largas. En una pantalla de portátil puedes escribir
+digitación y grados sin bajar por el formulario. En móvil se apilan las
+zonas. \textbf{Ajustar al ancho} y los botones de zoom solo cambian la
+vista, no el tamaño de impresión.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}
 
@@ -160,11 +162,13 @@ trastes \\
 Añadir una posición no crea otro acorde ni asigna tiempos. La aplicación
 tampoco calcula cuánto dura cada acorde.
 
-Selecciona un compás en la lista o pulsa una tarjeta de la hoja para
-editarla. Puedes insertar, duplicar, mover o borrar compases. Su
-etiqueta visible se puede escribir y \textbf{no se renumera
-automáticamente} al moverlos. Antes de borrar un compás se muestran las
-consecuencias para sus marcas musicales.
+Selecciona un compás en el desplegable superior o con las flechas;
+también puedes pulsar una tarjeta de la hoja. Usa los selectores de
+acorde y posición para elegir qué editar. El botón + añade un compás y
+el menú de tres puntos ofrece las demás operaciones. Puedes insertar,
+duplicar, mover o borrar compases. Su etiqueta visible se puede escribir
+y \textbf{no se renumera automáticamente} al moverlos. Antes de borrar
+un compás se muestran las consecuencias para sus marcas musicales.
 
 \Needspace{3.5cm}
 \hypertarget{escribir-digitaciones-grados-y-textos}{%
@@ -210,10 +214,10 @@ notas ni genera una digitación.
 \hypertarget{texto-encima-y-dentro}{%
 \subsection{Texto encima y dentro}\label{texto-encima-y-dentro}}
 
-Escribe los textos comunes en el acorde. Para cada posición puedes
-\textbf{heredarlos}, \textbf{personalizarlos} u \textbf{ocultarlos}. Así
-puedes mantener un título compartido y poner una indicación distinta en
-cada tarjeta.
+Abre la pestaña \textbf{Textos de la tarjeta} y escribe los textos
+comunes en el acorde. Para cada posición puedes \textbf{heredarlos},
+\textbf{personalizarlos} u \textbf{ocultarlos}. Así puedes mantener un
+título compartido y poner una indicación distinta en cada tarjeta.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-posiciones.png}
 
@@ -222,7 +226,8 @@ cada tarjeta.
 \section{Añadir varios compases mediante una
 lista}\label{auxf1adir-varios-compases-mediante-una-lista}}
 
-Abre \textbf{Importar lista} e introduce una línea por compás:
+Abre el menú de tres puntos del bloque Compás y pulsa \textbf{Importar
+lista} e introduce una línea por compás:
 
 \begin{verbatim}
 1 | Cm7 @ x 3 5 3 4 3 / 8 10 8 8 8 8
@@ -254,8 +259,25 @@ existentes.
 \section{Repeticiones, casillas y
 saltos}\label{repeticiones-casillas-y-saltos}}
 
-El panel \textbf{Marcas musicales} permite añadir y editar la estructura
-escrita:
+Pulsa \textbf{Marcas}, junto al selector del compás. El título del panel
+indica \textbf{Marcas del compás 4}, por ejemplo. Muestra las marcas
+escritas en ese compás y las repeticiones o casillas cuyo tramo lo
+incluye.
+
+Al cambiar de compás, también desde el selector del propio panel, las
+nuevas marcas parten del elegido. Las marcas ya guardadas conservan su
+ubicación. Si estabas rellenando una marca sin guardar, cambiar de
+compás prepara un formulario nuevo; pulsa \textbf{Añadir marca} o
+\textbf{Guardar cambios} antes si quieres conservar esa edición.
+
+\textbf{Ver todas las marcas} muestra el conjunto de la canción,
+incluidas referencias pendientes que no puedan asociarse a un compás
+existente. \textbf{Ver este compás} vuelve al filtro local. Los avisos
+pendientes de toda la canción permanecen visibles.
+
+\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/marcas-compas.png}
+
+El formulario permite añadir y editar la estructura escrita:
 
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
@@ -314,9 +336,10 @@ Guarda el JSON antes de cerrar. La aplicación no tiene deshacer.
 \hypertarget{exportar-e-imprimir}{%
 \section{Exportar e imprimir}\label{exportar-e-imprimir}}
 
-\textbf{Exportar HTML} crea un archivo único con las hojas, estilos y
-fuentes incluidos. Puedes abrirlo sin conexión y compartirlo. No
-contiene el editor ni sirve para recuperar una canción editable.
+Abre el menú \textbf{Exportar} de la cabecera. \textbf{Exportar HTML}
+crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes
+abrirlo sin conexión y compartirlo. No contiene el editor ni sirve para
+recuperar una canción editable.
 
 \textbf{Imprimir / PDF} abre la impresión del navegador con las mismas
 hojas. Para guardar como PDF:
@@ -369,13 +392,13 @@ La siguiente hoja tiene tarjetas más anchas & Las filas parciales
 reparten el ancho disponible. El zoom no cambia el tamaño exportado. \\
 El grado no aparece & Comprueba el orden de las cuerdas y si esa cuerda
 está muda. \\
-Hay un destino pendiente & Vuelve a elegir la marca o el compás en
-Marcas musicales. \\
+Hay un destino pendiente & Vuelve a elegir la marca o el compás en el
+panel Marcas. \\
 El navegador no abre la aplicación & Consulta el manual de instalación;
 el editor necesita el servidor local. \\
 \end{longtable}
 
-La versión 0.1.3 se ha comprobado en Chromium. Firefox, Safari y el
+La versión 0.2.0 se ha comprobado en Chromium. Firefox, Safari y el
 diálogo de impresión nativo de Windows siguen pendientes de
 comprobación.
 \end{document}

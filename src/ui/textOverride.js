@@ -16,7 +16,7 @@ const MODES = [
  * hereda el valor del acorde, lo sustituye (override) o lo oculta (cadena vacía).
  * Solo modifica el voicing seleccionado.
  */
-export function overrideField({ id, label, event, voicing, key, store }) {
+export function overrideField({ id, label, event, voicing, key, store, compact = false }) {
   const intentKey = `${voicing.id}:${key}`;
   const state = textState(event, voicing, key);
   const mode = state.mode === 'hidden' && customIntent.has(intentKey) ? 'custom' : state.mode;
@@ -33,7 +33,7 @@ export function overrideField({ id, label, event, voicing, key, store }) {
       store.emit('structure');
       if (next === 'custom') focusSoon(id);
     },
-  }, MODES.map(([value, text]) => h('option', { value, selected: value === mode }, text)));
+  }, MODES.map(([value, text]) => h('option', { value, selected: value === mode }, compact ? text.split(' ')[0] : text)));
 
   let detail;
   if (mode === 'custom') {
@@ -49,7 +49,12 @@ export function overrideField({ id, label, event, voicing, key, store }) {
     h('label', { for: `${id}-modo` }, label),
     select,
     detail,
-    h('span', { class: 'hint', id: descId }, describeTextMode(mode, state.inherited)));
+    h('span', { class: 'hint', id: descId, 'data-compact': compact ? 'true' : null,
+      title: describeTextMode(mode, state.inherited) }, compact ? compactHelp(mode) : describeTextMode(mode, state.inherited)));
+}
+
+function compactHelp(mode) {
+  return mode === 'inherit' ? 'Usa el texto común.' : mode === 'hidden' ? 'No aparece en esta posición.' : 'Solo cambia esta posición.';
 }
 
 /**
@@ -61,5 +66,6 @@ export function refreshTextHelp(id, event, voicing, key) {
   if (!el || !voicing) return;
   const state = textState(event, voicing, key);
   const mode = state.mode === 'hidden' && customIntent.has(`${voicing.id}:${key}`) ? 'custom' : state.mode;
-  el.textContent = describeTextMode(mode, state.inherited);
+  el.title = describeTextMode(mode, state.inherited);
+  el.textContent = el.dataset.compact ? compactHelp(mode) : describeTextMode(mode, state.inherited);
 }

@@ -1,8 +1,10 @@
 # Compás a compás
 
+Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de canción y marcas musicales en paneles. [Capturas y comprobaciones](docs/diseno/editor-compacto/README.md).
+
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.1.3 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.2.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 ## Empezar
 
@@ -28,7 +30,7 @@ npm test
 
 ### Compases, acordes y voicings
 
-- **Compases:** añadir al final, insertar después del seleccionado, duplicar, subir, bajar y borrar. La etiqueta visible es editable y no se renumera sola. Al borrar se listan las consecuencias para las marcas y se puede cancelar.
+- **Compases:** selector con anterior/siguiente y botón + para añadir. El menú de tres puntos permite insertar, duplicar, subir, bajar y borrar. La etiqueta visible es editable y no se renumera sola. Al borrar se listan las consecuencias para las marcas y se puede cancelar.
 - **Acordes y voicings:** cada compás admite varios acordes y cada acorde varios voicings (digitaciones). Un acorde sin digitación se conserva como pendiente; un voicing nuevo empieza con todas las cuerdas mudas.
 - **Digitación:** seis valores de sexta a primera cuerda: traste, `0` al aire, `x` muda. Compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). Una entrada inválida muestra el error y no cambia el voicing.
 - **Mástil:** mínimo tres trastes visibles; crece solo cuando la digitación lo necesita.
@@ -36,6 +38,8 @@ npm test
 - **Grados:** seis campos opcionales de la sexta a la primera cuerda. Vacío = sin grado. Colorean la nota según la plantilla, también en cuerdas al aire. No se calculan solos.
 
 ### Textos de la tarjeta
+
+Se editan en la pestaña **Textos de la tarjeta**. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
 El acorde define valores por defecto de «título encima» y «texto dentro». Cada voicing puede **heredarlos**, **personalizarlos** (sustituir el valor) u **ocultarlos** (cadena vacía). Cambiar una tarjeta no toca las demás.
 
@@ -45,7 +49,7 @@ Una línea por compás: `etiqueta | acorde @ digitación ; acorde @ digitación`
 
 ### Marcas y destinos
 
-El panel «Marcas musicales» añade, edita y borra repeticiones ×N, casillas de una o varias pasadas, Segno, Coda, Fine y los siete saltos (D.C., D.S., To Coda y variantes). Compases y destinos se eligen por etiqueta legible. Un destino que ya no existe se conserva como pendiente y se avisa; nunca se redirige a otro compás. Las marcas se dibujan, pero la aplicación no expande ni valida el recorrido.
+El botón **Marcas**, dentro del bloque Compás, abre **Marcas del compás seleccionado**: muestra las que se escriben allí y los tramos que lo incluyen. **Ver todas las marcas** permite revisar la canción completa. Las nuevas parten del compás activo y las guardadas conservan su ubicación al cambiar de selección. Desde este panel se añaden, editan y borran repeticiones ×N, casillas de una o varias pasadas, Segno, Coda, Fine y los siete saltos (D.C., D.S., To Coda y variantes). Compases y destinos se eligen por etiqueta legible. Un destino que ya no existe se conserva como pendiente y se avisa; nunca se redirige a otro compás. Las marcas se dibujan, pero la aplicación no expande ni valida el recorrido.
 
 ### Continuaciones
 

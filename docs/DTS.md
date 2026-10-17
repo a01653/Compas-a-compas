@@ -1,12 +1,12 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.1.3 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.2.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe el código de la versión 0.1.3, incluido el lanzador de Windows incorporado después de esa versión. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.2.0, con interfaz compacta y marcas por compás. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones, sincronización en la nube ni deshacer. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
@@ -41,6 +41,16 @@ Los estilos de interfaz están en `styles/app.css`; la hoja usa estilos comparti
 
 El JSON conserva el contenido editable. Coordenadas, filas, número de páginas y zoom son datos derivados y no se guardan como parte de la canción.
 
+## Interfaz compacta y contexto de compás
+
+El editor usa dos columnas: controles de compás, acorde y posición a la izquierda, y hoja a la derecha. Los selectores permiten recorrer listas extensas sin aumentar la altura del formulario. Digitación y grados están en una pestaña; los textos, en otra. Nombre, tonalidad y versión del documento se editan en un diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre accesible y los menús se cierran con Escape o al pulsar fuera.
+
+El acceso a Marcas pertenece al bloque Compás y anuncia su etiqueta en el nombre accesible. El panel filtra símbolos y saltos por el compás donde están escritos, y repeticiones y casillas por todos los compases del tramo, incluidos sus extremos. `src/model/marksContext.js` obtiene esa vista sin modificar la estructura. Un extremo desaparecido sigue siendo localizable desde el que existe; todas las marcas permanecen accesibles en la vista global.
+
+Cambiar de compás reinicia el borrador del formulario con ese compás como punto de partida y termina la edición local no guardada; no cambia marcas persistidas. Elegir otro acorde o posición dentro del mismo compás conserva el borrador. Las marcas existentes se editan usando sus IDs y sus destinos originales, aunque el tramo empiece en otro compás. Ver todas las marcas cambia solo el filtro; los avisos globales continúan visibles en ambas vistas.
+
+`ui/workspace.js` coordina los diálogos y el contador, y `ui/marks.js` gestiona el contexto y el formulario. `styles/workspace.css` adapta el espacio a la altura disponible. El móvil usa paneles apilados; avisos extensos, formularios largos y varias hojas mantienen desplazamiento cuando se necesita. El rediseño no cambia la geometría ni el HTML exportado.
+
 ## Modelo y contrato JSON
 
 El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implementa la validación utilizada por la aplicación sin cargar una biblioteca externa. `src/model/serialize.js` convierte entre objetos y JSON con sangría de dos espacios y salto final.
@@ -55,7 +65,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Posición | `id`, `frets` de seis valores; grados y textos opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.1.3 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.2.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -190,11 +200,14 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-La evidencia funcional anterior a esta edición se conserva en `docs/ESTADO.md`; no se presenta como una batería repetida por escribir este DTS.
+La interfaz 0.2.0 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
-| Pruebas Node | 126 superadas en la revisión 0.1.3 |
+| Pruebas Node, 0.2.0 | 130 superadas; incluye cuatro casos de filtrado por compás, tramos, reordenación y referencias pendientes |
+| Interfaz 0.2.0 | Seis tamaños de escritorio de 800×600 a 1440×900, móvil 390×844, JSON, menús, edición, 40 posiciones y 30 compases |
+| Marcas por compás, 0.2.0 | Contexto inicial, cambio de compás, vista global, edición de tramos desde su interior, destinos y marcas guardadas sin desplazamientos |
+| HTML exportado, 0.2.0 | Ejemplo idéntico byte a byte al de 0.1.3 |
 | Validación de esquema | 1575 casos de paridad con AJV registrados durante las fases; esquema sin cambio |
 | Chromium 153 en Linux, 0.1.3 | JSON de 19 compases y 36 posiciones en dos hojas; guardado idéntico y medidas de vista previa/exportación iguales |
 | Geometría y continuaciones, 0.1.3 | Crecimiento a 4 y 8 trastes; 30 posiciones con continuación y barras sin duplicados |
