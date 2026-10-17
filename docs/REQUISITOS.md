@@ -2,6 +2,8 @@
 
 Versión de la especificación: 1.0. Fecha: 16/10/2026. Estado: preparada para desarrollo.
 
+**Ampliación solicitada el 17/10/2026, pendiente de implementación:** [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md). Amplía R01, R07 y R08, y sustituye para ese próximo cambio la exclusión de franjas de tonalidad de R24. La tabla siguiente conserva la especificación original; no describe esa ampliación como ya disponible.
+
 ## Objetivo
 
 Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción cuando cambie un acorde o una digitación. El archivo JSON conserva la edición; HTML y PDF son salidas visuales.

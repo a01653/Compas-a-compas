@@ -6,6 +6,8 @@ Editor local de hojas de acordes de guitarra, organizado por compases. Permite p
 
 Versión 0.4.1 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
+**Próxima mejora registrada, todavía sin implementar:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
+
 ## Empezar
 
 **Web en GitHub Pages:** [Abrir Compás a compás](https://a01653.github.io/Compas-a-compas/). Sin instalación ni servidor local. Consulta [acceso web y guardado](docs/WEB.md). La opción local sigue disponible:

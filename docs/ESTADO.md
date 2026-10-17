@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Próxima mejora registrada: textos y tonalidades — 17/10/2026
+
+Petición documentada en [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md), con revisión del archivo aportado `EJEMPLO.html` en Chromium. Incluye tonalidad junto al título de canción, rótulos enmarcados fuera de la línea del compás, grado propio del voicing y franjas de tonalidad con calidad, color heredado y visibilidad global. Se señalan las decisiones todavía abiertas. **Pendiente de implementación**; no se modifica el código ni se atribuyen estas funciones a 0.4.1.
+
 ## Versión 0.4.1: digitación, grados y textos sin pestañas — 17/10/2026
 
 Claude trabaja en un worktree nuevo del PC desde main 0.4.0; se conserva el espacio antiguo con sus cambios. Se retiran la navegación de pestañas del editor de acordes y sus atributos ARIA asociados. Digitación/grados y los dos textos se muestran siempre en secciones apiladas con títulos discretos. Se mantienen el selector de alcance por posición y Deshacer/Rehacer. Las pestañas de Colores conservan sus reglas compartidas.
