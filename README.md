@@ -8,7 +8,7 @@ Versión 0.3.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [
 
 ## Empezar
 
-**GitHub Pages:** publicación preparada, pendiente de activación en los ajustes del repositorio. Consulta [acceso web y activación](docs/WEB.md). La opción local sigue disponible:
+**Web en GitHub Pages:** [Abrir Compás a compás](https://a01653.github.io/Compas-a-compas/). Sin instalación ni servidor local. Consulta [acceso web y guardado](docs/WEB.md). La opción local sigue disponible:
 
 Requiere Node.js 18 o superior. No hay dependencias que instalar.
 

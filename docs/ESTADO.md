@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## GitHub Pages publicado — 17/10/2026
+
+GitHub confirma Pages activado. El propietario ha cambiado la visibilidad del repositorio a público. Reintentada la ejecución 39053339056: build y deploy completados correctamente, con URL confirmada por el trabajo de despliegue https://a01653.github.io/Compas-a-compas/. Aplicación 0.3.0, código sin cambios respecto a la revisión preparada. README.md y docs/WEB.md actualizados con el enlace definitivo y la configuración vigente. El arranque local mediante Abrir-Compas.cmd se conserva. No se ha realizado una nueva prueba de interacción en navegador sobre el sitio publicado.
+
 ## Preparación de GitHub Pages — 17/10/2026
 
 El usuario solicita que el alojamiento sea GitHub Pages. Se añade .github/workflows/pages.yml con pruebas, empaquetado de archivos de ejecución y despliegue desde main; scripts/build-pages.mjs prepara _site/ con rutas relativas y sin documentación ni scripts locales. README.md y docs/WEB.md sustituyen el enlace principal de Sites por el procedimiento de GitHub Pages. El repositorio sigue privado. Pages todavía no está activado: requiere seleccionar GitHub Actions en Settings → Pages y disponer de un plan compatible. No se declara publicación correcta ni URL activa hasta comprobar el despliegue. El conector no ofrece la operación de administración para activarlo. Validación local: 138 pruebas Node superadas, paquete con 58 archivos, 128 referencias relativas sin destinos ausentes y sintaxis YAML comprobada. El contenido de ejecución coincide con el origen; el paquete excluye docs/ y scripts/.
