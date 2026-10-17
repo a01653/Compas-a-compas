@@ -1,4 +1,4 @@
-% Source-SHA256: b724e50addb2f3a26b692a06f84a490efc60a559be170c69aeb55593b297829f
+% Source-SHA256: d2b083a59bae03a57da3ab38a084d3e78e7054f458f06954b82655b307d4bf9b
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.2.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.3.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -44,7 +44,7 @@
 \setlist[enumerate]{leftmargin=1.8em,itemsep=3pt,topsep=5pt}
 \usepackage{fvextra,framed,seqsplit}
 \fvset{fontsize=\small,breaklines=true,breakanywhere=true,frame=leftline,framerule=1.4pt,rulecolor=\color{lightblue},framesep=8pt}
-\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,fontsize=\small}
+\RecustomVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,samepage=true,fontsize=\small}
 \let\originaltexttt\texttt
 \renewcommand{\texttt}[1]{\originaltexttt{\seqsplit{#1}}}
 \providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.2.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.3.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.2.0 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.3.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -210,6 +210,37 @@ Los textos largos se abrevian en el punto y se explican en una leyenda.
 
 El selector de familia cambia la presentación del acorde. No analiza sus
 notas ni genera una digitación.
+
+\hypertarget{elegir-los-colores}{%
+\subsection{Elegir los colores}\label{elegir-los-colores}}
+
+Pulsa \textbf{Colores} en la cabecera. En \textbf{Calidad del acorde}
+cambia el fondo de mayor, menor, dominante, semidisminuido, disminuido y
+otros. Se usa la familia que hayas elegido en cada acorde; no se deduce
+del nombre.
+
+En \textbf{Notas y grados}, elige naturales, bemoles o sostenidos para
+ver los grados del 1 al 13. Cada uno tiene su propio color: cambiar
+\texttt{b3} no modifica \texttt{3}. Puedes usar el selector de color o
+escribir un hexadecimal \texttt{\#RRGGBB}. \textbf{Otro grado o
+etiqueta} añade valores como \texttt{bb7}, \texttt{\#\#4} o \texttt{R},
+de hasta 32 caracteres. Los símbolos ♭ y ♯ equivalen a \texttt{b} y
+\texttt{\#}. También se puede cambiar el color de las notas sin grado o
+sin un color propio.
+
+Las muestras se actualizan y los colores se aplican a todos los compases
+de esta canción. El texto y la rejilla se adaptan para leer sobre fondos
+oscuros. La flecha circular restaura un color; \textbf{Restaurar paleta
+original} pide confirmar antes de quitar todos los colores
+personalizados.
+
+Pulsa \textbf{Listo} para cerrar y \textbf{Guardar JSON} para conservar
+la paleta en el archivo. Se incluye también en HTML e impresión. Abrir
+otra canción utiliza sus colores, o los originales si no tiene una
+paleta guardada. Las versiones anteriores a 0.3.0 no pueden abrir JSON
+con el campo \texttt{palette}; utiliza la aplicación actualizada.
+
+\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-acordes.png}
 
 \hypertarget{texto-encima-y-dentro}{%
 \subsection{Texto encima y dentro}\label{texto-encima-y-dentro}}
@@ -398,7 +429,7 @@ El navegador no abre la aplicación & Consulta el manual de instalación;
 el editor necesita el servidor local. \\
 \end{longtable}
 
-La versión 0.2.0 se ha comprobado en Chromium. Firefox, Safari y el
+La versión 0.3.0 se ha comprobado en Chromium. Firefox, Safari y el
 diálogo de impresión nativo de Windows siguen pendientes de
 comprobación.
 \end{document}

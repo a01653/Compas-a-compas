@@ -1,12 +1,12 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.2.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.3.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.2.0, con interfaz compacta y marcas por compás. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.3.0, con interfaz compacta, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones, sincronización en la nube ni deshacer. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
@@ -51,6 +51,16 @@ Cambiar de compás reinicia el borrador del formulario con ese compás como punt
 
 `ui/workspace.js` coordina los diálogos y el contador, y `ui/marks.js` gestiona el contexto y el formulario. `styles/workspace.css` adapta el espacio a la altura disponible. El móvil usa paneles apilados; avisos extensos, formularios largos y varias hojas mantienen desplazamiento cuando se necesita. El rediseño no cambia la geometría ni el HTML exportado.
 
+## Paleta editable
+
+`src/model/palette.js` define la resolución de colores, sus valores originales y el contraste del texto. El campo opcional `song.palette` contiene `families`, `degrees` y `note`. La paleta se valida con el mismo contrato en el esquema JSON y el validador manual. Los colores son exclusivamente hexadecimales de seis cifras; no se aceptan valores CSS arbitrarios. Las etiquetas personalizadas tienen entre 1 y 32 caracteres y excluyen claves reservadas de objetos JavaScript.
+
+El esquema 1 se amplía de forma opcional: los archivos anteriores siguen válidos y se guardan sin cambios si no se personalizan. Un archivo con `palette` requiere 0.3.0 o posterior; los lectores anteriores rechazan el campo desconocido. No se presenta esa compatibilidad como lectura posible en ambos sentidos.
+
+El panel `ui/colors.js` ofrece familias, grados naturales y alterados del 1 al 13, etiquetas personalizadas y notas sin grado. Solo modifica la paleta de la canción; las notas, IDs, textos y destinos se conservan. La normalización acepta ♭/♯ como b/#. Cada etiqueta puede personalizarse de forma independiente. La restauración individual retira su entrada; la restauración completa, tras confirmar, elimina `palette`.
+
+El contexto de hoja pasa la paleta a tarjetas y mástiles, compartiendo medición, vista previa y exportación. Los textos y trazos interiores se adaptan al fondo; los títulos exteriores mantienen su color sobre el papel. Los colores de notas se serializan en SVG y los fondos como variables CSS locales. La impresión usa el mismo documento. No se modifican geometría ni digitaciones al cambiar un color. Las notas al aire conservan el dibujo de círculo o punto según tengan grado.
+
 ## Modelo y contrato JSON
 
 El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implementa la validación utilizada por la aplicación sin cargar una biblioteca externa. `src/model/serialize.js` convierte entre objetos y JSON con sangría de dos espacios y salto final.
@@ -65,7 +75,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Posición | `id`, `frets` de seis valores; grados y textos opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.2.0 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.3.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -200,11 +210,13 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-La interfaz 0.2.0 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
+La paleta 0.3.0 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
-| Pruebas Node, 0.2.0 | 130 superadas; incluye cuatro casos de filtrado por compás, tramos, reordenación y referencias pendientes |
+| Pruebas Node, 0.3.0 | 138 superadas; incluye ocho pruebas de paleta y cuatro de contexto de marcas |
+| Paleta 0.3.0 | JSON, reapertura, grados naturales y alterados, etiquetas, contraste, restauración, exportación e impresión con estilos de impresión |
+| Esquema 0.3.0 | 1685 casos de paridad entre validador manual y AJV con paleta |
 | Interfaz 0.2.0 | Seis tamaños de escritorio de 800×600 a 1440×900, móvil 390×844, JSON, menús, edición, 40 posiciones y 30 compases |
 | Marcas por compás, 0.2.0 | Contexto inicial, cambio de compás, vista global, edición de tramos desde su interior, destinos y marcas guardadas sin desplazamientos |
 | HTML exportado, 0.2.0 | Ejemplo idéntico byte a byte al de 0.1.3 |

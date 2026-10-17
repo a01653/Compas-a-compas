@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.3.0 — 17/10/2026
+
+- Panel Colores en cabecera: fondos por familia, notas por grado natural, bemol o sostenido del 1 al 13, etiquetas personalizadas y notas sin grado. Restauración individual y completa.
+- Paleta opcional guardada en JSON y aplicada a vista previa, HTML e impresión. Contraste de texto y trazos para fondos oscuros. Los JSON antiguos siguen válidos; los archivos con paleta requieren 0.3.0 o posterior.
+
 ## 0.2.0 — 17/10/2026
 
 - Interfaz compacta de dos columnas, selectores de compás, acorde y posición, digitación y grados visibles, textos en pestaña, menús e iconos para operaciones secundarias.

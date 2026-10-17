@@ -1,4 +1,4 @@
-import { DEGREE_COLORS } from './families.js';
+import { paletteDegreeColor } from './palette.js';
 
 /** Grados manuales opcionales: seis etiquetas sexta→primera; null = sin grado. No se infiere nada. */
 
@@ -26,10 +26,9 @@ export function applyDegrees(voicing, values) {
 }
 
 /** Color definido por la plantilla para un grado manual (acepta ♭ y ♯); null si no hay uno definido. */
-export function degreeColor(label) {
+export function degreeColor(label, palette) {
   if (typeof label !== 'string') return null;
-  const key = label.trim().replace(/♭/g, 'b').replace(/♯/g, '#');
-  return Object.prototype.hasOwnProperty.call(DEGREE_COLORS, key) ? DEGREE_COLORS[key] : null;
+  return paletteDegreeColor(label, palette);
 }
 
 /** Cómo se escribe una etiqueta dentro de un punto: las largas se abrevian en el dibujo, no en el dato. */

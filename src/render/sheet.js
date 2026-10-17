@@ -1,6 +1,6 @@
 import { h } from './dom.js';
 import { cardNode } from './card.js';
-import { familyStyle } from '../model/families.js';
+import { paletteFamilyStyle } from '../model/palette.js';
 import { projectMarks, fragmentMarks } from '../model/marksProjection.js';
 import { marksParts } from './marks.js';
 import { buildUnits, fragmentFlags, groupAtoms } from '../layout/atoms.js';
@@ -28,13 +28,14 @@ function eventNode(ctx, group, measureId, onSelect) {
   const cards = group.atoms.map((atom) => {
     const voicing = atom.voicingId === null ? null : voicings.get(atom.voicingId);
     return cardNode(event, voicing, {
+      palette: ctx.song.palette,
       onSelect: onSelect ? () => onSelect({ measureId, eventId: event.id, voicingId: atom.voicingId }) : null,
     });
   });
   const cls = ['evento', group.cutBefore ? 'corta-ini' : '', group.cutAfter ? 'corta-fin' : ''].filter(Boolean).join(' ');
   return h('div', {
     class: cls,
-    style: `${familyStyle(event.family)};flex-grow:${Math.max(1, group.atoms.length)}`,
+    style: `${paletteFamilyStyle(event.family, ctx.song.palette)};flex-grow:${Math.max(1, group.atoms.length)}`,
     role: 'group',
     'aria-label': `Acorde ${event.chordName || 'sin nombre'}`,
     'data-event-id': event.id,

@@ -1,5 +1,6 @@
 import { findDuplicateIds } from './ids.js';
 import { checkStructure } from './structure.js';
+import { isColor, isPaletteLabel } from './palette.js';
 
 export const SCHEMA_VERSION = 1;
 export const FAMILY_KEYS = ['major', 'minor', 'dominant', 'half-diminished', 'diminished', 'other'];
@@ -117,6 +118,17 @@ const song = object({
   props: {
     schemaVersion: () => {},
     documentVersion: text,
+    palette: object({ props: {
+      families: object({ props: Object.fromEntries(FAMILY_KEYS.map(key => [key, (v, p, e) => { if (!isColor(v)) fail(e, p, 'debe ser un color hexadecimal #RRGGBB'); }])) }),
+      degrees: (v, p, e) => {
+        if (!isObject(v)) return fail(e, p, 'debe ser un objeto');
+        for (const [key, value] of Object.entries(v)) {
+          if (!isPaletteLabel(key)) fail(e, at(p, key), 'etiqueta de grado no admitida (1 a 32 caracteres)');
+          if (!isColor(value)) fail(e, at(p, key), 'debe ser un color hexadecimal #RRGGBB');
+        }
+      },
+      note: (v, p, e) => { if (!isColor(v)) fail(e, p, 'debe ser un color hexadecimal #RRGGBB'); },
+    } }),
     title: text,
     key: text,
     measures: list(measure),

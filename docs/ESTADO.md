@@ -1,5 +1,17 @@
 # Estado de trabajo
 
+## Versión 0.3.0: colores por familia y grado — 17/10/2026
+
+Panel **Colores** añadido a la cabecera, con fondos para las seis familias, grados naturales, bemoles y sostenidos del 1 al 13, etiquetas personalizadas de hasta 32 caracteres y notas sin grado o sin color propio. Hay restauración individual y completa con confirmación. Los cambios se aplican a toda la canción y permanecen en su JSON, vista previa, HTML e impresión.
+
+Campo opcional `palette` añadido al esquema 1 y al validador manual. Los JSON anteriores siguen abriendo y guardándose sin añadir datos por defecto; los archivos con paleta necesitan 0.3.0 o posterior. Solo se aceptan colores `#RRGGBB`, familias conocidas y etiquetas válidas; se rechazan campos desconocidos y claves reservadas. Los datos musicales permanecen separados de los colores. La paleta se pasa al renderizador compartido y adapta textos y trazos interiores a fondos oscuros sin cambiar los títulos exteriores ni las digitaciones.
+
+Archivos: `src/model/palette.js`, `src/ui/colors.js`, pruebas de paleta, `src/model/{degrees,validate}.js`, `src/render/{card,sheet}.js`, `src/ui/{workspace,icons}.js`, `src/main.js`, `index.html`, `styles/workspace.css`, esquema, versión y documentación. Sin cambios en las referencias originales.
+
+Validación: 138 pruebas Node superadas y 1685 casos de paridad manual/AJV con paleta. Chromium 153 en Linux: color por familia y grado, etiqueta bb7, JSON, reapertura y recuperación tras recargar, fondo oscuro con nombre y rejilla legibles, títulos exteriores intactos, colores en HTML y estilos de impresión, cancelar/restaurar, entrada hexadecimal inválida y panel en móvil. La regresión del editor pasa en seis tamaños de escritorio y 390×844, con 40 posiciones y 30 compases. El HTML del ejemplo sin paleta permanece idéntico al control anterior. No se declara prueba del diálogo de impresión nativo de Windows.
+
+Manuales, DTS y capturas actualizados a 0.3.0. PDF regenerados y revisados; manifiestos SHA-256 y enlaces locales comprobados. Rama de implementación `feature/colores-acordes-grados`; entrega 0.3.0 validada para `main`.
+
 ## Versión 0.2.0: interfaz aprobada y marcas por compás — 17/10/2026
 
 El usuario aprobó la propuesta y autorizó integrarla en `main`. Se conserva la rama `design/editor-sin-scroll` como origen del cambio. Sin creación de release, tag ni despliegue.

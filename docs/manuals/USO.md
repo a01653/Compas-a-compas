@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.2.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.3.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -48,6 +48,18 @@ Una posición nueva empieza con todas las cuerdas mudas: debes introducir sus no
 Los seis campos de grados siguen el mismo orden, de sexta a primera cuerda. Son opcionales y manuales: puedes escribir `1`, `b3`, `5` o `b7`, por ejemplo. Los grados reconocidos colorean los puntos; un campo vacío deja la nota sin grado. Los textos largos se abrevian en el punto y se explican en una leyenda.
 
 El selector de familia cambia la presentación del acorde. No analiza sus notas ni genera una digitación.
+
+### Elegir los colores
+
+Pulsa **Colores** en la cabecera. En **Calidad del acorde** cambia el fondo de mayor, menor, dominante, semidisminuido, disminuido y otros. Se usa la familia que hayas elegido en cada acorde; no se deduce del nombre.
+
+En **Notas y grados**, elige naturales, bemoles o sostenidos para ver los grados del 1 al 13. Cada uno tiene su propio color: cambiar `b3` no modifica `3`. Puedes usar el selector de color o escribir un hexadecimal `#RRGGBB`. **Otro grado o etiqueta** añade valores como `bb7`, `##4` o `R`, de hasta 32 caracteres. Los símbolos ♭ y ♯ equivalen a `b` y `#`. También se puede cambiar el color de las notas sin grado o sin un color propio.
+
+Las muestras se actualizan y los colores se aplican a todos los compases de esta canción. El texto y la rejilla se adaptan para leer sobre fondos oscuros. La flecha circular restaura un color; **Restaurar paleta original** pide confirmar antes de quitar todos los colores personalizados.
+
+Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el archivo. Se incluye también en HTML e impresión. Abrir otra canción utiliza sus colores, o los originales si no tiene una paleta guardada. Las versiones anteriores a 0.3.0 no pueden abrir JSON con el campo `palette`; utiliza la aplicación actualizada.
+
+![Paleta de fondos por calidad del acorde.](capturas/colores-acordes.png)
 
 ### Texto encima y dentro
 
@@ -135,4 +147,4 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
 | El navegador no abre la aplicación | Consulta el manual de instalación; el editor necesita el servidor local. |
 
-La versión 0.2.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
+La versión 0.3.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
