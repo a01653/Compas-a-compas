@@ -13,6 +13,7 @@ import { confirmDialog } from './ui/dialog.js';
 import { notify } from './ui/notify.js';
 import { h } from './render/dom.js';
 import { validateSong, formatError } from './model/validate.js';
+import { mountWorkspace } from './ui/workspace.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -104,6 +105,7 @@ async function boot() {
   mountStatus(store);
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
+  mountWorkspace(store);
 
   await offerRecovery(store, recovery);
 }

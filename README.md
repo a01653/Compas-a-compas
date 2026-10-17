@@ -1,5 +1,7 @@
 # Compás a compás
 
+**Rama de diseño en revisión:** [editor compacto, capturas y comprobaciones](docs/diseno/editor-compacto/README.md). Esta rama reorganiza los controles de la versión 0.1.3 y espera la valoración del usuario; no está fusionada en `main`. Los manuales PDF actuales describen la interfaz anterior.
+
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
 Versión 0.1.3 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).

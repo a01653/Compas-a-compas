@@ -1,61 +1,35 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Compás a compás</title>
   <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
-  <link rel="stylesheet" href="references/fonts.css">
-  <link rel="stylesheet" href="styles/tokens.css">
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/app.css">
-  <link rel="stylesheet" href="styles/sheet.css">
+  <link rel="stylesheet" href="references/fonts.css"><link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/base.css"><link rel="stylesheet" href="styles/app.css">
+  <link rel="stylesheet" href="styles/sheet.css"><link rel="stylesheet" href="styles/workspace.css">
   <script type="module" src="src/main.js"></script>
-  <script type="module" src="src/ui/scrollRegions.js"></script>
 </head>
-<body>
+<body class="compact-workspace">
   <a class="skip" href="#panel-acorde">Saltar al editor de acordes</a>
-
   <header class="topbar">
-    <div class="brand">
-      <img class="brand-icon" src="assets/icon.svg" alt="" width="40" height="40">
-      <div class="brand-text">
-        <h1>Compás a compás</h1>
-        <span class="brand-version">Versión 0.1.3</span>
-      </div>
-    </div>
-
-    <p id="estado-archivo" class="file-state" aria-live="polite"></p>
-
+    <div class="brand"><img class="brand-icon" src="assets/icon.svg" alt="" width="34" height="34"><div class="brand-text"><h1>Compás a compás</h1><span class="brand-version">Tu cuaderno de acordes</span></div></div>
+    <button id="open-song" class="song-context" type="button" aria-haspopup="dialog" aria-controls="song-dialog" title="Editar datos de la canción"><span id="song-title">Canción</span><span class="song-context-meta"><span id="song-key"></span><span class="context-edit">Editar datos</span></span></button>
     <div class="topbar-file" role="group" aria-label="Archivo y exportación">
-      <button type="button" id="btn-nuevo" class="btn btn-ghost">Nuevo</button>
-      <button type="button" id="btn-abrir" class="btn btn-ghost">Abrir JSON</button>
-      <button type="button" id="btn-guardar" class="btn btn-ghost">Guardar JSON</button>
-      <button type="button" id="btn-exportar-html" class="btn btn-ghost">Exportar HTML</button>
-      <button type="button" id="btn-imprimir" class="btn btn-ghost">Imprimir / PDF</button>
+      <button type="button" id="btn-abrir" class="btn" data-icon="folder">Abrir</button>
+      <button type="button" id="btn-guardar" class="btn btn-primary" data-icon="save">Guardar JSON</button>
+      <details class="action-menu" id="export-menu"><summary class="btn" data-icon="export">Exportar</summary><div class="menu-content"><button type="button" id="btn-exportar-html" class="btn">Exportar HTML</button><button type="button" id="btn-imprimir" class="btn">Imprimir / PDF</button></div></details>
+      <details class="action-menu"><summary class="btn tool-icon" aria-label="Más opciones de archivo" title="Más opciones de archivo" data-icon="more"></summary><div class="menu-content"><button type="button" id="btn-nuevo" class="btn">Nueva canción</button><button type="button" id="open-song-menu" class="btn">Datos de la canción</button></div></details>
     </div>
     <input type="file" id="archivo-json" accept=".json,application/json" hidden>
   </header>
-
   <p id="aviso-carga" class="aviso-carga" role="alert" hidden></p>
-
   <main class="layout">
-    <div class="edicion" id="edicion" data-region="Edición: canción, compases, acordes y marcas">
-      <div class="col col-lista" id="col-lista" data-region="Canción y lista de compases">
-        <section class="panel" id="panel-cancion" aria-labelledby="t-cancion"></section>
-        <section class="panel" id="panel-compases" aria-labelledby="t-compases"></section>
-      </div>
-      <div class="col col-editor" id="col-editor" data-region="Editor de acorde y marcas">
-        <section class="panel" id="panel-acorde" aria-labelledby="t-acorde"></section>
-        <section class="panel" id="panel-marcas" aria-labelledby="t-marcas"></section>
-      </div>
-    </div>
-    <div class="col col-vista">
-      <section class="panel panel-vista" id="panel-vista" aria-labelledby="t-vista"></section>
-    </div>
+    <div class="editor-workspace" id="edicion"><section class="panel measure-navigator" id="panel-compases" aria-labelledby="t-compases"></section><section class="panel chord-workspace" id="panel-acorde" aria-labelledby="t-acorde"></section></div>
+    <section class="panel panel-vista" id="panel-vista" aria-labelledby="t-vista"></section>
   </main>
-
-  <p id="estado-vivo" class="sr-only" role="status" aria-live="polite"></p>
-  <p id="toast" class="toast" aria-hidden="true" hidden></p>
+  <footer class="workspace-status"><p id="estado-archivo" class="file-state" aria-live="polite"></p><span>Propuesta de diseño · 0.1.3</span><button id="open-marks" type="button" aria-haspopup="dialog" aria-controls="marks-dialog" data-icon="repeat">Estructura musical<span id="marks-count"></span></button></footer>
+  <dialog id="song-dialog" class="dialog settings-dialog" aria-labelledby="t-cancion"><button type="button" class="btn tool-icon dialog-close" data-close="song-dialog" aria-label="Cerrar datos de la canción" data-icon="close"></button><section id="panel-cancion"></section><div class="dialog-actions"><button type="button" class="btn btn-primary" data-close="song-dialog">Listo</button></div></dialog>
+  <dialog id="marks-dialog" class="dialog settings-dialog" aria-labelledby="t-marcas"><button type="button" class="btn tool-icon dialog-close" data-close="marks-dialog" aria-label="Cerrar estructura musical" data-icon="close"></button><section id="panel-marcas" class="panel"></section><div class="dialog-actions"><button type="button" class="btn btn-primary" data-close="marks-dialog">Listo</button></div></dialog>
+  <p id="estado-vivo" class="sr-only" role="status" aria-live="polite"></p><p id="toast" class="toast" aria-hidden="true" hidden></p>
 </body>
 </html>

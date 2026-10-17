@@ -1,24 +1,13 @@
 import { h } from '../render/dom.js';
-import { familyStyle } from '../model/families.js';
 import { addMeasure, deleteMeasure, duplicateMeasure, moveMeasure } from '../model/song.js';
 import { measureConsequences } from '../model/structure.js';
 import { selectedMeasure } from '../store.js';
 import { confirmDialog } from './dialog.js';
 import { notify } from './notify.js';
 import { openImportDialog } from './importList.js';
-
-function summary(measure) {
-  if (!measure.chordEvents.length) return h('span', { class: 'measure-empty' }, 'Vacío');
-  return h('span', { class: 'measure-sum' }, measure.chordEvents.map((event) => {
-    const n = event.voicings.length;
-    return h('span', { class: 'tag', style: familyStyle(event.family) },
-      event.chordName || 'Sin nombre',
-      h('small', null, n === 0 ? 'pendiente' : n === 1 ? '1 posición' : `${n} posiciones`));
-  }));
-}
+import { icon, iconButton } from './icons.js';
 
 export function mountMeasuresPanel(root, store) {
-  const list = h('ul', { class: 'measure-list' });
   const button = (text, onclick) => h('button', { type: 'button', class: 'btn', onclick }, text);
 
   const bAdd = button('Añadir al final', () => {
@@ -75,32 +64,50 @@ export function mountMeasuresPanel(root, store) {
     if (consequences.length) notify('Compás borrado. Revisa los avisos de marcas: algunas referencias quedan pendientes.', { duration: 7000 });
   }
 
+  const select = h('select', { id: 'measure-select', 'aria-label': 'Seleccionar compás',
+    onchange: e => store.selectMeasure(e.target.value) });
+  const previous = iconButton('left', 'Compás anterior', () => navigate(-1));
+  const next = iconButton('right', 'Compás siguiente', () => navigate(1));
+  function navigate(delta) {
+    const index = store.state.song.measures.findIndex(m => m.id === store.state.selection.measureId);
+    const target = store.state.song.measures[index + delta];
+    if (target) store.selectMeasure(target.id);
+  }
+  bAdd.replaceChildren(icon('plus'));
+  bAdd.className = 'btn tool-icon';
+  bAdd.title = 'Añadir compás al final';
+  bAdd.setAttribute('aria-label', bAdd.title);
+  const label = h('input', { id: 'f-etiqueta', type: 'text', oninput: e => {
+    const m = selectedMeasure(store.state);
+    if (m) { m.label = e.target.value; store.emit('text'); }
+  } });
   root.append(
-    h('div', { class: 'panel-head' },
-      h('h2', { id: 't-compases' }, 'Compases'),
-      h('span', { class: 'hint', id: 'cuenta-compases' })),
-    h('div', { class: 'measure-tools', role: 'group', 'aria-label': 'Acciones sobre compases' },
-      bAdd, bInsert, bDup, bDelete, bUp, bDown, bImport),
-    list);
+    h('div', { class: 'navigator-heading' }, h('h2', { id: 't-compases' }, 'Compás'), h('span', { id: 'cuenta-compases', class: 'hint' })),
+    h('div', { class: 'navigator-row' }, previous, select, next, bAdd,
+      h('details', { class: 'action-menu' },
+        h('summary', { class: 'btn tool-icon', 'aria-label': 'Opciones del compás', title: 'Opciones del compás' }, icon('more')),
+        h('div', { class: 'menu-content measure-menu' },
+          h('div', { class: 'field' }, h('label', { for: 'f-etiqueta' }, 'Etiqueta del compás'), label),
+          bInsert, bDup, bUp, bDown, bDelete, bImport))));
 
   function render(state) {
     const total = state.song.measures.length;
     root.querySelector('#cuenta-compases').textContent = total === 1 ? '1 compás' : `${total} compases`;
     const index = state.song.measures.findIndex((m) => m.id === state.selection.measureId);
     const none = index < 0;
+    previous.disabled = none || index === 0;
+    next.disabled = none || index === total - 1;
     bInsert.disabled = bDup.disabled = bDelete.disabled = none;
     bUp.disabled = none || index === 0;
     bDown.disabled = none || index === total - 1;
 
-    list.replaceChildren(...state.song.measures.map((m) => h('li', null,
-      h('button', {
-        type: 'button',
-        class: 'measure-item',
-        'aria-current': m.id === state.selection.measureId ? 'true' : null,
-        'aria-label': `Compás ${m.label}`,
-        onclick: () => store.selectMeasure(m.id),
-      }, h('span', { class: 'measure-num', 'aria-hidden': 'true' }, m.label), summary(m)))));
-    if (!total) list.append(h('li', { class: 'hint' }, 'La canción no tiene compases. Añade uno o importa una lista.'));
+    select.replaceChildren(...state.song.measures.map(m => h('option', {
+      value: m.id, selected: m.id === state.selection.measureId,
+    }, `${m.label} · ${m.chordEvents.map(e => e.chordName || 'Sin nombre').join(' / ') || 'Vacío'}`)));
+    if (!total) select.append(h('option', { value: '' }, 'Sin compases'));
+    select.disabled = none;
+    if (document.activeElement !== label) label.value = selectedMeasure(state)?.label || '';
+    label.disabled = none;
   }
 
   render(store.state);

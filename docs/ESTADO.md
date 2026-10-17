@@ -1,5 +1,13 @@
 # Estado de trabajo
 
+## Propuesta de interfaz compacta — 17/10/2026
+
+Rama `design/editor-sin-scroll`, desde `main` `e33d87c`. Propuesta solicitada por el usuario, pendiente de su revisión visual. Sin fusión en `main`, sin release ni despliegue. Aplicación 0.1.3; sin cambios de modelo, esquema, geometría de hoja ni exportador.
+
+Implementación: dos columnas, navegación de compases por selector, edición de acorde y posición siempre a mano, pestañas de digitación/grados y textos, datos de canción y estructura en diálogos, operaciones secundarias en menús e iconos etiquetados. Archivos y evidencia en [la ficha de diseño](diseno/editor-compacto/README.md), con capturas a 1440×900 y 1280×720.
+
+Comprobado en Chromium 153 sobre Linux: seis tamaños de escritorio, entrada de notas y grados sin perder foco, JSON, selección, textos personalizados, altas, duplicado y borrado de posición con cancelar/confirmar, diálogos y menús; 40 posiciones y 30 compases sin crecimiento vertical del editor; móvil a 390×844 sin desbordamiento horizontal. Editor habitual y posición vacía sin scroll a 1280×720 y 800×600. HTML exportado del ejemplo idéntico byte a byte a `main`; 126 pruebas Node pasan. Pendientes la aprobación visual y las comprobaciones nativas de Windows y otros navegadores. Los PDF no se regeneran para una propuesta aún no aceptada.
+
 ## Documentación de usuario y DTS — 17/10/2026
 
 Preparada directamente por el supervisor, sin invocar Claude. Aplicación 0.1.3 sin cambios funcionales. Archivos: `docs/manuals/USO.md`, `INSTALACION.md` y `README.md`; `docs/DTS.md`; dos capturas en `docs/manuals/capturas`; `docs/latex/document-template.tex`; tres PDF con sus fuentes `.tex` y manifiestos `.build.json`; `scripts/build_docs.py`; enlaces y aclaración del intervalo de 32 trastes en README; registro en CHANGELOG.
