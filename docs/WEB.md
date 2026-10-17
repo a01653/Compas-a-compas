@@ -2,7 +2,7 @@
 
 [**Abrir Compás a compás**](https://compas-a-compas.a01653.chatgpt.site)
 
-La aplicación 0.3.0 está publicada en Sites con acceso privado para su propietario. Usa la cuenta propietaria de ChatGPT si aparece una pantalla de identificación. No hace falta arrancar el servidor local ni mantener el PC encendido.
+La aplicación 0.3.0 está publicada en Sites con acceso público: cualquiera con el enlace puede abrirla sin iniciar sesión en ChatGPT. El repositorio de GitHub permanece privado. No hace falta arrancar el servidor local ni mantener el PC encendido.
 
 ## Canciones
 

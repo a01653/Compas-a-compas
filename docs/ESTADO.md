@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Acceso web público — 17/10/2026
+
+Acceso de Sites cambiado a público por petición expresa del usuario. La política devuelta y una lectura posterior confirman `public`, revisión 2. Se conserva la misma URL, versión 0.3.0 y repositorio privado. README.md y docs/WEB.md actualizados para indicar que no hace falta iniciar sesión. Sin cambios de código ni nueva publicación de la aplicación.
+
 ## Acceso web privado — 17/10/2026
 
 Aplicación 0.3.0 publicada en Sites: https://compas-a-compas.a01653.chatgpt.site. Despliegue confirmado como correcto por Sites. Los 57 archivos de ejecución coinciden con main en ed65dceb86d149572bd5444ff111574279650be8; 133 referencias de recursos comprobadas y 138 pruebas Node superadas. Sin cambios de código de aplicación ni de acceso al repositorio. No se realizó una nueva sesión de navegador sobre la URL publicada porque el navegador compatible con Sites no estaba disponible. GitHub y la publicación web se actualizan por separado. Enlace y procedimiento en README.md y docs/WEB.md.
