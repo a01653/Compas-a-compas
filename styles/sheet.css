@@ -112,11 +112,9 @@
    - el ancho de cada columna sigue siendo su ancho natural más un reparto igual del espacio libre (pistas «auto»), como antes. */
 .eventos { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: auto; grid-template-rows: auto auto minmax(min-content, 1fr); column-gap: 4px; row-gap: 0; }
 
-/* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración.
-   Si el acorde sigue en otra fila u hoja, el lado cortado se marca con un trazo de puntos. */
-.evento { display: grid; grid-row: 1 / span 3; grid-auto-flow: column; grid-template-columns: subgrid; grid-template-rows: subgrid; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
-.evento.corta-ini { padding-left: 4px; border-left: 3px dotted var(--fam-bd, #c3c9d6); }
-.evento.corta-fin { padding-right: 4px; border-right: 3px dotted var(--fam-bd, #c3c9d6); }
+/* .evento es solo un contenedor de distribución: reparte sus tarjetas en las columnas y filas del fragmento y no se dibuja
+   (sin barra, borde ni trazos de continuación). Cada tarjeta es independiente; no se añade duración. */
+.evento { display: grid; grid-row: 1 / span 3; grid-auto-flow: column; grid-template-columns: subgrid; grid-template-rows: subgrid; }
 
 .tarjeta-col { display: grid; grid-row: 1 / span 3; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; }
 .t-sup { display: contents; }
@@ -124,7 +122,9 @@
 .t-titulo { grid-row: 1; align-self: end; contain: inline-size; margin-bottom: 2px; }
 .t-titulo-caja { display: inline-block; max-width: 100%; padding: 3px 8px; border: 2px solid var(--ink-deep); border-radius: 6px; background: #fff; font: 17px/1.15 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
 /* Franja de tonalidad: color de la familia de la tonalidad. La heredada tiene la misma caja y altura, pero no repite el texto. */
-.t-tono { grid-row: 2; align-self: end; contain: inline-size; display: flex; align-items: center; box-sizing: border-box; min-height: 20px; margin-bottom: 2px; padding: 1px 8px; border: 1.2px solid var(--fam-bd, #c3c9d6); border-radius: 5px; background: var(--fam-bg, #f1f2f6); font: 14px/1.15 var(--f-hand); color: var(--ink-deep); overflow-wrap: anywhere; }
+.t-tono { grid-row: 2; align-self: stretch; contain: inline-size; box-sizing: border-box; min-height: 20px; margin: 0 -2px 2px; padding: 2px 3px; border: 0; border-bottom: 3px solid var(--tonal-color); border-radius: 0; background: var(--tonal-bg); font: 12px/1.15 var(--f-hand); color: var(--tonal-ink); overflow-wrap: anywhere; }
+.evento:first-child .tarjeta-col:first-child .t-tono { margin-left: 0; }
+.evento:last-child .tarjeta-col:last-child .t-tono { margin-right: 0; }
 .t-pos { grid-row: 3; }
 
 .tarjeta {

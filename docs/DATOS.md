@@ -89,3 +89,11 @@ Se amplía el esquema 1 con campos opcionales. Los JSON anteriores siguen siendo
 La tonalidad general `key` inicia el contexto; no se deduce su calidad del texto. Cada `tonality` establece un cambio en su posición. La ausencia hereda el último contexto según el orden escrito, cruzando acordes y compases. Se deriva de nuevo después de mover, borrar o duplicar entidades. No se guarda un contexto efectivo por tarjeta, ni se resuelve un recorrido con repeticiones.
 
 Las franjas heredan el color de la familia de tonalidad desde la paleta de canción. El nombre y la familia del acorde no afectan a ese contexto. `voicingDegree` y `tonality` pertenecen siempre a una posición; el alcance de edición conjunta de `aboveText` e `insideText` no se aplica a ellos. Deshacer/Rehacer conserva estos datos y la casilla global como cualquier otra edición.
+
+## Edición por tarjetas desde 0.6.0
+
+La interfaz presenta una lista plana de tarjetas por compás. El formato histórico conserva `chordEvents` y `voicings` para abrir y guardar archivos sin una conversión silenciosa. Un evento con varias posiciones aporta varias tarjetas; un evento sin posiciones aporta una tarjeta pendiente.
+
+Los campos se editan de forma individual. Cambiar el nombre o la calidad de una tarjeta que compartía evento separa únicamente las partes necesarias, conservando el orden, los IDs de posición y los textos efectivos. El primer fragmento retiene el ID del evento y los nuevos fragmentos reciben IDs propios. Las referencias musicales siguen ligadas al compás. La separación y la edición se deshacen juntas.
+
+Añadir o duplicar crea una tarjeta independiente. Duplicar materializa los textos efectivos para que el contenido no dependa del evento original; quitar borra solo la tarjeta elegida. Abrir, seleccionar o guardar sin editar no modifica el documento. No cambian `schemaVersion`, la validación ni las digitaciones manuales.

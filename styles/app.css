@@ -293,8 +293,6 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
 .vista-hojas .compas.sel { background: rgba(166, 203, 233, 0.22); box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); border-radius: 0 6px 6px 0; }
 .vista-hojas .compas.sel.en-rep { box-shadow: 0 0 0 3px rgba(47, 107, 255, 0.35); }
 /* Solo outline/sombra: no altera dimensiones ni el CSS compartido de las hojas. */
-.vista-hojas .evento { outline: 1px solid rgba(27, 42, 120, 0.28); outline-offset: 2px; }
-.vista-hojas .evento.sel-evento { outline: 2px dashed rgba(47, 107, 255, 0.8); outline-offset: 3px; box-shadow: 0 0 0 5px rgba(47, 107, 255, 0.12); }
 .vista-hojas .tarjeta { cursor: pointer; }
 .vista-hojas .tarjeta.sel { outline: 3px solid rgba(47, 107, 255, 0.7); outline-offset: 2px; }
 

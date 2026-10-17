@@ -1,4 +1,4 @@
-% Source-SHA256: 0b0ff6b43f3acd34f7a215eba31c41b9427ba6b95c727cb69bcf19e954b3da49
+% Source-SHA256: 11e35abc38d6eb0741ed03d46af1895535fe4ab7e59e692e0ef9fe9f8e6485ce
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.5.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.6.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.5.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.6.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -132,47 +132,42 @@ Jesús Quevedo Rodríguez.
 \end{enumerate}
 
 La interfaz tiene un editor compacto a la izquierda y la hoja a la
-derecha. Los selectores de compás, acorde y posición evitan listas
-verticales largas. Digitación y grados quedan en la parte alta del
-editor; los textos y el contexto de la posición aparecen debajo. El
-editor conserva desplazamiento interno cuando no cabe todo. En móvil se
-apilan las zonas. \textbf{Ajustar al ancho} y los botones de zoom solo
-cambian la vista, no el tamaño de impresión.
+derecha. Los selectores de compás y tarjeta evitan listas verticales
+largas. Digitación y grados quedan en la parte alta del editor; los
+textos y la tonalidad de la tarjeta aparecen debajo. El editor conserva
+desplazamiento interno cuando no cabe todo. En móvil se apilan las
+zonas. \textbf{Ajustar al ancho} y los botones de zoom solo cambian la
+vista, no el tamaño de impresión.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}
 
 \Needspace{3.5cm}
-\hypertarget{compuxe1s-acorde-y-posiciuxf3n}{%
-\section{Compás, acorde y
-posición}\label{compuxe1s-acorde-y-posiciuxf3n}}
+\hypertarget{tarjetas-del-compuxe1s}{%
+\section{Tarjetas del compás}\label{tarjetas-del-compuxe1s}}
 
-Un \textbf{compás} contiene uno o varios \textbf{acordes}. Cada acorde
-puede tener varias \textbf{posiciones} o \emph{voicings}: distintas
-digitaciones del mismo acorde.
+Cada dibujo es una \textbf{tarjeta}. Tiene su nombre de acorde,
+calidad/color, digitación, grados, título exterior, anotación y
+tonalidad. Para escribir dos digitaciones del mismo acorde, añade dos
+tarjetas con ese nombre. Para escribir dos acordes distintos, cambia el
+nombre de cada una. Se manejan igual.
 
-\begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
-\toprule\noalign{}
-Quiero escribir\ldots{} & Acción \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Cm7 y después F7 en el mismo compás & Añadir otro acorde \\
-Dos maneras de tocar Cm7 & Añadir otra posición dentro de Cm7 \\
-La misma posición con un pequeño cambio & Duplicar posición y editar sus
-trastes \\
-\end{longtable}
+Usa el único selector \textbf{Tarjetas del compás} para elegir una
+tarjeta, o púlsala directamente en la hoja. \textbf{Añadir tarjeta} crea
+una tarjeta lista para introducir sus notas. \textbf{Duplicar tarjeta}
+copia la seleccionada a continuación; \textbf{Quitar tarjeta} borra
+solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las
+otras tarjetas, aunque compartan el mismo nombre.
 
-Añadir una posición no crea otro acorde ni asigna tiempos. La aplicación
-tampoco calcula cuánto dura cada acorde.
+Los archivos anteriores siguen abriendo. Si contenían varias posiciones
+agrupadas bajo un acorde, ahora aparecen como tarjetas separadas en el
+selector. Abrir y guardar sin editar conserva el archivo; el cambio de
+interfaz no elimina datos ni crea notas.
 
-Selecciona un compás en el desplegable superior o con las flechas;
-también puedes pulsar una tarjeta de la hoja. Usa los selectores de
-acorde y posición para elegir qué editar. El botón + añade un compás y
-el menú de tres puntos ofrece las demás operaciones. Puedes insertar,
-duplicar, mover o borrar compases. Su etiqueta visible se puede escribir
-y \textbf{no se renumera automáticamente} al moverlos. Antes de borrar
-un compás se muestran las consecuencias para sus marcas musicales.
+Selecciona un compás en el desplegable superior o con las flechas. El
+botón + añade un compás y el menú de tres puntos permite insertar,
+duplicar, mover o borrar compases. Su etiqueta no se renumera
+automáticamente al moverlos. Antes de borrar un compás se muestran las
+consecuencias para sus marcas musicales.
 
 \Needspace{3.5cm}
 \hypertarget{escribir-digitaciones-grados-y-textos}{%
@@ -196,7 +191,7 @@ También se acepta \texttt{x35343} cuando cada traste tiene una cifra.
 Usa espacios si hay trastes de dos cifras. Una entrada incorrecta
 muestra un aviso y conserva la última digitación válida.
 
-Una posición nueva empieza con todas las cuerdas mudas: debes introducir
+Una tarjeta nueva empieza con todas las cuerdas mudas: debes introducir
 sus notas. En el dibujo, la primera cuerda está arriba. El mástil
 muestra al menos tres trastes y \textbf{crece solo} a cuatro o más si lo
 necesita. El límite actual es un intervalo visible de 32 trastes; si se
@@ -212,7 +207,7 @@ cuerda. Son opcionales y manuales: puedes escribir \texttt{1},
 reconocidos colorean los puntos; un campo vacío deja la nota sin grado.
 Los textos largos se abrevian en el punto y se explican en una leyenda.
 
-El selector de familia cambia la presentación del acorde. No analiza sus
+El selector de calidad cambia el fondo de la tarjeta. No analiza sus
 notas ni genera una digitación.
 
 \hypertarget{elegir-los-colores}{%
@@ -246,9 +241,9 @@ con el campo \texttt{palette}; utiliza la aplicación actualizada.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-acordes.png}
 
-\hypertarget{tuxedtulos-anotaciones-y-grado-del-voicing}{%
-\subsection{Títulos, anotaciones y grado del
-voicing}\label{tuxedtulos-anotaciones-y-grado-del-voicing}}
+\hypertarget{tuxedtulos-anotaciones-y-grado-de-la-tarjeta}{%
+\subsection{Títulos, anotaciones y grado de la
+tarjeta}\label{tuxedtulos-anotaciones-y-grado-de-la-tarjeta}}
 
 El bloque \textbf{Textos de la tarjeta} aparece debajo de digitación y
 grados, siempre visible y sin pestañas. \textbf{Título sobre la tarjeta}
@@ -256,12 +251,10 @@ se dibuja en un recuadro encima de su posición y fuera de la línea
 vertical del compás. \textbf{Anotación dentro} conserva su lugar bajo el
 nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
 
-Con varias posiciones, \textbf{Aplicar los cambios a} permite modificar
-esos dos textos en esta posición o en todas las del acorde. Cada campo
-que edites para todas sustituye sus valores propios; el otro campo no
-cambia. Al seleccionar otra posición vuelve a la edición individual.
+Cada campo modifica solo la tarjeta seleccionada. No hay un selector
+para aplicar los textos a otras tarjetas.
 
-\textbf{Grado del voicing} es un campo manual independiente: escribe
+\textbf{Grado de la tarjeta} es un campo manual independiente: escribe
 \texttt{ii}, \texttt{V7/ii} o el texto que necesites. Sale arriba a la
 derecha de la tarjeta, junto al acorde. No modifica los seis grados de
 las cuerdas ni se calcula automáticamente. Este campo pertenece siempre
@@ -269,15 +262,15 @@ a la posición seleccionada.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/textos-deshacer.png}
 
-\hypertarget{tonalidad-de-cada-posiciuxf3n}{%
-\subsection{Tonalidad de cada
-posición}\label{tonalidad-de-cada-posiciuxf3n}}
+\hypertarget{tonalidad-de-cada-tarjeta}{%
+\subsection{Tonalidad de cada tarjeta}\label{tonalidad-de-cada-tarjeta}}
 
-En \textbf{Tonalidad de esta posición} escribe un cambio de contexto y
-elige su \textbf{Calidad de tonalidad}. Mayor, menor y las demás
-calidades usan los colores de la paleta de familias de esta canción. La
-calidad de la franja es independiente de la del acorde: un dominante
-puede llevar una tonalidad menor encima.
+En \textbf{Tonalidad} escribe un cambio de contexto y elige su
+\textbf{Calidad de tonalidad}. Mayor, menor y las demás calidades usan
+los colores de la paleta de familias de esta canción. La calidad de la
+franja es independiente de la del acorde: un dominante puede llevar una
+tonalidad menor encima. La banda es rectangular, con fondo tenue y línea
+de color debajo, como en la plantilla; no lleva recuadro redondeado.
 
 Deja el campo vacío para continuar con la tonalidad anterior, incluido
 su color, sin imprimir otra etiqueta. La herencia sigue el orden escrito
@@ -298,12 +291,11 @@ pulsando su título y desmarca \textbf{Mostrar tonalidades de las
 tarjetas}. La tonalidad junto al título sigue visible. Vuelve a marcar
 para recuperar las franjas; no se borra ningún dato.
 
-Grado del voicing y tonalidad son propios de cada posición, aunque el
-selector de los otros textos esté en «Todas las posiciones del acorde».
-Se guardan en JSON y se conservan en vista previa, HTML e impresión.
-Puedes probarlo abriendo \texttt{examples/textos-tonalidades.json}. Los
-archivos con estos campos nuevos requieren 0.5.0 o posterior; los
-anteriores siguen abriendo.
+Grado y tonalidad pertenecen a la tarjeta seleccionada, igual que el
+resto de sus campos. Se guardan en JSON y se conservan en vista previa,
+HTML e impresión. Puedes probarlo abriendo
+\texttt{examples/textos-tonalidades.json}. Los archivos con estos campos
+nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
 
 \hypertarget{deshacer-y-rehacer}{%
 \subsection{Deshacer y rehacer}\label{deshacer-y-rehacer}}
@@ -497,8 +489,8 @@ Situación & Qué revisar \\
 \endlastfoot
 He añadido una posición y parece vacía & Empieza con seis cuerdas mudas.
 Escribe una digitación distinta para verla. \\
-Dos posiciones muestran el mismo texto & Selecciona una y edita sus
-textos con «Solo esta posición». \\
+Dos tarjetas muestran el mismo texto & Selecciona una y edita sus
+textos; solo cambia esa tarjeta. \\
 La siguiente hoja tiene tarjetas más anchas & Las filas parciales
 reparten el ancho disponible. El zoom no cambia el tamaño exportado. \\
 El grado no aparece & Comprueba el orden de las cuerdas y si esa cuerda

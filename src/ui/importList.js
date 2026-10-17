@@ -19,7 +19,7 @@ export async function openImportDialog(store) {
     h('div', { class: 'field' },
       h('label', { for: 'lista-texto' }, 'Lista de compases (uno por línea)'),
       textarea,
-      h('span', { class: 'hint', id: 'lista-ayuda' }, 'Formato: etiqueta | acorde @ digitación ; acorde @ digitación. Otro voicing del mismo acorde: « / » con espacios. Una barra de bajo como C/E no separa nada. Los compases se añaden al final.')),
+      h('span', { class: 'hint', id: 'lista-ayuda' }, 'Formato: etiqueta | acorde @ digitación ; acorde @ digitación. Varias tarjetas con el mismo nombre: separa las digitaciones con « / » y espacios. Una barra de bajo como C/E no separa nada. Los compases se añaden al final.')),
     h('pre', { class: 'import-example' }, EXAMPLE),
     summary, errorsBox, preview,
   ];

@@ -1,6 +1,6 @@
 # Instalación y arranque — Compás a compás
 
-Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Qué necesitas
 

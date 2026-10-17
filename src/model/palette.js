@@ -62,6 +62,27 @@ export function paletteFamilyStyle(key, palette, card = false) {
   return `--fam-bg:${bg};--fam-bd:${border}` + (card ? `;--ink-deep:${fg};--ink-soft:${fg};--ink-mute:${fg}` : '');
 }
 
+// Acentos de las franjas: fondo al 10 % y línea inferior como en la plantilla.
+const TONAL_ACCENTS = {
+  major: '#1d4ed8', minor: '#7c3aed', dominant: '#059669',
+  'half-diminished': '#b45309', diminished: '#be123c', other: '#64748b',
+};
+const mixColor = (a, b, amount) => '#' + [1, 3, 5].map(i => Math.round(
+  parseInt(a.slice(i, i + 2), 16) * amount + parseInt(b.slice(i, i + 2), 16) * (1 - amount)
+).toString(16).padStart(2, '0')).join('');
+
+/** Respeta la calidad y la paleta sin almacenar colores derivados en la canción. */
+export function tonalityBandStyle(key, palette) {
+  const family = own(FAMILIES, key) ? key : 'other';
+  const color = isColor(palette?.families?.[family]) ? palette.families[family] : TONAL_ACCENTS[family];
+  const background = mixColor(color, '#ffffff', .1);
+  let ink = color;
+  for (let i = 0; i < 24 && (luminance(background) + .05) / (luminance(ink) + .05) < 4.5; i++) {
+    ink = mixColor(ink, '#000000', .85);
+  }
+  return `--tonal-color:${color};--tonal-bg:${background};--tonal-ink:${ink}`;
+}
+
 export function setPaletteColor(song, group, key, color) {
   if (!isColor(color)) return false;
   if (group === 'families' && !own(FAMILIES, key)) return false;

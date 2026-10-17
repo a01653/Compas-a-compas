@@ -1,5 +1,13 @@
 # Cambios
 
+## 0.6.0 — 17/10/2026
+
+- Un solo selector de tarjetas con Añadir, Duplicar y Quitar. Nombre, calidad y textos se editan de forma independiente. Se eliminan el selector de posiciones y el alcance para todas.
+- Compatibilidad con JSON anteriores: abrir y guardar conserva los grupos originales. Cambiar nombre o calidad separa solo la tarjeta editada, manteniendo orden, identificadores y textos.
+- Se retiran las barras inferiores de color, los separadores y los contornos de agrupación. Las líneas de compás y las repeticiones se conservan.
+- Bandas de tonalidad rectangulares como en la plantilla, con fondo tenue y línea inferior. Color por calidad y paleta; texto con contraste sobre el fondo.
+- Manuales, DTS y capturas actualizados para el editor de tarjetas.
+
 ## 0.5.0 — 17/10/2026
 
 - Tonalidad general a continuación del nombre de canción en la cabecera de cada hoja.

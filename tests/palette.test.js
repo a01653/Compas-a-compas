@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { familyBackground, familyForeground, foreground, isColor, paletteDegreeColor, paletteFamilyStyle, setPaletteColor, resetPaletteColor } from '../src/model/palette.js';
+import { tonalityBandStyle, familyBackground, familyForeground, foreground, isColor, paletteDegreeColor, paletteFamilyStyle, setPaletteColor, resetPaletteColor } from '../src/model/palette.js';
 import { degreeColor } from '../src/model/degrees.js';
 import { familyStyle } from '../src/model/families.js';
 import { validateSong } from '../src/model/validate.js';
@@ -60,4 +60,24 @@ test('las API de paleta rechazan CSS arbitrario y claves reservadas', () => {
   assert.equal(setPaletteColor(song,'degrees','😀'.repeat(33),'#112233'),false);
   assert.equal(setPaletteColor(song,'degrees','😀'.repeat(32),'#112233'),true);
   assert.deepEqual(validateSong(song).errors,[]);
+});
+
+test('franjas tonales: calidad independiente, paleta y contraste sobre fondo tenue', () => {
+  const song = clone(loadDemo());
+  const original = serializeSong(song);
+  function luminance(hex) {
+    const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+    return c[0] * .2126 + c[1] * .7152 + c[2] * .0722;
+  }
+  for (const color of ['#ffffff', '#ffff00', '#eeeeee', '#000000', '#ff0000', '#00ff00', '#111111']) {
+    const style = tonalityBandStyle('minor', { families: { minor: color } });
+    const vars = Object.fromEntries(style.split(';').map(x => x.split(':')));
+    assert.equal(vars['--tonal-color'], color);
+    assert.ok((luminance(vars['--tonal-bg']) + .05) / (luminance(vars['--tonal-ink']) + .05) >= 4.5);
+  }
+  assert.notEqual(tonalityBandStyle('minor'), tonalityBandStyle('major'));
+  assert.equal(tonalityBandStyle('constructor'), tonalityBandStyle('other'));
+  assert.doesNotMatch(tonalityBandStyle('minor', { families: { minor: 'url(x)' } }), /url/);
+  assert.equal(serializeSong(song), original);
 });

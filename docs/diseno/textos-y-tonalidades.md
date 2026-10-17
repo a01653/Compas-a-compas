@@ -1,3 +1,5 @@
+> Actualización 0.6.0: la interfaz edita tarjetas independientes con un selector único. Se elimina el alcance para todas las posiciones. La banda tonal es rectangular y se retiran las barras y separadores de grupos. El formato de datos anterior se conserva.
+
 # Próxima mejora: textos y tonalidades por voicing
 
 Fecha de solicitud: 17/10/2026. **Estado: implementada y comprobada en 0.5.0.** El usuario ha autorizado integrarla en main. Este documento conserva el encargo y sus decisiones de implementación.

@@ -1,4 +1,4 @@
-% Source-SHA256: 49e4e2bc5ec551a43a8757ed81d3012634110a152d2ef766132a033768de4c05
+% Source-SHA256: b099696c7380271728d648b607cdd348ca2fb86f148bd875d733c6f2931e85e7
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.5.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.6.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.5.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.6.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.5.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
+Aplicación 0.6.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -112,7 +112,7 @@ Organiza una canción en compases, admite varios acordes por compás y
 varias digitaciones por acorde. Genera una vista previa paginada y una
 salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.5.0, con interfaz compacta, textos
+Este documento describe la versión 0.6.0, con interfaz compacta, textos
 sin bloques duplicados, historial de acciones, marcas por compás, paleta
 editable y tonalidades por posición. Incluye el lanzador de Windows. Los
 requisitos originales permanecen en \texttt{docs/REQUISITOS.md}; el
@@ -203,7 +203,7 @@ canción.
 \section{Interfaz compacta y contexto de
 compás}\label{interfaz-compacta-y-contexto-de-compuxe1s}}
 
-El editor usa dos columnas: controles de compás, acorde y posición a la
+El editor usa dos columnas: controles de compás y tarjeta a la
 izquierda, y hoja a la derecha. Los selectores permiten recorrer listas
 extensas sin aumentar la altura del formulario. Digitación, grados y
 textos están siempre visibles en dos secciones apiladas, sin controles
@@ -221,11 +221,11 @@ permanecen accesibles en la vista global.
 
 Cambiar de compás reinicia el borrador del formulario con ese compás
 como punto de partida y termina la edición local no guardada; no cambia
-marcas persistidas. Elegir otro acorde o posición dentro del mismo
-compás conserva el borrador. Las marcas existentes se editan usando sus
-IDs y sus destinos originales, aunque el tramo empiece en otro compás.
-Ver todas las marcas cambia solo el filtro; los avisos globales
-continúan visibles en ambas vistas.
+marcas persistidas. Elegir otra tarjeta dentro del mismo compás conserva
+el borrador. Las marcas existentes se editan usando sus IDs y sus
+destinos originales, aunque el tramo empiece en otro compás. Ver todas
+las marcas cambia solo el filtro; los avisos globales continúan visibles
+en ambas vistas.
 
 \texttt{ui/workspace.js} coordina los diálogos y el contador, y
 \texttt{ui/marks.js} gestiona el contexto y el formulario.
@@ -308,7 +308,7 @@ Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
 textos en el mismo orden. La versión de esquema es numérica y vale 1; la
 versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.5.0 del programa.
+versión 0.6.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -333,9 +333,22 @@ de un acorde, dos acordes en otro compás, cuatro trastes visibles,
 repeticiones, casillas y saltos. Es una demostración, no una
 transcripción musical.
 
-\hypertarget{contexto-tonal-por-posiciuxf3n}{%
+\hypertarget{tarjetas-independientes}{%
+\subsection{Tarjetas independientes}\label{tarjetas-independientes}}
+
+\texttt{src/model/cards.js} presenta una lista plana sobre los eventos y
+posiciones del esquema 1. Abrir, seleccionar y guardar no separa eventos
+antiguos. Al cambiar el nombre o familia de una posición compartida,
+\texttt{isolateCard} divide el evento conservando orden, IDs de
+posiciones y textos efectivos. La primera parte mantiene el ID del
+evento original. Añadir o duplicar inserta inmediatamente después de la
+tarjeta activa; quitar borra solo esa tarjeta. Las marcas continúan
+referidas al compás. El historial conserva las divisiones y sus
+selecciones para deshacer y rehacer.
+
+\hypertarget{contexto-tonal-por-tarjeta}{%
 \subsection{Contexto tonal por
-posición}\label{contexto-tonal-por-posiciuxf3n}}
+tarjeta}\label{contexto-tonal-por-tarjeta}}
 
 \texttt{src/model/tonality.js} resuelve el contexto según el orden
 escrito. La tonalidad general inicia el recorrido con
@@ -347,10 +360,9 @@ serializa por duplicado, y no expande las repeticiones.
 
 \texttt{voicingDegree} es texto manual de la esquina superior derecha,
 distinto de los seis \texttt{degrees} de cuerda. Vaciar ese campo o la
-tonalidad retira su propiedad. Ambos pertenecen a una posición; el
-alcance de todas las posiciones solo afecta al título y anotación
-existentes. Elegir una calidad con tonalidad vacía es un borrador del
-control y no guarda un cambio invisible.
+tonalidad retira su propiedad. Ambos pertenecen a una tarjeta, como el
+título y la anotación. Elegir una calidad con tonalidad vacía es un
+borrador del control y no guarda un cambio invisible.
 
 \texttt{showTonalities} es un booleano opcional, visible por defecto.
 Oculta las franjas en todas las hojas sin borrar datos y conserva la
@@ -390,13 +402,12 @@ listas}\label{textos-e-importaciuxf3n-de-listas}}
 El acorde puede definir \texttt{aboveText} e \texttt{insideText}. En una
 posición, la ausencia del campo significa heredar; una cadena propia
 sustituye el texto y la cadena vacía lo oculta. Se mantiene la
-diferencia al guardar y abrir. El formulario 0.4.0 muestra solo el texto
-efectivo, sin dos bloques superpuestos de controles.
-\texttt{setCardText} modifica el valor propio de la posición; el modo de
-todas las posiciones cambia el valor común y retira las excepciones solo
-de ese campo. Vaciar el campo individual guarda cadena vacía; vaciarlo
-para todas retira el común y sus excepciones. Cambiar de posición
-reinicia el destino de edición a individual.
+diferencia al guardar y abrir. El formulario 0.6.0 muestra el texto
+efectivo y modifica solo la tarjeta seleccionada.
+\texttt{setCardTextValue} escribe la excepción individual, incluida la
+cadena vacía; si la tarjeta está pendiente, modifica el texto de su
+evento. El formato conserva sus valores comunes por compatibilidad, sin
+controles de edición compartida en la interfaz.
 
 El importador usa una línea por compás:
 \texttt{etiqueta\ \textbar{}\ acorde\ @\ digitación}. Separa eventos por
@@ -586,12 +597,16 @@ flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres
 filas: títulos enmarcados, franjas de tonalidad y zona de
 número/tarjeta. Los eventos abarcan las columnas de sus posiciones. Esto
 mantiene los títulos fuera de la línea del compás aunque una tarjeta
-tenga anotación o leyenda más alta. Las pistas conservan el ancho
-natural y reparten el sobrante; el mástil no escala. La composición
-requiere soporte CSS subgrid y se ha comprobado en Chromium 153. Una
-fila con poco contenido puede tener cajas más anchas que una llena; no
-cambia el tamaño de papel. La medición usa el mismo renderizador, sin
-ese crecimiento exterior, de forma conservadora.
+tenga anotación o leyenda más alta. Los contenedores de evento
+distribuyen las tarjetas sin barras inferiores, separadores internos ni
+contornos de grupo. La franja tonal tiene fondo al 10 \%, esquinas
+rectas y línea inferior de 3 px; \texttt{tonalityBandStyle} deriva sus
+colores y mantiene contraste de texto de al menos 4,5:1. Las pistas
+conservan el ancho natural y reparten el sobrante; el mástil no escala.
+La composición requiere soporte CSS subgrid y se ha comprobado en
+Chromium 153. Una fila con poco contenido puede tener cajas más anchas
+que una llena; no cambia el tamaño de papel. La medición usa el mismo
+renderizador, sin ese crecimiento exterior, de forma conservadora.
 
 Textos largos ajustan su altura. Si una cabecera o una pieza no cabe ni
 sola por ancho o alto, \texttt{collectProblems} recoge el fallo y
@@ -682,7 +697,7 @@ desarrollo. No participan en el arranque ni en el uso de la aplicación.
 evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
 La evidencia de cada versión permanece identificada en la tabla y en
-\texttt{docs/ESTADO.md}. La ampliación 0.5.0 se ha comprobado en
+\texttt{docs/ESTADO.md}. La ampliación 0.6.0 se ha comprobado en
 Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC
 con Windows mediante el conector.
 
@@ -693,6 +708,15 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.6.0 & 190 superadas en Windows; tarjetas,
+compatibilidad, historial y contraste de franjas \\
+Interfaz 0.6.0 & Selector único; edición independiente y foco; añadir,
+duplicar, quitar y pendiente; JSON antiguo sin cambios y
+deshacer/rehacer; tres tamaños de escritorio sin scroll y móvil sin
+desborde \\
+Hoja y salida 0.6.0 & Franjas rectangulares, sin barras ni contornos de
+grupos; alineación de títulos; HTML autónomo; 40 tarjetas, 24 compases,
+PDF de 1 y 6 hojas en Chromium \\
 Pruebas Node, 0.5.0 & 171 superadas en Windows; incluye contexto tonal,
 validación, JSON e historial \\
 Interfaz 0.5.0 & Campos individuales y casilla, herencia, edición,

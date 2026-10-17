@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.5.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.6.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 **Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
@@ -32,14 +32,17 @@ npm test
 
 ## Guía de uso
 
-### Compases, acordes y voicings
+### Compases y tarjetas
 
-- **Compases:** selector con anterior/siguiente y botón + para añadir. El menú de tres puntos permite insertar, duplicar, subir, bajar y borrar. La etiqueta visible es editable y no se renumera sola. Al borrar se listan las consecuencias para las marcas y se puede cancelar.
-- **Acordes y voicings:** cada compás admite varios acordes y cada acorde varios voicings (digitaciones). Un acorde sin digitación se conserva como pendiente; un voicing nuevo empieza con todas las cuerdas mudas.
-- **Digitación:** seis valores de sexta a primera cuerda: traste, `0` al aire, `x` muda. Compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). Una entrada inválida muestra el error y no cambia el voicing.
-- **Mástil:** mínimo tres trastes visibles; crece solo cuando la digitación lo necesita.
-- **Límite de 32 trastes visibles:** es un límite conservador del intervalo que se dibuja, no del número de traste más alto. Una digitación más ancha no se dibuja, se avisa, los datos se conservan y Exportar HTML e Imprimir / PDF quedan bloqueados hasta corregirla.
-- **Grados:** seis campos opcionales de la sexta a la primera cuerda. Vacío = sin grado. Colorean la nota según la plantilla, también en cuerdas al aire. No se calculan solos.
+Cada dibujo se edita como una **tarjeta**, con nombre, calidad/color, digitación, grados, textos y tonalidad propios. El único selector recorre las tarjetas del compás. **Añadir tarjeta** crea otra; **Duplicar tarjeta** copia la elegida a continuación y **Quitar tarjeta** elimina solamente esa.
+
+Dos digitaciones del mismo acorde se escriben como dos tarjetas con ese nombre. Todos los campos son independientes: cambiar el nombre o la calidad de una tarjeta antigua no modifica las demás. Los JSON anteriores siguen abriendo y no se transforman al abrir o guardar sin editar.
+
+**Compases:** selector y flechas para recorrerlos, + para añadir y menú de tres puntos para insertar, duplicar, mover o borrar. Etiqueta visible editable, sin renumeración silenciosa; antes de borrar se muestran las consecuencias para las marcas.
+
+**Digitación:** seis valores de sexta a primera, `x` muda y `0` al aire. Formato compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). El mástil parte de tres trastes y crece cuando hace falta, sin cambiar notas. Un intervalo de más de 32 trastes visibles se conserva con aviso y bloquea la salida hasta corregirlo.
+
+Los seis grados de cuerda son opcionales y manuales. Colorean las notas y no se calculan desde el nombre del acorde.
 
 ### Colores
 
@@ -53,13 +56,13 @@ Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno deba
 
 **Título sobre la tarjeta** aparece enmarcado, por encima y fuera de la línea vertical del compás; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
-Si el acorde tiene varias posiciones, **Aplicar los cambios a** permite elegir esta posición o todas las del acorde. La opción de todas sustituye también los textos propios, solo del campo que cambies. Cambiar de posición vuelve a seleccionar «Solo esta posición».
+Los textos afectan únicamente a la tarjeta seleccionada. No hay un selector de alcance compartido.
 
-### Grado y tonalidad del voicing
+### Grado y tonalidad de la tarjeta
 
-**Grado del voicing** coloca un texto manual como `V7/ii` arriba a la derecha, junto al nombre del acorde. Es independiente de los seis grados de las cuerdas.
+**Grado de la tarjeta** coloca un texto manual como `V7/ii` arriba a la derecha, junto al nombre del acorde. Es independiente de los seis grados de las cuerdas.
 
-**Tonalidad de esta posición** y **Calidad de tonalidad** crean un cambio sobre esa tarjeta. Vacío mantiene la tonalidad y el color anteriores sin repetir la etiqueta, también entre compases y páginas. La calidad de la tonalidad usa la paleta de familias y es independiente de la calidad del acorde. El grado y la tonalidad siempre afectan solo a esta posición.
+**Tonalidad** y **Calidad de tonalidad** crean un cambio sobre esa tarjeta. Vacío mantiene la tonalidad y el color anteriores sin repetir la etiqueta, también entre compases y páginas. La banda tiene fondo tenue y línea inferior, con esquinas rectas como la plantilla. No hay barras de color bajo las tarjetas ni separadores de grupos. La calidad de la tonalidad usa la paleta de familias y es independiente de la calidad del acorde. Todos los campos afectan solo a la tarjeta seleccionada.
 
 En datos de canción se elige la calidad del contexto general y se puede desmarcar **Mostrar tonalidades de las tarjetas** para ocultar todas las franjas sin borrar datos. La tonalidad general sigue junto al título de canción. Sin calidad elegida usa el color neutro de Otro; no se deduce del texto. Prueba [el nuevo ejemplo](examples/textos-tonalidades.json).
 
