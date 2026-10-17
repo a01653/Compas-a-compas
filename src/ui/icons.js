@@ -1,5 +1,7 @@
 import { s, h } from '../render/dom.js';
 const PATHS = {
+  undo: ['M9 4L4 9l5 5', 'M4 9h9a7 7 0 0 1 7 7v4'],
+  redo: ['M15 4l5 5-5 5', 'M20 9h-9a7 7 0 0 0-7 7v4'],
   palette: ['M12 3a9 9 0 1 0 0 18h1a2 2 0 0 0 0-4h-1a1.5 1.5 0 0 1 0-3h4a5 5 0 0 0 5-5c0-3.3-4-6-9-6z', 'M7 8h.01M11 6h.01M16 7h.01M6 12h.01'],
   plus: ['M12 5v14M5 12h14'], copy: ['M9 9h11v11H9z', 'M15 5V3H3v12h2'],
   trash: ['M3 6h18M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7'],

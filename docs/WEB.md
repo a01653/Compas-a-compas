@@ -2,7 +2,7 @@
 
 [**Abrir Compás a compás**](https://a01653.github.io/Compas-a-compas/)
 
-Aplicación 0.3.0 publicada en GitHub Pages, sin iniciar sesión. GitHub confirmó la publicación el 17/10/2026; los trabajos build y deploy finalizaron correctamente.
+Aplicación publicada en GitHub Pages, sin iniciar sesión. La versión visible se indica al pie de la aplicación. Las actualizaciones de main se publican después de pasar las pruebas.
 
 ## Configuración de publicación
 

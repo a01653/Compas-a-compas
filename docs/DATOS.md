@@ -70,3 +70,7 @@ La barra de un nombre como `C/E` no es un separador de voicings: solo se analiza
 `palette` es una extensión opcional del esquema 1. `families` asigna colores a las seis claves de familia; `degrees` asigna colores a etiquetas de 1 a 32 caracteres; `note` cambia el color de las notas sin grado o sin color específico. Solo se admiten colores `#RRGGBB`. Se rechazan propiedades desconocidas y las etiquetas reservadas `__proto__`, `constructor` y `prototype`.
 
 Los documentos previos siguen siendo válidos y no reciben el campo al abrirlos o guardarlos sin personalizar. Un documento que incluya `palette` requiere la aplicación 0.3.0 o posterior: los lectores antiguos lo rechazan por campo desconocido, conservando así la regla de no descartar datos. El estado de selección, las notas, IDs y referencias musicales son independientes de la paleta. Restaurar toda la paleta elimina el campo opcional.
+
+## Edición e historial desde 0.4.0
+
+El formulario muestra el texto efectivo de cada tarjeta; la representación de herencia en JSON no cambia. El modo de todas las posiciones sustituye el campo común y retira las excepciones de ese campo. Deshacer y Rehacer pertenecen a la sesión de edición: no añaden campos al contrato ni se escriben en el archivo.

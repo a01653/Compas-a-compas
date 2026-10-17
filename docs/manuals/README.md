@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.3.0**, edición **17/10/2026**, con el estilo de los manuales de Drop Route: portada azul, índice, instrucciones breves y fuentes editables.
+Documentación de Compás a compás **0.4.0**, edición **17/10/2026**, con el estilo de los manuales de Drop Route: portada azul, índice, instrucciones breves y fuentes editables.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |
@@ -34,6 +34,8 @@ Editar primero el Markdown. Después regenerar y revisar visualmente todas las p
 
 ## Capturas
 
-Las capturas de `capturas/` corresponden a la aplicación 0.3.0 real en Chromium 153 sobre Linux, con ventana de 1440 × 960 px y escala de dispositivo 1,5. Se abrió `examples/cancion-demo.json`, se esperó a las fuentes y a la paginación y se dejó desaparecer el aviso de apertura. La segunda imagen muestra el formulario compacto de acorde y posición; otra muestra el diálogo de marcas del compás 2 y la nueva paleta de colores. Se conservan los estilos reales de la aplicación.
+Las capturas de `capturas/` corresponden a la aplicación 0.4.0 real en Chromium 153 sobre Linux, con ventana de 1440 × 960 px y escala de dispositivo 1,5. Se abrió `examples/cancion-demo.json`, se esperó a las fuentes y a la paginación y se dejó desaparecer el aviso de apertura. La segunda imagen muestra el formulario compacto de acorde y posición; otra muestra el diálogo de marcas del compás 2 y la nueva paleta de colores. Se conservan los estilos reales de la aplicación.
 
 No son capturas de Windows ni acreditan la validación nativa del lanzador o del diálogo de impresión. Al cambiar controles, textos o distribución, actualizar las capturas antes de reconstruir el manual.
+
+La captura textos-deshacer.png usa una canción de prueba con dos posiciones y textos comunes y propios para mostrar el formulario simplificado. No es una transcripción musical.

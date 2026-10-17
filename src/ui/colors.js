@@ -104,5 +104,8 @@ export function mountColorsPanel(root, store) {
     if (choice === 'reset') { delete store.state.song.palette; accidental = ''; store.emit('text'); render(); }
   });
   render();
-  store.subscribe((state, scope) => { if (scope === 'document') { accidental = ''; render(); } else if (!['selection', 'zoom', 'status'].includes(scope)) sync(); });
+  store.subscribe((state, scope) => {
+    if (scope === 'document' || scope === 'history') { if (scope === 'document') accidental = ''; render(); }
+    else if (!['selection', 'zoom', 'status'].includes(scope)) sync();
+  });
 }

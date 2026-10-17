@@ -1,6 +1,6 @@
 {
   "document": "uso",
-  "applicationVersion": "0.3.0",
+  "applicationVersion": "0.4.0",
   "edition": "2026-10-17",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "d2b083a59bae03a57da3ab38a084d3e78e7054f458f06954b82655b307d4bf9b",
+      "sha256": "0b31c7ef2f05fb32be4e724fe5f01d105938575436a9943664c588993dd4d7eb",
       "role": "source"
     },
     {
@@ -23,17 +23,22 @@
     },
     {
       "path": "package.json",
-      "sha256": "e37a4942e2c4a62581179178636665403a8e26838aa5128bff76923fa1701994",
+      "sha256": "c6f4facecdddf1e29034a6cd246e371030943cc535f2971879e13f737a51a9f1",
       "role": "application-version"
     },
     {
       "path": "docs/manuals/capturas/editor-general.png",
-      "sha256": "afbdcef2bfe7b48c31331d83a8da1b7bd8d3a432456b9fc2083ef3db717b48dd",
+      "sha256": "85ebf2c316871b3b3ec649256df77d95c77ac96262fc4be5fc5419a17524f46d",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/colores-acordes.png",
-      "sha256": "bc234da9925a563c7506923d0381ce9219da1cac6935834a2e936b0c39426193",
+      "sha256": "7d096e0190f9ca508778f82bef094358eba8e46d355265d9b810aac9b28b09b7",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/textos-deshacer.png",
+      "sha256": "ffc63261a45570a502c8a55fcfb724006302f14d9ec4e0a9df14903d4e836b4e",
       "role": "capture"
     },
     {
@@ -43,17 +48,17 @@
     },
     {
       "path": "docs/manuals/capturas/marcas-compas.png",
-      "sha256": "18a144f4d820a41be3502d0df37483715c11a664f18b3b3415ebbe1ca5633395",
+      "sha256": "c18806a2f76e212cfe07e47758c100c38b98e120d17b1766bcf7ce6b29e2266a",
       "role": "capture"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "69214ad8946c07b3aa13132148811729384d7cbacc35500120b9324ac8ff5eb7",
+      "sha256": "654c170114523d0d290bfa6ca039045a32b224ee5ec144314ec9c96fa5ceee7c",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "9d9168d13195530fe6cc4a10d6d5403ac177e455133c9b1171b017cd37e7badd",
+      "sha256": "7ab667916fd47a0bfe848972a6b6e83ed064130ff039018765fdfc78258bcb6a",
       "role": "pdf"
     }
   ]

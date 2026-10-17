@@ -15,6 +15,7 @@ import { h } from './render/dom.js';
 import { validateSong, formatError } from './model/validate.js';
 import { mountWorkspace } from './ui/workspace.js';
 import { mountColorsPanel } from './ui/colors.js';
+import { mountHistoryControls } from './ui/history.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -108,6 +109,7 @@ async function boot() {
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
   mountWorkspace(store, { marksPanel });
+  mountHistoryControls(store);
 
   await offerRecovery(store, recovery);
 }

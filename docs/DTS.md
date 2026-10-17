@@ -1,14 +1,14 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.3.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.4.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.3.0, con interfaz compacta, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.4.0, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
-No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones, sincronización en la nube ni deshacer. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
+No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones ni sincronización en la nube. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
 ## Arquitectura y ejecución
 
@@ -75,7 +75,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Posición | `id`, `frets` de seis valores; grados y textos opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.3.0 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.4.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -107,7 +107,7 @@ La validación distingue la forma del archivo de sus referencias semánticas. Un
 
 ### Textos e importación de listas
 
-El acorde puede definir `aboveText` e `insideText`. En una posición, la ausencia del campo significa heredar; una cadena propia sustituye el texto y la cadena vacía lo oculta. Se mantiene la diferencia al guardar y abrir.
+El acorde puede definir `aboveText` e `insideText`. En una posición, la ausencia del campo significa heredar; una cadena propia sustituye el texto y la cadena vacía lo oculta. Se mantiene la diferencia al guardar y abrir. El formulario 0.4.0 muestra solo el texto efectivo, sin dos bloques superpuestos de controles. `setCardText` modifica el valor propio de la posición; el modo de todas las posiciones cambia el valor común y retira las excepciones solo de ese campo. Vaciar el campo individual guarda cadena vacía; vaciarlo para todas retira el común y sus excepciones. Cambiar de posición reinicia el destino de edición a individual.
 
 El importador usa una línea por compás: `etiqueta | acorde @ digitación`. Separa eventos por `;` y posiciones mediante ` / ` tras `@`. Conserva nombres como `C/E`. Genera una previsualización y añade el lote al final únicamente si todas las líneas son válidas. No calcula duraciones ni grados.
 
@@ -115,13 +115,21 @@ El importador usa una línea por compás: `etiqueta | acorde @ digitación`. Sep
 
 `createStore` mantiene una canción mutable y una selección por IDs. Guarda además el nombre de archivo, el zoom, la firma del último guardado y el indicador de cambios pendientes. La firma se obtiene con `JSON.stringify`; `markSaved` actualiza la referencia de guardado.
 
-Los tipos de cambio son `text`, `structure`, `document`, `selection`, `zoom` y `status`. Un cambio de texto actualiza la hoja sin reconstruir todos los controles, para conservar el foco. Cambios estructurales o de documento normalizan la selección a objetos existentes. Selección, zoom y estado de guardado no provocan una nueva paginación.
+Los tipos de cambio son `text`, `structure`, `document`, `history`, `selection`, `zoom` y `status`. Un cambio de texto actualiza la hoja sin reconstruir todos los controles, para conservar el foco. Cambios estructurales o de documento normalizan la selección a objetos existentes. Selección, zoom y estado de guardado no provocan una nueva paginación.
 
 Nuevo y Abrir gestionan los cambios pendientes antes de reemplazar el documento. Guardar usa el selector de archivos cuando el navegador lo permite y, como alternativa, una descarga con Blob. Cancelaciones y errores se muestran sin sustituir la canción por un archivo fallido. Exportar HTML e imprimir no marcan el JSON como guardado.
 
 La recuperación usa la clave `compas-a-compas:recuperacion:v1` de `localStorage`, con fecha de guardado y canción serializada. Se ofrece tras recargar cuando existe una copia válida. Guardar, abrir o crear una canción retira la recuperación anterior. Un fallo del almacenamiento no impide editar; el JSON sigue siendo la copia persistente elegida por el usuario.
 
-`localStorage` pertenece al origen: cambiar de navegador, perfil o puerto no comparte esa recuperación. Se usa también el aviso de salida con cambios pendientes cuando el navegador lo admite. No existe historial de deshacer ni guardado automático sobre un archivo con nombre.
+`localStorage` pertenece al origen: cambiar de navegador, perfil o puerto no comparte esa recuperación. Se usa también el aviso de salida con cambios pendientes cuando el navegador lo admite. No se sobrescribe automáticamente un archivo con nombre.
+
+### Historial de acciones
+
+`createStore` conserva estados anterior y posterior de cada cambio de canción, con su selección por IDs. `emit` registra cambios reales de texto o estructura; selección, zoom y guardado no añaden pasos. `ui/history.js` agrupa las entradas mientras el mismo campo conserva el foco. Un cambio estructural, guardar o cambiar de selección cierra el grupo. Deshacer y Rehacer restauran una copia de la canción, normalizan la selección, comparan con el último guardado y notifican `history`; se refrescan los formularios, el paginador y la recuperación. Los borradores de marcas se reinician al restaurar para no conservar una edición de un objeto que ya no exista.
+
+Hay hasta 100 pasos, con un presupuesto aproximado de 8 MiB para las cadenas serializadas contadas de forma conservadora. Se mantiene al menos el último paso aunque una canción grande supere ese presupuesto. Abrir, crear o recuperar otro documento limpia las dos pilas; guardar las conserva y actualiza la firma de guardado. Una edición nueva descarta la pila de rehacer. El historial pertenece a la sesión y no se guarda en el JSON ni en localStorage.
+
+Los botones están en cabecera y dentro de los tres diálogos de edición. Ctrl+Z, Ctrl+Y y Ctrl+Mayús+Z operan fuera de campos; dentro se conserva el deshacer nativo. Los atajos globales no actúan sobre un diálogo de confirmación o importación, para no invalidar referencias mientras una operación espera respuesta.
 
 ## Geometría y notación
 
@@ -210,11 +218,12 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-La paleta 0.3.0 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
+Los textos y el historial 0.4.0 se han validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
-| Pruebas Node, 0.3.0 | 138 superadas; incluye ocho pruebas de paleta y cuatro de contexto de marcas |
+| Pruebas Node, 0.4.0 | 150 superadas; incluye doce casos de historial y texto visible |
+| Interfaz 0.4.0 | Texto propio visible, cambio individual y conjunto, guardar y abrir, Coda/Fine, deshacer y rehacer, datos, notas, colores, teclado y seis tamaños de ventana |
 | Paleta 0.3.0 | JSON, reapertura, grados naturales y alterados, etiquetas, contraste, restauración, exportación e impresión con estilos de impresión |
 | Esquema 0.3.0 | 1685 casos de paridad entre validador manual y AJV con paleta |
 | Interfaz 0.2.0 | Seis tamaños de escritorio de 800×600 a 1440×900, móvil 390×844, JSON, menús, edición, 40 posiciones y 30 compases |
@@ -239,4 +248,4 @@ Los manuales canónicos son `docs/manuals/USO.md`, `docs/manuals/INSTALACION.md`
 
 Al modificar el modelo, revisar el esquema, el validador, la serialización y sus pruebas; una versión de esquema nueva requiere una política explícita de compatibilidad. Al modificar geometría o estilos de hoja, revisar vista previa, HTML, continuaciones y PDF sobre el mismo conjunto de datos. No se modifica `references/` para forzar una comparación visual.
 
-Las comprobaciones nuevas deben registrar su versión y entorno en `docs/ESTADO.md`. Los archivos se actualizan desde `main` con `git pull --ff-only`, preservando los cambios locales del usuario. Los manuales de instalación describen el uso desde la carpeta principal, sin depender de una copia de desarrollo o de Claude.
+Registrar versión y entorno de cada comprobación en `docs/ESTADO.md`. Actualizar desde `main` con `git pull --ff-only`, conservando los cambios locales. Los manuales parten de la carpeta principal.

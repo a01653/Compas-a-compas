@@ -1,11 +1,10 @@
 import { h } from '../render/dom.js';
 import { FAMILIES } from '../model/families.js';
 import { formatFrets, parseFrets } from '../model/frets.js';
-import { addEvent, addVoicing, duplicateVoicing, removeEvent, removeVoicing, setEventDefault } from '../model/song.js';
+import { addEvent, addVoicing, duplicateVoicing, removeEvent, removeVoicing, effectiveText, setCardText } from '../model/song.js';
 import { selectedEvent, selectedMeasure, selectedVoicing } from '../store.js';
 import { confirmDialog } from './dialog.js';
 import { focusSoon } from './notify.js';
-import { overrideField, refreshTextHelp } from './textOverride.js';
 import { fretRange, spanMessage } from '../geometry/fretboard.js';
 import { applyDegrees, degreesToInputs } from '../model/degrees.js';
 import { actionButton, iconButton } from './icons.js';
@@ -18,6 +17,7 @@ function field(id, label, value, update) {
 
 export function mountChordPanel(root, store) {
   let currentTab = 'notes';
+  let textTarget = 'position';
   const body = h('div', { class: 'chord-body' });
   root.append(h('div', { class: 'editor-heading' }, h('h2', { id: 't-acorde' }, 'Acordes y posiciones'),
     h('span', { class: 'live-badge' }, h('span', { 'aria-hidden': 'true' }), 'En directo')), body);
@@ -123,16 +123,25 @@ export function mountChordPanel(root, store) {
         h('div', { class: 'degree-grid' }, degrees.map((input, i) => h('div', { class: 'degree-cell' },
           h('label', { for: input.id }, STRINGS[i]), input)))),
       h('p', { class: 'editing-tip' }, 'Otra posición = otra digitación del mismo acorde.'));
-    const defaultField = (id, label, key) => field(id, label, event[key] || '', value => {
-      setEventDefault(event, key, value); refreshTextHelp(key === 'aboveText' ? 'f-encima' : 'f-dentro', event, voicing, key); store.emit('text');
-    });
+    const targetHelp = h('p', { id: 'text-target-help', class: 'text-help' });
+    const syncTargetHelp = () => { targetHelp.textContent = textTarget === 'all'
+      ? 'Cada campo que cambies se actualizará en todas las posiciones de este acorde, incluidas las que tenían un texto propio.'
+      : 'Ves y editas el texto que aparece en esta posición. Deja un campo vacío para quitarlo de esta tarjeta.'; };
+    syncTargetHelp();
+    const target = h('div', { class: 'field', hidden: event.voicings.length < 2 },
+      h('label', { for: 'text-target' }, 'Aplicar los cambios a'),
+      h('select', { id: 'text-target', 'aria-describedby': 'text-target-help', onchange: e => {
+        textTarget = e.target.value; store.endEdit(); syncTargetHelp();
+      } }, h('option', { value: 'position', selected: textTarget === 'position' }, 'Solo esta posición'),
+      h('option', { value: 'all', selected: textTarget === 'all' }, 'Todas las posiciones del acorde')));
+    const textField = (id, label, key, help) => h('div', { class: 'card-text-field' },
+      field(id, label, effectiveText(event, voicing, key), value => {
+        setCardText(event, voicing, key, value, textTarget === 'all'); store.emit('text');
+      }), h('p', { class: 'hint' }, help));
     const textsPanel = h('div', { id: 'editor-texts', role: 'tabpanel', 'aria-labelledby': 'tab-texts' },
-      h('p', { class: 'text-help' }, 'Textos comunes a las posiciones de este acorde'),
-      h('div', { class: 'field-row' }, defaultField('f-encima-ev', 'Título encima', 'aboveText'), defaultField('f-dentro-ev', 'Texto dentro', 'insideText')),
-      h('p', { class: 'text-help' }, 'Solo para la posición seleccionada'),
-      h('div', { class: 'field-row' },
-        overrideField({ id: 'f-encima', label: 'Título encima', event, voicing, key: 'aboveText', store, compact: true }),
-        overrideField({ id: 'f-dentro', label: 'Texto dentro', event, voicing, key: 'insideText', store, compact: true })));
+      target, targetHelp,
+      textField('f-encima', 'Título sobre la tarjeta', 'aboveText', 'Fuera del recuadro. Por ejemplo: Introducción.'),
+      textField('f-dentro', 'Anotación dentro de la tarjeta', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.'));
     const tabs = ['notes', 'texts'].map((id, i) => h('button', { id: `tab-${id}`, role: 'tab', type: 'button',
       'aria-controls': `editor-${id}`, onclick: () => switchTab(id), onkeydown: e => {
         if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
@@ -151,5 +160,7 @@ export function mountChordPanel(root, store) {
     body.replaceChildren(...nodes);
   }
   render(store.state);
-  store.subscribe((state, scope) => { if (['selection', 'structure', 'document'].includes(scope)) render(state); });
+  store.subscribe((state, scope) => {
+    if (['selection', 'structure', 'document', 'history'].includes(scope)) { textTarget = 'position'; render(state); }
+  });
 }

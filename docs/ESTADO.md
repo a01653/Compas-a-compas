@@ -1,5 +1,15 @@
 # Estado de trabajo
 
+## Versión 0.4.0: textos claros e historial de acciones — 17/10/2026
+
+La pestaña de textos muestra solo Título sobre la tarjeta y Anotación dentro de la tarjeta, con el valor efectivo visible de cada posición. Se retiran los bloques de texto común y sobrescritura y el controlador ui/textOverride.js. El selector permite aplicar cada campo a esta posición o a todas las posiciones del acorde; la opción de todas retira las excepciones de ese campo, conservando el otro. Cambiar de posición vuelve a la edición individual. Los JSON anteriores conservan sus datos y se mantiene el esquema 1.
+
+createStore registra los cambios de canción y restaura contenido y selección con Deshacer y Rehacer. Agrupa la escritura por campo, limita el historial a 100 pasos y un presupuesto de tamaño, conserva los pasos al guardar y los reinicia al abrir, crear o recuperar otra canción. Selección y zoom no crean pasos. No se serializa el historial. Hay botones en la cabecera y los diálogos de datos, marcas y colores. Los atajos operan fuera de campos y se respeta el deshacer nativo dentro de ellos. No actúan sobre confirmaciones ni importaciones pendientes.
+
+Validación: 150 pruebas Node superadas. Chromium en Linux: texto propio visible frente a común, edición individual y conjunta, agrupación de escritura, deshacer/rehacer desde cabecera y diálogos, Coda/Fine añadida/editada/borrada/restaurada, IDs, selección, pendientes frente al último guardado, apertura, datos de canción, digitación válida e inválida, grados, paleta, teclado y recuperación tras recargar con historial vacío. La regresión adicional comprueba seis ventanas de escritorio, móvil, 40 posiciones y 30 compases. El HTML del ejemplo sin editar permanece idéntico al control anterior. No hay desplazamiento horizontal ni de página en escritorio. Sin errores JavaScript. No se declara revisión de Firefox, Safari ni impresión nativa de Windows.
+
+Archivos: src/store.js, src/ui/history.js, src/ui/chord.js, src/model/song.js, suscripciones de datos/marcas/colores, iconos, cabecera, estilos, versión y pruebas de historial. Manuales y DTS actualizados con capturas y PDF. La geometría, el contrato JSON y el renderizador de hoja permanecen sin cambios.
+
 ## GitHub Pages publicado — 17/10/2026
 
 GitHub confirma Pages activado. El propietario ha cambiado la visibilidad del repositorio a público. Reintentada la ejecución 39053339056: build y deploy completados correctamente, con URL confirmada por el trabajo de despliegue https://a01653.github.io/Compas-a-compas/. Aplicación 0.3.0, código sin cambios respecto a la revisión preparada. README.md y docs/WEB.md actualizados con el enlace definitivo y la configuración vigente. El arranque local mediante Abrir-Compas.cmd se conserva. No se ha realizado una nueva prueba de interacción en navegador sobre el sitio publicado.
