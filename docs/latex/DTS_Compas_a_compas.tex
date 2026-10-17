@@ -1,4 +1,4 @@
-% Source-SHA256: 11169c7942a5913ca3b5a6ac11cace25245d16add1807ed10050c688b5d11386
+% Source-SHA256: 25e114f85d1bf0789d9a085adfedb72b86fc2012827635d55e68f77396f3fe91
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.1 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.4.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.4.1 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.4.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
+Aplicación 0.4.1 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -112,7 +112,7 @@ Organiza una canción en compases, admite varios acordes por compás y
 varias digitaciones por acorde. Genera una vista previa paginada y una
 salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.4.0, con interfaz compacta, textos
+Este documento describe la versión 0.4.1, con interfaz compacta, textos
 sin bloques duplicados, historial de acciones, marcas por compás y
 paleta editable. Incluye el lanzador de Windows. Los requisitos
 originales permanecen en \texttt{docs/REQUISITOS.md}; el historial de
@@ -205,11 +205,11 @@ compás}\label{interfaz-compacta-y-contexto-de-compuxe1s}}
 
 El editor usa dos columnas: controles de compás, acorde y posición a la
 izquierda, y hoja a la derecha. Los selectores permiten recorrer listas
-extensas sin aumentar la altura del formulario. Digitación y grados
-están en una pestaña; los textos, en otra. Nombre, tonalidad y versión
-del documento se editan en un diálogo. Exportar agrupa HTML e impresión.
-Los iconos tienen nombre accesible y los menús se cierran con Escape o
-al pulsar fuera.
+extensas sin aumentar la altura del formulario. Digitación, grados y
+textos están siempre visibles en dos secciones apiladas, sin controles
+de pestaña. Nombre, tonalidad y versión del documento se editan en un
+diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre
+accesible y los menús se cierran con Escape o al pulsar fuera.
 
 El acceso a Marcas pertenece al bloque Compás y anuncia su etiqueta en
 el nombre accesible. El panel filtra símbolos y saltos por el compás
@@ -306,7 +306,7 @@ Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
 textos en el mismo orden. La versión de esquema es numérica y vale 1; la
 versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.4.0 del programa.
+versión 0.4.1 del programa.
 
 Ejemplo mínimo válido:
 
@@ -641,7 +641,7 @@ desarrollo. No participan en el arranque ni en el uso de la aplicación.
 \section{Comprobaciones y límites de la
 evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
-Los textos y el historial 0.4.0 se han validado en esta edición. La
+La interfaz sin pestañas 0.4.1 se ha validado en esta edición. La
 evidencia de versiones anteriores permanece identificada en la tabla y
 en \texttt{docs/ESTADO.md}.
 
@@ -652,11 +652,10 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Pruebas Node, 0.4.0 & 150 superadas; incluye doce casos de historial y
-texto visible \\
-Interfaz 0.4.0 & Texto propio visible, cambio individual y conjunto,
-guardar y abrir, Coda/Fine, deshacer y rehacer, datos, notas, colores,
-teclado y seis tamaños de ventana \\
+Pruebas Node, 0.4.1 & 150 superadas en Windows mediante el conector \\
+Interfaz 0.4.1 & Secciones apiladas; formulario habitual sin scroll en
+1440×900, 1366×768 y 1280×720. En 800×600 conserva scroll interno y
+todos los campos. Captura del PC sin errores JavaScript \\
 Paleta 0.3.0 & JSON, reapertura, grados naturales y alterados,
 etiquetas, contraste, restauración, exportación e impresión con estilos
 de impresión \\

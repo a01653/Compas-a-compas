@@ -1,12 +1,12 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.4.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.4.1 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.4.0, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.4.1, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones ni sincronización en la nube. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
@@ -43,7 +43,7 @@ El JSON conserva el contenido editable. Coordenadas, filas, número de páginas 
 
 ## Interfaz compacta y contexto de compás
 
-El editor usa dos columnas: controles de compás, acorde y posición a la izquierda, y hoja a la derecha. Los selectores permiten recorrer listas extensas sin aumentar la altura del formulario. Digitación y grados están en una pestaña; los textos, en otra. Nombre, tonalidad y versión del documento se editan en un diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre accesible y los menús se cierran con Escape o al pulsar fuera.
+El editor usa dos columnas: controles de compás, acorde y posición a la izquierda, y hoja a la derecha. Los selectores permiten recorrer listas extensas sin aumentar la altura del formulario. Digitación, grados y textos están siempre visibles en dos secciones apiladas, sin controles de pestaña. Nombre, tonalidad y versión del documento se editan en un diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre accesible y los menús se cierran con Escape o al pulsar fuera.
 
 El acceso a Marcas pertenece al bloque Compás y anuncia su etiqueta en el nombre accesible. El panel filtra símbolos y saltos por el compás donde están escritos, y repeticiones y casillas por todos los compases del tramo, incluidos sus extremos. `src/model/marksContext.js` obtiene esa vista sin modificar la estructura. Un extremo desaparecido sigue siendo localizable desde el que existe; todas las marcas permanecen accesibles en la vista global.
 
@@ -75,7 +75,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Posición | `id`, `frets` de seis valores; grados y textos opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.4.0 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.4.1 del programa.
 
 Ejemplo mínimo válido:
 
@@ -218,12 +218,12 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-Los textos y el historial 0.4.0 se han validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
+La interfaz sin pestañas 0.4.1 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
-| Pruebas Node, 0.4.0 | 150 superadas; incluye doce casos de historial y texto visible |
-| Interfaz 0.4.0 | Texto propio visible, cambio individual y conjunto, guardar y abrir, Coda/Fine, deshacer y rehacer, datos, notas, colores, teclado y seis tamaños de ventana |
+| Pruebas Node, 0.4.1 | 150 superadas en Windows mediante el conector |
+| Interfaz 0.4.1 | Secciones apiladas; formulario habitual sin scroll en 1440×900, 1366×768 y 1280×720. En 800×600 conserva scroll interno y todos los campos. Captura del PC sin errores JavaScript |
 | Paleta 0.3.0 | JSON, reapertura, grados naturales y alterados, etiquetas, contraste, restauración, exportación e impresión con estilos de impresión |
 | Esquema 0.3.0 | 1685 casos de paridad entre validador manual y AJV con paleta |
 | Interfaz 0.2.0 | Seis tamaños de escritorio de 800×600 a 1440×900, móvil 390×844, JSON, menús, edición, 40 posiciones y 30 compases |

@@ -10,12 +10,12 @@ Usar Caveat Brush para títulos y nombres de acorde, Gochi Hand para anotaciones
 
 El icono debe ser una pieza vectorial original y sencilla, legible a tamaño de cabecera y favicon. Integrarlo en toda la aplicación. No hace falta una imagen generada ni copiar marcas de terceros.
 
-## Editor vigente desde 0.4.0
+## Editor vigente desde 0.4.1
 
 1. Cabecera con icono, canción activa, Abrir, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Nueva canción.
 2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas.
 3. Editor compacto de acorde y posición, con botones separados para añadir cada uno e iconos para duplicar y borrar.
-4. Digitación y grados visibles en una pestaña; dos campos de texto efectivo en otra, con selector para esta posición o todas las posiciones del acorde.
+4. Digitación y grados encima de los dos campos de texto efectivo, siempre visibles y sin pestañas, con selector para esta posición o todas las posiciones del acorde.
 5. Panel de marcas ligado al compás activo, con selector de contexto y Ver todas las marcas. Incluye tramos que atraviesan el compás. La selección solo cambia la vista y el punto de partida de nuevas marcas; no mueve las ya guardadas.
 6. Vista previa más ancha a la derecha. El editor habitual cabe sin scroll en las ventanas de escritorio comprobadas; contenido extenso y móvil conservan desplazamiento cuando hace falta.
 

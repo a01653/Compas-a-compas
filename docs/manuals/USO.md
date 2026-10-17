@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.4.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.4.1 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -63,7 +63,7 @@ Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el ar
 
 ### Texto encima y dentro
 
-Abre la pestaña **Textos de la tarjeta**. Solo aparecen dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro de la tarjeta**, bajo el nombre del acorde. Muestran el texto visible de la posición, incluso si el JSON antiguo tenía un valor propio que sustituía al texto común. Editar cambia lo que ves. Vaciar un campo lo quita de esa tarjeta.
+El bloque **Textos de la tarjeta** aparece debajo de digitación y grados. Las dos secciones están siempre visibles, sin pestañas. Solo aparecen dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro**, bajo el nombre del acorde. Muestran el texto visible de la posición, incluso si el JSON antiguo tenía un valor propio que sustituía al texto común. Editar cambia lo que ves. Vaciar un campo lo quita de esa tarjeta.
 
 Con varias posiciones, elige **Solo esta posición** o **Todas las posiciones del acorde**. Cada campo que cambies con la opción de todas sustituye sus textos propios en las demás posiciones; el otro campo no cambia. El selector por sí solo no modifica nada. Al seleccionar otra posición vuelve a «Solo esta posición».
 
@@ -159,4 +159,4 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
 | El navegador no abre la aplicación | Consulta el manual de instalación; el editor necesita el servidor local. |
 
-La versión 0.4.0 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
+La versión 0.4.1 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.

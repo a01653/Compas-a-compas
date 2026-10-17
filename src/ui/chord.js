@@ -16,7 +16,6 @@ function field(id, label, value, update) {
 }
 
 export function mountChordPanel(root, store) {
-  let currentTab = 'notes';
   let textTarget = 'position';
   const body = h('div', { class: 'chord-body' });
   root.append(h('div', { class: 'editor-heading' }, h('h2', { id: 't-acorde' }, 'Acordes y posiciones'),
@@ -68,7 +67,6 @@ export function mountChordPanel(root, store) {
     if (!voicing) positionSelect.append(h('option', { value: '' }, 'Sin posiciones'));
     const addPosition = actionButton('plus', 'Posición', () => {
       const created = addVoicing(song, event);
-      currentTab = 'notes';
       commit({ eventId: event.id, voicingId: created.id });
       focusSoon('f-frets', { select: true });
     }, { title: 'Añadir otra posición del mismo acorde', 'aria-label': 'Añadir otra posición', class: 'btn btn-soft' });
@@ -115,7 +113,8 @@ export function mountChordPanel(root, store) {
       'aria-label': `Grado de la cuerda ${STRINGS[i]}`, oninput: () => {
         applyDegrees(voicing, degrees.map(input => input.value)); store.emit('text');
       } }));
-    const notesPanel = h('div', { id: 'editor-notes', role: 'tabpanel', 'aria-labelledby': 'tab-notes' },
+    const notesPanel = h('section', { id: 'editor-notes', class: 'editor-section', 'aria-labelledby': 'editor-notes-title' },
+      h('h3', { id: 'editor-notes-title', class: 'editor-subtitle' }, 'Digitación y grados'),
       h('div', { class: 'field fret-field' },
         h('div', { class: 'field-heading' }, h('label', { for: 'f-frets' }, 'Digitación · 6ª a 1ª'), rangeBadge), frets,
         h('span', { class: 'hint', id: 'f-frets-hint' }, 'x muda · 0 al aire · dos cifras: separa con espacios'), note, error, span),
@@ -125,38 +124,27 @@ export function mountChordPanel(root, store) {
       h('p', { class: 'editing-tip' }, 'Otra posición = otra digitación del mismo acorde.'));
     const targetHelp = h('p', { id: 'text-target-help', class: 'text-help' });
     const syncTargetHelp = () => { targetHelp.textContent = textTarget === 'all'
-      ? 'Cada campo que cambies se actualizará en todas las posiciones de este acorde, incluidas las que tenían un texto propio.'
+      ? 'Al editar un campo, sustituyes su texto en todas las posiciones.'
       : 'Ves y editas el texto que aparece en esta posición. Deja un campo vacío para quitarlo de esta tarjeta.'; };
-    syncTargetHelp();
-    const target = h('div', { class: 'field', hidden: event.voicings.length < 2 },
+    const showTargetHelp = () => { targetHelp.hidden = textTarget !== 'all'; };
+    syncTargetHelp(); showTargetHelp();
+    const target = h('div', { class: 'field target-field', hidden: event.voicings.length < 2 },
       h('label', { for: 'text-target' }, 'Aplicar los cambios a'),
       h('select', { id: 'text-target', 'aria-describedby': 'text-target-help', onchange: e => {
-        textTarget = e.target.value; store.endEdit(); syncTargetHelp();
+        textTarget = e.target.value; store.endEdit(); syncTargetHelp(); showTargetHelp();
       } }, h('option', { value: 'position', selected: textTarget === 'position' }, 'Solo esta posición'),
       h('option', { value: 'all', selected: textTarget === 'all' }, 'Todas las posiciones del acorde')));
     const textField = (id, label, key, help) => h('div', { class: 'card-text-field' },
       field(id, label, effectiveText(event, voicing, key), value => {
         setCardText(event, voicing, key, value, textTarget === 'all'); store.emit('text');
       }), h('p', { class: 'hint' }, help));
-    const textsPanel = h('div', { id: 'editor-texts', role: 'tabpanel', 'aria-labelledby': 'tab-texts' },
+    const textsPanel = h('section', { id: 'editor-texts', class: 'editor-section', 'aria-labelledby': 'editor-texts-title' },
+      h('h3', { id: 'editor-texts-title', class: 'editor-subtitle' }, 'Textos de la tarjeta'),
       target, targetHelp,
-      textField('f-encima', 'Título sobre la tarjeta', 'aboveText', 'Fuera del recuadro. Por ejemplo: Introducción.'),
-      textField('f-dentro', 'Anotación dentro de la tarjeta', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.'));
-    const tabs = ['notes', 'texts'].map((id, i) => h('button', { id: `tab-${id}`, role: 'tab', type: 'button',
-      'aria-controls': `editor-${id}`, onclick: () => switchTab(id), onkeydown: e => {
-        if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
-          e.preventDefault(); switchTab(e.key === 'Home' ? 'notes' : e.key === 'End' ? 'texts' : id === 'notes' ? 'texts' : 'notes');
-          tabs[currentTab === 'notes' ? 0 : 1].focus();
-        }
-      } }, i === 0 ? 'Digitación y grados' : 'Textos de la tarjeta'));
-    function switchTab(id) {
-      currentTab = id;
-      tabs.forEach((tab, i) => { const active = (i === 0 ? 'notes' : 'texts') === id;
-        tab.setAttribute('aria-selected', String(active)); tab.tabIndex = active ? 0 : -1; });
-      notesPanel.hidden = id !== 'notes'; textsPanel.hidden = id !== 'texts';
-    }
-    nodes.push(h('div', { class: 'editor-tabs', role: 'tablist', 'aria-label': 'Contenido de la posición' }, tabs), notesPanel, textsPanel);
-    switchTab(currentTab);
+      h('div', { class: 'card-text-row' },
+        textField('f-encima', 'Título sobre la tarjeta', 'aboveText', 'Fuera del recuadro. Por ejemplo: Introducción.'),
+        textField('f-dentro', 'Anotación dentro', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.')));
+    nodes.push(notesPanel, textsPanel);
     body.replaceChildren(...nodes);
   }
   render(store.state);
