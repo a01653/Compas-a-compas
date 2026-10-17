@@ -8,6 +8,8 @@ import { focusSoon } from './notify.js';
 import { fretRange, spanMessage } from '../geometry/fretboard.js';
 import { applyDegrees, degreesToInputs } from '../model/degrees.js';
 import { actionButton, iconButton } from './icons.js';
+import { paletteFamilyStyle } from '../model/palette.js';
+import { DEFAULT_TONALITY_FAMILY, deriveTonalityContext, describeTonality, setTonality, setTonalityFamily, setVoicingDegree } from '../model/tonality.js';
 
 const STRINGS = ['6ª', '5ª', '4ª', '3ª', '2ª', '1ª'];
 function field(id, label, value, update) {
@@ -17,12 +19,14 @@ function field(id, label, value, update) {
 
 export function mountChordPanel(root, store) {
   let textTarget = 'position';
+  let refreshContext = null;
   const body = h('div', { class: 'chord-body' });
   root.append(h('div', { class: 'editor-heading' }, h('h2', { id: 't-acorde' }, 'Acordes y posiciones'),
     h('span', { class: 'live-badge' }, h('span', { 'aria-hidden': 'true' }), 'En directo')), body);
 
   function render(state) {
     const { song } = state;
+    refreshContext = null;
     const measure = selectedMeasure(state);
     if (!measure) { body.replaceChildren(h('p', { class: 'hint empty-editor' }, 'Añade un compás para empezar.')); return; }
     const event = selectedEvent(state);
@@ -138,17 +142,55 @@ export function mountChordPanel(root, store) {
       field(id, label, effectiveText(event, voicing, key), value => {
         setCardText(event, voicing, key, value, textTarget === 'all'); store.emit('text');
       }), h('p', { class: 'hint' }, help));
+    // Grado y tonalidad pertenecen a esta posición: nunca dependen del selector de alcance de los textos.
+    let localFamily = null; // calidad elegida mientras la posición no tiene tonalidad propia; no se guarda
+    const hintText = h('span');
+    const quality = h('select', { id: 'f-tonalidad-calidad', 'aria-describedby': 'tonality-hint',
+      title: 'Calidad de la tonalidad de esta posición. Con el campo de tonalidad vacío, se prepara para el próximo texto que escribas y no cambia la tonalidad heredada.', onchange: e => {
+      localFamily = e.target.value;
+      store.endEdit();
+      if (setTonalityFamily(voicing, localFamily)) store.emit('text');
+      refreshTonality();
+    } }, Object.entries(FAMILIES).map(([key, family]) => h('option', { value: key }, family.label)));
+    const tonalityInput = h('input', { id: 'f-tonalidad', type: 'text', value: voicing.tonality?.text || '', autocomplete: 'off',
+      'aria-describedby': 'tonality-hint', oninput: e => {
+        const chosen = quality.value;
+        setTonality(voicing, e.target.value, chosen);
+        if (!voicing.tonality) localFamily = chosen;
+        store.emit('text');
+      } });
+    function refreshTonality() {
+      const entry = deriveTonalityContext(store.state.song).get(voicing.id) || null;
+      const effective = entry?.family || DEFAULT_TONALITY_FAMILY;
+      hintText.textContent = describeTonality(entry);
+      quality.value = voicing.tonality ? voicing.tonality.family : (localFamily ?? effective);
+      // Vacío: el marcador muestra lo heredado sin confundirlo con un valor propio. El color efectivo va en el campo.
+      tonalityInput.placeholder = !entry ? 'Sin tonalidad' : voicing.tonality ? '' : `Hereda: ${entry.text}`;
+      tonalityInput.title = describeTonality(entry);
+      if (entry) tonalityInput.setAttribute('style', paletteFamilyStyle(effective, store.state.song.palette));
+      else tonalityInput.removeAttribute('style');
+    }
+    refreshContext = refreshTonality;
+    refreshTonality();
     const textsPanel = h('section', { id: 'editor-texts', class: 'editor-section', 'aria-labelledby': 'editor-texts-title' },
       h('h3', { id: 'editor-texts-title', class: 'editor-subtitle' }, 'Textos de la tarjeta'),
       target, targetHelp,
       h('div', { class: 'card-text-row' },
         textField('f-encima', 'Título sobre la tarjeta', 'aboveText', 'Fuera del recuadro. Por ejemplo: Introducción.'),
-        textField('f-dentro', 'Anotación dentro', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.')));
+        textField('f-dentro', 'Anotación dentro', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.')),
+      h('div', { class: 'card-text-row tonality-row' },
+        field('f-grado-voicing', 'Grado del voicing', voicing.voicingDegree || '', value => {
+          setVoicingDegree(voicing, value); store.emit('text');
+        }),
+        h('div', { class: 'field' }, h('label', { for: 'f-tonalidad' }, 'Tonalidad de esta posición'), tonalityInput),
+        h('div', { class: 'field' }, h('label', { for: 'f-tonalidad-calidad' }, 'Calidad de tonalidad'), quality)),
+      h('p', { id: 'tonality-hint', class: 'hint tonality-hint' }, hintText));
     nodes.push(notesPanel, textsPanel);
     body.replaceChildren(...nodes);
   }
   render(store.state);
   store.subscribe((state, scope) => {
     if (['selection', 'structure', 'document', 'history'].includes(scope)) { textTarget = 'position'; render(state); }
+    else if (scope === 'text') refreshContext?.(); // La tonalidad general o un cambio previo alteran lo heredado.
   });
 }

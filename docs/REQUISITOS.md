@@ -2,7 +2,7 @@
 
 Versión de la especificación: 1.0. Fecha: 16/10/2026. Estado: preparada para desarrollo.
 
-**Ampliación solicitada el 17/10/2026, pendiente de implementación:** [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md). Amplía R01, R07 y R08, y sustituye para ese próximo cambio la exclusión de franjas de tonalidad de R24. La tabla siguiente conserva la especificación original; no describe esa ampliación como ya disponible.
+**Ampliación solicitada el 17/10/2026, implementada en 0.5.0:** [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md). Amplía R01, R07 y R08, y sustituye para ese próximo cambio la exclusión de franjas de tonalidad de R24. La tabla siguiente conserva la especificación original; el documento enlazado precisa el cambio de las franjas.
 
 ## Objetivo
 

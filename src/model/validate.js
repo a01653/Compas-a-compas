@@ -44,6 +44,14 @@ function object({ required = [], props }) {
 const fret = (v, p, e) => { if (v !== null && (!Number.isInteger(v) || v < 0)) fail(e, p, 'debe ser un entero ≥ 0 o null (cuerda muda)'); };
 const degree = (v, p, e) => { if (v !== null && typeof v !== 'string') fail(e, p, 'debe ser un texto o null'); };
 
+const visibleText = (v, p, e) => { if (typeof v !== 'string' || !v.trim()) fail(e, p, 'debe ser un texto con contenido visible'); };
+const boolean = (v, p, e) => { if (typeof v !== 'boolean') fail(e, p, 'debe ser verdadero o falso'); };
+
+const tonality = object({
+  required: ['text', 'family'],
+  props: { text: visibleText, family: oneOf(FAMILY_KEYS) },
+});
+
 const voicing = object({
   required: ['id', 'frets'],
   props: {
@@ -52,6 +60,8 @@ const voicing = object({
     degrees: list(degree, { exact: 6 }),
     aboveText: text,
     insideText: text,
+    voicingDegree: visibleText,
+    tonality,
   },
 });
 
@@ -131,6 +141,8 @@ const song = object({
     } }),
     title: text,
     key: text,
+    keyFamily: oneOf(FAMILY_KEYS),
+    showTonalities: boolean,
     measures: list(measure),
     structure,
   },

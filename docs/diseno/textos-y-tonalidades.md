@@ -1,6 +1,6 @@
 # Próxima mejora: textos y tonalidades por voicing
 
-Fecha de solicitud: 17/10/2026. **Estado: registrada; pendiente de implementación.** La aplicación publicada sigue en 0.4.1. Este documento recoge el nuevo encargo y permite retomarlo sin confundirlo con funciones ya disponibles.
+Fecha de solicitud: 17/10/2026. **Estado: implementada y comprobada en 0.5.0.** El usuario ha autorizado integrarla en main. Este documento conserva el encargo y sus decisiones de implementación.
 
 Referencia visual: `EJEMPLO.html`, plantilla aportada por el usuario y revisada en navegador. Se han comprobado el rótulo «Intro · Joe Pass», los grados de la esquina superior derecha y las franjas de tonalidad sobre las tarjetas. La plantilla sirve como referencia de estas funciones; se mantienen las digitaciones de tamaño variable y la paginación adaptable de la aplicación.
 
@@ -47,13 +47,13 @@ El texto de tonalidad y su calidad deben poder seleccionarse por separado, igual
 
 La selección pertenece a la tonalidad, no al acorde: un acorde dominante puede estar bajo una franja de tonalidad menor. Los colores deben respetar la configuración de la canción, conservarse al guardar y ser legibles también con fondos oscuros. No codificar un color por nombre concreto de tonalidad. La plantilla contiene también etiquetas de escalas, como «menor armónica» o «mixolidia»; conservar la posibilidad de escribirlas sin convertirlas automáticamente en nuevos tipos de acorde.
 
-## Detalles que resolver antes de implementar
+## Decisiones de implementación
 
-Estas decisiones no quedaron explícitas en la petición y no bloquean su registro:
+Decisiones reversibles adoptadas al comenzar el desarrollo y comunicadas al usuario cuando afectan a la presentación:
 
-1. Alcance exacto de la casilla global: se pide desactivar la tonalidad «en toda la página». Confirmar si oculta también la tonalidad junto al título de canción o solamente las franjas por voicing. En cualquier caso, debe actuar sobre todas las páginas del documento.
-2. Contexto inicial: decidir cómo usar la tonalidad general antes del primer cambio explícito por voicing, incluyendo su calidad/color. No deducir silenciosamente esa calidad de un texto libre ni inventar un contexto cuando no hay datos.
-3. Repetición de etiqueta al comenzar fila/página: la plantilla reitera algunas etiquetas al inicio de fila. La petición actual dice que un campo vacío no pone otra tonalidad; conservar esa regla salvo que se acuerde repetir etiquetas como ayuda de lectura.
+1. La casilla **Mostrar tonalidades de las tarjetas** oculta las franjas en todas las páginas; conserva la tonalidad general junto al título. No elimina datos.
+2. La tonalidad general inicia el contexto. Se añade una selección explícita de su calidad; si no se ha elegido, se usa el color neutro de Otro. No se infiere una calidad leyendo el texto. Sin tonalidad general ni un cambio local previo, no se dibuja franja.
+3. No se repiten etiquetas heredadas al comenzar fila o página. El color continúa; solo se escribe una etiqueta al establecer un cambio explícito o al presentar por primera vez el contexto general.
 
 ## Criterios de entrega
 
@@ -65,7 +65,7 @@ Estas decisiones no quedaron explícitas en la petición y no bloquean su regist
 - Incluir todas las ediciones y la casilla en Deshacer/Rehacer y recuperación de la canción.
 - Mantener el editor compacto y los campos frecuentes accesibles. Usar el mismo renderizado en vista previa, HTML autónomo e impresión.
 - Revisar casos sin datos nuevos para conservar el resto del contenido y la geometría de los mástiles. Las nuevas cabeceras pueden exigir más altura; no escalar cada página de forma diferente ni recortar tarjetas para compensarlo.
-- Actualizar manual y DTS cuando se implemente y compruebe. Hasta entonces, esta especificación no cambia las funciones de 0.4.1.
+- Manual, DTS y capturas actualizados para 0.5.0. Ver la evidencia registrada en `docs/ESTADO.md`.
 
 ## Relación con los requisitos anteriores
 

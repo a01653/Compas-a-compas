@@ -1,4 +1,6 @@
 import { h } from '../render/dom.js';
+import { FAMILIES } from '../model/families.js';
+import { normalizeFamily, setKeyFamily, setShowTonalities, tonalitiesVisible } from '../model/tonality.js';
 
 export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
   const bind = (key) => (e) => {
@@ -10,11 +12,21 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
   const key = h('input', { id: 'f-tono', type: 'text', autocomplete: 'off', oninput: bind('key') });
   const docVersion = h('input', { id: 'f-version', type: 'text', autocomplete: 'off', oninput: bind('documentVersion') });
   const recovery = h('p', { class: 'hint', id: 'hint-recuperacion' });
+  // Selector y casilla son cambios discretos: cada uno es su propio paso de historial, separado de la escritura.
+  const keyFamily = h('select', { id: 'f-tono-calidad', onchange: e => {
+    store.endEdit(); setKeyFamily(store.state.song, e.target.value); store.emit('text');
+  } }, Object.entries(FAMILIES).map(([value, family]) => h('option', { value }, family.label)));
+  const showTonalities = h('input', { id: 'f-mostrar-tonalidades', type: 'checkbox', 'aria-describedby': 'hint-mostrar-tonalidades', onchange: e => {
+    store.endEdit(); setShowTonalities(store.state.song, e.target.checked); store.emit('text');
+  } });
 
   root.append(
     h('div', { class: 'panel-head' }, h('h2', { id: 't-cancion' }, 'Canción')),
     h('div', { class: 'field' }, h('label', { for: 'f-titulo' }, 'Nombre de la canción'), title),
     h('div', { class: 'field' }, h('label', { for: 'f-tono' }, 'Tonalidad'), key),
+    h('div', { class: 'field' }, h('label', { for: 'f-tono-calidad' }, 'Calidad de tonalidad'), keyFamily),
+    h('div', { class: 'field field-check' }, h('label', { for: 'f-mostrar-tonalidades' }, showTonalities, 'Mostrar tonalidades de las tarjetas'),
+      h('p', { class: 'hint', id: 'hint-mostrar-tonalidades' }, 'Muestra u oculta los cambios de tonalidad de las tarjetas. No oculta la tonalidad del título.')),
     h('div', { class: 'field' }, h('label', { for: 'f-version' }, 'Versión del documento (opcional)'), docVersion,
       h('p', { class: 'hint' }, 'Texto libre para tus revisiones de la hoja. No es la versión de la aplicación ni la del formato del archivo.')),
     recovery);
@@ -28,6 +40,8 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
   function sync(state) {
     title.value = state.song.title || '';
     key.value = state.song.key || '';
+    keyFamily.value = normalizeFamily(state.song.keyFamily);
+    showTonalities.checked = tonalitiesVisible(state.song);
     docVersion.value = state.song.documentVersion || '';
   }
 

@@ -1,6 +1,6 @@
 # Instalación y arranque — Compás a compás
 
-Aplicación 0.4.1 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Qué necesitas
 
@@ -94,6 +94,7 @@ Si Git avisa de cambios locales o de ramas divergentes, detente y revisa esos ca
 | --- | --- |
 | `Abrir-Compas.cmd` | Arranque diario en Windows |
 | `examples/cancion-demo.json` | Ejemplo para practicar |
+| `examples/textos-tonalidades.json` | Títulos enmarcados, grado y tonalidad por posición |
 | `docs/manuals/USO.md` | Manual de uso editable |
 | `docs/manuals/INSTALACION.md` | Esta guía editable |
 | `docs/DTS.md` | Diseño técnico del software |

@@ -15,6 +15,12 @@
     "key": {
       "type": "string"
     },
+    "keyFamily": {
+      "$ref": "#/$defs/family"
+    },
+    "showTonalities": {
+      "type": "boolean"
+    },
     "measures": {
       "type": "array",
       "items": {
@@ -38,6 +44,33 @@
   ],
   "additionalProperties": false,
   "$defs": {
+    "family": {
+      "enum": [
+        "major",
+        "minor",
+        "dominant",
+        "half-diminished",
+        "diminished",
+        "other"
+      ]
+    },
+    "tonality": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "family": {
+          "$ref": "#/$defs/family"
+        }
+      },
+      "required": [
+        "text",
+        "family"
+      ],
+      "additionalProperties": false
+    },
     "voicing": {
       "type": "object",
       "properties": {
@@ -73,6 +106,13 @@
         },
         "insideText": {
           "type": "string"
+        },
+        "voicingDegree": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "tonality": {
+          "$ref": "#/$defs/tonality"
         }
       },
       "required": [

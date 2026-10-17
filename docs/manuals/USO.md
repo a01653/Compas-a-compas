@@ -1,15 +1,15 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.4.1 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
 1. Abre la aplicación en [GitHub Pages](https://a01653.github.io/Compas-a-compas/) o con `Abrir-Compas.cmd` desde la carpeta del proyecto. En local, conserva abierta la consola que arranca el servidor.
 2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
-3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. Aparecen en la cabecera de cada hoja. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
+3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. La tonalidad aparece a continuación del nombre en cada hoja. Puedes elegir su calidad para el color inicial de las franjas de las tarjetas. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
 4. Añade compases y sus posiciones. Revisa el resultado a la derecha y guarda con **Guardar JSON**.
 
-La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás, acorde y posición evitan listas verticales largas. En una pantalla de portátil puedes escribir digitación y grados sin bajar por el formulario. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
+La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás, acorde y posición evitan listas verticales largas. Digitación y grados quedan en la parte alta del editor; los textos y el contexto de la posición aparecen debajo. El editor conserva desplazamiento interno cuando no cabe todo. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
 
 ![Vista general: editor compacto a la izquierda y hoja a la derecha.](capturas/editor-general.png)
 
@@ -61,17 +61,31 @@ Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el ar
 
 ![Paleta de fondos por calidad del acorde.](capturas/colores-acordes.png)
 
-### Texto encima y dentro
+### Títulos, anotaciones y grado del voicing
 
-El bloque **Textos de la tarjeta** aparece debajo de digitación y grados. Las dos secciones están siempre visibles, sin pestañas. Solo aparecen dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro**, bajo el nombre del acorde. Muestran el texto visible de la posición, incluso si el JSON antiguo tenía un valor propio que sustituía al texto común. Editar cambia lo que ves. Vaciar un campo lo quita de esa tarjeta.
+El bloque **Textos de la tarjeta** aparece debajo de digitación y grados, siempre visible y sin pestañas. **Título sobre la tarjeta** se dibuja en un recuadro encima de su posición y fuera de la línea vertical del compás. **Anotación dentro** conserva su lugar bajo el nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
 
-Con varias posiciones, elige **Solo esta posición** o **Todas las posiciones del acorde**. Cada campo que cambies con la opción de todas sustituye sus textos propios en las demás posiciones; el otro campo no cambia. El selector por sí solo no modifica nada. Al seleccionar otra posición vuelve a «Solo esta posición».
+Con varias posiciones, **Aplicar los cambios a** permite modificar esos dos textos en esta posición o en todas las del acorde. Cada campo que edites para todas sustituye sus valores propios; el otro campo no cambia. Al seleccionar otra posición vuelve a la edición individual.
 
-![Dos campos de texto y elección de las posiciones a las que aplicar los cambios.](capturas/textos-deshacer.png)
+**Grado del voicing** es un campo manual independiente: escribe `ii`, `V7/ii` o el texto que necesites. Sale arriba a la derecha de la tarjeta, junto al acorde. No modifica los seis grados de las cuerdas ni se calcula automáticamente. Este campo pertenece siempre a la posición seleccionada.
+
+![Textos de la tarjeta, grado propio y tonalidad de la posición.](capturas/textos-deshacer.png)
+
+### Tonalidad de cada posición
+
+En **Tonalidad de esta posición** escribe un cambio de contexto y elige su **Calidad de tonalidad**. Mayor, menor y las demás calidades usan los colores de la paleta de familias de esta canción. La calidad de la franja es independiente de la del acorde: un dominante puede llevar una tonalidad menor encima.
+
+Deja el campo vacío para continuar con la tonalidad anterior, incluido su color, sin imprimir otra etiqueta. La herencia sigue el orden escrito a través de acordes, compases y páginas. No interpreta las repeticiones. Borrar un cambio hace que esa posición y las siguientes vuelvan a heredar del contexto anterior, hasta el próximo cambio escrito.
+
+La tonalidad general inicia el contexto; si no has elegido su calidad, usa el color neutro de **Otro**. Sin tonalidad general ni cambio previo no se inventa ninguna. Cuando está vacío, el campo muestra una guía «Hereda: …» y el color del contexto efectivo; al pasar el ratón se ve la explicación completa. Elegir una calidad con el campo vacío prepara el siguiente texto; no crea un cambio invisible en el archivo.
+
+Para ocultar las franjas en todas las hojas, abre los datos de canción pulsando su título y desmarca **Mostrar tonalidades de las tarjetas**. La tonalidad junto al título sigue visible. Vuelve a marcar para recuperar las franjas; no se borra ningún dato.
+
+Grado del voicing y tonalidad son propios de cada posición, aunque el selector de los otros textos esté en «Todas las posiciones del acorde». Se guardan en JSON y se conservan en vista previa, HTML e impresión. Puedes probarlo abriendo `examples/textos-tonalidades.json`. Los archivos con estos campos nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
 
 ### Deshacer y rehacer
 
-Pulsa la flecha hacia la izquierda de la cabecera para **Deshacer** y la flecha hacia la derecha para **Rehacer**. También están dentro de los diálogos de datos, marcas y colores, por lo que puedes deshacer una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la canción: textos, digitaciones, grados, colores, compases, acordes, posiciones y marcas musicales.
+Pulsa la flecha hacia la izquierda de la cabecera para **Deshacer** y la flecha hacia la derecha para **Rehacer**. También están dentro de los diálogos de datos, marcas y colores, por lo que puedes deshacer una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la canción: textos, digitaciones, grados, tonalidades, su visibilidad, colores, compases, acordes, posiciones y marcas musicales.
 
 La escritura continua en un campo se agrupa hasta salir de él. Fuera de los campos funcionan **Ctrl+Z** y **Ctrl+Y** o **Ctrl+Mayús+Z**; en Mac se puede usar Cmd. Dentro de un campo se conserva el deshacer habitual del navegador, también para los borradores de marcas que todavía no se han añadido.
 
@@ -157,6 +171,4 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | La siguiente hoja tiene tarjetas más anchas | Las filas parciales reparten el ancho disponible. El zoom no cambia el tamaño exportado. |
 | El grado no aparece | Comprueba el orden de las cuerdas y si esa cuerda está muda. |
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
-| El navegador no abre la aplicación | Consulta el manual de instalación; el editor necesita el servidor local. |
-
-La versión 0.4.1 se ha comprobado en Chromium. Firefox, Safari y el diálogo de impresión nativo de Windows siguen pendientes de comprobación.
+| El navegador no abre la aplicación | Abre GitHub Pages o arranca el servidor local; consulta la guía de instalación. |

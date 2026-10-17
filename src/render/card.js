@@ -83,9 +83,29 @@ function truncatedLegend(voicing) {
   return items;
 }
 
-export function cardNode(event, voicing, { selected = false, onSelect, palette } = {}) {
+/**
+ * Franja de tonalidad de una posición: fondo y borde de la familia de la tonalidad (no la del acorde).
+ * Solo lleva texto cuando es una etiqueta nueva; las heredadas mantienen el color sin repetir el texto.
+ */
+function tonalityBand(tonal, palette) {
+  return h('div', {
+    class: tonal.show ? 't-tono' : 't-tono t-tono-heredada',
+    style: paletteFamilyStyle(tonal.family, palette, true),
+    'data-tonality-source': tonal.source,
+  }, tonal.show ? tonal.text : null);
+}
+
+/**
+ * Columna de una posición, de arriba abajo: título, franja de tonalidad y zona del compás (hueco del número y tarjeta).
+ * Las tres filas son compartidas por todas las columnas del fragmento (rejilla con subgrid, ver sheet.css): los títulos quedan
+ * en una fila, las franjas en otra y la zona del compás empieza a la misma altura en todas. Solo la primera columna
+ * (`lead`) pinta el número y la línea del compás.
+ * `lead` = { label, continuation, barStart } · `tail` = barra de fin de repetición de la última columna.
+ */
+export function cardNode(event, voicing, { selected = false, onSelect, palette, tonal = null, lead = null, tail = null } = {}) {
   const above = effectiveText(event, voicing, 'aboveText');
   const inside = effectiveText(event, voicing, 'insideText');
+  const degree = voicing?.voicingDegree || '';
   const pending = !voicing;
   const legend = truncatedLegend(voicing);
 
@@ -99,6 +119,7 @@ export function cardNode(event, voicing, { selected = false, onSelect, palette }
   },
     h('div', { class: 't-cab' },
       h('div', { class: 't-nom' }, event.chordName || '—'),
+      degree ? h('div', { class: 't-grado' }, degree) : null,
       inside ? h('div', { class: 't-txt' }, inside) : null),
     pending ? h('div', { class: 't-pend' }, 'Sin digitación (pendiente)') : fretboardSvg(voicing, {
       palette,
@@ -109,7 +130,18 @@ export function cardNode(event, voicing, { selected = false, onSelect, palette }
       ? h('ul', { class: 't-leyenda', 'aria-label': 'Grados completos' }, legend.map((item) => h('li', null, `${item.string}ª: ${item.degree}`)))
       : null);
 
-  return h('div', { class: 'tarjeta-col' },
-    h('div', { class: 't-titulo' }, above || null),
-    card);
+  const top = above || tonal
+    ? h('div', { class: 't-sup' },
+      above ? h('div', { class: 't-titulo' }, h('span', { class: 't-titulo-caja' }, above)) : null,
+      tonal ? tonalityBand(tonal, palette) : null)
+    : null;
+  // Toda la columna (título y franja incluidos) selecciona su posición sin que el clic llegue al compás.
+  return h('div', { class: 'tarjeta-col', onclick: onSelect ? (e) => { e.stopPropagation(); onSelect(); } : null },
+    top,
+    h('div', { class: lead ? 't-pos t-pos-lead' : 't-pos' },
+      h('div', { class: 't-num' }, lead ? [
+        h('span', { class: 'compas-num' }, lead.label),
+        lead.continuation ? h('span', { class: 'compas-continuacion' }, 'continuación') : null,
+      ] : null),
+      lead?.barStart, tail, card));
 }

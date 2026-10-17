@@ -37,14 +37,16 @@ function repeatBar(side) {
 
 /**
  * Elementos de marcas de un fragmento de compás (ver fragmentMarks):
- * { classes, bars: [barras de repetición posicionadas], strip: bloque superior en flujo o null }.
- * El bloque superior ocupa espacio propio, por encima de los títulos de tarjeta, y apila varias marcas sin superponerlas.
+ * { classes, barStart, barEnd: barras de repetición (o null), strip: bloque superior en flujo o null }.
+ * Las barras las coloca quien dibuja las tarjetas, dentro de la zona del compás (de la línea del número hacia abajo).
+ * El bloque superior ocupa espacio propio y apila varias marcas sin superponerlas.
  */
 export function marksParts(f) {
   const classes = [];
-  const bars = [];
-  if (f.repeatStarts.length) { classes.push('rep-ini'); bars.push(repeatBar('ini')); }
-  if (f.repeatEnds.length) { classes.push('rep-fin'); bars.push(repeatBar('fin')); }
+  let barStart = null;
+  let barEnd = null;
+  if (f.repeatStarts.length) { classes.push('rep-ini'); barStart = repeatBar('ini'); }
+  if (f.repeatEnds.length) { classes.push('rep-fin'); barEnd = repeatBar('fin'); }
   if (f.spans.length) classes.push('en-rep');
 
   const rows = [];
@@ -57,5 +59,5 @@ export function marksParts(f) {
   const right = [...f.after.map(markItem), ...times];
   if (left.length || right.length) rows.push(h('div', { class: 'marcas-fila' }, h('div', { class: 'marcas-izq' }, left), h('div', { class: 'marcas-der' }, right)));
 
-  return { classes, bars, strip: rows.length ? h('div', { class: 'marcas' }, rows) : null };
+  return { classes, barStart, barEnd, strip: rows.length ? h('div', { class: 'marcas' }, rows) : null };
 }

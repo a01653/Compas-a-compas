@@ -74,3 +74,18 @@ Los documentos previos siguen siendo válidos y no reciben el campo al abrirlos 
 ## Edición e historial desde 0.4.0
 
 El formulario muestra el texto efectivo de cada tarjeta; la representación de herencia en JSON no cambia. El modo de todas las posiciones sustituye el campo común y retira las excepciones de ese campo. Deshacer y Rehacer pertenecen a la sesión de edición: no añaden campos al contrato ni se escriben en el archivo.
+
+## Tonalidad y grado por posición desde 0.5.0
+
+Se amplía el esquema 1 con campos opcionales. Los JSON anteriores siguen siendo válidos sin añadirlos al abrir o guardar. Los archivos que los incluyen requieren la aplicación 0.5.0 o posterior; lectores antiguos rechazan esos campos, sin descartarlos.
+
+| Entidad | Campo | Contrato |
+| --- | --- | --- |
+| Canción | `keyFamily` | Una de las seis familias; ausente equivale a `other` para el color del contexto inicial. |
+| Canción | `showTonalities` | Booleano; ausente equivale a visible. Oculta las franjas, conservando la tonalidad del título y los datos. |
+| Posición | `voicingDegree` | Texto visible opcional, independiente de `degrees`; al vaciarlo se retira el campo. |
+| Posición | `tonality` | Objeto con `text` visible y `family` válida. No admite otras propiedades. Vacío se representa retirando el objeto completo. |
+
+La tonalidad general `key` inicia el contexto; no se deduce su calidad del texto. Cada `tonality` establece un cambio en su posición. La ausencia hereda el último contexto según el orden escrito, cruzando acordes y compases. Se deriva de nuevo después de mover, borrar o duplicar entidades. No se guarda un contexto efectivo por tarjeta, ni se resuelve un recorrido con repeticiones.
+
+Las franjas heredan el color de la familia de tonalidad desde la paleta de canción. El nombre y la familia del acorde no afectan a ese contexto. `voicingDegree` y `tonality` pertenecen siempre a una posición; el alcance de edición conjunta de `aboveText` e `insideText` no se aplica a ellos. Deshacer/Rehacer conserva estos datos y la casilla global como cualquier otra edición.

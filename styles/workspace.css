@@ -36,7 +36,7 @@
 .navigator-heading .hint { font-size: 10px; color: #7a8398; }
 .navigator-row { display: flex; align-items: center; gap: 5px; }
 .navigator-row select { width: 0; flex: 1; min-width: 0; }
-.compact-workspace select { min-height: 36px; padding: 7px 26px 7px 10px; border: 1px solid #d8dfed; border-radius: 7px; background-color: #fff; font-size: 12px; cursor: pointer; }
+.compact-workspace select { min-height: 32px; padding: 5px 24px 5px 10px; border: 1px solid #d8dfed; border-radius: 7px; background-color: #fff; font-size: 12px; cursor: pointer; }
 .chord-workspace { flex: 1; min-height: 0; padding: 18px !important; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
 .editor-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 22px; }
 .compact-workspace .editor-heading h2 { font: 23px/1.1 var(--f-marker); letter-spacing: .2px; }
@@ -46,9 +46,9 @@
 .section-label > span { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 4px; border-radius: 5px; background: #f0f3f9; font-size: 10px; color: #5d6883; }
 .selector-row { display: flex; align-items: center; gap: 6px; margin-bottom: 13px; }
 .selector-row > select { min-width: 0; width: 0; flex: 1; font-weight: 600; color: var(--ink); background-color: #fafbfe; }
-.compact-workspace .field { gap: 5px; margin-bottom: 12px; }
+.compact-workspace .field { gap: 3px; margin-bottom: 7px; }
 .compact-workspace .field label, .field-heading label { font-size: 11px; font-weight: 550; color: #59637e; }
-.compact-workspace .field input[type=text] { min-height: 36px; padding: 7px 10px; border: 1px solid #d8dfed; border-radius: 7px; font-size: 13px; }
+.compact-workspace .field input[type=text] { min-height: 32px; padding: 5px 10px; border: 1px solid #d8dfed; border-radius: 7px; font-size: 13px; }
 .compact-workspace .field input[aria-invalid=true] { border-color: var(--danger); }
 .compact-workspace .field select { width: 100%; }
 .compact-workspace .field-row { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -57,11 +57,22 @@
 .editor-tabs { display: flex; padding: 3px; gap: 3px; background: #f1f3f8; border-radius: 8px; margin: 18px 0; }
 .editor-tabs > button { flex: 1; border: 0; border-radius: 6px; padding: 8px 5px; font-size: 11px; font-weight: 600; background: none; color: #737e97; cursor: pointer; }
 .editor-tabs > button[aria-selected=true] { background: white; color: var(--ink); box-shadow: 0 1px 4px #24396c16; }
-.compact-workspace .editor-section { margin-top: 8px; padding-top: 7px; border-top: 1px solid #edf0f7; }
-.compact-workspace .editor-section > .editor-subtitle { margin: 0 0 4px; font-size: 10px; font-weight: 650; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: #77829a; }
+/* El título de sección va sobre el filete, como una leyenda: no añade una fila de altura. */
+.compact-workspace .editor-section { position: relative; margin-top: 12px; padding-top: 8px; border-top: 1px solid #edf0f7; }
+.compact-workspace .editor-section > .editor-subtitle { position: absolute; top: -7px; left: 4px; margin: 0; padding: 0 6px; background: var(--panel, #fff); font-size: 10px; font-weight: 650; line-height: 13px; letter-spacing: .08em; text-transform: uppercase; color: #77829a; }
 .compact-workspace .card-text-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; align-items: start; }
 .compact-workspace .card-text-row .card-text-field { margin-top: 0; min-width: 0; }
 .compact-workspace .card-text-field .hint, .compact-workspace .editing-tip { display: none; }
+.compact-workspace .tonality-row { grid-template-columns: minmax(0, .8fr) minmax(0, 1.15fr) minmax(0, 1.25fr); gap: 0 8px; }
+.compact-workspace .tonality-row .field { margin-bottom: 2px; }
+.compact-workspace .tonality-row .field label { font-size: 10px; line-height: 1.15; }
+.compact-workspace .tonality-row select { padding: 5px 16px 5px 7px; font-size: 10.5px; background-position-x: calc(100% - 4px); }
+/* La tonalidad efectiva (propia o heredada) se ve en el borde y el fondo del campo; la ayuda queda para lectores de pantalla. */
+.compact-workspace .tonality-row #f-tonalidad { border-left: 5px solid var(--fam-bd, #d8dfed); background-color: var(--fam-bg, #fff); }
+.compact-workspace .tonality-row #f-tonalidad::placeholder { color: #6b7690; opacity: 1; }
+.tonality-hint { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.field-check > label { display: flex; align-items: center; gap: 8px; }
+@media (max-width: 480px) { .compact-workspace .card-text-row.tonality-row { grid-template-columns: minmax(0, 1fr); } }
 .compact-workspace .target-field { flex-direction: row; align-items: center; gap: 8px; margin-bottom: 6px; }
 .compact-workspace .target-field label { flex: none; }
 .compact-workspace .target-field select { min-width: 0; flex: 1; }
@@ -74,16 +85,16 @@
 .compact-workspace .editor-heading { margin-bottom: 10px; }
 .field-heading { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
 .range-badge { font-size: 10px; color: #8a92a5; }
-.compact-workspace .fret-field #f-frets { height: 42px; font: 20px/1.2 ui-monospace, Consolas, monospace; text-align: center; letter-spacing: .12em; background: #fafbfe; border-color: #c7d2eb; color: var(--ink); }
+.compact-workspace .fret-field #f-frets { height: 38px; font: 20px/1.2 ui-monospace, Consolas, monospace; text-align: center; letter-spacing: .12em; background: #fafbfe; border-color: #c7d2eb; color: var(--ink); }
 .compact-workspace .hint { font-size: 10px; line-height: 1.5; }
 .compact-workspace .error { font-size: 11px; min-height: 0; }
 .compact-workspace .error:empty, #f-frets-note:empty { display: none; }
 .compact-workspace .degrees { margin-top: 18px; margin-bottom: 0; }
-.compact-workspace .degrees legend { width: 100%; display: flex; justify-content: space-between; font-size: 11px; color: #59637e; margin-bottom: 9px; }
+.compact-workspace .degrees legend { width: 100%; display: flex; justify-content: space-between; font-size: 11px; color: #59637e; margin-bottom: 5px; }
 .optional { color: #9098ab; font-size: 10px; font-weight: 400; }
 .compact-workspace .degree-grid { gap: 7px; }
 .compact-workspace .degree-cell label { text-align: center; font-size: 10px; color: #8b94a7; }
-.compact-workspace .degree-cell input { min-height: 36px; padding: 5px 3px; border-radius: 7px; border: 1px solid #d8dfed; font-size: 13px; }
+.compact-workspace .degree-cell input { min-height: 32px; padding: 5px 3px; border-radius: 7px; border: 1px solid #d8dfed; font-size: 13px; }
 .editing-tip { border-top: 1px solid #edf0f7; padding-top: 16px; margin-top: 23px; font-size: 10px; color: #8a93a8; }
 .text-help { font-size: 10px; color: #7b869d; margin-bottom: 10px; }
 .text-help:not(:first-child) { margin-top: 8px; }
@@ -123,21 +134,22 @@
   .compact-workspace .layout { flex: 1 1 0; }
 }
 @media (min-width: 761px) and (max-height: 780px) {
-  .compact-workspace .topbar { height: 62px; }
-  .compact-workspace .layout { padding-block: 12px; gap: 12px; }
-  .compact-workspace .chord-workspace { padding: 14px 18px !important; }
-  .compact-workspace .measure-navigator { padding: 8px 16px !important; }
+  .compact-workspace .topbar { height: 56px; }
+  .compact-workspace .layout { padding-block: 8px; gap: 12px; }
+  .compact-workspace .chord-workspace { padding: 10px 18px !important; }
+  .compact-workspace .measure-navigator { padding: 6px 16px !important; }
+  .workspace-status { height: 28px; min-height: 28px; }
   .editor-heading { margin-bottom: 10px; }
   .section-label { margin-bottom: 5px; }
   .selector-row { margin-bottom: 10px; }
   .position-section { padding-top: 9px; margin-top: 0; }
-  .compact-workspace .field { margin-bottom: 8px; }
+  .compact-workspace .field { margin-bottom: 6px; }
   .editor-tabs { margin-block: 9px; }
   .editor-tabs > button { padding-block: 7px; }
   .editing-tip { display: none; }
   .compact-workspace .degrees { margin-top: 10px; }
   .compact-workspace .editor-heading, .compact-workspace .chord-body .section-label { display: none; }
-  .compact-workspace .editor-section { margin-top: 5px; padding-top: 5px; }
+  .compact-workspace .editor-section { margin-top: 10px; padding-top: 6px; }
   .compact-workspace .editor-section .degrees { margin-top: 5px; }
   .compact-workspace .field input[type=text], .compact-workspace select { min-height: 32px; }
   .compact-workspace .fret-field #f-frets { height: 36px; }
@@ -217,7 +229,6 @@
   .compact-workspace .section-label { margin-bottom: 3px; }
   .compact-workspace .position-section { padding-top: 6px; }
   .compact-workspace .editor-tabs { margin-block: 4px; }
-  .compact-workspace .editor-section > .editor-subtitle { margin-bottom: 2px; }
   .compact-workspace .fret-field #f-frets { height: 36px; }
   .compact-workspace .field { gap: 3px; }
 }

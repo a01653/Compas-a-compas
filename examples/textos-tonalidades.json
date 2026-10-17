@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "title": "Ejemplo de textos y tonalidades",
+  "key": "Mi♭ mayor",
+  "keyFamily": "major",
+  "documentVersion": "1.0",
+  "showTonalities": true,
+  "measures": [
+    {
+      "id": "m1", "label": "1",
+      "chordEvents": [{
+        "id": "e1", "chordName": "Cm7", "family": "minor",
+        "voicings": [
+          {"id": "v1", "frets": [null, 3, 5, 3, 4, 3], "aboveText": "Intro · Joe Pass", "insideText": "Primera posición", "voicingDegree": "vi", "degrees": [null, "1", "5", "b7", "b3", "5"]},
+          {"id": "v2", "frets": [8, 10, 8, 8, 8, 8], "insideText": "Otra posición", "voicingDegree": "vi"}
+        ]
+      }]
+    },
+    {
+      "id": "m2", "label": "2",
+      "chordEvents": [
+        {"id": "e2", "chordName": "Dm7(b5)", "family": "half-diminished", "voicings": [{"id": "v3", "frets": [null, 5, 6, 5, 6, null], "voicingDegree": "iiø/vi", "tonality": {"text": "Do menor", "family": "minor"}}]},
+        {"id": "e3", "chordName": "G7(b9)", "family": "dominant", "voicings": [{"id": "v4", "frets": [3, null, 3, 4, 3, 4], "insideText": "Hereda Do menor", "voicingDegree": "V7/vi"}]}
+      ]
+    },
+    {
+      "id": "m3", "label": "3",
+      "chordEvents": [{
+        "id": "e4", "chordName": "Cm7", "family": "minor",
+        "voicings": [
+          {"id": "v5", "frets": [null, 3, 5, 3, 4, 3], "voicingDegree": "vi"},
+          {"id": "v6", "frets": [8, 10, 8, 8, 8, 8], "aboveText": "Vuelta al tema", "voicingDegree": "vi", "tonality": {"text": "Mi♭ mayor", "family": "major"}}
+        ]
+      }]
+    },
+    {
+      "id": "m4", "label": "4",
+      "chordEvents": [
+        {"id": "e5", "chordName": "Bb7", "family": "dominant", "voicings": [{"id": "v7", "frets": [6, 8, 6, 7, 6, 6], "voicingDegree": "V7"}]},
+        {"id": "e6", "chordName": "Ebmaj7", "family": "major", "voicings": [{"id": "v8", "frets": [null, 6, 8, 7, 8, 6], "insideText": "Posición final", "voicingDegree": "I"}]}
+      ]
+    }
+  ],
+  "structure": {
+    "repeats": [{"id": "r1", "startMeasureId": "m1", "endMeasureId": "m2", "times": 3}],
+    "endings": [],
+    "markers": [{"id": "k1", "type": "coda", "measureId": "m3", "edge": "before"}],
+    "jumps": [{"id": "j1", "type": "to-coda", "measureId": "m2", "edge": "after", "codaMarkerId": "k1"}]
+  }
+}
