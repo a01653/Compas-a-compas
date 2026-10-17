@@ -1,7 +1,7 @@
 import { h, s } from './dom.js';
 import { layoutFretboard } from '../geometry/fretboard.js';
 import { DEFAULT_DOT, degreeColor, degreeDisplay } from '../model/degrees.js';
-import { paletteFamilyStyle, familyForeground, foreground, isColor } from '../model/palette.js';
+import { paletteFamilyStyle, familyForeground, foreground, isColor, tonalityBandStyle } from '../model/palette.js';
 import { effectiveText } from '../model/song.js';
 
 const INK = '#14183a';
@@ -90,7 +90,7 @@ function truncatedLegend(voicing) {
 function tonalityBand(tonal, palette) {
   return h('div', {
     class: tonal.show ? 't-tono' : 't-tono t-tono-heredada',
-    style: paletteFamilyStyle(tonal.family, palette, true),
+    style: tonalityBandStyle(tonal.family, palette),
     'data-tonality-source': tonal.source,
   }, tonal.show ? tonal.text : null);
 }

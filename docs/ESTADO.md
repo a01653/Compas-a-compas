@@ -1,5 +1,15 @@
 # Estado de trabajo
 
+## Versión 0.6.0: tarjetas independientes y bandas rectangulares — 17/10/2026
+
+Claude Sonnet, esfuerzo medium, implementa el selector plano y la edición independiente en el worktree del PC. El supervisor incorpora el ajuste visual de la plantilla, revisa la integración y comprueba la interfaz. El formato sigue siendo esquema 1: no se migra al abrir o guardar. Cambiar nombre o calidad separa solo la tarjeta afectada; añadir, duplicar y quitar operan inmediatamente junto a la tarjeta activa.
+
+La hoja elimina barras inferiores, separadores y contornos de grupos. Mantiene las barras de compás y las repeticiones. Las bandas tonales son rectangulares, con fondo tenue y línea inferior de 3 px; conservan herencia, calidad y paleta, con contraste mínimo de texto de 4,5:1.
+
+Validación: 190 pruebas Node superadas en Windows mediante el conector. Chromium 153 en Linux: guardado de un JSON antiguo sin cambios; selector único; edición del nombre con foco y escritura continua; separación individual con IDs, orden y marcas conservados; deshacer/rehacer; textos, duplicar, añadir y quitar; tarjeta pendiente que solo se completa con digitación válida. Editor sin scroll interno con el ejemplo en 1440×900, 1366×768 y 1280×720; móvil 390×844 sin desbordamiento horizontal. Franjas y títulos alineados con textos de distinta altura. HTML autónomo sin peticiones externas, mismas etiquetas y colores; 40 tarjetas en un compás y 24 compases en total, con continuaciones y trastes variables. Impresión de 1 y 6 hojas A4 horizontal en Chromium sin interfaz. Sin errores JavaScript.
+
+Manuales y DTS actualizados con capturas del editor de tarjetas. Firefox, Safari, impresión nativa y doble clic reales en Windows continúan pendientes. Las comprobaciones de navegador usan la copia de revisión en Linux; las pruebas Node se ejecutan en el worktree del PC. La carpeta principal de Windows se actualiza con git pull después de integrar en main.
+
 ## Versión 0.5.0: títulos, grado y tonalidad por posición — 17/10/2026
 
 Implementación realizada con Claude Sonnet, esfuerzo medium, en el worktree aislado del PC; el supervisor revisa y valida una copia independiente antes de integrar. Se conservan los cambios aprobados de 0.4.1. La especificación de [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md) pasa de pendiente a implementada.

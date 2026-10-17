@@ -4,6 +4,8 @@ Versión de la especificación: 1.0. Fecha: 16/10/2026. Estado: preparada para d
 
 **Ampliación solicitada el 17/10/2026, implementada en 0.5.0:** [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md). Amplía R01, R07 y R08, y sustituye para ese próximo cambio la exclusión de franjas de tonalidad de R24. La tabla siguiente conserva la especificación original; el documento enlazado precisa el cambio de las franjas.
 
+**Ampliación 0.6.0:** tarjetas independientes con selector único y franjas rectangulares; sin barras ni separadores de grupos.
+
 ## Objetivo
 
 Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción cuando cambie un acorde o una digitación. El archivo JSON conserva la edición; HTML y PDF son salidas visuales.
@@ -15,8 +17,8 @@ Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción
 | R01 | Editar nombre de canción y tonalidad en campos separados. Mostrar ambos en la cabecera de la hoja. |
 | R02 | Añadir, insertar, duplicar, borrar y reordenar compases. Conservar un identificador interno estable y una etiqueta visible editable; no renumerar silenciosamente una partitura transcrita. |
 | R03 | Introducir acordes uno a uno o mediante una lista por compases. La importación de lista muestra una previsualización antes de aplicar. |
-| R04 | Cada compás admite varios acordes; cada acorde admite varios voicings. No fijar un máximo de dos tarjetas. |
-| R05 | Corregir un compás, un acorde o un voicing sin regenerar ni cambiar el resto de la canción. |
+| R04 | Cada compás admite varias tarjetas independientes (en el formato, acordes con uno o varios voicings). No fijar un máximo de dos tarjetas. |
+| R05 | Corregir un compás o una tarjeta sin regenerar ni cambiar el resto de la canción. |
 | R06 | Permitir compases vacíos o de silencio y conservar su numeración. |
 
 ## Tarjetas y digitaciones
@@ -52,7 +54,9 @@ La primera versión permite escribir y conservar la navegación musical. No incl
 | R21 | Exportar HTML autónomo, con estilos y fuentes incluidos. Abrirlo sin conexión debe conservar el diseño. |
 | R22 | Impresión A4 apaisada y PDF mediante el diálogo del navegador. No presentar una descarga PDF nativa como implementada si solo se usa impresión. |
 | R23 | Páginas numeradas arriba a la derecha, en formato `1/3`, `2/3`, `3/3`. Total de hojas exportadas, calculado después de la paginación. |
-| R24 | No incluir franja de tonalidad/escala ni páginas de análisis armónico. La tonalidad permanece como dato en la cabecera. |
+| R24 | No incluir páginas de análisis armónico. La tonalidad general permanece en la cabecera. Desde la 0.5.0 cada tarjeta puede llevar una tonalidad propia con calidad, que se hereda en el orden escrito y se muestra en una franja tonal; esa franja se puede ocultar globalmente sin afectar a la cabecera. No se infiere ninguna tonalidad ni calidad. |
+| R29 | La tarjeta es la única entidad visible en el editor: selector plano, añadir, duplicar y quitar tarjeta. Cada tarjeta edita todos sus campos sin afectar a las demás. Los archivos antiguos con varios voicings bajo un acorde se abren sin migrar; al editar el nombre o la calidad de una de esas tarjetas, solo ella se separa en un acorde independiente. |
+| R30 | Cada tarjeta admite un grado opcional (texto libre) arriba a la derecha, dentro de la tarjeta, distinto de los grados manuales por cuerda. |
 
 ## Interfaz
 

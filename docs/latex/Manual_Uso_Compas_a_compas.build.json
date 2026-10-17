@@ -1,6 +1,6 @@
 {
   "document": "uso",
-  "applicationVersion": "0.5.0",
+  "applicationVersion": "0.6.0",
   "edition": "2026-10-17",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "0b0ff6b43f3acd34f7a215eba31c41b9427ba6b95c727cb69bcf19e954b3da49",
+      "sha256": "11e35abc38d6eb0741ed03d46af1895535fe4ab7e59e692e0ef9fe9f8e6485ce",
       "role": "source"
     },
     {
@@ -23,12 +23,12 @@
     },
     {
       "path": "package.json",
-      "sha256": "c755f71304bb348691629456e334c8e0dbd9016411179c1a4188c72f310823aa",
+      "sha256": "d76c68ab517b895b3e68aeb152d00b7a38a26bde2b35eced28800d7434f9b243",
       "role": "application-version"
     },
     {
       "path": "docs/manuals/capturas/editor-general.png",
-      "sha256": "890075816d60fff4d51653ceef0b4a84fcd369c35d722e1c0cd9091730bf6731",
+      "sha256": "e7cd90f2ae96befef56e8af02ef872519d1cae5f101c44eb684851232a7a78c7",
       "role": "capture"
     },
     {
@@ -38,12 +38,12 @@
     },
     {
       "path": "docs/manuals/capturas/textos-deshacer.png",
-      "sha256": "5f2e20d7c826389fca541ebe77df6bc1255b0dc4485dda4388dcc9466622707f",
+      "sha256": "ee6960d12ab30536b8c1ee6bcd3df34c2a15fc1c690406535250fb7df02757c8",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/editor-posiciones.png",
-      "sha256": "3bc3f858690824a5f89df05ea4fb7db3d3c1b67c54034830025dea53ec9c7ec6",
+      "sha256": "ef30581a2e2e1b1611cd2b99911be1e30e0c974fef2da0a527617e5986c98068",
       "role": "capture"
     },
     {
@@ -53,12 +53,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "c705a5589d24ea851f5710857b689dd0674430e8ade23ea985a048949f38d01e",
+      "sha256": "4bdb561704a8527abc928ec8002809fb67ee53a5a1d6a3f6eda93ce2217ef288",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "1c7f69276d34708ce555c92121d32a350291b0f23b95b1434c1d4f4c5506529e",
+      "sha256": "91c47c15a8a26e8f3cd4e355719d1deaee87212b9e85a9b0763f91f5c844136b",
       "role": "pdf"
     }
   ]

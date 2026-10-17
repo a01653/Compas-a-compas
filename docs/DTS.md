@@ -1,12 +1,12 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.5.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.6.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.5.0, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás, paleta editable y tonalidades por posición. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.6.0, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás, paleta editable y tonalidades por posición. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones ni sincronización en la nube. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
@@ -43,11 +43,11 @@ El JSON conserva el contenido editable. Coordenadas, filas, número de páginas 
 
 ## Interfaz compacta y contexto de compás
 
-El editor usa dos columnas: controles de compás, acorde y posición a la izquierda, y hoja a la derecha. Los selectores permiten recorrer listas extensas sin aumentar la altura del formulario. Digitación, grados y textos están siempre visibles en dos secciones apiladas, sin controles de pestaña. Nombre, tonalidad y versión del documento se editan en un diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre accesible y los menús se cierran con Escape o al pulsar fuera.
+El editor usa dos columnas: controles de compás y tarjeta a la izquierda, y hoja a la derecha. Los selectores permiten recorrer listas extensas sin aumentar la altura del formulario. Digitación, grados y textos están siempre visibles en dos secciones apiladas, sin controles de pestaña. Nombre, tonalidad y versión del documento se editan en un diálogo. Exportar agrupa HTML e impresión. Los iconos tienen nombre accesible y los menús se cierran con Escape o al pulsar fuera.
 
 El acceso a Marcas pertenece al bloque Compás y anuncia su etiqueta en el nombre accesible. El panel filtra símbolos y saltos por el compás donde están escritos, y repeticiones y casillas por todos los compases del tramo, incluidos sus extremos. `src/model/marksContext.js` obtiene esa vista sin modificar la estructura. Un extremo desaparecido sigue siendo localizable desde el que existe; todas las marcas permanecen accesibles en la vista global.
 
-Cambiar de compás reinicia el borrador del formulario con ese compás como punto de partida y termina la edición local no guardada; no cambia marcas persistidas. Elegir otro acorde o posición dentro del mismo compás conserva el borrador. Las marcas existentes se editan usando sus IDs y sus destinos originales, aunque el tramo empiece en otro compás. Ver todas las marcas cambia solo el filtro; los avisos globales continúan visibles en ambas vistas.
+Cambiar de compás reinicia el borrador del formulario con ese compás como punto de partida y termina la edición local no guardada; no cambia marcas persistidas. Elegir otra tarjeta dentro del mismo compás conserva el borrador. Las marcas existentes se editan usando sus IDs y sus destinos originales, aunque el tramo empiece en otro compás. Ver todas las marcas cambia solo el filtro; los avisos globales continúan visibles en ambas vistas.
 
 `ui/workspace.js` coordina los diálogos y el contador, y `ui/marks.js` gestiona el contexto y el formulario. `styles/workspace.css` adapta el espacio a la altura disponible. El móvil usa paneles apilados; avisos extensos, formularios largos y varias hojas mantienen desplazamiento cuando se necesita. Las nuevas cabeceras de tarjeta cambian la composición de la hoja, compartida con la exportación. La geometría del mástil no cambia.
 
@@ -75,7 +75,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Posición | `id`, `frets` de seis valores; grados de cuerda, textos, `voicingDegree` y `tonality` opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.5.0 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.6.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -97,11 +97,15 @@ Ejemplo mínimo válido:
 
 `examples/cancion-demo.json` amplía el ejemplo con dos posiciones de un acorde, dos acordes en otro compás, cuatro trastes visibles, repeticiones, casillas y saltos. Es una demostración, no una transcripción musical.
 
-### Contexto tonal por posición
+### Tarjetas independientes
+
+`src/model/cards.js` presenta una lista plana sobre los eventos y posiciones del esquema 1. Abrir, seleccionar y guardar no separa eventos antiguos. Al cambiar el nombre o familia de una posición compartida, `isolateCard` divide el evento conservando orden, IDs de posiciones y textos efectivos. La primera parte mantiene el ID del evento original. Añadir o duplicar inserta inmediatamente después de la tarjeta activa; quitar borra solo esa tarjeta. Las marcas continúan referidas al compás. El historial conserva las divisiones y sus selecciones para deshacer y rehacer.
+
+### Contexto tonal por tarjeta
 
 `src/model/tonality.js` resuelve el contexto según el orden escrito. La tonalidad general inicia el recorrido con `keyFamily`, o con `other` si falta. Sin tonalidad general ni cambio previo no hay contexto. Cada objeto `voicing.tonality`, con `text` visible y `family` válida, establece un cambio; su ausencia hereda el contexto anterior. El contexto se deriva, no se serializa por duplicado, y no expande las repeticiones.
 
-`voicingDegree` es texto manual de la esquina superior derecha, distinto de los seis `degrees` de cuerda. Vaciar ese campo o la tonalidad retira su propiedad. Ambos pertenecen a una posición; el alcance de todas las posiciones solo afecta al título y anotación existentes. Elegir una calidad con tonalidad vacía es un borrador del control y no guarda un cambio invisible.
+`voicingDegree` es texto manual de la esquina superior derecha, distinto de los seis `degrees` de cuerda. Vaciar ese campo o la tonalidad retira su propiedad. Ambos pertenecen a una tarjeta, como el título y la anotación. Elegir una calidad con tonalidad vacía es un borrador del control y no guarda un cambio invisible.
 
 `showTonalities` es un booleano opcional, visible por defecto. Oculta las franjas en todas las hojas sin borrar datos y conserva la tonalidad de cabecera. La casilla y los campos forman parte del historial y de la recuperación. La familia de la tonalidad usa la paleta de canción, independientemente de la familia del acorde.
 
@@ -117,7 +121,7 @@ La validación distingue la forma del archivo de sus referencias semánticas. Un
 
 ### Textos e importación de listas
 
-El acorde puede definir `aboveText` e `insideText`. En una posición, la ausencia del campo significa heredar; una cadena propia sustituye el texto y la cadena vacía lo oculta. Se mantiene la diferencia al guardar y abrir. El formulario 0.4.0 muestra solo el texto efectivo, sin dos bloques superpuestos de controles. `setCardText` modifica el valor propio de la posición; el modo de todas las posiciones cambia el valor común y retira las excepciones solo de ese campo. Vaciar el campo individual guarda cadena vacía; vaciarlo para todas retira el común y sus excepciones. Cambiar de posición reinicia el destino de edición a individual.
+El acorde puede definir `aboveText` e `insideText`. En una posición, la ausencia del campo significa heredar; una cadena propia sustituye el texto y la cadena vacía lo oculta. Se mantiene la diferencia al guardar y abrir. El formulario 0.6.0 muestra el texto efectivo y modifica solo la tarjeta seleccionada. `setCardTextValue` escribe la excepción individual, incluida la cadena vacía; si la tarjeta está pendiente, modifica el texto de su evento. El formato conserva sus valores comunes por compatibilidad, sin controles de edición compartida en la interfaz.
 
 El importador usa una línea por compás: `etiqueta | acorde @ digitación`. Separa eventos por `;` y posiciones mediante ` / ` tras `@`. Conserva nombres como `C/E`. Genera una previsualización y añade el lote al final únicamente si todas las líneas son válidas. No calcula duraciones ni grados.
 
@@ -194,7 +198,7 @@ Cada hoja incluye título seguido de tonalidad y numeración actual/total arriba
 
 `computeLayout` coordina el medidor y `paginate`, que decide el reparto sin acceder al DOM. No fija cuatro compases por fila. Primero intenta colocar el compás completo y, si no cabe ni en una fila propia, lo divide entre tarjetas. Los fragmentos mantienen etiqueta y orden e indican continuación. Inicio y final de repetición aparecen solo en el primer y último fragmento; casillas y rangos pueden continuar entre filas y páginas.
 
-Las filas visibles distribuyen el ancho sobrante entre compases mediante flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres filas: títulos enmarcados, franjas de tonalidad y zona de número/tarjeta. Los eventos abarcan las columnas de sus posiciones. Esto mantiene los títulos fuera de la línea del compás aunque una tarjeta tenga anotación o leyenda más alta. Las pistas conservan el ancho natural y reparten el sobrante; el mástil no escala. La composición requiere soporte CSS subgrid y se ha comprobado en Chromium 153. Una fila con poco contenido puede tener cajas más anchas que una llena; no cambia el tamaño de papel. La medición usa el mismo renderizador, sin ese crecimiento exterior, de forma conservadora.
+Las filas visibles distribuyen el ancho sobrante entre compases mediante flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres filas: títulos enmarcados, franjas de tonalidad y zona de número/tarjeta. Los eventos abarcan las columnas de sus posiciones. Esto mantiene los títulos fuera de la línea del compás aunque una tarjeta tenga anotación o leyenda más alta. Los contenedores de evento distribuyen las tarjetas sin barras inferiores, separadores internos ni contornos de grupo. La franja tonal tiene fondo al 10 %, esquinas rectas y línea inferior de 3 px; `tonalityBandStyle` deriva sus colores y mantiene contraste de texto de al menos 4,5:1. Las pistas conservan el ancho natural y reparten el sobrante; el mástil no escala. La composición requiere soporte CSS subgrid y se ha comprobado en Chromium 153. Una fila con poco contenido puede tener cajas más anchas que una llena; no cambia el tamaño de papel. La medición usa el mismo renderizador, sin ese crecimiento exterior, de forma conservadora.
 
 Textos largos ajustan su altura. Si una cabecera o una pieza no cabe ni sola por ancho o alto, `collectProblems` recoge el fallo y bloquea Exportar e Imprimir. No se cortan notas ni se alteran digitaciones para ajustar la hoja.
 
@@ -228,10 +232,13 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-La evidencia de cada versión permanece identificada en la tabla y en `docs/ESTADO.md`. La ampliación 0.5.0 se ha comprobado en Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC con Windows mediante el conector.
+La evidencia de cada versión permanece identificada en la tabla y en `docs/ESTADO.md`. La ampliación 0.6.0 se ha comprobado en Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC con Windows mediante el conector.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
+| Pruebas Node, 0.6.0 | 190 superadas en Windows; tarjetas, compatibilidad, historial y contraste de franjas |
+| Interfaz 0.6.0 | Selector único; edición independiente y foco; añadir, duplicar, quitar y pendiente; JSON antiguo sin cambios y deshacer/rehacer; tres tamaños de escritorio sin scroll y móvil sin desborde |
+| Hoja y salida 0.6.0 | Franjas rectangulares, sin barras ni contornos de grupos; alineación de títulos; HTML autónomo; 40 tarjetas, 24 compases, PDF de 1 y 6 hojas en Chromium |
 | Pruebas Node, 0.5.0 | 171 superadas en Windows; incluye contexto tonal, validación, JSON e historial |
 | Interfaz 0.5.0 | Campos individuales y casilla, herencia, edición, reapertura y recuperación; sin scroll interno en 1440×900, 1366×768 y 1280×720 con el ejemplo; en 800×600 se conserva desplazamiento interno |
 | Hoja 0.5.0 | Títulos enmarcados y franjas fuera de la línea con textos de distinta altura; 40 posiciones, 24 compases, continuaciones, marcas, cuatro trastes y texto tratado como texto |

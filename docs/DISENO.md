@@ -10,12 +10,12 @@ Usar Caveat Brush para títulos y nombres de acorde, Gochi Hand para anotaciones
 
 El icono debe ser una pieza vectorial original y sencilla, legible a tamaño de cabecera y favicon. Integrarlo en toda la aplicación. No hace falta una imagen generada ni copiar marcas de terceros.
 
-## Editor vigente desde 0.5.0
+## Editor vigente desde 0.6.0
 
 1. Cabecera con icono, canción activa, Abrir, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Nueva canción.
 2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas.
-3. Editor compacto de acorde y posición, con botones separados para añadir cada uno e iconos para duplicar y borrar.
-4. Digitación y grados encima de los textos y contexto de la posición, siempre visibles y sin pestañas. El selector de alcance afecta al título y anotación; grado del voicing y tonalidad son individuales.
+3. Editor con un selector plano de tarjetas del compás y acciones Añadir tarjeta, Duplicar tarjeta y Quitar tarjeta. No hay dos niveles visibles de acorde y posición.
+4. Digitación y grados encima de textos y tonalidad, siempre visibles y sin pestañas. Cada campo modifica solo la tarjeta seleccionada, incluido nombre y calidad.
 5. Panel de marcas ligado al compás activo, con selector de contexto y Ver todas las marcas. Incluye tramos que atraviesan el compás. La selección solo cambia la vista y el punto de partida de nuevas marcas; no mueve las ya guardadas.
 6. Vista previa más ancha a la derecha. El editor habitual cabe sin scroll en las ventanas de escritorio comprobadas; contenido extenso y móvil conservan desplazamiento cuando hace falta.
 
@@ -25,9 +25,9 @@ En móvil, apilar paneles; no encoger controles hasta volverlos ilegibles. La vi
 
 - Tomar proporciones, bordes redondeados, tinta y colores de `referencia-tarjetas.html` y `diseno.css`.
 - Cada voicing tiene su tarjeta, con título exterior opcional enmarcado, nombre del acorde, grado propio arriba a la derecha, texto interior y mástil. El título queda por encima y fuera de la línea del compás, alineado con su tarjeta.
-- Una franja opcional sobre cada posición muestra los cambios explícitos de tonalidad. Las posiciones sin cambio mantienen el contexto y el color anteriores, sin repetir etiqueta. La calidad se elige por separado de la del acorde y respeta la paleta de la canción. La casilla global de datos de canción oculta todas las franjas, sin borrar información.
+- Una franja rectangular opcional sobre cada tarjeta muestra los cambios explícitos de tonalidad. Lleva un fondo tenue y una línea inferior de 3 px, con esquinas rectas como la plantilla; los segmentos contiguos cubren el hueco entre tarjetas. Las posiciones sin cambio mantienen el contexto y el color anteriores, sin repetir etiqueta. La calidad se elige por separado de la del acorde y respeta la paleta de la canción. La casilla global de datos de canción oculta todas las franjas, sin borrar información.
 - El grado del voicing, las anotaciones y las tonalidades se escriben manualmente. No generar función romana ni familia/inversión obligatoria.
-- Los voicings del mismo acorde deben reconocerse como pertenecientes al mismo evento, sin añadir duraciones que el usuario no ha indicado.
+- No dibujar agrupaciones por acorde, líneas de color bajo las tarjetas ni separadores verticales entre tarjetas de un mismo compás. Las barras de compás y de repetición conservan su función musical.
 - El ancho crece al añadir trastes; la fila y la página se reorganizan. No estrechar indefinidamente cada celda para mantener cuatro compases por fila.
 
 ## Geometría del mástil

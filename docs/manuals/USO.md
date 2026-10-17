@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -9,23 +9,19 @@ Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús
 3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. La tonalidad aparece a continuación del nombre en cada hoja. Puedes elegir su calidad para el color inicial de las franjas de las tarjetas. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
 4. Añade compases y sus posiciones. Revisa el resultado a la derecha y guarda con **Guardar JSON**.
 
-La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás, acorde y posición evitan listas verticales largas. Digitación y grados quedan en la parte alta del editor; los textos y el contexto de la posición aparecen debajo. El editor conserva desplazamiento interno cuando no cabe todo. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
+La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás y tarjeta evitan listas verticales largas. Digitación y grados quedan en la parte alta del editor; los textos y la tonalidad de la tarjeta aparecen debajo. El editor conserva desplazamiento interno cuando no cabe todo. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
 
 ![Vista general: editor compacto a la izquierda y hoja a la derecha.](capturas/editor-general.png)
 
-## Compás, acorde y posición
+## Tarjetas del compás
 
-Un **compás** contiene uno o varios **acordes**. Cada acorde puede tener varias **posiciones** o *voicings*: distintas digitaciones del mismo acorde.
+Cada dibujo es una **tarjeta**. Tiene su nombre de acorde, calidad/color, digitación, grados, título exterior, anotación y tonalidad. Para escribir dos digitaciones del mismo acorde, añade dos tarjetas con ese nombre. Para escribir dos acordes distintos, cambia el nombre de cada una. Se manejan igual.
 
-| Quiero escribir… | Acción |
-| --- | --- |
-| Cm7 y después F7 en el mismo compás | Añadir otro acorde |
-| Dos maneras de tocar Cm7 | Añadir otra posición dentro de Cm7 |
-| La misma posición con un pequeño cambio | Duplicar posición y editar sus trastes |
+Usa el único selector **Tarjetas del compás** para elegir una tarjeta, o púlsala directamente en la hoja. **Añadir tarjeta** crea una tarjeta lista para introducir sus notas. **Duplicar tarjeta** copia la seleccionada a continuación; **Quitar tarjeta** borra solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las otras tarjetas, aunque compartan el mismo nombre.
 
-Añadir una posición no crea otro acorde ni asigna tiempos. La aplicación tampoco calcula cuánto dura cada acorde.
+Los archivos anteriores siguen abriendo. Si contenían varias posiciones agrupadas bajo un acorde, ahora aparecen como tarjetas separadas en el selector. Abrir y guardar sin editar conserva el archivo; el cambio de interfaz no elimina datos ni crea notas.
 
-Selecciona un compás en el desplegable superior o con las flechas; también puedes pulsar una tarjeta de la hoja. Usa los selectores de acorde y posición para elegir qué editar. El botón + añade un compás y el menú de tres puntos ofrece las demás operaciones. Puedes insertar, duplicar, mover o borrar compases. Su etiqueta visible se puede escribir y **no se renumera automáticamente** al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
+Selecciona un compás en el desplegable superior o con las flechas. El botón + añade un compás y el menú de tres puntos permite insertar, duplicar, mover o borrar compases. Su etiqueta no se renumera automáticamente al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
 
 ## Escribir digitaciones, grados y textos
 
@@ -41,13 +37,13 @@ x 10 12 10 11 10  Una posición en trastes de dos cifras
 
 También se acepta `x35343` cuando cada traste tiene una cifra. Usa espacios si hay trastes de dos cifras. Una entrada incorrecta muestra un aviso y conserva la última digitación válida.
 
-Una posición nueva empieza con todas las cuerdas mudas: debes introducir sus notas. En el dibujo, la primera cuerda está arriba. El mástil muestra al menos tres trastes y **crece solo** a cuatro o más si lo necesita. El límite actual es un intervalo visible de 32 trastes; si se supera, conserva los datos, avisa y bloquea la exportación hasta corregirlo.
+Una tarjeta nueva empieza con todas las cuerdas mudas: debes introducir sus notas. En el dibujo, la primera cuerda está arriba. El mástil muestra al menos tres trastes y **crece solo** a cuatro o más si lo necesita. El límite actual es un intervalo visible de 32 trastes; si se supera, conserva los datos, avisa y bloquea la exportación hasta corregirlo.
 
 ### Grados y color
 
 Los seis campos de grados siguen el mismo orden, de sexta a primera cuerda. Son opcionales y manuales: puedes escribir `1`, `b3`, `5` o `b7`, por ejemplo. Los grados reconocidos colorean los puntos; un campo vacío deja la nota sin grado. Los textos largos se abrevian en el punto y se explican en una leyenda.
 
-El selector de familia cambia la presentación del acorde. No analiza sus notas ni genera una digitación.
+El selector de calidad cambia el fondo de la tarjeta. No analiza sus notas ni genera una digitación.
 
 ### Elegir los colores
 
@@ -61,19 +57,19 @@ Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el ar
 
 ![Paleta de fondos por calidad del acorde.](capturas/colores-acordes.png)
 
-### Títulos, anotaciones y grado del voicing
+### Títulos, anotaciones y grado de la tarjeta
 
 El bloque **Textos de la tarjeta** aparece debajo de digitación y grados, siempre visible y sin pestañas. **Título sobre la tarjeta** se dibuja en un recuadro encima de su posición y fuera de la línea vertical del compás. **Anotación dentro** conserva su lugar bajo el nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
 
-Con varias posiciones, **Aplicar los cambios a** permite modificar esos dos textos en esta posición o en todas las del acorde. Cada campo que edites para todas sustituye sus valores propios; el otro campo no cambia. Al seleccionar otra posición vuelve a la edición individual.
+Cada campo modifica solo la tarjeta seleccionada. No hay un selector para aplicar los textos a otras tarjetas.
 
-**Grado del voicing** es un campo manual independiente: escribe `ii`, `V7/ii` o el texto que necesites. Sale arriba a la derecha de la tarjeta, junto al acorde. No modifica los seis grados de las cuerdas ni se calcula automáticamente. Este campo pertenece siempre a la posición seleccionada.
+**Grado de la tarjeta** es un campo manual independiente: escribe `ii`, `V7/ii` o el texto que necesites. Sale arriba a la derecha de la tarjeta, junto al acorde. No modifica los seis grados de las cuerdas ni se calcula automáticamente. Este campo pertenece siempre a la posición seleccionada.
 
 ![Textos de la tarjeta, grado propio y tonalidad de la posición.](capturas/textos-deshacer.png)
 
-### Tonalidad de cada posición
+### Tonalidad de cada tarjeta
 
-En **Tonalidad de esta posición** escribe un cambio de contexto y elige su **Calidad de tonalidad**. Mayor, menor y las demás calidades usan los colores de la paleta de familias de esta canción. La calidad de la franja es independiente de la del acorde: un dominante puede llevar una tonalidad menor encima.
+En **Tonalidad** escribe un cambio de contexto y elige su **Calidad de tonalidad**. Mayor, menor y las demás calidades usan los colores de la paleta de familias de esta canción. La calidad de la franja es independiente de la del acorde: un dominante puede llevar una tonalidad menor encima. La banda es rectangular, con fondo tenue y línea de color debajo, como en la plantilla; no lleva recuadro redondeado.
 
 Deja el campo vacío para continuar con la tonalidad anterior, incluido su color, sin imprimir otra etiqueta. La herencia sigue el orden escrito a través de acordes, compases y páginas. No interpreta las repeticiones. Borrar un cambio hace que esa posición y las siguientes vuelvan a heredar del contexto anterior, hasta el próximo cambio escrito.
 
@@ -81,7 +77,7 @@ La tonalidad general inicia el contexto; si no has elegido su calidad, usa el co
 
 Para ocultar las franjas en todas las hojas, abre los datos de canción pulsando su título y desmarca **Mostrar tonalidades de las tarjetas**. La tonalidad junto al título sigue visible. Vuelve a marcar para recuperar las franjas; no se borra ningún dato.
 
-Grado del voicing y tonalidad son propios de cada posición, aunque el selector de los otros textos esté en «Todas las posiciones del acorde». Se guardan en JSON y se conservan en vista previa, HTML e impresión. Puedes probarlo abriendo `examples/textos-tonalidades.json`. Los archivos con estos campos nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
+Grado y tonalidad pertenecen a la tarjeta seleccionada, igual que el resto de sus campos. Se guardan en JSON y se conservan en vista previa, HTML e impresión. Puedes probarlo abriendo `examples/textos-tonalidades.json`. Los archivos con estos campos nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
 
 ### Deshacer y rehacer
 
@@ -91,7 +87,7 @@ La escritura continua en un campo se agrupa hasta salir de él. Fuera de los cam
 
 Guardar JSON conserva el historial de esta sesión. Abrir otra canción, crear una nueva o recuperar una copia empieza otro historial. Al recargar se conserva la canción que ofrezca la recuperación, pero no sus pasos de deshacer. Hay hasta 100 pasos, sujetos a un presupuesto de tamaño; la última acción siempre se conserva. El historial no se incluye en el JSON. Una acción nueva después de deshacer elimina la rama de rehacer.
 
-![Selectores de acorde y posición, digitación y grados.](capturas/editor-posiciones.png)
+![Selector de tarjetas, digitación y grados.](capturas/editor-posiciones.png)
 
 ## Añadir varios compases mediante una lista
 
@@ -167,7 +163,7 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Situación | Qué revisar |
 | --- | --- |
 | He añadido una posición y parece vacía | Empieza con seis cuerdas mudas. Escribe una digitación distinta para verla. |
-| Dos posiciones muestran el mismo texto | Selecciona una y edita sus textos con «Solo esta posición». |
+| Dos tarjetas muestran el mismo texto | Selecciona una y edita sus textos; solo cambia esa tarjeta. |
 | La siguiente hoja tiene tarjetas más anchas | Las filas parciales reparten el ancho disponible. El zoom no cambia el tamaño exportado. |
 | El grado no aparece | Comprueba el orden de las cuerdas y si esa cuerda está muda. |
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |

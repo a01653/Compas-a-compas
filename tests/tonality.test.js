@@ -69,9 +69,9 @@ test('un cambio explícito se hereda en el orden escrito, cruzando acordes y com
   for (const id of ['v3', 'v4']) {
     assert.deepEqual(map.get(id), { text: 'Sol mayor', family: 'major', explicit: false, show: false, source: 'v2' });
   }
-  assert.match(describeTonality(map.get('v3')), /Hereda «Sol mayor» de una posición anterior/);
+  assert.match(describeTonality(map.get('v3')), /Hereda «Sol mayor» de una tarjeta anterior/);
   assert.match(describeTonality(map.get('v1')), /de la tonalidad general/);
-  assert.match(describeTonality(map.get('v2')), /cambia la tonalidad a «Sol mayor»/);
+  assert.match(describeTonality(map.get('v2')), /Esta tarjeta cambia la tonalidad a «Sol mayor»/);
 });
 
 test('vacío borra la tonalidad propia y la posición vuelve a heredar sin etiqueta nueva', () => {

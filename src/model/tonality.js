@@ -90,7 +90,7 @@ export function deriveTonalityContext(song) {
 /** Texto de ayuda del editor: distingue el valor heredado del propio. */
 export function describeTonality(entry) {
   if (!entry) return 'Sin tonalidad: no hay tonalidad general ni cambios anteriores.';
-  if (entry.explicit) return `Esta posición cambia la tonalidad a «${entry.text}».`;
-  const origin = entry.source === 'key' ? 'la tonalidad general' : 'una posición anterior';
+  if (entry.explicit) return `Esta tarjeta cambia la tonalidad a «${entry.text}».`;
+  const origin = entry.source === 'key' ? 'la tonalidad general' : 'una tarjeta anterior';
   return `Hereda «${entry.text}» de ${origin}.`;
 }
