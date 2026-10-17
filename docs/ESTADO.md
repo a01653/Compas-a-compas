@@ -1,8 +1,24 @@
 # Estado de trabajo
 
-## Próxima mejora registrada: textos y tonalidades — 17/10/2026
+## Versión 0.5.0: títulos, grado y tonalidad por posición — 17/10/2026
 
-Petición documentada en [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md), con revisión del archivo aportado `EJEMPLO.html` en Chromium. Incluye tonalidad junto al título de canción, rótulos enmarcados fuera de la línea del compás, grado propio del voicing y franjas de tonalidad con calidad, color heredado y visibilidad global. Se señalan las decisiones todavía abiertas. **Pendiente de implementación**; no se modifica el código ni se atribuyen estas funciones a 0.4.1.
+Implementación realizada con Claude Sonnet, esfuerzo medium, en el worktree aislado del PC; el supervisor revisa y valida una copia independiente antes de integrar. Se conservan los cambios aprobados de 0.4.1. La especificación de [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md) pasa de pendiente a implementada.
+
+La tonalidad general aparece a continuación del título. Los rótulos de tarjeta tienen recuadro y están por encima de la línea del compás; grado del voicing arriba a la derecha, sin cambiar los seis grados de cuerda. Cada posición admite tonalidad y calidad independientes de la del acorde. El contexto inicial usa la tonalidad general y su calidad, o Otro si falta. Vacío hereda el contexto y el color anteriores sin repetir etiqueta, cruzando compases y páginas en orden escrito. La casilla global oculta las franjas y conserva la tonalidad del título. No se infieren funciones ni se expanden repeticiones.
+
+El esquema 1 incorpora los campos opcionales keyFamily, showTonalities, voicingDegree y tonality, con validación estricta. Los documentos anteriores se abren y guardan sin añadir esos campos. Los lectores anteriores rechazan los archivos con datos nuevos en vez de descartarlos. El historial, la recuperación, la duplicación y el orden conservan los valores. Títulos y franjas también seleccionan su posición al pulsarlos en la vista previa.
+
+El renderizador usa tres filas compartidas mediante subgrid por fragmento: título, tonalidad y zona del compás. Revisión y corrección de un fallo inicial de anclaje inferior: una tarjeta con anotación/leyenda larga ya no sitúa el título de otra debajo del inicio de la línea. La medición, la vista previa y la exportación comparten esta composición. La geometría del mástil no cambia.
+
+Validación: 171 pruebas Node superadas en Windows por el conector y 1751 casos de paridad manual/AJV en Linux. Chromium 153 en Linux: edición individual aunque el alcance de otros textos esté en todas; calidad preparada con campo vacío sin cambiar datos, herencia, borrar cambio, deshacer/rehacer, JSON, reapertura y recuperación. Títulos largos, anotaciones/leyendas de altura distinta, casillas y barras de repetición conservan alineación; cuatro trastes no se reducen. Prueba extensa con 40 posiciones en un compás y 24 compases en total, sin recortes ni errores JavaScript. HTML autónomo sin peticiones externas; etiquetas y color compartidos con vista previa, paleta oscura con contraste, franjas heredadas iguales y casilla global en exportación. Impresión en Chromium sin interfaz produce 1 y 6 hojas A4 horizontal, revisadas sin página vacía final. Regresión del historial y las marcas Coda/Fine superada.
+
+Editor sin scroll interno con el ejemplo en 1440×900 (651/651), 1366×768 (573/573) y 1280×720 (525/525), valores de alto útil/alto de contenido. En 800×600 (406/499) usa desplazamiento interno; móvil 390×844 conserva todos los campos y no desborda horizontalmente. La captura de la vista previa en el PC confirma 0.5.0, los nuevos controles y cero errores JavaScript. El servidor de vista previa iniciado para esa captura se detiene después.
+
+Manuales y DTS actualizados, con capturas nuevas, fuentes y PDF regenerados. Continúan pendientes Firefox, Safari y el diálogo de impresión nativo de Windows. Se necesita soporte CSS subgrid para la nueva composición.
+
+## Registro original del encargo de textos y tonalidades — 17/10/2026
+
+Petición documentada en [textos y tonalidades por voicing](diseno/textos-y-tonalidades.md), con revisión del archivo aportado `EJEMPLO.html` en Chromium. Incluye tonalidad junto al título de canción, rótulos enmarcados fuera de la línea del compás, grado propio del voicing y franjas de tonalidad con calidad, color heredado y visibilidad global. En ese momento se señalaron decisiones abiertas y quedó pendiente. La entrega 0.5.0 descrita arriba resuelve e implementa este encargo; 0.4.1 no contenía estas funciones.
 
 ## Versión 0.4.1: digitación, grados y textos sin pestañas — 17/10/2026
 

@@ -1,4 +1,4 @@
-% Source-SHA256: 2205928fafb875718ea58a8509ef2fffd51f74b6233ec476b5181ca0cdfc3b14
+% Source-SHA256: 0b0ff6b43f3acd34f7a215eba31c41b9427ba6b95c727cb69bcf19e954b3da49
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.1 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.5.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.4.1 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.5.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.4.1 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.5.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -121,10 +121,11 @@ Jesús Quevedo Rodríguez.
   practicar puedes abrir \texttt{examples/cancion-demo.json}.
 \item
   Pulsa el título de la cabecera para abrir los datos y escribe el
-  \textbf{nombre de la canción} y la \textbf{tonalidad}. Aparecen en la
-  cabecera de cada hoja. La \textbf{versión del documento} es una
-  etiqueta opcional para tus revisiones; no cambia la versión de la
-  aplicación.
+  \textbf{nombre de la canción} y la \textbf{tonalidad}. La tonalidad
+  aparece a continuación del nombre en cada hoja. Puedes elegir su
+  calidad para el color inicial de las franjas de las tarjetas. La
+  \textbf{versión del documento} es una etiqueta opcional para tus
+  revisiones; no cambia la versión de la aplicación.
 \item
   Añade compases y sus posiciones. Revisa el resultado a la derecha y
   guarda con \textbf{Guardar JSON}.
@@ -132,10 +133,11 @@ Jesús Quevedo Rodríguez.
 
 La interfaz tiene un editor compacto a la izquierda y la hoja a la
 derecha. Los selectores de compás, acorde y posición evitan listas
-verticales largas. En una pantalla de portátil puedes escribir
-digitación y grados sin bajar por el formulario. En móvil se apilan las
-zonas. \textbf{Ajustar al ancho} y los botones de zoom solo cambian la
-vista, no el tamaño de impresión.
+verticales largas. Digitación y grados quedan en la parte alta del
+editor; los textos y el contexto de la posición aparecen debajo. El
+editor conserva desplazamiento interno cuando no cabe todo. En móvil se
+apilan las zonas. \textbf{Ajustar al ancho} y los botones de zoom solo
+cambian la vista, no el tamaño de impresión.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}
 
@@ -244,24 +246,64 @@ con el campo \texttt{palette}; utiliza la aplicación actualizada.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-acordes.png}
 
-\hypertarget{texto-encima-y-dentro}{%
-\subsection{Texto encima y dentro}\label{texto-encima-y-dentro}}
+\hypertarget{tuxedtulos-anotaciones-y-grado-del-voicing}{%
+\subsection{Títulos, anotaciones y grado del
+voicing}\label{tuxedtulos-anotaciones-y-grado-del-voicing}}
 
 El bloque \textbf{Textos de la tarjeta} aparece debajo de digitación y
-grados. Las dos secciones están siempre visibles, sin pestañas. Solo
-aparecen dos campos: \textbf{Título sobre la tarjeta}, fuera del
-recuadro, y \textbf{Anotación dentro}, bajo el nombre del acorde.
-Muestran el texto visible de la posición, incluso si el JSON antiguo
-tenía un valor propio que sustituía al texto común. Editar cambia lo que
-ves. Vaciar un campo lo quita de esa tarjeta.
+grados, siempre visible y sin pestañas. \textbf{Título sobre la tarjeta}
+se dibuja en un recuadro encima de su posición y fuera de la línea
+vertical del compás. \textbf{Anotación dentro} conserva su lugar bajo el
+nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
 
-Con varias posiciones, elige \textbf{Solo esta posición} o \textbf{Todas
-las posiciones del acorde}. Cada campo que cambies con la opción de
-todas sustituye sus textos propios en las demás posiciones; el otro
-campo no cambia. El selector por sí solo no modifica nada. Al
-seleccionar otra posición vuelve a «Solo esta posición».
+Con varias posiciones, \textbf{Aplicar los cambios a} permite modificar
+esos dos textos en esta posición o en todas las del acorde. Cada campo
+que edites para todas sustituye sus valores propios; el otro campo no
+cambia. Al seleccionar otra posición vuelve a la edición individual.
+
+\textbf{Grado del voicing} es un campo manual independiente: escribe
+\texttt{ii}, \texttt{V7/ii} o el texto que necesites. Sale arriba a la
+derecha de la tarjeta, junto al acorde. No modifica los seis grados de
+las cuerdas ni se calcula automáticamente. Este campo pertenece siempre
+a la posición seleccionada.
 
 \includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/textos-deshacer.png}
+
+\hypertarget{tonalidad-de-cada-posiciuxf3n}{%
+\subsection{Tonalidad de cada
+posición}\label{tonalidad-de-cada-posiciuxf3n}}
+
+En \textbf{Tonalidad de esta posición} escribe un cambio de contexto y
+elige su \textbf{Calidad de tonalidad}. Mayor, menor y las demás
+calidades usan los colores de la paleta de familias de esta canción. La
+calidad de la franja es independiente de la del acorde: un dominante
+puede llevar una tonalidad menor encima.
+
+Deja el campo vacío para continuar con la tonalidad anterior, incluido
+su color, sin imprimir otra etiqueta. La herencia sigue el orden escrito
+a través de acordes, compases y páginas. No interpreta las repeticiones.
+Borrar un cambio hace que esa posición y las siguientes vuelvan a
+heredar del contexto anterior, hasta el próximo cambio escrito.
+
+La tonalidad general inicia el contexto; si no has elegido su calidad,
+usa el color neutro de \textbf{Otro}. Sin tonalidad general ni cambio
+previo no se inventa ninguna. Cuando está vacío, el campo muestra una
+guía «Hereda: \ldots» y el color del contexto efectivo; al pasar el
+ratón se ve la explicación completa. Elegir una calidad con el campo
+vacío prepara el siguiente texto; no crea un cambio invisible en el
+archivo.
+
+Para ocultar las franjas en todas las hojas, abre los datos de canción
+pulsando su título y desmarca \textbf{Mostrar tonalidades de las
+tarjetas}. La tonalidad junto al título sigue visible. Vuelve a marcar
+para recuperar las franjas; no se borra ningún dato.
+
+Grado del voicing y tonalidad son propios de cada posición, aunque el
+selector de los otros textos esté en «Todas las posiciones del acorde».
+Se guardan en JSON y se conservan en vista previa, HTML e impresión.
+Puedes probarlo abriendo \texttt{examples/textos-tonalidades.json}. Los
+archivos con estos campos nuevos requieren 0.5.0 o posterior; los
+anteriores siguen abriendo.
 
 \hypertarget{deshacer-y-rehacer}{%
 \subsection{Deshacer y rehacer}\label{deshacer-y-rehacer}}
@@ -270,8 +312,8 @@ Pulsa la flecha hacia la izquierda de la cabecera para \textbf{Deshacer}
 y la flecha hacia la derecha para \textbf{Rehacer}. También están dentro
 de los diálogos de datos, marcas y colores, por lo que puedes deshacer
 una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la
-canción: textos, digitaciones, grados, colores, compases, acordes,
-posiciones y marcas musicales.
+canción: textos, digitaciones, grados, tonalidades, su visibilidad,
+colores, compases, acordes, posiciones y marcas musicales.
 
 La escritura continua en un campo se agrupa hasta salir de él. Fuera de
 los campos funcionan \textbf{Ctrl+Z} y \textbf{Ctrl+Y} o
@@ -463,11 +505,7 @@ El grado no aparece & Comprueba el orden de las cuerdas y si esa cuerda
 está muda. \\
 Hay un destino pendiente & Vuelve a elegir la marca o el compás en el
 panel Marcas. \\
-El navegador no abre la aplicación & Consulta el manual de instalación;
-el editor necesita el servidor local. \\
+El navegador no abre la aplicación & Abre GitHub Pages o arranca el
+servidor local; consulta la guía de instalación. \\
 \end{longtable}
-
-La versión 0.4.1 se ha comprobado en Chromium. Firefox, Safari y el
-diálogo de impresión nativo de Windows siguen pendientes de
-comprobación.
 \end{document}

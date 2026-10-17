@@ -1,12 +1,12 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.4.1 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.5.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
 Compás a compás es un editor local de hojas de acordes de guitarra. Organiza una canción en compases, admite varios acordes por compás y varias digitaciones por acorde. Genera una vista previa paginada y una salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.4.1, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás y paleta editable. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
+Este documento describe la versión 0.5.0, con interfaz compacta, textos sin bloques duplicados, historial de acciones, marcas por compás, paleta editable y tonalidades por posición. Incluye el lanzador de Windows. Los requisitos originales permanecen en `docs/REQUISITOS.md`; el historial de implementación y sus comprobaciones está en `docs/ESTADO.md`. Este DTS describe el comportamiento vigente, por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico, generación automática de posiciones ni sincronización en la nube. Las marcas musicales son notación escrita: no hay un motor que ejecute o expanda el recorrido.
 
@@ -49,7 +49,7 @@ El acceso a Marcas pertenece al bloque Compás y anuncia su etiqueta en el nombr
 
 Cambiar de compás reinicia el borrador del formulario con ese compás como punto de partida y termina la edición local no guardada; no cambia marcas persistidas. Elegir otro acorde o posición dentro del mismo compás conserva el borrador. Las marcas existentes se editan usando sus IDs y sus destinos originales, aunque el tramo empiece en otro compás. Ver todas las marcas cambia solo el filtro; los avisos globales continúan visibles en ambas vistas.
 
-`ui/workspace.js` coordina los diálogos y el contador, y `ui/marks.js` gestiona el contexto y el formulario. `styles/workspace.css` adapta el espacio a la altura disponible. El móvil usa paneles apilados; avisos extensos, formularios largos y varias hojas mantienen desplazamiento cuando se necesita. El rediseño no cambia la geometría ni el HTML exportado.
+`ui/workspace.js` coordina los diálogos y el contador, y `ui/marks.js` gestiona el contexto y el formulario. `styles/workspace.css` adapta el espacio a la altura disponible. El móvil usa paneles apilados; avisos extensos, formularios largos y varias hojas mantienen desplazamiento cuando se necesita. Las nuevas cabeceras de tarjeta cambian la composición de la hoja, compartida con la exportación. La geometría del mástil no cambia.
 
 ## Paleta editable
 
@@ -69,13 +69,13 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 
 | Entidad | Contenido |
 | --- | --- |
-| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion` opcional |
+| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities` y `palette` opcionales |
 | Compás | `id`, `label` y lista ordenada `chordEvents` |
 | Acorde | `id`, `chordName`, lista `voicings`; familia y textos opcionales |
-| Posición | `id`, `frets` de seis valores; grados y textos opcionales |
+| Posición | `id`, `frets` de seis valores; grados de cuerda, textos, `voicingDegree` y `tonality` opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.4.1 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.5.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -96,6 +96,16 @@ Ejemplo mínimo válido:
 ```
 
 `examples/cancion-demo.json` amplía el ejemplo con dos posiciones de un acorde, dos acordes en otro compás, cuatro trastes visibles, repeticiones, casillas y saltos. Es una demostración, no una transcripción musical.
+
+### Contexto tonal por posición
+
+`src/model/tonality.js` resuelve el contexto según el orden escrito. La tonalidad general inicia el recorrido con `keyFamily`, o con `other` si falta. Sin tonalidad general ni cambio previo no hay contexto. Cada objeto `voicing.tonality`, con `text` visible y `family` válida, establece un cambio; su ausencia hereda el contexto anterior. El contexto se deriva, no se serializa por duplicado, y no expande las repeticiones.
+
+`voicingDegree` es texto manual de la esquina superior derecha, distinto de los seis `degrees` de cuerda. Vaciar ese campo o la tonalidad retira su propiedad. Ambos pertenecen a una posición; el alcance de todas las posiciones solo afecta al título y anotación existentes. Elegir una calidad con tonalidad vacía es un borrador del control y no guarda un cambio invisible.
+
+`showTonalities` es un booleano opcional, visible por defecto. Oculta las franjas en todas las hojas sin borrar datos y conserva la tonalidad de cabecera. La casilla y los campos forman parte del historial y de la recuperación. La familia de la tonalidad usa la paleta de canción, independientemente de la familia del acorde.
+
+Estos campos amplían el esquema 1 de forma opcional. Los archivos anteriores siguen válidos sin migración ni modificación silenciosa; un archivo que incluya campos nuevos necesita 0.5.0 o posterior. Los validadores manual y JSON Schema rechazan tipos, familias y propiedades desconocidos.
 
 ### Identidad y validación
 
@@ -176,7 +186,7 @@ La fuente de medidas de página es `src/layout/spec.js`. Cada hoja recibe sus va
 | Reserva de reparto | 1 px CSS |
 | Separación visual entre hojas | 24 px CSS al 100 % |
 
-Cada hoja incluye título, tonalidad y numeración actual/total arriba a la derecha. La versión del documento no se añade al pie de impresión.
+Cada hoja incluye título seguido de tonalidad y numeración actual/total arriba a la derecha. La versión del documento no se añade al pie de impresión.
 
 ### Algoritmo
 
@@ -184,7 +194,7 @@ Cada hoja incluye título, tonalidad y numeración actual/total arriba a la dere
 
 `computeLayout` coordina el medidor y `paginate`, que decide el reparto sin acceder al DOM. No fija cuatro compases por fila. Primero intenta colocar el compás completo y, si no cabe ni en una fila propia, lo divide entre tarjetas. Los fragmentos mantienen etiqueta y orden e indican continuación. Inicio y final de repetición aparecen solo en el primer y último fragmento; casillas y rangos pueden continuar entre filas y páginas.
 
-Las filas visibles distribuyen el ancho sobrante entre sus compases, eventos y tarjetas mediante flex. El mástil conserva su geometría. Una fila con poco contenido puede tener cajas más anchas que una fila llena; no implica otra escala de trastes ni otro tamaño de papel. La medición usa el contenido sin ese crecimiento, de forma conservadora.
+Las filas visibles distribuyen el ancho sobrante entre compases mediante flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres filas: títulos enmarcados, franjas de tonalidad y zona de número/tarjeta. Los eventos abarcan las columnas de sus posiciones. Esto mantiene los títulos fuera de la línea del compás aunque una tarjeta tenga anotación o leyenda más alta. Las pistas conservan el ancho natural y reparten el sobrante; el mástil no escala. La composición requiere soporte CSS subgrid y se ha comprobado en Chromium 153. Una fila con poco contenido puede tener cajas más anchas que una llena; no cambia el tamaño de papel. La medición usa el mismo renderizador, sin ese crecimiento exterior, de forma conservadora.
 
 Textos largos ajustan su altura. Si una cabecera o una pieza no cabe ni sola por ancho o alto, `collectProblems` recoge el fallo y bloquea Exportar e Imprimir. No se cortan notas ni se alteran digitaciones para ajustar la hoja.
 
@@ -218,10 +228,15 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de desarroll
 
 ## Comprobaciones y límites de la evidencia
 
-La interfaz sin pestañas 0.4.1 se ha validado en esta edición. La evidencia de versiones anteriores permanece identificada en la tabla y en `docs/ESTADO.md`.
+La evidencia de cada versión permanece identificada en la tabla y en `docs/ESTADO.md`. La ampliación 0.5.0 se ha comprobado en Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC con Windows mediante el conector.
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
+| Pruebas Node, 0.5.0 | 171 superadas en Windows; incluye contexto tonal, validación, JSON e historial |
+| Interfaz 0.5.0 | Campos individuales y casilla, herencia, edición, reapertura y recuperación; sin scroll interno en 1440×900, 1366×768 y 1280×720 con el ejemplo; en 800×600 se conserva desplazamiento interno |
+| Hoja 0.5.0 | Títulos enmarcados y franjas fuera de la línea con textos de distinta altura; 40 posiciones, 24 compases, continuaciones, marcas, cuatro trastes y texto tratado como texto |
+| Salida 0.5.0 | HTML autónomo sin peticiones externas, color y etiquetas; PDF de 1 y 6 hojas A4 horizontal en Chromium sin interfaz |
+| Esquema 0.5.0 | 1751 casos de paridad manual/AJV con los campos nuevos y paleta |
 | Pruebas Node, 0.4.1 | 150 superadas en Windows mediante el conector |
 | Interfaz 0.4.1 | Secciones apiladas; formulario habitual sin scroll en 1440×900, 1366×768 y 1280×720. En 800×600 conserva scroll interno y todos los campos. Captura del PC sin errores JavaScript |
 | Paleta 0.3.0 | JSON, reapertura, grados naturales y alterados, etiquetas, contraste, restauración, exportación e impresión con estilos de impresión |

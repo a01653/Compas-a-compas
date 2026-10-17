@@ -12,7 +12,8 @@ export function songSample(song) {
     for (const event of measure.chordEvents || []) {
       parts.push(String(event.chordName || ''), String(event.aboveText || ''), String(event.insideText || ''));
       for (const voicing of event.voicings || []) {
-        parts.push(String(voicing.aboveText || ''), String(voicing.insideText || ''));
+        parts.push(String(voicing.aboveText || ''), String(voicing.insideText || ''), String(voicing.voicingDegree || ''),
+          String(voicing.tonality?.text || ''));
         for (const degree of voicing.degrees || []) parts.push(String(degree || ''));
       }
     }

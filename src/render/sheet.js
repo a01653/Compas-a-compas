@@ -5,6 +5,7 @@ import { projectMarks, fragmentMarks } from '../model/marksProjection.js';
 import { marksParts } from './marks.js';
 import { buildUnits, fragmentFlags, groupAtoms } from '../layout/atoms.js';
 import { pageStyleVars } from '../layout/spec.js';
+import { deriveTonalityContext, tonalitiesVisible } from '../model/tonality.js';
 
 /**
  * Renderizador único de hojas: la vista previa, la medición y el HTML exportado dibujan con estas funciones.
@@ -20,22 +21,28 @@ export function createSheetContext(song) {
       events.set(event.id, { event, voicings: new Map(event.voicings.map((v) => [v.id, v])) });
     }
   }
-  return { song, units: buildUnits(song), byMeasure, events };
+  // Contexto de tonalidad calculado una vez (orden escrito del documento). Ocultar las franjas no toca la cabecera.
+  const tonality = tonalitiesVisible(song) ? deriveTonalityContext(song) : new Map();
+  return { song, units: buildUnits(song), byMeasure, events, tonality };
 }
 
-function eventNode(ctx, group, measureId, onSelect) {
+/** `edge` = { lead, tail }: datos de la primera y de la última columna del fragmento (null donde no aplican). */
+function eventNode(ctx, group, measureId, onSelect, edge) {
   const { event, voicings } = ctx.events.get(group.eventId);
-  const cards = group.atoms.map((atom) => {
+  const cards = group.atoms.map((atom, index) => {
     const voicing = atom.voicingId === null ? null : voicings.get(atom.voicingId);
     return cardNode(event, voicing, {
       palette: ctx.song.palette,
+      tonal: voicing ? ctx.tonality.get(voicing.id) || null : null,
+      lead: index === 0 ? edge.lead : null,
+      tail: index === group.atoms.length - 1 ? edge.tail : null,
       onSelect: onSelect ? () => onSelect({ measureId, eventId: event.id, voicingId: atom.voicingId }) : null,
     });
   });
   const cls = ['evento', group.cutBefore ? 'corta-ini' : '', group.cutAfter ? 'corta-fin' : ''].filter(Boolean).join(' ');
   return h('div', {
     class: cls,
-    style: `${paletteFamilyStyle(event.family, ctx.song.palette)};flex-grow:${Math.max(1, group.atoms.length)}`,
+    style: `${paletteFamilyStyle(event.family, ctx.song.palette)};grid-column:span ${Math.max(1, group.atoms.length)}`,
     role: 'group',
     'aria-label': `Acorde ${event.chordName || 'sin nombre'}`,
     'data-event-id': event.id,
@@ -51,9 +58,20 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
   const { isFirst, isLast } = fragmentFlags(unit, from, to);
   const parts = marksParts(fragmentMarks(ctx.byMeasure.get(unit.measureId), { isFirst, isLast }));
 
-  const body = unit.atoms.length
-    ? h('div', { class: 'eventos' }, groupAtoms(unit, from, to).map((group) => eventNode(ctx, group, unit.measureId, onSelect)))
-    : h('div', { class: 'compas-vacio' }, 'Compás vacío');
+  // Número, línea del compás y barras de repetición viven en la zona del compás de cada columna, por debajo de título y franja.
+  const lead = { label: unit.label, continuation: !isFirst, barStart: parts.barStart };
+
+  const groups = unit.atoms.length ? groupAtoms(unit, from, to) : [];
+  const body = groups.length
+    ? h('div', { class: 'eventos' }, groups.map((group, i) => eventNode(ctx, group, unit.measureId, onSelect, {
+      lead: i === 0 ? lead : null,
+      tail: i === groups.length - 1 ? parts.barEnd : null,
+    })))
+    : h('div', { class: 't-pos t-pos-lead t-pos-vacio' },
+      h('div', { class: 't-num' }, h('span', { class: 'compas-num' }, unit.label),
+        isFirst ? null : h('span', { class: 'compas-continuacion' }, 'continuación')),
+      parts.barStart, parts.barEnd,
+      h('div', { class: 'compas-vacio' }, 'Compás vacío'));
 
   return h('div', {
     class: ['compas', isFirst ? '' : 'compas-cont', ...parts.classes].filter(Boolean).join(' '),
@@ -61,10 +79,6 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
     'data-measure-id': unit.measureId,
     onclick: onSelect ? () => onSelect({ measureId: unit.measureId }) : null,
   },
-    h('div', { class: 'compas-cab' },
-      h('span', { class: 'compas-num' }, unit.label),
-      isFirst ? null : h('span', { class: 'compas-continuacion' }, 'continuación')),
-    parts.bars,
     parts.strip,
     body);
 }
@@ -73,8 +87,8 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
 export function headerNode(song, pageText) {
   return h('header', { class: 'hoja-cab' },
     h('div', { class: 'hoja-titulos' },
-      h('div', { class: 'hoja-titulo' }, song.title || 'Sin título'),
-      song.key ? h('div', { class: 'hoja-tono' }, song.key) : null),
+      h('span', { class: 'hoja-titulo' }, song.title || 'Sin título'),
+      song.key ? h('span', { class: 'hoja-tono' }, song.key) : null),
     h('div', { class: 'hoja-pagina' }, pageText));
 }
 

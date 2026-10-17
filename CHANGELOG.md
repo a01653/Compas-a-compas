@@ -1,5 +1,14 @@
 # Cambios
 
+## 0.5.0 — 17/10/2026
+
+- Tonalidad general a continuación del nombre de canción en la cabecera de cada hoja.
+- Títulos de tarjeta enmarcados, por encima de la línea vertical del compás y alineados con su posición.
+- Grado manual propio del voicing en la esquina superior derecha, separado de los grados de cuerda.
+- Tonalidad y calidad por posición, con franjas que heredan contexto y color cuando el campo está vacío. Casilla global para ocultar las franjas sin borrar datos.
+- Campos opcionales en esquema 1, conservando documentos anteriores y rechazando datos desconocidos. Nuevo ejemplo de textos y tonalidades.
+- Manuales y DTS actualizados con las nuevas funciones.
+
 ## 0.4.1 — 17/10/2026
 
 - Digitación, grados y textos siempre visibles en dos secciones apiladas. Se eliminan las dos pestañas del editor de acordes.

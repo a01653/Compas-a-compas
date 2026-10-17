@@ -1,4 +1,4 @@
-% Source-SHA256: 25e114f85d1bf0789d9a085adfedb72b86fc2012827635d55e68f77396f3fe91
+% Source-SHA256: 49e4e2bc5ec551a43a8757ed81d3012634110a152d2ef766132a033768de4c05
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.4.1 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.5.0 · 17/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -90,7 +90,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.4.1 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.5.0 · 17/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -100,7 +100,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.4.1 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
+Aplicación 0.5.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -112,13 +112,13 @@ Organiza una canción en compases, admite varios acordes por compás y
 varias digitaciones por acorde. Genera una vista previa paginada y una
 salida HTML autónoma para impresión A4 horizontal.
 
-Este documento describe la versión 0.4.1, con interfaz compacta, textos
-sin bloques duplicados, historial de acciones, marcas por compás y
-paleta editable. Incluye el lanzador de Windows. Los requisitos
-originales permanecen en \texttt{docs/REQUISITOS.md}; el historial de
-implementación y sus comprobaciones está en \texttt{docs/ESTADO.md}.
-Este DTS describe el comportamiento vigente, por encima de las medidas
-históricas de fases anteriores.
+Este documento describe la versión 0.5.0, con interfaz compacta, textos
+sin bloques duplicados, historial de acciones, marcas por compás, paleta
+editable y tonalidades por posición. Incluye el lanzador de Windows. Los
+requisitos originales permanecen en \texttt{docs/REQUISITOS.md}; el
+historial de implementación y sus comprobaciones está en
+\texttt{docs/ESTADO.md}. Este DTS describe el comportamiento vigente,
+por encima de las medidas históricas de fases anteriores.
 
 No se incluyen reproducción, OCR, transposición, análisis armónico,
 generación automática de posiciones ni sincronización en la nube. Las
@@ -231,8 +231,9 @@ continúan visibles en ambas vistas.
 \texttt{ui/marks.js} gestiona el contexto y el formulario.
 \texttt{styles/workspace.css} adapta el espacio a la altura disponible.
 El móvil usa paneles apilados; avisos extensos, formularios largos y
-varias hojas mantienen desplazamiento cuando se necesita. El rediseño no
-cambia la geometría ni el HTML exportado.
+varias hojas mantienen desplazamiento cuando se necesita. Las nuevas
+cabeceras de tarjeta cambian la composición de la hoja, compartida con
+la exportación. La geometría del mástil no cambia.
 
 \Needspace{3.5cm}
 \hypertarget{paleta-editable}{%
@@ -290,14 +291,15 @@ Entidad & Contenido \\
 \bottomrule\noalign{}
 \endlastfoot
 Canción & \texttt{schemaVersion}, \texttt{title}, \texttt{key},
-\texttt{measures}, \texttt{structure}; \texttt{documentVersion}
-opcional \\
+\texttt{measures}, \texttt{structure}; \texttt{documentVersion},
+\texttt{keyFamily}, \texttt{showTonalities} y \texttt{palette}
+opcionales \\
 Compás & \texttt{id}, \texttt{label} y lista ordenada
 \texttt{chordEvents} \\
 Acorde & \texttt{id}, \texttt{chordName}, lista \texttt{voicings};
 familia y textos opcionales \\
-Posición & \texttt{id}, \texttt{frets} de seis valores; grados y textos
-opcionales \\
+Posición & \texttt{id}, \texttt{frets} de seis valores; grados de
+cuerda, textos, \texttt{voicingDegree} y \texttt{tonality} opcionales \\
 Estructura & Listas \texttt{repeats}, \texttt{endings}, \texttt{markers}
 y \texttt{jumps} \\
 \end{longtable}
@@ -306,7 +308,7 @@ Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
 textos en el mismo orden. La versión de esquema es numérica y vale 1; la
 versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.4.1 del programa.
+versión 0.5.0 del programa.
 
 Ejemplo mínimo válido:
 
@@ -330,6 +332,37 @@ Ejemplo mínimo válido:
 de un acorde, dos acordes en otro compás, cuatro trastes visibles,
 repeticiones, casillas y saltos. Es una demostración, no una
 transcripción musical.
+
+\hypertarget{contexto-tonal-por-posiciuxf3n}{%
+\subsection{Contexto tonal por
+posición}\label{contexto-tonal-por-posiciuxf3n}}
+
+\texttt{src/model/tonality.js} resuelve el contexto según el orden
+escrito. La tonalidad general inicia el recorrido con
+\texttt{keyFamily}, o con \texttt{other} si falta. Sin tonalidad general
+ni cambio previo no hay contexto. Cada objeto \texttt{voicing.tonality},
+con \texttt{text} visible y \texttt{family} válida, establece un cambio;
+su ausencia hereda el contexto anterior. El contexto se deriva, no se
+serializa por duplicado, y no expande las repeticiones.
+
+\texttt{voicingDegree} es texto manual de la esquina superior derecha,
+distinto de los seis \texttt{degrees} de cuerda. Vaciar ese campo o la
+tonalidad retira su propiedad. Ambos pertenecen a una posición; el
+alcance de todas las posiciones solo afecta al título y anotación
+existentes. Elegir una calidad con tonalidad vacía es un borrador del
+control y no guarda un cambio invisible.
+
+\texttt{showTonalities} es un booleano opcional, visible por defecto.
+Oculta las franjas en todas las hojas sin borrar datos y conserva la
+tonalidad de cabecera. La casilla y los campos forman parte del
+historial y de la recuperación. La familia de la tonalidad usa la paleta
+de canción, independientemente de la familia del acorde.
+
+Estos campos amplían el esquema 1 de forma opcional. Los archivos
+anteriores siguen válidos sin migración ni modificación silenciosa; un
+archivo que incluya campos nuevos necesita 0.5.0 o posterior. Los
+validadores manual y JSON Schema rechazan tipos, familias y propiedades
+desconocidos.
 
 \hypertarget{identidad-y-validaciuxf3n}{%
 \subsection{Identidad y validación}\label{identidad-y-validaciuxf3n}}
@@ -527,8 +560,9 @@ Reserva de reparto & 1 px CSS \\
 Separación visual entre hojas & 24 px CSS al 100 \% \\
 \end{longtable}
 
-Cada hoja incluye título, tonalidad y numeración actual/total arriba a
-la derecha. La versión del documento no se añade al pie de impresión.
+Cada hoja incluye título seguido de tonalidad y numeración actual/total
+arriba a la derecha. La versión del documento no se añade al pie de
+impresión.
 
 \hypertarget{algoritmo}{%
 \subsection{Algoritmo}\label{algoritmo}}
@@ -547,11 +581,17 @@ orden e indican continuación. Inicio y final de repetición aparecen solo
 en el primer y último fragmento; casillas y rangos pueden continuar
 entre filas y páginas.
 
-Las filas visibles distribuyen el ancho sobrante entre sus compases,
-eventos y tarjetas mediante flex. El mástil conserva su geometría. Una
-fila con poco contenido puede tener cajas más anchas que una fila llena;
-no implica otra escala de trastes ni otro tamaño de papel. La medición
-usa el contenido sin ese crecimiento, de forma conservadora.
+Las filas visibles distribuyen el ancho sobrante entre compases mediante
+flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres
+filas: títulos enmarcados, franjas de tonalidad y zona de
+número/tarjeta. Los eventos abarcan las columnas de sus posiciones. Esto
+mantiene los títulos fuera de la línea del compás aunque una tarjeta
+tenga anotación o leyenda más alta. Las pistas conservan el ancho
+natural y reparten el sobrante; el mástil no escala. La composición
+requiere soporte CSS subgrid y se ha comprobado en Chromium 153. Una
+fila con poco contenido puede tener cajas más anchas que una llena; no
+cambia el tamaño de papel. La medición usa el mismo renderizador, sin
+ese crecimiento exterior, de forma conservadora.
 
 Textos largos ajustan su altura. Si una cabecera o una pieza no cabe ni
 sola por ancho o alto, \texttt{collectProblems} recoge el fallo y
@@ -641,9 +681,10 @@ desarrollo. No participan en el arranque ni en el uso de la aplicación.
 \section{Comprobaciones y límites de la
 evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
-La interfaz sin pestañas 0.4.1 se ha validado en esta edición. La
-evidencia de versiones anteriores permanece identificada en la tabla y
-en \texttt{docs/ESTADO.md}.
+La evidencia de cada versión permanece identificada en la tabla y en
+\texttt{docs/ESTADO.md}. La ampliación 0.5.0 se ha comprobado en
+Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC
+con Windows mediante el conector.
 
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
@@ -652,6 +693,19 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.5.0 & 171 superadas en Windows; incluye contexto tonal,
+validación, JSON e historial \\
+Interfaz 0.5.0 & Campos individuales y casilla, herencia, edición,
+reapertura y recuperación; sin scroll interno en 1440×900, 1366×768 y
+1280×720 con el ejemplo; en 800×600 se conserva desplazamiento
+interno \\
+Hoja 0.5.0 & Títulos enmarcados y franjas fuera de la línea con textos
+de distinta altura; 40 posiciones, 24 compases, continuaciones, marcas,
+cuatro trastes y texto tratado como texto \\
+Salida 0.5.0 & HTML autónomo sin peticiones externas, color y etiquetas;
+PDF de 1 y 6 hojas A4 horizontal en Chromium sin interfaz \\
+Esquema 0.5.0 & 1751 casos de paridad manual/AJV con los campos nuevos y
+paleta \\
 Pruebas Node, 0.4.1 & 150 superadas en Windows mediante el conector \\
 Interfaz 0.4.1 & Secciones apiladas; formulario habitual sin scroll en
 1440×900, 1366×768 y 1280×720. En 800×600 conserva scroll interno y

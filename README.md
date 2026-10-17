@@ -4,9 +4,9 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.4.1 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.5.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
-**Próxima mejora registrada, todavía sin implementar:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
+**Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
 ## Empezar
 
@@ -51,9 +51,19 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
-Solo hay dos campos: **Título sobre la tarjeta**, fuera del recuadro, y **Anotación dentro**, bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
+**Título sobre la tarjeta** aparece enmarcado, por encima y fuera de la línea vertical del compás; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
 Si el acorde tiene varias posiciones, **Aplicar los cambios a** permite elegir esta posición o todas las del acorde. La opción de todas sustituye también los textos propios, solo del campo que cambies. Cambiar de posición vuelve a seleccionar «Solo esta posición».
+
+### Grado y tonalidad del voicing
+
+**Grado del voicing** coloca un texto manual como `V7/ii` arriba a la derecha, junto al nombre del acorde. Es independiente de los seis grados de las cuerdas.
+
+**Tonalidad de esta posición** y **Calidad de tonalidad** crean un cambio sobre esa tarjeta. Vacío mantiene la tonalidad y el color anteriores sin repetir la etiqueta, también entre compases y páginas. La calidad de la tonalidad usa la paleta de familias y es independiente de la calidad del acorde. El grado y la tonalidad siempre afectan solo a esta posición.
+
+En datos de canción se elige la calidad del contexto general y se puede desmarcar **Mostrar tonalidades de las tarjetas** para ocultar todas las franjas sin borrar datos. La tonalidad general sigue junto al título de canción. Sin calidad elegida usa el color neutro de Otro; no se deduce del texto. Prueba [el nuevo ejemplo](examples/textos-tonalidades.json).
+
+Los JSON anteriores siguen abriendo sin cambios. Los que contienen `voicingDegree`, `tonality`, `keyFamily` o `showTonalities` requieren 0.5.0 o posterior; las versiones anteriores rechazan esos campos para conservar la información.
 
 ### Deshacer y rehacer
 

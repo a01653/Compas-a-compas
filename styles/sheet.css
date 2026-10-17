@@ -30,14 +30,16 @@
   padding-bottom: 6px;
   border-bottom: 2px solid var(--ink-deep);
 }
-.hoja-titulos { flex: 1 1 auto; min-width: 0; }
+/* Nombre y tonalidad general en la misma línea cuando caben; si no, la tonalidad pasa a la línea siguiente. */
+.hoja-titulos { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
 .hoja-titulo {
+  min-width: 0;
   font: 27px/1.1 var(--f-marker);
   letter-spacing: 1px;
   color: var(--ink-deep);
   overflow-wrap: anywhere;
 }
-.hoja-tono { margin-top: 2px; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.hoja-tono { min-width: 0; font: 15px/1.2 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
 .hoja-pagina { flex: none; min-width: 6em; text-align: right; font: 14px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
 /* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
@@ -54,17 +56,20 @@
   flex: none;
   display: flex;
   flex-direction: column;
-  padding: 4px 0 4px 4px;
-  border-left: 2px solid var(--ink-deep);
+  padding: 4px 0;
 }
-/* Etiqueta del compás en el flujo (se mide con el resto); en un fragmento posterior lleva «continuación». */
-.compas-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; margin-bottom: 4px; font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
+/* Zona del compás de cada columna: hueco del número (en flujo, también en las columnas sin número) y tarjeta.
+   La línea del compás es el borde de la primera columna: empieza junto al número y baja hasta el pie de la tarjeta,
+   por debajo del título y de la franja de tonalidad, que quedan fuera. */
+.t-pos { position: relative; flex: none; display: flex; flex-direction: column; }
+.t-pos-lead { padding-left: 4px; border-left: 2px solid var(--ink-deep); }
+.compas-cont .t-pos-lead { border-left-style: dashed; }
+.t-num { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; min-height: 1.2em; margin-bottom: 4px; font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
 .compas-num { min-width: 0; overflow-wrap: anywhere; }
 .compas-continuacion { font-style: italic; color: var(--ink-soft); }
-.compas-cont { border-left-style: dashed; }
 
 /* Marcas musicales: bloque propio sobre las tarjetas (no invade los títulos); varias marcas se apilan o saltan de línea. */
-.marcas { display: flex; flex-direction: column; gap: 3px; margin: 0 0 8px; color: var(--ink-deep); }
+.marcas { display: flex; flex-direction: column; gap: 3px; margin: 0 0 8px; padding-left: 6px; color: var(--ink-deep); }
 .marcas-fila { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 2px 14px; }
 .marcas-izq, .marcas-der { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; min-width: 0; }
 .marcas-der { margin-left: auto; justify-content: flex-end; }
@@ -80,11 +85,14 @@
 .casilla.cont-sig { margin-right: -14px; padding-right: 14px; border-right: 0; }
 .casilla.cont-ant .casilla-txt, .casilla.cont-sig .casilla-txt { color: var(--ink-soft); }
 /* Barras de repetición: grueso + fino y dos puntos; el compás reserva su ancho. */
-.compas.rep-ini { padding-left: 24px; }
+.compas.rep-ini { padding-left: 22px; }
 .compas.rep-fin { padding-right: 24px; }
+.compas.rep-ini .t-pos-lead { border-left: 0; }
+.compas.rep-ini .marcas { padding-left: 4px; }
+/* Las barras se colocan en la zona del compás de la columna extrema: nacen a la altura del número, no en título ni franja. */
 .barra-rep { position: absolute; top: 0; bottom: 0; width: 14px; pointer-events: none; }
-.barra-rep.ini { left: -2px; border-left: 5px solid var(--ink-deep); }
-.barra-rep.fin { right: 0; border-right: 5px solid var(--ink-deep); }
+.barra-rep.ini { left: -22px; border-left: 5px solid var(--ink-deep); }
+.barra-rep.fin { right: -24px; border-right: 5px solid var(--ink-deep); }
 .barra-rep::before { content: ''; position: absolute; top: 0; bottom: 0; width: 1.6px; background: var(--ink-deep); }
 .barra-rep.ini::before { left: 8px; }
 .barra-rep.fin::before { right: 8px; }
@@ -97,19 +105,27 @@
 
 .compas-vacio { padding: 26px 20px; font: 15px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
-.eventos { flex: 1; display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px; }
-.evento { flex: 1 0 auto; }
-.tarjeta-col { flex: 1 0 auto; }
+/* Rejilla compartida por todo el fragmento: una columna por tarjeta y tres filas (títulos, franjas, zona del compás).
+   Los acordes (.evento) y las columnas (.tarjeta-col) son subrejillas de esas filas y columnas, así que:
+   - todos los títulos están en una fila y todas las franjas en otra, por encima de la zona del compás;
+   - la zona del compás (número, línea y tarjetas) empieza a la misma altura en todas las columnas, sea cual sea el contenido;
+   - el ancho de cada columna sigue siendo su ancho natural más un reparto igual del espacio libre (pistas «auto»), como antes. */
+.eventos { flex: 1; display: grid; grid-auto-flow: column; grid-auto-columns: auto; grid-template-rows: auto auto minmax(min-content, 1fr); column-gap: 4px; row-gap: 0; }
 
 /* Voicings de un mismo acorde: se agrupan bajo una barra de la familia, sin añadir duración.
    Si el acorde sigue en otra fila u hoja, el lado cortado se marca con un trazo de puntos. */
-.evento { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 4px; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
+.evento { display: grid; grid-row: 1 / span 3; grid-auto-flow: column; grid-template-columns: subgrid; grid-template-rows: subgrid; padding-bottom: 6px; border-bottom: 4px solid var(--fam-bd, #c3c9d6); border-radius: 0 0 4px 4px; }
 .evento.corta-ini { padding-left: 4px; border-left: 3px dotted var(--fam-bd, #c3c9d6); }
 .evento.corta-fin { padding-right: 4px; border-right: 3px dotted var(--fam-bd, #c3c9d6); }
 
-.tarjeta-col { display: flex; flex-direction: column; gap: 2px; }
-/* El título, el nombre y el texto interior toman el ancho del mástil y ajustan línea: nunca ensanchan la tarjeta. */
-.t-titulo { width: 0; min-width: 100%; min-height: 14px; padding-left: 4px; font: 12px/1.15 var(--f-hand); color: var(--ink-soft); overflow-wrap: anywhere; }
+.tarjeta-col { display: grid; grid-row: 1 / span 3; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; }
+.t-sup { display: contents; }
+/* Título y franja no ensanchan la tarjeta (contain: inline-size) y ajustan línea. Solo existen si hay texto o contexto. */
+.t-titulo { grid-row: 1; align-self: end; contain: inline-size; margin-bottom: 2px; }
+.t-titulo-caja { display: inline-block; max-width: 100%; padding: 3px 8px; border: 2px solid var(--ink-deep); border-radius: 6px; background: #fff; font: 17px/1.15 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
+/* Franja de tonalidad: color de la familia de la tonalidad. La heredada tiene la misma caja y altura, pero no repite el texto. */
+.t-tono { grid-row: 2; align-self: end; contain: inline-size; display: flex; align-items: center; box-sizing: border-box; min-height: 20px; margin-bottom: 2px; padding: 1px 8px; border: 1.2px solid var(--fam-bd, #c3c9d6); border-radius: 5px; background: var(--fam-bg, #f1f2f6); font: 14px/1.15 var(--f-hand); color: var(--ink-deep); overflow-wrap: anywhere; }
+.t-pos { grid-row: 3; }
 
 .tarjeta {
   flex: 1 0 auto;
@@ -121,9 +137,11 @@
   background: var(--fam-bg, #f1f2f6);
 }
 .tarjeta.pendiente { border-style: dashed; justify-content: center; min-width: 120px; min-height: 90px; }
-.t-cab { display: flex; flex-direction: column; gap: 1px; width: 0; min-width: 100%; min-height: 30px; }
-.t-nom { font: 17px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
-.t-txt { min-height: 15px; font: 9px/1.1 var(--f-hand); letter-spacing: .3px; color: var(--ink-soft); overflow-wrap: anywhere; }
+/* Nombre a la izquierda y grado del voicing arriba a la derecha; si no caben juntos, el grado baja sin recortarse. */
+.t-cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 1px 6px; width: 0; min-width: 100%; min-height: 30px; }
+.t-nom { flex: 1 1 auto; min-width: 0; font: 17px/1.1 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
+.t-grado { flex: none; max-width: 100%; margin-left: auto; font: 15px/1.1 var(--f-marker); color: var(--ink-deep); text-align: right; overflow-wrap: anywhere; }
+.t-txt { flex: 0 0 100%; min-height: 15px; font: 9px/1.1 var(--f-hand); letter-spacing: .3px; color: var(--ink-soft); overflow-wrap: anywhere; }
 .t-pend { font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
 .mastil { display: block; flex: none; overflow: visible; margin-top: auto; align-self: center; }
 /* La leyenda no ensancha la tarjeta: toma el ancho del mástil y ajusta el texto. */
