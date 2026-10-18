@@ -1,9 +1,9 @@
-# Repetición del compás anterior y ajustes de tarjetas
+# Repetición de compás, ajustes de tarjetas y opciones de página
 
 Fecha: 18/10/2026. Estado: pendiente de implementar.
 Repositorio: a01653/Compas-a-compas. Base revisada: aplicación 0.6.3, main 2ce9ade6fb1ea42e3602341924906fcffdbbc139.
 
-Este documento recoge un encargo nuevo. Su incorporación al repositorio no significa que las funciones estén implementadas.
+Este documento recoge un encargo cuya primera implementación, según Claude, está en la rama `feature/repeticion-compas-y-nombres-vacios`; todavía no está validada visualmente ni integrada en `main`. Las opciones de página añadidas el 18/10/2026 quedan pendientes de incorporación y comprobación.
 
 ## Petición
 
@@ -11,7 +11,7 @@ Este documento recoge un encargo nuevo. Su incorporación al repositorio no sign
 2. Colocar su botón fuera de los menús, junto a Añadir tarjeta, que es el nombre vigente del antiguo botón de añadir acorde.
 3. Crear las tarjetas con el nombre vacío. Al dejar vacío el nombre, la hoja no debe mostrar texto de prueba ni una raya.
 4. Limitar el crecimiento horizontal de las tarjetas: una fila con uno o pocos compases no debe estirarlos para ocupar todo el ancho.
-5. Permitir elegir por separado fondo y texto de cada grado; el texto será blanco por defecto. Cambiar el fondo predeterminado de «Sin grado o sin color propio» de #14183a a un gris claro.
+5. Permitir elegir por separado fondo y texto de cada grado; el texto será blanco por defecto. Cambiar el fondo predeterminado de «Sin grado o sin color propio» de #14183a a un gris claro.\n6. Permitir fijar un máximo de compases por línea, conservando el modo automático actual cuando no se establece un máximo.\n7. Añadir una opción global por canción para ocultar los números/etiquetas visibles de todos los compases, útil para crear una hoja de acordes que no representa una partitura.
 
 ## Símbolo de repetición de un compás
 
@@ -96,6 +96,22 @@ Actualizar conjuntamente esquema, validación manual, serialización, edición y
 
 Aplicar las mismas combinaciones en vista previa, HTML autónomo e impresión. No cambiar fuentes, tamaño del grado ni notas musicales para corregir el color.
 
+## Máximo de compases por línea
+
+Añadir en las opciones generales de la canción un control **Máximo de compases por línea** con el modo **Automático** y límites numéricos. Si se deja en Automático, conservar exactamente el comportamiento de distribución vigente. El valor elegido es un tope, no una obligación de llenar cada línea: el diseño puede colocar menos compases cuando el ancho disponible, las tarjetas o la impresión lo requieran. Mantener el orden escrito y no separar un compás de sus tarjetas.
+
+Aplicar el mismo límite en vista previa, HTML exportado e impresión, tanto en escritorio como en móvil y con el crecimiento horizontal limitado de tarjetas. Recalcular filas y paginación sin recortar contenido ni fijar un número de filas por página. Cambiar el límite no debe modificar el contenido musical.
+
+Persistirlo como opción global del documento, por ejemplo `maxMeasuresPerRow`. Campo opcional: si no existe (modo Automático), se mantiene el comportamiento actual. Si se guarda un límite explícito, debe ser un entero positivo validado por el modelo y el esquema. No modificar automáticamente JSON antiguos.
+
+## Ocultar los números de compás
+
+Añadir una casilla global por canción **Mostrar números de compás**, activada por defecto. Al desactivarla, ocultar en toda la hoja los números/etiquetas visibles de los compases en vista previa, HTML exportado e impresión. Debe permitir preparar una hoja de acordes que no pretende representar una partitura.
+
+La opción solo controla la presentación: conservar etiquetas, IDs, orden, datos de compases vacíos y relaciones internas. Mantener visibles los símbolos y marcas independientes —repeticiones, Coda, Fine, casillas y saltos—, así como la numeración de páginas `página/total`. Al volver a activar la casilla se recuperan las etiquetas originales sin regenerarlas.
+
+Persistirlo como opción global del documento, por ejemplo `showMeasureNumbers`. Campo opcional: si falta, equivale a `true` para que los JSON existentes sigan mostrando sus números. Validar el tipo booleano en el modelo, el guardado, la recuperación y el JSON Schema. Documentar que lectores antiguos que rechacen propiedades desconocidas no admitirán documentos guardados con esta opción.
+
 ## Comprobaciones de aceptación
 
 - Compás 1 con uno o varios acordes; compás 2 marcado como repetición: aparece un único signo grande y no se duplican datos ni dibujos.
@@ -109,7 +125,7 @@ Aplicar las mismas combinaciones en vista previa, HTML autónomo e impresión. N
 - Apertura y guardado de JSON antiguos sin modificaciones; acuerdo entre validación manual y JSON Schema para el campo nuevo y sus combinaciones incompatibles.
 - Vista previa y HTML autónomo coinciden, sin recursos externos. Revisar PDF A4 horizontal y ausencia de recortes.
 - Probar el encuadre con los ejemplos existentes y, si están disponibles localmente, los JSON de I Fall y Havana. No incorporar archivos personales al repositorio.
-- Filas con una, dos y muchas tarjetas, compás con varias tarjetas y compás de repetición: crecimiento limitado, contenido a la izquierda y sobrante a la derecha. Comparar con una fila llena; probar cuatro o más trastes y textos largos sin recortes ni desbordamiento vertical.
+- Filas con una, dos y muchas tarjetas, compás con varias tarjetas y compás de repetición: crecimiento limitado, contenido a la izquierda y sobrante a la derecha. Comparar con una fila llena; probar cuatro o más trastes y textos largos sin recortes ni desbordamiento vertical.\n- Máximo de compases por línea en Automático reproduce la distribución actual; límites de 1, 2 y otros valores disponibles nunca se superan. Verificar que en pantallas estrechas o con tarjetas anchas se permiten menos compases, sin recortes, y que HTML e impresión coinciden.\n- Ocultar/mostrar numeración afecta a todos los compases de la canción en vista previa, HTML e impresión; las etiquetas guardadas se conservan. Los símbolos de repetición, Coda, Fine, casillas y saltos, y el número de página, siguen visibles.
 - Comprobar reparto a escala de pantalla 100 %, 125 %, 150 % y 175 %, además de móvil. Mantener el mástil y la lectura musical.
 - Color de texto independiente para 1, b3, #5, bb7 y una etiqueta personalizada; probar valores personalizados solo de texto y solo de fondo, normalización, restauración, historial, JSON y recuperación. Comparar punto del mástil y muestra del panel.
 - Fondo #14183a con texto blanco y con un texto elegido por el usuario; comprobar también tarjeta oscura, cuerdas al aire y exportación. Gris #d1d5db como fondo neutro sin personalización, sin alterar tintas del mástil. JSON antiguo con fondo neutro #14183a explícito conserva ese valor.
