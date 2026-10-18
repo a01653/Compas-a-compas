@@ -4,7 +4,7 @@ Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús
 
 ## Preparar una canción
 
-El botón **Manual** (icono de libro) de la barra superior abre este manual en PDF en otra pestaña, tanto en local como en GitHub Pages. Solo existe en la aplicación: no aparece en los HTML ni en los PDF de canciones que exportes.
+El botón **Manual** (icono de libro) de la barra superior abre una página de ayuda en otra pestaña, con un resumen y un enlace a este manual en PDF. Funciona igual en local que en GitHub Pages. Solo existe en la aplicación: no aparece en los HTML ni en los PDF de canciones que exportes.
 
 1. Abre la aplicación en [GitHub Pages](https://a01653.github.io/Compas-a-compas/) o con `Abrir-Compas.cmd` desde la carpeta del proyecto. En local, conserva abierta la consola que arranca el servidor.
 2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
@@ -68,6 +68,8 @@ En **Notas y grados**, elige naturales, bemoles o sostenidos para ver los grados
 
 Las muestras se actualizan y los colores se aplican a todos los compases de esta canción. En las tarjetas, el texto y la rejilla se adaptan para leer sobre fondos oscuros; en los puntos de grado manda el texto que elijas. La flecha circular restaura un color; **Restaurar paleta original** pide confirmar antes de quitar todos los colores personalizados.
 
+![Grados con fondo y texto independientes, con la muestra real de cada combinación.](capturas/colores-grados.png)
+
 Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el archivo. Se incluye también en HTML e impresión. Abrir otra canción utiliza sus colores, o los predeterminados (`config/palette-defaults.json`) si no tiene una paleta guardada; esos valores nunca se escriben en tu archivo. Las versiones anteriores a 0.3.0 no pueden abrir JSON con el campo `palette`; utiliza la aplicación actualizada.
 
 ![Paleta de fondos por calidad del acorde.](capturas/colores-acordes.png)
@@ -111,12 +113,16 @@ En los datos de canción hay dos opciones globales que solo cambian la presentac
 - **Máximo de compases por línea**: **Automático** (por defecto) reparte según el ancho disponible, como siempre. Un número del 1 al 16 es un tope, no una obligación: pueden caber menos compases si las tarjetas son anchas o la pantalla estrecha. La pareja de una repetición de dos compases no se separa, así que con tope 1 ocupa una línea con sus dos compases.
 - **Mostrar números de compás**: al desmarcarla se ocultan las etiquetas de todos los compases y las líneas verticales que los separan, en la vista previa, el HTML y la impresión, útil para una hoja de acordes que no es una partitura. Las etiquetas se conservan en el archivo. Las líneas de las tarjetas, las barras y signos de repetición, Coda, Fine, casillas, saltos y el número de página siguen visibles.
 
-Ambas opciones se guardan en el JSON (`maxMeasuresPerRow` y `showMeasureNumbers`, solo cuando no son los valores por defecto) y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
+![Datos de la canción: tonalidades, números de compás y máximo de compases por línea.](capturas/datos-cancion.png)
+
+Ambas opciones se guardan en el JSON solo cuando se usan y `showMeasureNumbers`, solo cuando no son los valores por defecto) y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
 
 ### Ancho de cada compás y ajuste de línea
 
 - **Ancho del compás**: en el menú de tres puntos del compás, escribe un porcentaje del 10 al 100 % del ancho de la línea. Vacío es Automático (como siempre). El ancho nunca baja de lo que necesitan las tarjetas: si el porcentaje no basta se usa el mínimo, aparece un aviso bajo la vista previa y caben menos compases en esa línea.
 - **Ajustar línea al ancho**: cada línea de la vista previa tiene un botón de doble flecha horizontal en el margen derecho de la hoja. Al pulsarlo, el espacio libre se reparte entre los compases de esa línea hasta el margen derecho, sin deformar los mástiles ni comprimir ninguna tarjeta, y puede superar el 25 %. Pulsa de nuevo (queda resaltado) para volver a Automático, o usa Deshacer. Si la línea cambia de composición, el reparto se recalcula con los compases que caben.
+
+![Menú del compás con su etiqueta y su ancho.](capturas/opciones-compas.png)
 
 Ambos ajustes se guardan en el JSON solo cuando se usan (`widthPercent`, `fillToEdge`); las versiones anteriores a 0.7.0 no abren esos archivos.
 

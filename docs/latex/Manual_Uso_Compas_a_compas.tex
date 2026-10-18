@@ -1,4 +1,4 @@
-% Source-SHA256: 585620dd256c33228dcb3291a391059d001c6121b52d7ea0d7fd3d29392a2121
+% Source-SHA256: 2a47906f0dd852475d567bc6d0de6b6c502c085fecb1a7c6dd860aa66d755562
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -108,10 +108,11 @@ Jesús Quevedo Rodríguez.
 \Needspace{3.5cm}
 \section{Preparar una canción}\label{preparar-una-canciuxf3n}
 
-El botón \textbf{Manual} (icono de libro) de la barra superior abre este
-manual en PDF en otra pestaña, tanto en local como en GitHub Pages. Solo
-existe en la aplicación: no aparece en los HTML ni en los PDF de
-canciones que exportes.
+El botón \textbf{Manual} (icono de libro) de la barra superior abre una
+página de ayuda en otra pestaña, con un resumen y un enlace a este
+manual en PDF. Funciona igual en local que en GitHub Pages. Solo existe
+en la aplicación: no aparece en los HTML ni en los PDF de canciones que
+exportes.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -283,6 +284,8 @@ elijas. La flecha circular restaura un color; \textbf{Restaurar paleta
 original} pide confirmar antes de quitar todos los colores
 personalizados.
 
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-grados.png}}
+
 Pulsa \textbf{Listo} para cerrar y \textbf{Guardar JSON} para conservar
 la paleta en el archivo. Se incluye también en HTML e impresión. Abrir
 otra canción utiliza sus colores, o los predeterminados
@@ -399,7 +402,9 @@ presentación:
   visibles.
 \end{itemize}
 
-Ambas opciones se guardan en el JSON (\texttt{maxMeasuresPerRow} y
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/datos-cancion.png}}
+
+Ambas opciones se guardan en el JSON solo cuando se usan y
 \texttt{showMeasureNumbers}, solo cuando no son los valores por defecto)
 y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
 
@@ -424,6 +429,8 @@ línea}\label{ancho-de-cada-compuxe1s-y-ajuste-de-luxednea}
   cambia de composición, el reparto se recalcula con los compases que
   caben.
 \end{itemize}
+
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/opciones-compas.png}}
 
 Ambos ajustes se guardan en el JSON solo cuando se usan
 (\texttt{widthPercent}, \texttt{fillToEdge}); las versiones anteriores a

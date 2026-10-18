@@ -119,7 +119,7 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 | [Diseño](docs/DISENO.md) | Aplicación completa, tarjetas e impresión |
 | [Modelo de datos](docs/DATOS.md) | Canción, compases, acordes, voicings y navegación musical |
 | [Colores predeterminados](config/palette-defaults.json) | Fondos y textos de calidades, grados y notas cuando la canción no define los suyos (ver DATOS.md) |
-| [Manual de uso (PDF)](docs/latex/Manual_Uso_Compas_a_compas.pdf) | También se abre desde el botón **Manual** de la aplicación |
+| [Manual de uso (PDF)](docs/latex/Manual_Uso_Compas_a_compas.pdf) | Se llega desde el botón **Manual** de la aplicación, que abre una página de ayuda con el enlace |
 | [Esquema JSON](schemas/song.schema.json) | Contrato para guardar canciones |
 | [Ejemplo editable](examples/cancion-demo.json) | Datos de prueba; no es una transcripción de una obra |
 | [Plan](docs/PLAN.md) | Fases, entregables y condiciones de cierre |

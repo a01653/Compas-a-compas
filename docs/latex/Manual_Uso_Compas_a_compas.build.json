@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "585620dd256c33228dcb3291a391059d001c6121b52d7ea0d7fd3d29392a2121",
+      "sha256": "2a47906f0dd852475d567bc6d0de6b6c502c085fecb1a7c6dd860aa66d755562",
       "role": "source"
     },
     {
@@ -28,37 +28,52 @@
     },
     {
       "path": "docs/manuals/capturas/editor-general.png",
-      "sha256": "e7cd90f2ae96befef56e8af02ef872519d1cae5f101c44eb684851232a7a78c7",
+      "sha256": "d362ae160779ae7c7e5d1fc9381d49a4fd63fccd260e66f2eefc73db5cf2367a",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/colores-grados.png",
+      "sha256": "d7c21040a1da32d9fe9a43d050c9c904f415e0bf8762c1ba2878ad53f1f81897",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/colores-acordes.png",
-      "sha256": "db81453b806ec762875459664a4488b67a5a36205cd624f81ba839df843b1ba9",
+      "sha256": "aa9fd756461bd2215061232b89e46188a2f666753256ea9060723528470e907d",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/textos-deshacer.png",
-      "sha256": "ee6960d12ab30536b8c1ee6bcd3df34c2a15fc1c690406535250fb7df02757c8",
+      "sha256": "c74885d3727e7e0f20e247650bae3d4993e183111e132af65792daefbd368afe",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/editor-posiciones.png",
-      "sha256": "ef30581a2e2e1b1611cd2b99911be1e30e0c974fef2da0a527617e5986c98068",
+      "sha256": "cad4f4bb1493f15741453af5557ccdefabdbc7d527fe774a81b06f86199e6928",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/datos-cancion.png",
+      "sha256": "7d1e98fcba69146e6c53145d142f7b2a49fb3e7c17cb57d510cfe6e0ffef0998",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/opciones-compas.png",
+      "sha256": "bc492f80a785a7e180ea23365687734f70db0ea325d272a3b86ccc5d509f81ca",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/marcas-compas.png",
-      "sha256": "0fac293bf5d5747649cb113b1f89c0c24f56f3824f4a5e5e3aee8f0e2380f4d4",
+      "sha256": "a749ef0b2dacb8427820c28b0fc927a018efe9e7c77268c040728d47a86dec35",
       "role": "capture"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "f7b16a5b44ec4d8b435992dfec08a622791e456e019a883448828243025750bd",
+      "sha256": "ed3de20928f0e43048dce344aa8632f2ebf260aac8da583e352525d3b29e46c0",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "c2a801cbd2387ee3acddb0d100f6ea083494a46832d52baf3bec400fa2500589",
+      "sha256": "bd4e9ed6d6973b5064307e8b11fdba3dd8169ac70bda8624cf0823fd837a83a5",
       "role": "pdf"
     }
   ]

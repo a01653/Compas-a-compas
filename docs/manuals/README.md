@@ -34,7 +34,7 @@ Editar primero el Markdown. Después regenerar y revisar visualmente todas las p
 
 ## Capturas
 
-Las capturas de `capturas/` corresponden a la aplicación 0.6.0 real en Chromium 153 sobre Linux, con ventana de 1440 × 960 px y escala de dispositivo 1,5. Se abrió `examples/cancion-demo.json`, se esperó a las fuentes y a la paginación y se dejó desaparecer el aviso de apertura. La segunda imagen muestra el formulario compacto de tarjetas; otra muestra el diálogo de marcas del compás 2 y la nueva paleta de colores. Se conservan los estilos reales de la aplicación.
+Las capturas de `capturas/` corresponden a la aplicación 0.7.0 real (18/10/2026), tomadas con Microsoft Edge sin cabeza sobre Windows, con ventana de 1440 × 960 px y escala de dispositivo 1,5, sirviendo la carpeta del proyecto en local. Se abrió `examples/cancion-demo.json` (y `examples/textos-tonalidades.json` para `textos-deshacer.png`), se esperó a las fuentes y a la paginación y se recortó cada diálogo o panel a su caja. Muestran el botón **Manual**, los botones de repetir uno y dos compases, las opciones de página, el menú del compás con su ancho y los grados con fondo y texto independientes. Se conservan los estilos reales de la aplicación.
 
 No son capturas de Windows ni acreditan la validación nativa del lanzador o del diálogo de impresión. Al cambiar controles, textos o distribución, actualizar las capturas antes de reconstruir el manual.
 
@@ -42,6 +42,6 @@ La captura textos-deshacer.png usa examples/textos-tonalidades.json, con ocho po
 
 ## Botón Manual de la aplicación
 
-La barra superior de la aplicación incluye un botón **Manual** (icono de libro) que abre `docs/latex/Manual_Uso_Compas_a_compas.pdf` en otra pestaña mediante una ruta relativa, por lo que funciona en local y bajo la URL de GitHub Pages. `scripts/build-pages.mjs` copia ese PDF a `_site/docs/latex/`. El botón no forma parte de las hojas: no aparece en los HTML ni en los PDF exportados. Tras cambiar `USO.md` hay que regenerar el PDF (`python scripts/build_docs.py`) para que la aplicación publique el manual actualizado.
+La barra superior de la aplicación incluye un botón **Manual** (icono de libro) que abre la página `ayuda/index.html` en otra pestaña mediante una ruta relativa, por lo que funciona en local y bajo la URL de GitHub Pages. La página resume el uso y enlaza con `docs/latex/Manual_Uso_Compas_a_compas.pdf` (en lugar de enlazar directamente al PDF, que algunos navegadores descargan sin mostrar). `scripts/build-pages.mjs` copia la carpeta `ayuda/` y el PDF a `_site/`. El botón no forma parte de las hojas: no aparece en los HTML ni en los PDF exportados. Tras cambiar `USO.md` hay que regenerar el PDF (`python scripts/build_docs.py`) para que la aplicación publique el manual actualizado.
 
 Con Pandoc 3.2 o posterior la plantilla define `\pandocbounded` (`document-template.tex`); con versiones anteriores la definición no cambia nada.

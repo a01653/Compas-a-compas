@@ -14,7 +14,8 @@
 - Pie de la aplicación: créditos a la izquierda, versión a la derecha; el estado del archivo pasa junto a Deshacer/Rehacer. Nada de esto entra en el HTML ni el PDF exportados.
 - Con **Mostrar tonalidades** desactivado, los campos Tonalidad y Calidad de tonalidad de cada tarjeta se ocultan del editor; los valores se conservan.
 - Los colores predeterminados (calidades de acorde, grados y notas, fondos y textos) están en `config/palette-defaults.json`: se cargan y validan al iniciar la aplicación (error claro si falta o es incorrecto) y no se duplican en el código (incluida la tinta atenuada `muted` de las etiquetas del mástil; los colores generales de la interfaz quedan fuera). La paleta de cada JSON sigue teniendo prioridad y no se modifica al abrir o guardar.
-- Botón **Manual** (icono de libro) en la barra superior: abre el manual de uso en PDF en otra pestaña con una ruta relativa (local y GitHub Pages). El empaquetado de Pages incluye el PDF. No aparece en los HTML ni PDF exportados. Los tres PDF de documentación se han regenerado.
+- Botón **Manual** (icono de libro) en la barra superior: abre la página de ayuda `ayuda/index.html` en otra pestaña (ruta relativa, local y GitHub Pages), con un resumen y un enlace al manual en PDF, que algunos navegadores descargarían al abrirlo directamente. El empaquetado de Pages incluye la ayuda y el PDF. No aparece en los HTML ni PDF exportados.
+- Capturas de los manuales actualizadas con la interfaz 0.7.0 (botón Manual, repetir compases, opciones de página, ancho del compás y colores de grado) y los tres PDF de documentación regenerados.
 - Compatibilidad: los JSON anteriores se abren y guardan sin cambios. Un archivo con `repeatPrevious`, `repeatPreviousTwo`, `widthPercent`, `fillToEdge`, `showMeasureNumbers`, `maxMeasuresPerRow`, `degreeText`, `noteText` o `chordName` vacío lo rechazan las versiones anteriores (campo desconocido o nombre vacío).
 
 ## 0.6.3 — 18/10/2026

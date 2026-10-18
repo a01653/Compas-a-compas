@@ -1,4 +1,4 @@
-% Source-SHA256: 35c71239e08efe18c289edb5451ddc2d8b8a67e4729663464b084081efba1b98
+% Source-SHA256: 694ee5c537075afafb53d34941a6f971fdc14a1b692adb5f2554ecbc0b075d26
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -842,11 +842,12 @@ manuales parten de la carpeta principal.
   signos no cambian.
 \item
   \textbf{Manual}: \texttt{index.html} enlaza con
-  \texttt{docs/latex/Manual\_Uso\_Compas\_a\_compas.pdf}
-  (\texttt{target="\_blank"}, ruta relativa); \texttt{build-pages.mjs}
-  lo copia a \texttt{\_site/docs/latex/}. El enlace vive solo en
-  \texttt{index.html}, no en el renderizador de hojas, así que no entra
-  en los HTML exportados.
+  \texttt{ayuda/index.html} (\texttt{target="\_blank"}, ruta relativa),
+  una página estática sin JavaScript que enlaza con
+  \texttt{docs/latex/Manual\_Uso\_Compas\_a\_compas.pdf};
+  \texttt{build-pages.mjs} copia \texttt{ayuda/} y el PDF a
+  \texttt{\_site/}. El enlace vive solo en \texttt{index.html}, no en el
+  renderizador de hojas, así que no entra en los HTML exportados.
 \item
   \textbf{Colores predeterminados}:
   \texttt{src/model/paletteDefaults.js} carga
