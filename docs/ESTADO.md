@@ -1,5 +1,17 @@
 # Estado de trabajo
 
+## Versión 0.6.2: recuperar la tercera fila de I Fall — 18/10/2026
+
+Revisión directa del repositorio, sin usar el conector local. Reproducido en Chromium 153 con el JSON aportado: la primera hoja contenía los compases 1–8 y el documento ocupaba tres páginas. Las tres primeras filas necesitaban 734,06 px frente a los 703,20 px disponibles bajo la cabecera. La alineación de 0.6.1 era correcta, pero el espacio vertical impedía colocar la tercera fila.
+
+Se compactan los números de compás de 14 a 12 px, su separación inferior de 4 a 2 px, el espacio entre filas de 12 a 8 px y el de cabecera de 14 a 10 px. Se retira el margen inferior de 4 px de cada columna porque ya existe separación entre filas. Se conservan los márgenes de página de 5 mm, las fuentes de tarjeta, los textos y la geometría del mástil. No se impone un número fijo de filas: los contenidos altos siguen pasando a otra página.
+
+Validación realizada sobre los dos JSON completos mediante los controles reales de la aplicación: I Fall tiene dos hojas, con tres filas (1–12) y dos filas (13–19), y conserva sus 37 tarjetas. Havana mantiene seis hojas y sus 108 tarjetas. Guardar JSON produce los mismos datos, IDs y orden que el archivo abierto. La exportación HTML coincide con la vista previa en tarjetas, dimensiones SVG, filas y numeración; no solicita recursos externos. Desnivel de 0 px entre números y tarjetas de cada fila y ningún elemento fuera de la página. PDF generado por Chromium: dos y seis páginas A4 horizontales, sin hoja vacía final; primera página de I Fall revisada visualmente en PNG.
+
+Caso adicional: 24 compases, 40 tarjetas en el primero, 86 tarjetas en total, títulos y anotaciones de varias líneas, repeticiones, casilla, cuerdas al aire y cuatro trastes. Se conservan todas las tarjetas en nueve hojas, con seis continuaciones, sin errores de reparto, recortes ni solapamientos de filas. Primera hoja revisada visualmente. Las 196 pruebas Node pasan; el empaquetado de GitHub Pages y git diff --check pasan. No se han probado Firefox, Safari ni el diálogo nativo de impresión de Windows en esta revisión.
+
+Archivos modificados: src/layout/spec.js, styles/sheet.css, package.json, index.html, README.md, CHANGELOG.md, docs/DISENO.md y este registro. Los JSON personales y los archivos de comprobación quedan fuera del repositorio.
+
 ## Versión 0.6.1: encuadre y alineación entre compases — 17/10/2026
 
 El usuario aporta una captura y los JSON de I Fall in Love Too Easily y Havana. Reproducción en Chromium 153: un título como «Intro · Joe Pass», «Jim Hall» o «B · Tema» desplazaba solo su compás. El desnivel máximo era 31,56 px tanto en vista previa como en exportación.

@@ -43,14 +43,14 @@
 .hoja-pagina { flex: none; min-width: 6em; text-align: right; font: 14px/1 var(--f-hand); color: var(--ink-mute); white-space: nowrap; }
 
 /* Las filas las decide el reparto (paginate.js); el navegador no vuelve a ajustarlas. */
-.hoja-cuerpo { margin-top: var(--cab-gap, 14px); }
+.hoja-cuerpo { margin-top: var(--cab-gap, 10px); }
 /* Cada fila es una rejilla de cuatro pistas de altura compartidas por TODOS sus compases: marcas, títulos, franjas de
    tonalidad y zona del compás (número, línea y tarjetas). Un compás sin título o sin marcas deja el hueco que ocupan los
    demás, así que bandas, números y bordes de tarjeta arrancan a la misma altura en toda la fila. Las columnas son una por
    tarjeta (pistas «auto»: ancho natural más un reparto igual del espacio libre); compases, acordes y columnas son
    subrejillas de esas pistas. La altura de la fila es la suma del máximo de cada pista (ver layout/paginate.js). */
 .fila { display: grid; grid-auto-flow: column; grid-auto-columns: auto; grid-template-rows: auto auto auto minmax(min-content, 1fr); column-gap: var(--col-gap, 6px); row-gap: 0; }
-.fila + .fila { margin-top: var(--fila-gap, 12px); }
+.fila + .fila { margin-top: var(--fila-gap, 8px); }
 
 /* Caja fuera de pantalla donde se miden cabecera y fragmentos con los mismos estilos. */
 .hoja-medida { position: absolute; left: -30000px; top: 0; visibility: hidden; pointer-events: none; }
@@ -72,10 +72,11 @@
 /* Zona del compás de cada columna: hueco del número (en flujo, también en las columnas sin número) y tarjeta.
    La línea del compás es el borde de la primera columna: empieza junto al número y baja hasta el pie de la tarjeta,
    por debajo del título y de la franja de tonalidad, que quedan fuera. */
-.t-pos { position: relative; display: flex; flex-direction: column; margin-bottom: 4px; }
+/* La separación inferior ya la aporta --fila-gap; no añadir otro margen a cada columna. */
+.t-pos { position: relative; display: flex; flex-direction: column; }
 .t-pos-lead { padding-left: 4px; border-left: 2px solid var(--ink-deep); }
 .compas-cont .t-pos-lead { border-left-style: dashed; }
-.t-num { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; min-height: 1.2em; margin-bottom: 4px; font: 14px/1.2 var(--f-hand); color: var(--ink-mute); }
+.t-num { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; width: 0; min-width: 100%; min-height: 1.2em; margin-bottom: 2px; font: 12px/1.2 var(--f-hand); color: var(--ink-mute); }
 .compas-num { min-width: 0; overflow-wrap: anywhere; }
 .compas-continuacion { font-style: italic; color: var(--ink-soft); }
 
