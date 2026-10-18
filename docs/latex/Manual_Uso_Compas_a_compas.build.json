@@ -1,6 +1,6 @@
 {
   "document": "uso",
-  "applicationVersion": "0.7.0",
+  "applicationVersion": "0.7.1",
   "edition": "2026-10-18",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
@@ -23,7 +23,7 @@
     },
     {
       "path": "package.json",
-      "sha256": "6565c576784007d30ff520769313d34b56043ea5d4b7b22b4cc460e126fe76aa",
+      "sha256": "cce8545596219ee3bad302c338ad19c54f7cbf4d0859a0118bd3e17538054325",
       "role": "application-version"
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "77ec68ac3456056fdc6b41d3027d6c444e8047a43c906da9fee0e4c82f6eb0b1",
+      "sha256": "58c741871d91dc180d40f15969b48e7c873c3c0d68aefd0a3ea0843064acaabb",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "a7224d7d20f00aee0697ef44afdc84f256c828046ea4faf07c7e118561153db2",
+      "sha256": "e530acd4d9d5354c85979780d209cc77c1d2658d52733b45e5d58f04d0b4b43a",
       "role": "pdf"
     }
   ]
