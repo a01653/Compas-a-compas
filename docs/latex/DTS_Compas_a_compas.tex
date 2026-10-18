@@ -1,4 +1,4 @@
-% Source-SHA256: 8b2d889c07f02228630ca2667a092612e0ab379c07eb391af61da180bba44ddc
+% Source-SHA256: f02d5f71cb562a49383a30da50c7d2d9da4d9f264c502f8105737cbb4f7ffe1d
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -847,11 +847,14 @@ manuales parten de la carpeta principal.
   debajo del ancho natural medido; si no cabe, \texttt{notices}) y, en
   \texttt{finishRow}, calcula las pistas (\texttt{tracks}) de cada
   fragmento ajustado: el sobrante se reparte proporcionalmente al ancho
-  natural de cada columna, de modo que ninguna se comprime. Los
-  fragmentos automáticos conservan el tope de expansión por tarjeta. El
-  botón por línea (doble flecha horizontal) solo existe en la vista
-  previa (\texttt{pageNode} con \texttt{onFitRow}, envuelta en
-  \texttt{.fila-caja}) y cada pulsación es un paso de historial.
+  natural de cada columna, de modo que ninguna se comprime. Al terminar
+  la página, las filas ajustadas con la misma estructura comparten las
+  pistas por posición para alinear las tarjetas verticalmente, siempre
+  que el ancho mínimo conjunto quepa. Los fragmentos automáticos
+  conservan el tope de expansión por tarjeta. El botón por línea (doble
+  flecha horizontal) solo existe en la vista previa (\texttt{pageNode}
+  con \texttt{onFitRow}, envuelta en \texttt{.fila-caja}) y cada
+  pulsación es un paso de historial.
 \item
   \textbf{Sin numeración}: la hoja lleva la clase \texttt{sin-numeros},
   que hace transparente el borde izquierdo de cada compás (conserva su

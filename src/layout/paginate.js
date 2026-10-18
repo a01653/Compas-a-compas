@@ -117,6 +117,47 @@ export function paginate({ units, measureFragment, content, headerHeight, column
       f.tracks = f.columns.map((n) => Math.floor((n + ((drawWidth - natural) * n) / total) * 100) / 100);
     }
   };
+  /**
+   * Si varias filas ajustadas de la misma hoja tienen las mismas columnas, usa una sola
+   * distribución horizontal para que los bordes de las tarjetas queden alineados.
+   * Solo se aplica cuando cabe el ancho natural máximo de cada columna; nunca comprime contenido.
+   */
+  const alignFilledRows = (targetPage) => {
+    const groups = new Map();
+    for (const r of targetPage.rows) {
+      if (!r.fill || !r.fragments.length || r.fragments.some((f) => !f.columns || !f.tracks || f.natural !== undefined)) continue;
+      const shape = r.fragments.map((f) => f.columns.length);
+      if (shape.some((n) => n < 1)) continue;
+      const innerGaps = r.fragments.map((f) => round(f.width - sum(f.columns)));
+      const key = `${shape.join(',')}|${innerGaps.join(',')}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(r);
+    }
+
+    for (const rows of groups.values()) {
+      if (rows.length < 2) continue;
+      const count = rows[0].fragments.reduce((n, f) => n + f.columns.length, 0);
+      const minimums = Array.from({ length: count }, (_, i) => Math.max(...rows.map((r) => r.fragments.flatMap((f) => f.columns)[i])));
+      const template = rows[0];
+      const fixedGaps = template.fragments.reduce((n, f) => n + f.width - sum(f.columns), 0)
+        + columnGap * (template.fragments.length - 1);
+      const trackBudget = maxW - fixedGaps;
+      const minimumTotal = sum(minimums);
+      if (minimumTotal > trackBudget + 0.01) continue;
+
+      const extra = Math.max(0, (trackBudget - minimumTotal) / count);
+      const sharedTracks = minimums.map((n) => n + extra);
+      for (const r of rows) {
+        let offset = 0;
+        for (const f of r.fragments) {
+          f.tracks = sharedTracks.slice(offset, offset + f.columns.length);
+          f.drawWidth = sum(f.tracks) + f.width - sum(f.columns);
+          offset += f.columns.length;
+        }
+        r.aligned = true;
+      }
+    }
+  };
   const isFresh = () => !row && page.rows.length === 0;
   const closeRow = () => {
     if (!row) return;
@@ -220,6 +261,8 @@ export function paginate({ units, measureFragment, content, headerHeight, column
 
   if (page) closeRow();
   if (!pages.length) newPage();
+
+  for (const p of pages) alignFilledRows(p);
 
   return { pages, errors, notices, bodyHeight: bodyH };
 }
