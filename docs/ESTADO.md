@@ -8,7 +8,7 @@ GitHub Actions publicó la versión desde el commit `f39d88c` (ejecución 391357
 
 ## Versión 0.7.0: repetición del compás anterior y ajustes de tarjetas — 18/10/2026
 
-Implementado el encargo [repeticion-compas-y-ajustes-tarjetas](encargos/repeticion-compas-y-ajustes-tarjetas.md) en la rama `feature/repeticion-compas-y-nombres-vacios`.
+Implementado el encargo [repeticion-compas-y-ajustes-tarjetas](encargos/repeticion-compas-y-ajustes-tarjetas.md) en 0.7.0 y fusionado en `main` mediante el PR #11.
 
 Archivos: `src/model/{song,cards,structure,validate,ids,palette,degrees}.js`, `src/layout/{atoms,paginate,compute,spec}.js`, `src/render/{card,sheet,repeat}.js`, `src/ui/{chord,measures,colors,icons}.js`, `styles/{sheet,workspace}.css`, `schemas/song.schema.json`, `tests/{repeat-previous,palette,validate,cards}.test.js`, documentación.
 
