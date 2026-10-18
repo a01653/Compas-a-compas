@@ -1,4 +1,4 @@
-% Source-SHA256: f02d5f71cb562a49383a30da50c7d2d9da4d9f264c502f8105737cbb4f7ffe1d
+% Source-SHA256: f5366be108e3a15963285b06f8d06662971d73c0e9976437f1f47e8927c53fed
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.1 · 18/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.2 · 18/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.7.1 · 18/10/2026\par}
+{\sffamily\small Aplicación 0.7.2 · 18/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -303,17 +303,20 @@ Compás & \texttt{id}, \texttt{label} y lista ordenada
 \texttt{chordEvents} \\
 Acorde & \texttt{id}, \texttt{chordName}, lista \texttt{voicings};
 familia y textos opcionales \\
-Posición & \texttt{id}, \texttt{frets} de seis valores; grados de
-cuerda, textos, \texttt{voicingDegree} y \texttt{tonality} opcionales \\
+Posición & \texttt{id}, \texttt{frets} de seis valores; grados, textos,
+\texttt{voicingDegree}, \texttt{anchorFret} y \texttt{tonality}
+opcionales \\
 Estructura & Listas \texttt{repeats}, \texttt{endings}, \texttt{markers}
 y \texttt{jumps} \\
 \end{longtable}
 
 Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
-textos en el mismo orden. La versión de esquema es numérica y vale 1; la
-versión de documento es texto libre del usuario. Ninguna de ellas es la
-versión 0.6.0 del programa.
+textos en el mismo orden. \texttt{anchorFret} es un entero positivo
+opcional que pinta una columna de referencia más oscura y amplía el
+rango del mástil cuando hace falta. La versión de esquema es numérica y
+vale 1; la versión de documento es texto libre del usuario. Ninguna de
+ellas es la versión del programa.
 
 Ejemplo mínimo válido:
 

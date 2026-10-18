@@ -61,6 +61,7 @@ const voicing = object({
     aboveText: text,
     insideText: text,
     voicingDegree: visibleText,
+    anchorFret: (v, p, e) => { if (!Number.isInteger(v) || v < 1) fail(e, p, 'debe ser un número de traste entero ≥ 1'); },
     tonality,
   },
 });

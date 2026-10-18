@@ -12,7 +12,7 @@ import { fretRange, spanMessage } from '../geometry/fretboard.js';
 import { applyDegrees, degreesToInputs } from '../model/degrees.js';
 import { actionButton, iconButton } from './icons.js';
 import { paletteFamilyStyle } from '../model/palette.js';
-import { DEFAULT_TONALITY_FAMILY, deriveTonalityContext, describeTonality, setTonality, setTonalityFamily, setVoicingDegree, tonalitiesVisible } from '../model/tonality.js';
+import { DEFAULT_TONALITY_FAMILY, deriveTonalityContext, describeTonality, setAnchorFret, setTonality, setTonalityFamily, setVoicingDegree, tonalitiesVisible } from '../model/tonality.js';
 
 const STRINGS = ['6ª', '5ª', '4ª', '3ª', '2ª', '1ª'];
 const NO_FRETS = [null, null, null, null, null, null];
@@ -187,7 +187,7 @@ export function mountChordPanel(root, store) {
     const rangeBadge = h('span', { class: 'range-badge' });
     function refreshRange() {
       const current = voicing ? voicing.frets : NO_FRETS;
-      const range = fretRange(current);
+      const range = fretRange(current, voicing?.anchorFret);
       const message = spanMessage(range);
       span.textContent = message ? `Esta digitación ${message}` : '';
       note.textContent = current.every(f => f === null) ? 'Tarjeta sin digitación: escribe sus trastes.' : '';
@@ -209,11 +209,24 @@ export function mountChordPanel(root, store) {
         applyDegrees(voicing, degrees.map(input => input.value)); store.emit('text');
       } }));
     voicingControls.push(...degrees);
+    const anchorError = h('span', { class: 'error', role: 'alert' });
+    const anchorInput = h('input', { id: 'f-anchor-fret', type: 'number', min: 1, step: 1,
+      value: voicing?.anchorFret ?? '', disabled: !voicing, autocomplete: 'off',
+      'aria-describedby': 'f-anchor-fret-hint', oninput: e => {
+        if (!setAnchorFret(voicing, e.target.value)) {
+          e.target.setAttribute('aria-invalid', 'true'); anchorError.textContent = 'Escribe un número de traste entero mayor que cero.'; return;
+        }
+        e.target.removeAttribute('aria-invalid'); anchorError.textContent = '';
+        refreshRange(); store.emit('text');
+      } });
+    voicingControls.push(anchorInput);
     const notesPanel = h('section', { id: 'editor-notes', class: 'editor-section', 'aria-labelledby': 'editor-notes-title' },
       h('h3', { id: 'editor-notes-title', class: 'editor-subtitle' }, 'Digitación y grados'),
       h('div', { class: 'field fret-field' },
         h('div', { class: 'field-heading' }, h('label', { for: 'f-frets' }, 'Digitación · 6ª a 1ª'), rangeBadge), frets,
         h('span', { class: 'hint', id: 'f-frets-hint' }, 'x muda · 0 al aire · dos cifras: separa con espacios'), note, error, span),
+      h('div', { class: 'field' }, h('label', { for: 'f-anchor-fret' }, 'Traste de referencia resaltado'), anchorInput,
+        h('span', { class: 'hint', id: 'f-anchor-fret-hint' }, 'Opcional. Sombrea esa columna y amplía el mástil si hace falta.'), anchorError),
       h('fieldset', { class: 'degrees' }, h('legend', null, 'Grados manuales', h('span', { class: 'optional' }, 'Opcional')),
         h('div', { class: 'degree-grid' }, degrees.map((input, i) => h('div', { class: 'degree-cell' },
           h('label', { for: input.id }, STRINGS[i]), input)))),

@@ -18,7 +18,7 @@
 
 Formato compacto válido para seis caracteres: `x35343`. Para dos cifras: `x 10 12 10 11 10`. No interpretar un bloque ambiguo de más de seis caracteres como trastes de dos cifras; solicitar separadores. Validar entrada antes de modificar el voicing anterior.
 
-`degrees`, si existe, contiene seis etiquetas en el mismo orden; null indica ausencia. No almacenar coordenadas, colores calculados ni rango de trastes: se derivan de los datos. Las etiquetas manuales deben conservarse aunque el nombre del acorde no esté en un catálogo.
+`degrees`, si existe, contiene seis etiquetas en el mismo orden; null indica ausencia. `anchorFret`, si aparece, es un entero positivo que resalta esa columna del mástil como referencia; el rango visible se amplía para incluirla aunque ninguna nota caiga en ese traste. No almacenar coordenadas, colores calculados ni rango de trastes: se derivan de los datos. Las etiquetas manuales deben conservarse aunque el nombre del acorde no esté en un catálogo.
 
 `family` selecciona una paleta: `major`, `minor`, `dominant`, `half-diminished`, `diminished` u `other`. Es una elección editable, no una promesa de análisis musical automático. Sin selección, usar `other`.
 

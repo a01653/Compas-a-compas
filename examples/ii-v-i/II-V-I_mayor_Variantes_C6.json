@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "documentVersion": "1.0",
+  "title": "Variantes C6 · Ruta II–V–I mayor",
+  "key": "C mayor",
+  "keyFamily": "major",
+  "showTonalities": false,
+  "showMeasureNumbers": false,
+  "maxMeasuresPerRow": 1,
+  "measures": [
+    {
+      "id": "m-c6",
+      "label": "C6 · variante de la I",
+      "chordEvents": [
+        {
+          "id": "e-c6",
+          "chordName": "C6",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v-c6-s1",
+              "frets": [
+                null,
+                null,
+                7,
+                9,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "6",
+                "3",
+                "5",
+                "1"
+              ],
+              "aboveText": "Variante de Ruta 4 · Set 1",
+              "voicingDegree": "3ª Inversión",
+              "anchorFret": 10
+            },
+            {
+              "id": "v-c6-s2",
+              "frets": [
+                null,
+                12,
+                14,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "6",
+                "3",
+                "5",
+                "1",
+                null
+              ],
+              "aboveText": "Variante de Ruta 4 · Set 2",
+              "voicingDegree": "3ª Inversión",
+              "anchorFret": 15
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    }
+  ],
+  "structure": {
+    "repeats": [],
+    "endings": [],
+    "markers": [],
+    "jumps": []
+  }
+}

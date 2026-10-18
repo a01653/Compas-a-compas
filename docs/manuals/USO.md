@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.7.2 · Edición del manual: 18/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -53,6 +53,8 @@ x 10 12 10 11 10  Una posición en trastes de dos cifras
 También se acepta `x35343` cuando cada traste tiene una cifra. Usa espacios si hay trastes de dos cifras. Una entrada incorrecta muestra un aviso y conserva la última digitación válida.
 
 Una tarjeta nueva empieza con todas las cuerdas mudas: debes introducir sus notas. En el dibujo, la primera cuerda está arriba. El mástil muestra al menos tres trastes y **crece solo** a cuatro o más si lo necesita. El límite actual es un intervalo visible de 32 trastes; si se supera, conserva los datos, avisa y bloquea la exportación hasta corregirlo.
+
+En los datos de cada posición puedes indicar **Traste de referencia resaltado**. La aplicación sombrea esa columna del mástil y amplía el dibujo para incluirla aunque no haya una nota en ese traste. Déjalo vacío si no quieres una referencia. Este campo permite reproducir las franjas oscuras que algunas láminas usan para señalar la zona del diapasón.
 
 ### Grados y color
 
