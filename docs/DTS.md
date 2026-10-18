@@ -72,10 +72,10 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 | Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities`, `showMeasureNumbers`, `maxMeasuresPerRow`, `fretboardScalePercent` y `palette` opcionales; los compases admiten `repeatPrevious` y `repeatPreviousTwo` (ver DATOS.md) |
 | Compás | `id`, `label` y lista ordenada `chordEvents` |
 | Acorde | `id`, `chordName`, lista `voicings`; familia y textos opcionales |
-| Posición | `id`, `frets` de seis valores; grados de cuerda, textos, `voicingDegree` y `tonality` opcionales |
+| Posición | `id`, `frets` de seis valores; grados, textos, `voicingDegree`, `anchorFret` y `tonality` opcionales |
 | Estructura | Listas `repeats`, `endings`, `markers` y `jumps` |
 
-Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión 0.6.0 del programa.
+Los trastes se almacenan de sexta a primera cuerda: entero no negativo o `null` para una cuerda muda. Los grados, cuando existen, son seis textos en el mismo orden. `anchorFret` es un entero positivo opcional que pinta una columna de referencia más oscura y amplía el rango del mástil cuando hace falta. La versión de esquema es numérica y vale 1; la versión de documento es texto libre del usuario. Ninguna de ellas es la versión del programa.
 
 Ejemplo mínimo válido:
 

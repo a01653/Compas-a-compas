@@ -19,6 +19,17 @@ export function setVoicingDegree(voicing, value) {
   else delete voicing.voicingDegree;
 }
 
+/** Traste de referencia que se resalta como una columna del mástil. Vacío elimina el campo. */
+export function setAnchorFret(voicing, value) {
+  const clean = String(value ?? '').trim();
+  if (!clean) { delete voicing.anchorFret; return true; }
+  if (!/^[1-9]\d*$/.test(clean)) return false;
+  const fret = Number(clean);
+  if (!Number.isSafeInteger(fret)) return false;
+  voicing.anchorFret = fret;
+  return true;
+}
+
 /** Texto vacío borra la tonalidad propia (la posición hereda). La calidad no se infiere del texto. */
 export function setTonality(voicing, value, family = DEFAULT_TONALITY_FAMILY) {
   const clean = String(value ?? '').trim();

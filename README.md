@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.7.1 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.7.2 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 **Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
@@ -130,3 +130,6 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 ## Alcance
 
 Sin OCR, reproducción de audio, teoría ni generación automática de acordes. La aplicación se puede abrir desde el lanzador local o en GitHub Pages. Las canciones se guardan en JSON y no se sincronizan entre dispositivos.
+
+
+Los ejemplos de recorridos II–V–I Drop 2 están en [`examples/ii-v-i/`](examples/ii-v-i/). Incluyen cuatro rutas completas por archivo y el campo opcional `anchorFret`; requieren la aplicación 0.7.2 o posterior.

@@ -40,6 +40,18 @@ test('con cuerdas al aire hay cejuela y se amplía hasta la nota más alta', () 
   assert.equal(noOpen.fretLines[0].nut, false);
 });
 
+test('el traste de anclaje queda resaltado y amplía el mástil si no tiene nota', () => {
+  const g = layoutFretboard([x, 3, 5, 3, 4, 3], undefined, 8);
+  assert.equal(g.start, 3);
+  assert.equal(g.end, 8);
+  assert.deepEqual(g.anchor, { x: GEOM.zone + 5 * GEOM.cell, y: GEOM.padTop, width: GEOM.cell, height: 5 * GEOM.gap, fret: 8 });
+  assert.equal(g.labels.at(-1).text, '8');
+  const open = layoutFretboard([0, 2, 2, 1, 0, 0], undefined, 5);
+  assert.equal(open.start, 1);
+  assert.equal(open.end, 5);
+  assert.ok(open.anchor);
+});
+
 test('los puntos quedan centrados entre dos divisiones de traste', () => {
   for (const frets of [[x, 3, 5, 3, 4, 3], [x, 10, 12, 10, 11, 10], [0, 2, 2, 4, 0, 0], [x, 3, 6, 4, 5, 3]]) {
     const g = layoutFretboard(frets);

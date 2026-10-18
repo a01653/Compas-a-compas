@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.7.2 — 18/10/2026
+
+- Cada voicing admite `anchorFret`, un traste de referencia cuya columna se resalta y que amplía el rango visible del mástil.
+- Se añaden ejemplos de cuatro recorridos completos ii–V–I Drop 2 por archivo, con el anclaje compartido entre los tres acordes de cada ruta.
+
 ## 0.7.1 — 18/10/2026
 
 - Las filas ajustadas con la misma estructura de compases comparten anchos de columna para alinear verticalmente las tarjetas. Si la cuadrícula común no cabe sin comprimir contenido, se mantienen los anchos individuales.

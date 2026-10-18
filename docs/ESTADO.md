@@ -1,5 +1,11 @@
 # Estado de trabajo
 
+## Traste de referencia y rutas II–V–I — 18/10/2026
+
+En la rama local `feature/anchor-fret-iivi` se añadió `anchorFret` opcional por posición: resalta una columna del mástil y la incluye en el rango visible. El editor, el render, la validación y `schemas/song.schema.json` ya lo admiten; `docs/DATOS.md`, `docs/DTS.md` y el manual de uso lo describen. `npm test` pasa con 246 pruebas. La revisión visual en navegador y la actualización de versión/publicación siguen pendientes. La rama no está fusionada ni publicada.
+
+Los cinco JSON derivados de la lámina Drop 2 están en `examples/ii-v-i/`: cuatro archivos con cuatro rutas completas (ii–V–I) por set y modalidad, más uno con variantes C6. Cada ruta conserva su traste de referencia en los tres acordes. La marca gráfica de nota guía fantasma de C6 del HTML original no tiene campo equivalente en la aplicación y no se ha simulado.
+
 ## Estado del encargo: repetición de compás y ajustes de tarjetas — 18/10/2026
 
 La versión 0.7.1 está integrada en `main`. Incluye repetición de uno y dos compases, nombres nuevos vacíos, crecimiento limitado, colores configurables, máximo de compases por línea, ocultación de números y separadores, ancho manual por compás, ajuste de línea con alineación compartida entre filas, controles tonales y botón Manual con página de ayuda. El esquema JSON no cambia en 0.7.1. `npm test` pasa con 242 pruebas y `node scripts/build-pages.mjs` termina correctamente.

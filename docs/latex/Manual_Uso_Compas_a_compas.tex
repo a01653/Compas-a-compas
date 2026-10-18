@@ -1,4 +1,4 @@
-% Source-SHA256: 397cd2ee2b9a3076028422a9f010a565cbccb1973ff6baabe7ee0b1bca1b30f7
+% Source-SHA256: 06e19136ebcbdaca2f4440bd80892d99ecbd993fd769ba10b1ad78f45151dab9
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.1 · 18/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.2 · 18/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.7.1 · 18/10/2026\par}
+{\sffamily\small Aplicación 0.7.2 · 18/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.7.2 · Edición del manual: 18/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -250,6 +250,13 @@ muestra al menos tres trastes y \textbf{crece solo} a cuatro o más si lo
 necesita. El límite actual es un intervalo visible de 32 trastes; si se
 supera, conserva los datos, avisa y bloquea la exportación hasta
 corregirlo.
+
+En los datos de cada posición puedes indicar \textbf{Traste de
+referencia resaltado}. La aplicación sombrea esa columna del mástil y
+amplía el dibujo para incluirla aunque no haya una nota en ese traste.
+Déjalo vacío si no quieres una referencia. Este campo permite reproducir
+las franjas oscuras que algunas láminas usan para señalar la zona del
+diapasón.
 
 \hypertarget{grados-y-color}{%
 \subsection{Grados y color}\label{grados-y-color}}

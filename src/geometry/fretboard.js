@@ -16,7 +16,7 @@ const isFret = (f) => Number.isInteger(f) && f >= 0;
  * frets: seis valores sexta→primera (entero ≥ 0 o null). Un solo recorrido, sin copias:
  * valores enormes solo producen un número grande en `count`, nunca una estructura grande.
  */
-export function fretRange(frets) {
+export function fretRange(frets, anchorFret = null) {
   let min = Infinity;
   let max = 0;
   let hasOpen = false;
@@ -27,6 +27,10 @@ export function fretRange(frets) {
       if (f < min) min = f;
       if (f > max) max = f;
     }
+  }
+  if (Number.isInteger(anchorFret) && anchorFret > 0) {
+    if (anchorFret < min) min = anchorFret;
+    if (anchorFret > max) max = anchorFret;
   }
   const start = hasOpen ? 1 : max > 0 ? min : 1;
   const count = Math.max(GEOM.minFrets, max - start + 1);
@@ -41,9 +45,9 @@ export function spanMessage(range) {
 }
 
 /** Primera cuerda arriba: la fila 0 es frets[5]. No se invierte el dato almacenado. */
-export function layoutFretboard(frets, degrees) {
+export function layoutFretboard(frets, degrees, anchorFret = null) {
   const { cell, gap, zone, padTop, padBottom } = GEOM;
-  const range = fretRange(frets);
+  const range = fretRange(frets, anchorFret);
   const { start, count, hasOpen } = range;
   const stringsBottom = padTop + 5 * gap;
   const height = padTop + 5 * gap + padBottom;
@@ -51,7 +55,7 @@ export function layoutFretboard(frets, degrees) {
   const reason = spanMessage(range);
   if (reason) {
     // No se construye ninguna lista por traste: el coste no depende del valor de las notas.
-    return { ...range, drawable: false, reason, width: zone + GEOM.minFrets * cell + 4, height, stringsBottom, strings: [], fretLines: [], labels: [], marks: [] };
+    return { ...range, drawable: false, reason, width: zone + GEOM.minFrets * cell + 4, height, stringsBottom, strings: [], fretLines: [], labels: [], marks: [], anchor: null };
   }
 
   const width = zone + count * cell + 4;
@@ -72,7 +76,10 @@ export function layoutFretboard(frets, degrees) {
   const fretLines = Array.from({ length: count + 1 }, (_, k) => ({ x: zone + k * cell, nut: k === 0 && hasOpen }));
   const labels = Array.from({ length: count }, (_, k) => ({ x: zone + (k + 0.5) * cell, y: stringsBottom + 14, text: String(start + k) }));
 
-  return { ...range, drawable: true, reason: null, width, height, stringsBottom, strings, fretLines, labels, marks };
+  const anchor = Number.isInteger(anchorFret) && anchorFret >= start && anchorFret <= range.end
+    ? { x: zone + (anchorFret - start) * cell, y: padTop, width: cell, height: 5 * gap, fret: anchorFret }
+    : null;
+  return { ...range, drawable: true, reason: null, width, height, stringsBottom, strings, fretLines, labels, marks, anchor };
 }
 
 /** Voicings que no se pueden dibujar legiblemente. La exportación (fase 4) debe bloquearse si hay alguno. */
@@ -81,7 +88,7 @@ export function findUndrawableVoicings(song) {
   for (const measure of song.measures || []) {
     for (const event of measure.chordEvents || []) {
       for (const voicing of event.voicings || []) {
-        const range = fretRange(voicing.frets);
+        const range = fretRange(voicing.frets, voicing.anchorFret);
         const message = spanMessage(range);
         if (message) {
           found.push({

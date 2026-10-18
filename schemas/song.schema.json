@@ -127,6 +127,11 @@
           "type": "string",
           "pattern": "\\S"
         },
+        "anchorFret": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Traste de referencia: resalta esa columna del mástil y la incluye en el rango visible."
+        },
         "tonality": {
           "$ref": "#/$defs/tonality"
         }

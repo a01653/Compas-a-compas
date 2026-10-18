@@ -218,7 +218,7 @@ test('el esquema JSON declara los mismos campos nuevos que el validador', async 
   assert.deepEqual(schema.$defs.family.enum, FAMILY_KEYS);
   assert.deepEqual(schema.$defs.tonality.required, ['text', 'family']);
   assert.equal(schema.$defs.tonality.additionalProperties, false);
-  assert.deepEqual(Object.keys(schema.$defs.voicing.properties).filter(k => ['voicingDegree', 'tonality'].includes(k)), ['voicingDegree', 'tonality']);
+  assert.deepEqual(Object.keys(schema.$defs.voicing.properties).filter(k => ['voicingDegree', 'anchorFret', 'tonality'].includes(k)), ['voicingDegree', 'anchorFret', 'tonality']);
   assert.equal(schema.$defs.voicing.additionalProperties, false);
 });
 

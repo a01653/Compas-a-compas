@@ -20,7 +20,7 @@ function degreeDot(mark, radius, palette, ink = inkColor()) {
 
 /** Mástil SVG, o un aviso si abarca demasiados trastes para dibujarse legiblemente. */
 export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = mutedColor(), scalePercent = 100 } = {}) {
-  const g = layoutFretboard(voicing.frets, voicing.degrees);
+  const g = layoutFretboard(voicing.frets, voicing.degrees, voicing.anchorFret);
   if (!g.drawable) {
     return h('div', { class: 'mastil-aviso', role: 'note' }, `No se puede dibujar: ${g.reason}`);
   }
@@ -36,6 +36,10 @@ export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = muted
 
   const x0 = g.fretLines[0].x;
   const x1 = g.fretLines[g.fretLines.length - 1].x;
+  if (g.anchor) svg.append(s('rect', {
+    class: 'traste-ancla', x: g.anchor.x, y: g.anchor.y, width: g.anchor.width, height: g.anchor.height,
+    fill: 'var(--fam-bd)', 'fill-opacity': .75, 'data-anchor-fret': g.anchor.fret,
+  }));
   g.strings.forEach((str, row) => {
     svg.append(s('line', { x1: x0, y1: str.y, x2: x1, y2: str.y, stroke: ink, 'stroke-width': 1.3 }));
     // Número de cuerda 1–6 (primera arriba), en la zona exterior; es solo rotulación, no un dato.
