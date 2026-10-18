@@ -69,7 +69,7 @@ const chordEvent = object({
   required: ['id', 'chordName', 'voicings'],
   props: {
     id: nonEmptyText,
-    chordName: nonEmptyText,
+    chordName: text, // Puede estar vacío: una tarjeta nueva no lleva nombre de prueba.
     aboveText: text,
     insideText: text,
     family: oneOf(FAMILY_KEYS),
@@ -77,10 +77,40 @@ const chordEvent = object({
   },
 });
 
-const measure = object({
-  required: ['id', 'label', 'chordEvents'],
-  props: { id: nonEmptyText, label: nonEmptyText, chordEvents: list(chordEvent) },
+const repeatPrevious = object({
+  required: ['sourceMeasureId'],
+  props: { sourceMeasureId: nonEmptyText },
 });
+
+const repeatPreviousTwo = object({
+  required: ['sourceMeasureIds', 'targetMeasureIds'],
+  props: {
+    sourceMeasureIds: list(nonEmptyText, { exact: 2, unique: true }),
+    targetMeasureIds: list(nonEmptyText, { exact: 2, unique: true }),
+  },
+});
+
+const measureShape = object({
+  required: ['id', 'label', 'chordEvents'],
+  props: {
+    id: nonEmptyText, label: nonEmptyText, chordEvents: list(chordEvent), repeatPrevious, repeatPreviousTwo,
+    widthPercent: (v, p, e) => { if (!Number.isInteger(v) || v < 10 || v > 100) fail(e, p, 'debe ser un entero entre 10 y 100 (porcentaje del ancho útil; sin el campo, ancho automático)'); },
+    fillToEdge: boolean,
+  },
+});
+// Un compás de repetición no lleva tarjetas propias: ambas representaciones a la vez serían ambiguas.
+const measure = (v, p, e) => {
+  measureShape(v, p, e);
+  if (!isObject(v)) return;
+  for (const key of ['repeatPrevious', 'repeatPreviousTwo']) {
+    if (hasOwn(v, key) && Array.isArray(v.chordEvents) && v.chordEvents.length) {
+      fail(e, at(p, key), 'incompatible con chordEvents no vacío: un compás de repetición no tiene tarjetas propias');
+    }
+  }
+  if (hasOwn(v, 'repeatPrevious') && hasOwn(v, 'repeatPreviousTwo')) {
+    fail(e, at(p, 'repeatPreviousTwo'), 'incompatible con repeatPrevious: un compás no puede tener las dos repeticiones a la vez');
+  }
+};
 
 const edge = oneOf(['before', 'after']);
 
@@ -137,12 +167,22 @@ const song = object({
           if (!isColor(value)) fail(e, at(p, key), 'debe ser un color hexadecimal #RRGGBB');
         }
       },
+      degreeText: (v, p, e) => {
+        if (!isObject(v)) return fail(e, p, 'debe ser un objeto');
+        for (const [key, value] of Object.entries(v)) {
+          if (!isPaletteLabel(key)) fail(e, at(p, key), 'etiqueta de grado no admitida (1 a 32 caracteres)');
+          if (!isColor(value)) fail(e, at(p, key), 'debe ser un color hexadecimal #RRGGBB');
+        }
+      },
       note: (v, p, e) => { if (!isColor(v)) fail(e, p, 'debe ser un color hexadecimal #RRGGBB'); },
+      noteText: (v, p, e) => { if (!isColor(v)) fail(e, p, 'debe ser un color hexadecimal #RRGGBB'); },
     } }),
     title: text,
     key: text,
     keyFamily: oneOf(FAMILY_KEYS),
     showTonalities: boolean,
+    showMeasureNumbers: boolean,
+    maxMeasuresPerRow: (v, p, e) => { if (!Number.isInteger(v) || v < 1 || v > 16) fail(e, p, 'debe ser un entero entre 1 y 16 (sin el campo, el modo es automático)'); },
     measures: list(measure),
     structure,
   },

@@ -2,8 +2,10 @@
  * Reparto de compases en filas y hojas. Módulo puro: recibe tamaños ya medidos y devuelve un plan.
  *
  * `measureFragment(unitIndex, from, to)` devuelve { width, height, rows?, extra? } del fragmento [from, to) del compás
- * (con sus marcas, etiqueta y tarjetas); `rows` desglosa la altura en las pistas que la fila comparte (ver heightParts).
+ * (con sus marcas, etiqueta y tarjetas) y, si se conocen, `columns` (ancho natural de cada columna, que el renderizador usa para limitar su crecimiento); `rows` desglosa la altura en las pistas que la fila comparte (ver heightParts).
  * Quien llama decide cómo se mide; aquí solo se decide dónde va cada cosa.
+ *
+ * Anchos manuales (`unit.widthPercent`) y «ajustar línea al ancho» (`unit.fillToEdge`) se resuelven aquí; ver finishRow.
  *
  * Reglas:
  *  - El orden escrito se conserva y cada tarjeta aparece exactamente una vez.
@@ -45,9 +47,11 @@ export const totalHeight = (parts) => sum(parts.rows) + parts.extra;
  * @param {(unitIndex: number, from: number, to: number) => { width: number, height: number }} p.measureFragment
  * @param {{ width: number, height: number }} p.content área útil de la hoja
  * @param {number} p.headerHeight altura medida de la cabecera
+ * @param {number} [p.maxPerRow] tope de compases (fragmentos) por fila; 0 = automático, como hasta ahora
  */
-export function paginate({ units, measureFragment, content, headerHeight, columnGap = 0, rowGap = 0, headerGap = 0, safety = 0 }) {
+export function paginate({ units, measureFragment, content, headerHeight, columnGap = 0, rowGap = 0, headerGap = 0, safety = 0, maxPerRow = 0 }) {
   const errors = [];
+  const notices = [];
   const maxW = content.width - safety;
   const bodyH = content.height - headerHeight - headerGap - safety;
 
@@ -64,6 +68,19 @@ export function paginate({ units, measureFragment, content, headerHeight, column
     let size = cache.get(key);
     if (!size) {
       size = measureFragment(ui, from, to);
+      // Ancho manual (porcentaje del ancho útil): solo en el compás entero y nunca por debajo de su contenido natural.
+      const unit = units[ui];
+      if (unit.widthPercent && from === 0 && to >= unit.atoms.length) {
+        const wanted = Math.min(maxW, (content.width * unit.widthPercent) / 100);
+        if (wanted >= size.width) size = { ...size, natural: size.width, width: wanted };
+        else {
+          notices.push({
+            kind: 'width',
+            measureId: unit.measureId,
+            message: `Compás ${unit.label}: el ancho del ${unit.widthPercent} % no deja sitio a su contenido (necesita al menos el ${Math.ceil((size.width / content.width) * 100)} %). Se usa su ancho mínimo, sin recortar ni comprimir.`,
+          });
+        }
+      }
       cache.set(key, size);
     }
     return size;
@@ -80,40 +97,75 @@ export function paginate({ units, measureFragment, content, headerHeight, column
     row = null;
     y = 0;
   };
+  /**
+   * Anchos de dibujo de una fila. Cada fragmento con ancho manual, o toda la fila si algún compás pide «ajustar al ancho», lleva
+   * `drawWidth` (px) y `tracks` (px por columna): el reparto del espacio sobrante es proporcional al ancho natural de cada columna,
+   * así que ninguna se comprime por debajo de su contenido. Las filas automáticas no llevan nada (tope de expansión por tarjeta).
+   */
+  const finishRow = (r) => {
+    r.fill = r.fragments.some((f) => units[f.unitIndex].fillToEdge);
+    const gaps = columnGap * (r.fragments.length - 1);
+    const sumWidths = r.fragments.reduce((sum, f) => sum + f.width, 0);
+    const scale = r.fill && sumWidths > 0 ? Math.max(1, (maxW - gaps) / sumWidths) : 1;
+    for (const f of r.fragments) {
+      const custom = f.natural !== undefined && f.natural !== f.width;
+      if (!(r.fill || custom) || !f.columns) continue;
+      const natural = f.natural ?? f.width;
+      const drawWidth = f.width * scale;
+      const total = f.columns.reduce((sum, n) => sum + n, 0);
+      f.drawWidth = drawWidth;
+      f.tracks = f.columns.map((n) => Math.floor((n + ((drawWidth - natural) * n) / total) * 100) / 100);
+    }
+  };
   const isFresh = () => !row && page.rows.length === 0;
   const closeRow = () => {
     if (!row) return;
+    finishRow(row);
     page.rows.push(row);
     y += row.height + rowGap;
     row = null;
   };
-  const fitsRow = (size) => {
+  // `count` = compases que añade lo que se coloca. Un tope no impide una fila vacía (una pareja de dos compases cabe sola).
+  const fitsRow = (size, count = 1) => {
     const w = row ? row.width + columnGap + size.width : size.width;
     const hgt = totalHeight(row ? mergeHeights(row.heights, heightParts(size)) : heightParts(size));
-    return w <= maxW && y + hgt <= bodyH;
+    const limited = maxPerRow > 0 && row && row.fragments.length + count > maxPerRow;
+    return !limited && w <= maxW && y + hgt <= bodyH;
   };
   const add = (ui, from, to, size) => {
     if (!row) row = { fragments: [], width: 0, height: 0, heights: { rows: [], extra: 0 } };
     row.width += (row.fragments.length ? columnGap : 0) + size.width;
     row.heights = mergeHeights(row.heights, heightParts(size));
     row.height = totalHeight(row.heights);
-    row.fragments.push({ unitIndex: ui, from, to, width: size.width, height: size.height });
+    row.fragments.push({ unitIndex: ui, from, to, width: size.width, height: size.height, columns: size.columns, natural: size.natural });
   };
 
   units.forEach((unit, ui) => {
     const n = unit.atoms.length;
     let from = 0;
+    const count = unit.repeatPair === 'second' ? 0 : 1; // El segundo destino ya se contó con el primero.
     for (;;) {
       if (!page) newPage();
       const whole = measure(ui, from, n);
 
-      if (fitsRow(whole)) {
+      // Pareja de repetición de dos compases: sus dos destinos van siempre en la misma fila (el signo cae sobre la barra común).
+      if (from === 0 && unit.repeatPair === 'first' && units[ui + 1]) {
+        const next = measure(ui + 1, 0, units[ui + 1].atoms.length);
+        const parts = mergeHeights(heightParts(whole), heightParts(next));
+        const pair = { width: whole.width + columnGap + next.width, height: totalHeight(parts), rows: parts.rows, extra: parts.extra };
+        if (!fitsRow(pair, 2) && row) {
+          closeRow();
+          if (!fitsRow(pair, 2) && !isFresh()) newPage();
+        }
+      }
+
+      if (fitsRow(whole, count)) {
         add(ui, from, n, whole);
         break;
       }
       if (row) {
         closeRow();
-        if (fitsRow(whole)) {
+        if (fitsRow(whole, count)) {
           add(ui, from, n, whole);
           break;
         }
@@ -169,5 +221,5 @@ export function paginate({ units, measureFragment, content, headerHeight, column
   if (page) closeRow();
   if (!pages.length) newPage();
 
-  return { pages, errors, bodyHeight: bodyH };
+  return { pages, errors, notices, bodyHeight: bodyH };
 }

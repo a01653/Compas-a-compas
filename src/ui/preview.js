@@ -4,6 +4,7 @@ import { PAGE_PX, PREVIEW_GAP } from '../layout/spec.js';
 import { collectProblems } from '../layout/problems.js';
 import { ZOOM_MIN, ZOOM_MAX, clampZoom, fitZoom } from '../layout/zoom.js';
 import { createPaginator } from './paginator.js';
+import { setLineFill } from '../model/song.js';
 
 const MIN = Math.round(ZOOM_MIN * 100);
 const MAX = Math.round(ZOOM_MAX * 100);
@@ -15,6 +16,7 @@ const MAX = Math.round(ZOOM_MAX * 100);
 export function mountPreviewPanel(root, store) {
   const warn = h('div', { class: 'warn-box warn-vista', hidden: true, role: 'alert' });
   const summary = h('span', { class: 'hint', 'aria-live': 'polite' }, 'A4 apaisado · calculando hojas…');
+  const notice = h('div', { class: 'warn-box warn-aviso', hidden: true, role: 'status' });
   const pagesEl = h('div', { class: 'vista-hojas' });
   const stage = h('div', { class: 'stage' }, pagesEl);
   const viewport = h('div', { class: 'viewport', tabindex: '0', role: 'region', 'aria-label': 'Vista previa de las hojas, con desplazamiento' }, stage);
@@ -35,6 +37,7 @@ export function mountPreviewPanel(root, store) {
       h('button', { type: 'button', class: 'btn btn-icon', 'aria-label': 'Ampliar zoom', onclick: step(10) }, '+'),
       h('button', { type: 'button', class: 'btn', onclick: () => store.setZoom('fit') }, 'Ajustar al ancho')),
     warn,
+    notice,
     viewport);
 
   let pageCount = 1;
@@ -51,6 +54,11 @@ export function mountPreviewPanel(root, store) {
       h('h3', null, `${problems.length} problema(s) impiden una hoja completa`),
       h('ul', { class: 'dialog-list' }, problems.map((p) => h('li', null, p.message))),
       h('p', { class: 'hint' }, 'No se ha cambiado ninguna nota. Exportar HTML e Imprimir / PDF están bloqueados hasta resolverlo.'));
+  }
+
+  function renderNotices(notices) {
+    notice.hidden = notices.length === 0;
+    notice.replaceChildren(...(notices.length ? [h('ul', { class: 'dialog-list' }, notices.map((n) => h('li', null, n.message)))] : []));
   }
 
   function fitScale() {
@@ -82,7 +90,14 @@ export function mountPreviewPanel(root, store) {
     const { pages } = result.layout;
     pageCount = pages.length;
     const onSelect = (selection) => store.select(selection);
-    pagesEl.replaceChildren(...pages.map((page, i) => pageNode(result.ctx, page, i + 1, pageCount, { onSelect })));
+    // «Ajustar línea al ancho»: cada pulsación es un paso de historial, así que se puede deshacer.
+    const onFitRow = ({ measureIds, filled }) => {
+      store.endEdit();
+      setLineFill(store.state.song, measureIds, !filled);
+      store.emit('structure');
+    };
+    pagesEl.replaceChildren(...pages.map((page, i) => pageNode(result.ctx, page, i + 1, pageCount, { onSelect, onFitRow })));
+    renderNotices(result.layout.notices || []);
     applySelection(pagesEl, store.state.selection);
     summary.textContent = `A4 apaisado · ${pageCount} ${pageCount === 1 ? 'hoja' : 'hojas'}`;
     renderProblems(collectProblems(result.snapshot, result.layout));

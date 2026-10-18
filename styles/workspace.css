@@ -271,3 +271,26 @@
   .palette-grid, .degree-palette { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .compact-workspace .topbar-file { flex-wrap: wrap; }
 }
+
+/* Compás que repite el anterior: aviso del editor, no forma parte de la hoja. */
+.repeat-notice { display: grid; gap: 8px; padding: 10px 12px; border: 1px solid var(--line, #c9d1ea); border-radius: 8px; background: #f6f8fe; }
+.repeat-notice p { margin: 0; }
+.repeat-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.repeat-hint { margin: -6px 0 10px; }
+
+/* Grados: fondo y texto independientes, con una muestra que combina los dos. */
+.degree-palette { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.palette-pair .palette-entry-head { margin-bottom: 4px; }
+.palette-pair .palette-name { font-size: 12px; font-weight: 600; overflow-wrap: anywhere; }
+.palette-pair .palette-chip { margin: 0; padding: 4px 10px; min-width: 38px; }
+.palette-line { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: center; gap: 4px; margin-top: 4px; }
+.palette-line label { font-size: 11px; color: #64718c; }
+@media (max-width: 560px) { .degree-palette { grid-template-columns: minmax(0, 1fr); } }
+
+/* Estado del archivo: en la barra superior, junto a Deshacer/Rehacer. */
+.compact-workspace .topbar-file .file-state { flex: 0 1 auto; max-width: 230px; margin: 0 4px 0 0; font-size: 11px; }
+
+/* Créditos en el pie de la aplicación (no forman parte de las hojas, el HTML ni el PDF exportados). */
+/* Créditos a la izquierda y versión a la derecha. Los créditos siguen visibles en móvil, donde el resto del pie se oculta. */
+.workspace-status > span.creditos { display: inline; }
+.workspace-status > span:not(.creditos) { margin-left: auto; }

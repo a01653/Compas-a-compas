@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "ink": "#14183a",
+  "muted": "#5c6ab0",
+  "text": {
+    "default": "#ffffff",
+    "light": "#ffffff",
+    "fallback": "#000000"
+  },
+  "families": {
+    "major": { "bg": "#eaf4fe", "bd": "#a6cbe9", "accent": "#1d4ed8" },
+    "minor": { "bg": "#efeafc", "bd": "#bfb1e8", "accent": "#7c3aed" },
+    "dominant": { "bg": "#e7f8f3", "bd": "#93d6c4", "accent": "#059669" },
+    "half-diminished": { "bg": "#fdf6e2", "bd": "#e6cd92", "accent": "#b45309" },
+    "diminished": { "bg": "#fdecef", "bd": "#e8a9b8", "accent": "#be123c" },
+    "other": { "bg": "#f1f2f6", "bd": "#c3c9d6", "accent": "#64748b" }
+  },
+  "degrees": {
+    "1": { "bg": "#E11D48", "fg": "#ffffff" },
+    "b3": { "bg": "#0284C7", "fg": "#ffffff" },
+    "3": { "bg": "#0284C7", "fg": "#ffffff" },
+    "5": { "bg": "#059669", "fg": "#ffffff" },
+    "b5": { "bg": "#059669", "fg": "#ffffff" },
+    "b7": { "bg": "#EDBC07", "fg": "#3d2f00" },
+    "7": { "bg": "#EDBC07", "fg": "#3d2f00" },
+    "13": { "bg": "#EDBC07", "fg": "#3d2f00" },
+    "b13": { "bg": "#EDBC07", "fg": "#3d2f00" },
+    "9": { "bg": "#7C3AED", "fg": "#ffffff" },
+    "b9": { "bg": "#7C3AED", "fg": "#ffffff" },
+    "11": { "bg": "#7C3AED", "fg": "#ffffff" },
+    "#9": { "bg": "#7C3AED", "fg": "#ffffff" },
+    "#11": { "bg": "#7C3AED", "fg": "#ffffff" }
+  },
+  "naturalDegrees": {
+    "1": "1", "2": "9", "3": "3", "4": "11", "5": "5", "6": "13", "7": "7",
+    "8": "1", "9": "9", "10": "3", "11": "11", "12": "5", "13": "13"
+  },
+  "note": {
+    "bg": "#d1d5db",
+    "text": "#14183a",
+    "textOnCustomBg": "#ffffff"
+  }
+}

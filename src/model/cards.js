@@ -70,7 +70,7 @@ function insertionAfter(song, measure, event, voicing, newId) {
 }
 
 /** Tarjeta nueva e independiente (un acorde con una digitación vacía) justo después de la seleccionada. */
-export function addCard(song, measureId, selected = null, chordName = 'Acorde nuevo') {
+export function addCard(song, measureId, selected = null, chordName = '') {
   const measure = findMeasure(song, measureId);
   if (!measure) return null;
   const newId = createIdFactory(song);

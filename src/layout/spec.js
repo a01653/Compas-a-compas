@@ -13,6 +13,12 @@ export const PAGE_PX = { width: PAGE.widthMm * MM_PX, height: PAGE.heightMm * MM
 /** Separaciones en píxeles CSS: entre compases de una fila, entre filas y entre la cabecera y la primera fila. */
 export const GAPS = { column: 6, row: 8, header: 10 };
 
+/**
+ * Expansión máxima de CADA columna (tarjeta) respecto a su ancho natural medido (0.25 = hasta un 25 % más). Ninguna columna
+ * supera ese tope; el sobrante de la hoja queda a la derecha en lugar de estirar tarjetas y compases. Valor inicial: ajustar tras revisar capturas.
+ */
+export const MAX_ROW_EXPANSION = 0.25;
+
 /** Margen que se resta al área útil al repartir, para que una diferencia de subpíxel no desborde una fila. */
 export const SAFETY_PX = 1;
 

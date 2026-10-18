@@ -1,5 +1,5 @@
 import { createIdFactory } from './ids.js';
-import { checkStructure, newInversions } from './structure.js';
+import { checkStructure, newInversions, newRepeatWarnings } from './structure.js';
 
 /** Operaciones sobre la canción. Mutan el objeto recibido y no tocan nada más que lo indicado. */
 
@@ -44,6 +44,10 @@ export function duplicateMeasure(song, measureId) {
   const copy = clone(song.measures[index]);
   copy.id = newId('m');
   copy.label = `${copy.label} (copia)`;
+  // La copia queda justo después del original: «compás anterior» pasa a ser el original (acción explícita, no una copia ciega del ID).
+  // Una pareja de dos compases no se copia: la copia sería un destino duplicado. Queda como compás vacío editable.
+  delete copy.repeatPreviousTwo;
+  if (copy.repeatPrevious) copy.repeatPrevious = { sourceMeasureId: song.measures[index].id };
   for (const event of copy.chordEvents) {
     event.id = newId('e');
     for (const v of event.voicings) v.id = newId('v');
@@ -52,15 +56,16 @@ export function duplicateMeasure(song, measureId) {
   return copy;
 }
 
-/** delta -1 sube, +1 baja. Devuelve { moved, inversions } con los tramos que quedan invertidos por este movimiento. */
+/** delta -1 sube, +1 baja. Devuelve { moved, inversions, repeats }: tramos invertidos y repeticiones del compás anterior que dejan de ser válidas. */
 export function moveMeasure(song, measureId, delta) {
   const index = song.measures.findIndex((m) => m.id === measureId);
   const target = index + delta;
-  if (index < 0 || target < 0 || target >= song.measures.length) return { moved: false, inversions: [] };
+  if (index < 0 || target < 0 || target >= song.measures.length) return { moved: false, inversions: [], repeats: [] };
   const before = checkStructure(song);
   const [measure] = song.measures.splice(index, 1);
   song.measures.splice(target, 0, measure);
-  return { moved: true, inversions: newInversions(before, checkStructure(song)) };
+  const after = checkStructure(song);
+  return { moved: true, inversions: newInversions(before, after), repeats: newRepeatWarnings(before, after) };
 }
 
 /** Borra solo el compás: la estructura que lo referenciaba no se toca ni se redirige. */
@@ -69,6 +74,153 @@ export function deleteMeasure(song, measureId) {
   if (index < 0) return null;
   return song.measures.splice(index, 1)[0];
 }
+
+/* ---------- Repetición del compás anterior ---------- */
+
+/** Compás que precede al dado en el orden escrito, o null. */
+export function previousMeasure(song, measureId) {
+  const index = song.measures.findIndex((m) => m.id === measureId);
+  return index > 0 ? song.measures[index - 1] : null;
+}
+
+/**
+ * Convierte el compás en «repite el anterior»: guarda solo la referencia al ID del predecesor inmediato y vacía las tarjetas.
+ * Etiqueta y marcas del compás no se tocan (viven en `label` y en `structure`). La confirmación previa es cosa de la interfaz.
+ */
+export function setRepeatPrevious(song, measureId) {
+  const measure = findMeasure(song, measureId);
+  const previous = previousMeasure(song, measureId);
+  if (!measure || !previous) return false;
+  measure.chordEvents = [];
+  measure.repeatPrevious = { sourceMeasureId: previous.id };
+  return true;
+}
+
+/** Vuelve a un compás editable y vacío. */
+export function clearRepeatPrevious(song, measureId) {
+  const measure = findMeasure(song, measureId);
+  if (!measure || !measure.repeatPrevious) return false;
+  delete measure.repeatPrevious;
+  return true;
+}
+
+/** Apunta de nuevo al predecesor inmediato (acción expresa tras borrar o mover el origen). */
+export function fixRepeatPrevious(song, measureId) {
+  const measure = findMeasure(song, measureId);
+  const previous = previousMeasure(song, measureId);
+  if (!measure?.repeatPrevious || !previous) return false;
+  measure.repeatPrevious = { sourceMeasureId: previous.id };
+  return true;
+}
+
+/* ---------- Repetición de dos compases ---------- */
+
+/**
+ * Pareja de repetición a la que pertenece el compás (como primer o segundo destino), o null.
+ * Devuelve { first, second } con los compases de destino cuando la marca está en el primero y el segundo es el siguiente.
+ */
+export function repeatPairOf(song, measureId) {
+  const index = song.measures.findIndex((m) => m.id === measureId);
+  if (index < 0) return null;
+  const own = song.measures[index];
+  const pairAt = (i) => {
+    const first = song.measures[i];
+    const second = song.measures[i + 1];
+    return first?.repeatPreviousTwo && second && first.repeatPreviousTwo.targetMeasureIds[0] === first.id
+      && first.repeatPreviousTwo.targetMeasureIds[1] === second.id ? { first, second } : null;
+  };
+  return (own.repeatPreviousTwo && pairAt(index)) || pairAt(index - 1);
+}
+
+/** ¿Hay dos compases escritos antes del dado? */
+export const canRepeatTwo = (song, measureId) => song.measures.findIndex((m) => m.id === measureId) >= 2;
+
+/**
+ * El compás y el siguiente pasan a repetir, como pareja, los dos compases inmediatamente anteriores. Sus tarjetas se vacían;
+ * etiquetas y marcas no se tocan. Quita antes cualquier repetición (de uno o dos compases) que afecte a esos destinos.
+ */
+export function setRepeatPreviousTwo(song, measureId) {
+  const index = song.measures.findIndex((m) => m.id === measureId);
+  if (index < 2 || index + 1 >= song.measures.length) return false;
+  const [a, b] = [song.measures[index - 2], song.measures[index - 1]];
+  const [c, d] = [song.measures[index], song.measures[index + 1]];
+  for (const target of [c, d]) {
+    const pair = repeatPairOf(song, target.id);
+    if (pair) delete pair.first.repeatPreviousTwo;
+    delete target.repeatPrevious;
+    delete target.repeatPreviousTwo;
+    target.chordEvents = [];
+  }
+  c.repeatPreviousTwo = { sourceMeasureIds: [a.id, b.id], targetMeasureIds: [c.id, d.id] };
+  return true;
+}
+
+/** Quita la pareja a la que pertenece el compás: ambos destinos quedan vacíos y editables. */
+export function clearRepeatPreviousTwo(song, measureId) {
+  const pair = repeatPairOf(song, measureId);
+  if (!pair) return false;
+  delete pair.first.repeatPreviousTwo;
+  return true;
+}
+
+/** Vuelve a apuntar a los dos compases inmediatamente anteriores al primer destino (acción expresa). */
+export function fixRepeatPreviousTwo(song, measureId) {
+  const first = findMeasure(song, measureId);
+  const index = song.measures.indexOf(first);
+  const second = song.measures[index + 1];
+  if (!first?.repeatPreviousTwo || index < 2 || !second) return false;
+  first.repeatPreviousTwo = {
+    sourceMeasureIds: [song.measures[index - 2].id, song.measures[index - 1].id],
+    targetMeasureIds: [first.id, second.id],
+  };
+  return true;
+}
+
+/** Sale de cualquier modo de repetición del compás (uno o dos compases). Devuelve si hubo algo que quitar. */
+export function leaveRepeat(song, measureId) {
+  return clearRepeatPrevious(song, measureId) || clearRepeatPreviousTwo(song, measureId);
+}
+
+/* ---------- Ancho de compás y ajuste de línea ---------- */
+
+export const MEASURE_WIDTH_MIN = 10;
+export const MEASURE_WIDTH_MAX = 100;
+
+/** Porcentaje (entero) del ancho útil de la línea; vacío o no válido = Automático (sin campo). */
+export function setMeasureWidth(measure, value) {
+  const n = Number(value);
+  if (value !== '' && value !== null && Number.isInteger(n) && n >= MEASURE_WIDTH_MIN && n <= MEASURE_WIDTH_MAX) measure.widthPercent = n;
+  else delete measure.widthPercent;
+}
+
+/**
+ * «Ajustar línea al ancho»: la línea se identifica por sus compases. Activar marca solo el primero; desactivar quita la marca de
+ * todos los de la línea (vuelve a Automático). Una línea se ajusta si cualquiera de sus compases lleva la marca.
+ */
+export function setLineFill(song, measureIds, on) {
+  const measures = measureIds.map((id) => findMeasure(song, id)).filter(Boolean);
+  for (const measure of measures) delete measure.fillToEdge;
+  if (on && measures.length) measures[0].fillToEdge = true;
+}
+
+/* ---------- Opciones de página (globales) ---------- */
+
+export const MAX_MEASURES_PER_ROW_LIMIT = 16;
+
+/** Automático = sin campo. Un entero entre 1 y el límite se guarda tal cual. */
+export function setMaxMeasuresPerRow(song, value) {
+  const n = Number(value);
+  if (Number.isInteger(n) && n >= 1 && n <= MAX_MEASURES_PER_ROW_LIMIT) song.maxMeasuresPerRow = n;
+  else delete song.maxMeasuresPerRow;
+}
+
+/** Visible es el valor por defecto: solo se guarda el valor «oculto». */
+export function setShowMeasureNumbers(song, visible) {
+  if (visible) delete song.showMeasureNumbers;
+  else song.showMeasureNumbers = false;
+}
+
+export const measureNumbersVisible = (song) => song.showMeasureNumbers !== false;
 
 /** Añade compases ya analizados por la entrada por lista (todo o nada: quien llama comprueba que no hay errores). */
 export function appendParsedMeasures(song, parsedMeasures) {
@@ -89,7 +241,7 @@ export function appendParsedMeasures(song, parsedMeasures) {
 
 /* ---------- Acordes (eventos) y voicings ---------- */
 
-export function addEvent(song, measureId, chordName = 'Acorde nuevo') {
+export function addEvent(song, measureId, chordName = '') {
   const measure = findMeasure(song, measureId);
   if (!measure) return null;
   const newId = createIdFactory(song);

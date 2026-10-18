@@ -59,6 +59,49 @@ export function checkStructure(song) {
     }
   };
 
+  // Compases que repiten el anterior: la referencia se conserva aunque deje de ser válida, y se avisa sin redirigirla.
+  song.measures.forEach((m, i) => {
+    if (!m.repeatPrevious) return;
+    const what = `Compás ${m.label} (repite el anterior)`;
+    const source = m.repeatPrevious.sourceMeasureId;
+    if (source === m.id) return warn('repeat', m.id, `${what}: se referencia a sí mismo.`);
+    if (!index.has(source)) return warn('repeat', m.id, `${what}: el compás que repetía ya no existe.`);
+    // Ciclo: siguiendo las referencias se vuelve a este compás (A→B→A).
+    const seen = new Set();
+    let cursor = source;
+    while (cursor && cursor !== m.id && !seen.has(cursor)) {
+      seen.add(cursor);
+      cursor = song.measures[index.get(cursor)]?.repeatPrevious?.sourceMeasureId;
+    }
+    if (cursor === m.id) return warn('repeat', m.id, `${what}: la cadena de repeticiones forma un ciclo.`);
+    if (index.get(source) !== i - 1) warn('repeat', m.id, `${what}: ya no repite el compás inmediatamente anterior (apunta al ${measureName(song, source)}). Puedes corregirlo.`);
+  });
+
+  // Repetición de dos compases: marca en el primer destino con los IDs de las dos fuentes y los dos destinos.
+  const targeted = new Map(); // ID de destino → primer destino que lo reclama
+  song.measures.forEach((m, i) => {
+    const pair = m.repeatPreviousTwo;
+    if (!pair) return;
+    const what = `Compás ${m.label} (repite los dos anteriores)`;
+    const { sourceMeasureIds: sources, targetMeasureIds: targets } = pair;
+    const all = [...sources, ...targets];
+    if (new Set(all).size !== all.length) return warn('repeat', m.id, `${what}: un compás aparece más de una vez entre las fuentes y los destinos (se referencia a sí mismo o forma un ciclo).`);
+    const missing = all.filter((id) => !index.has(id));
+    if (missing.length) return warn('repeat', m.id, `${what}: algún compás de la pareja ya no existe.`);
+    if (targets[0] !== m.id) return warn('repeat', m.id, `${what}: la marca no está en su primer compás de destino.`);
+    if (index.get(targets[1]) !== i + 1) return warn('repeat', m.id, `${what}: los dos destinos ya no son compases consecutivos. Puedes corregirlo.`);
+    if (index.get(sources[0]) !== i - 2 || index.get(sources[1]) !== i - 1) {
+      warn('repeat', m.id, `${what}: ya no repite los dos compases inmediatamente anteriores, en ese orden. Puedes corregirlo.`);
+    }
+    const second = song.measures[i + 1];
+    if (second.chordEvents.length || second.repeatPrevious) warn('repeat', m.id, `${what}: el segundo destino (compás ${second.label}) tiene contenido propio que no se dibuja.`);
+    for (const id of targets) {
+      if (targeted.has(id)) warn('repeat', m.id, `${what}: se solapa con otra repetición de dos compases.`);
+      targeted.set(id, m.id);
+    }
+    if (song.measures[i].repeatPrevious) warn('repeat', m.id, `${what}: el compás tiene también una repetición de un compás.`);
+  });
+
   for (const r of st.repeats) checkSpan(r, `Repetición ×${r.times}`);
   for (const e of st.endings) {
     const what = `Casilla ${e.passes.join(', ')}`;
@@ -88,6 +131,12 @@ export function checkStructure(song) {
   return warnings;
 }
 
+/** Avisos de repetición del compás anterior que aparecen tras un cambio y no existían antes. */
+export function newRepeatWarnings(before, after) {
+  const known = new Set(before.filter((w) => w.kind === 'repeat').map((w) => `${w.objectId}:${w.message}`));
+  return after.filter((w) => w.kind === 'repeat' && !known.has(`${w.objectId}:${w.message}`));
+}
+
 /** Avisos de tramos invertidos que aparecen tras un cambio y no existían antes. */
 export function newInversions(before, after) {
   const known = new Set(before.filter((w) => w.kind === 'inverted').map((w) => w.objectId));
@@ -98,6 +147,18 @@ export function newInversions(before, after) {
 export function measureConsequences(song, measureId) {
   const st = structureOf(song);
   const out = [];
+  for (const m of song.measures || []) {
+    const pair = m.repeatPreviousTwo;
+    if (pair && m.id !== measureId && pair.sourceMeasureIds.includes(measureId)) {
+      out.push(`El compás ${m.label} repite este compás junto con otro: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
+    }
+    if (pair && pair.targetMeasureIds.includes(measureId)) {
+      out.push(`Este compás es un destino de la repetición de dos compases del compás ${m.label}: la pareja quedará incompleta, con la referencia pendiente.`);
+    }
+    if (m.repeatPrevious?.sourceMeasureId === measureId && m.id !== measureId) {
+      out.push(`El compás ${m.label} repite este compás: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
+    }
+  }
   for (const r of st.repeats) {
     if (r.startMeasureId === measureId) out.push(`La repetición ×${r.times} empieza en este compás: quedará con el inicio pendiente.`);
     if (r.endMeasureId === measureId) out.push(`La repetición ×${r.times} termina en este compás: quedará con el final pendiente.`);

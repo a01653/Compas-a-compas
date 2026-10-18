@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.6.0**, edición **17/10/2026**, con el estilo de los manuales de Drop Route: portada azul, índice, instrucciones breves y fuentes editables.
+Documentación de Compás a compás **0.7.0**, edición **18/10/2026**, con el estilo de los manuales de Drop Route: portada azul, índice, instrucciones breves y fuentes editables.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |
@@ -39,3 +39,9 @@ Las capturas de `capturas/` corresponden a la aplicación 0.6.0 real en Chromium
 No son capturas de Windows ni acreditan la validación nativa del lanzador o del diálogo de impresión. Al cambiar controles, textos o distribución, actualizar las capturas antes de reconstruir el manual.
 
 La captura textos-deshacer.png usa examples/textos-tonalidades.json, con ocho posiciones, títulos enmarcados, grados y cambios de tonalidad. No es una transcripción de la obra que sirve de referencia visual.
+
+## Botón Manual de la aplicación
+
+La barra superior de la aplicación incluye un botón **Manual** (icono de libro) que abre `docs/latex/Manual_Uso_Compas_a_compas.pdf` en otra pestaña mediante una ruta relativa, por lo que funciona en local y bajo la URL de GitHub Pages. `scripts/build-pages.mjs` copia ese PDF a `_site/docs/latex/`. El botón no forma parte de las hojas: no aparece en los HTML ni en los PDF exportados. Tras cambiar `USO.md` hay que regenerar el PDF (`python scripts/build_docs.py`) para que la aplicación publique el manual actualizado.
+
+Con Pandoc 3.2 o posterior la plantilla define `\pandocbounded` (`document-template.tex`); con versiones anteriores la definición no cambia nada.

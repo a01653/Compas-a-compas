@@ -14,6 +14,7 @@ export function computeLayout(ctx, measurer) {
     rowGap: GAPS.row,
     headerGap: GAPS.header,
     safety: SAFETY_PX,
+    maxPerRow: Number.isInteger(ctx.song.maxMeasuresPerRow) ? ctx.song.maxMeasuresPerRow : 0,
   });
   return { ...plan, content, headerHeight };
 }

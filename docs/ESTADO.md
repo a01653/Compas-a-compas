@@ -4,6 +4,24 @@
 
 Se documenta la petición en [instrucciones para Claude](encargos/repeticion-compas-y-ajustes-tarjetas.md): signo grande para repetir el compás anterior, botón visible junto a Añadir tarjeta, nombres nuevos vacíos sin guion en el dibujo y crecimiento horizontal limitado de las tarjetas con sobrante a la derecha. Se amplía con color de texto independiente por grado (blanco por defecto) y fondo neutro gris claro #d1d5db, conservando fondos personalizados de JSON anteriores y separando ese neutro de la tinta general #14183a. Incluye persistencia, compatibilidad, referencias, historial, renderizado, pruebas y sincronización local. Esta entrega modifica solo documentación; no implementa el comportamiento ni cambia la versión 0.6.3. Las comprobaciones de aceptación quedan pendientes para la implementación.
 
+## Versión 0.7.0: repetición del compás anterior y ajustes de tarjetas — 18/10/2026
+
+Implementado el encargo [repeticion-compas-y-ajustes-tarjetas](encargos/repeticion-compas-y-ajustes-tarjetas.md) en la rama `feature/repeticion-compas-y-nombres-vacios`.
+
+Archivos: `src/model/{song,cards,structure,validate,ids,palette,degrees}.js`, `src/layout/{atoms,paginate,compute,spec}.js`, `src/render/{card,sheet,repeat}.js`, `src/ui/{chord,measures,colors,icons}.js`, `styles/{sheet,workspace}.css`, `schemas/song.schema.json`, `tests/{repeat-previous,palette,validate,cards}.test.js`, documentación.
+
+Decisiones: campo `repeatPrevious.sourceMeasureId`; duplicar una repetición apunta al original; expansión máxima del 25 % **por columna/tarjeta** (`MAX_ROW_EXPANSION`; tope individual, sobrante a la derecha); texto de grado blanco por defecto salvo los grados dorados, que conservan el `#3d2f00` de la plantilla sobre `#EDBC07` (con fondo propio pasan a blanco); el neutro gris de serie lleva tinta oscura por legibilidad (blanco si el usuario fija el fondo).
+
+Ampliación (misma versión 0.7.0): repetición de dos compases (`repeatPreviousTwo`, signo `render/repeat.js`, pareja indivisible en `layout/paginate.js`), `maxMeasuresPerRow`, `showMeasureNumbers`, y ocultar Tonalidad/Calidad de tonalidad por tarjeta cuando `showTonalities` es `false`. Archivos añadidos: `tests/repeat-two.test.js`; modificados además `src/ui/song.js`, `src/ui/chord.js`, `src/layout/{atoms,paginate,compute}.js`, `src/render/{sheet,card,repeat}.js`, esquema, `docs/{DATOS,DTS}.md`, `docs/manuals/USO.md` y `docs/latex/Manual_Uso_Compas_a_compas.tex`. Los PDF de los manuales **no** se han regenerado.
+
+Segunda ampliación: líneas verticales ocultas con `showMeasureNumbers: false`, `measure.widthPercent` (10–100 %), `measure.fillToEdge` y botón `↔` por línea en la vista previa, créditos en el pie (izquierda) con la versión a la derecha y estado del archivo junto a Deshacer/Rehacer. Archivos: `src/layout/{atoms,paginate}.js`, `src/render/sheet.js`, `src/ui/{preview,measures}.js`, `src/model/{song,validate}.js`, esquema, estilos, `index.html`, `tests/repeat-two.test.js`, documentación.
+
+Colores predeterminados centralizados en `config/palette-defaults.json` (incluida la tinta atenuada `muted` de `render/card.js`) (`src/model/paletteDefaults.js`, `tests/palette-defaults.test.js`, `tests/setup.mjs`; `npm test` precarga el fichero). Comprobado en navegador: la aplicación arranca con el fichero y muestra «no se encuentra el archivo (HTTP 404)» si falta.
+
+Botón Manual en la barra superior (`index.html`, `scripts/build-pages.mjs`, `scripts/serve.mjs` con MIME de PDF, `tests/manual-link.test.js`). Los tres PDF (`docs/latex/*.pdf`, `.tex` y `.build.json`) se regeneraron con `python scripts/build_docs.py --engine xelatex` usando Pandoc 3.12.1 (descargado en una carpeta temporal, no instalado) y XeLaTeX de MiKTeX; la plantilla incorpora `\pandocbounded` para Pandoc 3.2+.
+
+Comprobaciones ejecutadas: `npm test` y `node scripts/build-pages.mjs` (ver resultado en la entrega). Revisión visual parcial con capturas de Edge sin cabeza (1123×794, una página de prueba que usa el renderizador real): compases sin numeración, 2 y 4 compases por línea, anchos 45/30/10 %, línea ajustada, repetición de uno y de dos compases, y la aplicación a 1440×900 (barra superior y pie). **Pendiente**: interacción real (pulsar el botón `↔`, deshacer, escribir el ancho), PDF A4, HTML exportado, escalas 100–175 %, móvil, I Fall y Havana. No se da por cerrada la revisión visual. **No ejecutadas**: revisión visual en navegador (la extensión de Chrome no estaba conectada), PDF A4, escalas 100–175 %, móvil, JSON de I Fall y Havana, prueba del conjunto con AJV. Quedan pendientes.
+
 ## Versión 0.6.3: reparto estable con escala fraccionaria — 18/10/2026
 
 El usuario aporta aplicación.html exportado con 0.6.2. Confirmado el reparto 1–3, 4–6, 7–9 y 10–12, en lugar de 1–4, 5–8 y 9–12 de la plantilla. Las 37 tarjetas, sus textos, IDs y SVG coinciden con la exportación de control; las reglas CSS son las mismas. La comprobación anterior al 100 % no cubría este caso.

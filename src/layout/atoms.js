@@ -8,6 +8,18 @@
 
 /** @returns {Array<{ measureId: string, label: string, index: number, atoms: Array<object> }>} */
 export function buildUnits(song) {
+  // Parejas de repetición de dos compases válidas para dibujar: el primer destino lleva la marca y el siguiente está vacío.
+  const pairRole = new Map();
+  song.measures.forEach((measure, index) => {
+    const pair = measure.repeatPreviousTwo;
+    const second = song.measures[index + 1];
+    if (pair && second && pair.targetMeasureIds[0] === measure.id && pair.targetMeasureIds[1] === second.id
+      && !measure.chordEvents.length && !second.chordEvents.length && !second.repeatPrevious && !second.repeatPreviousTwo
+      && !pairRole.has(measure.id)) {
+      pairRole.set(measure.id, 'first');
+      pairRole.set(second.id, 'second');
+    }
+  });
   return song.measures.map((measure, index) => {
     const atoms = [];
     measure.chordEvents.forEach((event, eventIndex) => {
@@ -25,7 +37,10 @@ export function buildUnits(song) {
         });
       });
     });
-    return { measureId: measure.id, label: measure.label, index, atoms };
+    return { measureId: measure.id, label: measure.label, index, atoms, repeatPrevious: Boolean(measure.repeatPrevious) && !pairRole.has(measure.id),
+      repeatPair: pairRole.get(measure.id) || null,
+      widthPercent: Number.isFinite(measure.widthPercent) ? measure.widthPercent : null,
+      fillToEdge: measure.fillToEdge === true };
   });
 }
 

@@ -16,6 +16,7 @@ import { validateSong, formatError } from './model/validate.js';
 import { mountWorkspace } from './ui/workspace.js';
 import { mountColorsPanel } from './ui/colors.js';
 import { mountHistoryControls } from './ui/history.js';
+import { loadPaletteDefaults } from './model/paletteDefaults.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -77,6 +78,16 @@ async function offerRecovery(store, recovery) {
 
 async function boot() {
   mountDisabledActions();
+
+  // Los colores predeterminados vienen de config/palette-defaults.json: sin ellos no se dibuja nada con sentido, así que se explica el motivo.
+  try {
+    await loadPaletteDefaults();
+  } catch (error) {
+    const notice = document.getElementById('aviso-carga');
+    notice.textContent = error.message;
+    notice.hidden = false;
+    return;
+  }
 
   let song;
   try {

@@ -2,8 +2,6 @@ import { paletteDegreeColor } from './palette.js';
 
 /** Grados manuales opcionales: seis etiquetas sexta→primera; null = sin grado. No se infiere nada. */
 
-export const DEFAULT_DOT = { bg: '#14183a', fg: '#ffffff' };
-
 /** Texto de los seis campos de entrada → array de 6 (null si vacío) o undefined si no hay ninguno. */
 export function degreesFromInputs(values) {
   const out = Array.from({ length: 6 }, (_, i) => {

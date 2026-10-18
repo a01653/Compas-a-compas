@@ -1,5 +1,22 @@
 # Cambios
 
+## 0.7.0 — 18/10/2026
+
+- Nuevo botón **Repetir compás anterior** junto a Añadir tarjeta: el compás seleccionado muestra el signo de repetición de un compás (barra oblicua con dos puntos), sin duplicar tarjetas. Pide confirmación si sustituye tarjetas, se deshace de una vez y se quita con «Quitar repetición». Deshabilitado en el primer compás. Añadir tarjeta en un compás de repetición sale de ese modo avisando.
+- Formato: campo opcional `measures[].repeatPrevious: { sourceMeasureId }` (con `chordEvents` vacío). Si el origen se borra o se mueve, la referencia se conserva y se avisa; «Corregir referencia» la apunta al compás anterior. Duplicar un compás de repetición hace que la copia repita el original. Sin cambio de `schemaVersion`.
+- Las tarjetas nuevas se crean sin nombre. Un nombre vacío no dibuja guion ni texto de prueba (`chordName` admite cadena vacía). Los nombres existentes, también «Acorde nuevo», no se tocan.
+- Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 % sobre su ancho natural (`MAX_ROW_EXPANSION`), sin que ninguna lo supere, y el sobrante queda a la derecha.
+- La paleta de grados conserva sus colores de siempre: fondos como antes y texto blanco por defecto, salvo los grados dorados (b7, 7, 13, b13 y los naturales 6 y 13), que mantienen el fondo `#EDBC07` y el texto `#3d2f00` de la plantilla. Si personalizas el fondo de un grado dorado sin elegir texto, el texto pasa a blanco. Los archivos con colores propios no cambian.
+- Colores: cada grado tiene **Fondo** y **Texto** independientes (texto blanco por defecto salvo el dorado de la plantilla, y respetado sin ajuste automático). Campos opcionales `palette.degreeText` y `palette.noteText`. El fondo neutro de las notas sin grado pasa de #14183a a #d1d5db; un `palette.note` explícito se conserva y la tinta general (#14183a) no cambia.
+- Repetición de dos compases: botón **Repetir dos compases anteriores** y signo de dos barras oblicuas sobre la pareja de destino (`repeatPreviousTwo` en el primer destino, con IDs de fuentes y destinos). Los dos destinos nunca se separan de línea; si falta el segundo, se pregunta antes de añadirlo. Referencias rotas, no consecutivas, solapadas o cíclicas avisan sin redirigirse.
+- Opciones de canción: **Máximo de compases por línea** (Automático o 1–16, `maxMeasuresPerRow`) y **Mostrar números de compás** (`showMeasureNumbers`; ocultar no borra etiquetas).
+- Ancho por compás (`widthPercent`, 10–100 %, nunca por debajo del contenido) y botón **Ajustar línea al ancho** por línea (`fillToEdge`), reversible con el mismo botón o con Deshacer. Con **Mostrar números de compás** desactivado se ocultan también las líneas verticales entre compases.
+- Pie de la aplicación: créditos a la izquierda, versión a la derecha; el estado del archivo pasa junto a Deshacer/Rehacer. Nada de esto entra en el HTML ni el PDF exportados.
+- Con **Mostrar tonalidades** desactivado, los campos Tonalidad y Calidad de tonalidad de cada tarjeta se ocultan del editor; los valores se conservan.
+- Los colores predeterminados (calidades de acorde, grados y notas, fondos y textos) están en `config/palette-defaults.json`: se cargan y validan al iniciar la aplicación (error claro si falta o es incorrecto) y no se duplican en el código (incluida la tinta atenuada `muted` de las etiquetas del mástil; los colores generales de la interfaz quedan fuera). La paleta de cada JSON sigue teniendo prioridad y no se modifica al abrir o guardar.
+- Botón **Manual** (icono de libro) en la barra superior: abre el manual de uso en PDF en otra pestaña con una ruta relativa (local y GitHub Pages). El empaquetado de Pages incluye el PDF. No aparece en los HTML ni PDF exportados. Los tres PDF de documentación se han regenerado.
+- Compatibilidad: los JSON anteriores se abren y guardan sin cambios. Un archivo con `repeatPrevious`, `repeatPreviousTwo`, `widthPercent`, `fillToEdge`, `showMeasureNumbers`, `maxMeasuresPerRow`, `degreeText`, `noteText` o `chordName` vacío lo rechazan las versiones anteriores (campo desconocido o nombre vacío).
+
 ## 0.6.3 — 18/10/2026
 
 - Se reduce de 6 a 5 px el relleno lateral de las tarjetas para evitar que el redondeo de los bordes a escalas fraccionarias cambie el reparto. Al 125 %, I Fall quedaba en filas 1–3 y 4–6; ahora mantiene 1–4 y 5–8 como al 100 %.

@@ -1,4 +1,4 @@
-% Source-SHA256: 11e35abc38d6eb0741ed03d46af1895535fe4ab7e59e692e0ef9fe9f8e6485ce
+% Source-SHA256: 585620dd256c33228dcb3291a391059d001c6121b52d7ea0d7fd3d29392a2121
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.6.0 · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.0 · 18/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -48,6 +48,8 @@
 \let\originaltexttt\texttt
 \renewcommand{\texttt}[1]{\originaltexttt{\seqsplit{#1}}}
 \providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+% Pandoc 3.2+ envuelve las imágenes en \pandocbounded; con versiones anteriores no existe y esta definición no cambia nada.
+\providecommand{\pandocbounded}[1]{#1}
 \usepackage{graphicx,xurl,tikz}
 \usepackage[section]{placeins}
 \usepackage{amssymb,newunicodechar}
@@ -90,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.6.0 · 17/10/2026\par}
+{\sffamily\small Aplicación 0.7.0 · 18/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -104,8 +106,12 @@ Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
-\hypertarget{preparar-una-canciuxf3n}{%
-\section{Preparar una canción}\label{preparar-una-canciuxf3n}}
+\section{Preparar una canción}\label{preparar-una-canciuxf3n}
+
+El botón \textbf{Manual} (icono de libro) de la barra superior abre este
+manual en PDF en otra pestaña, tanto en local como en GitHub Pages. Solo
+existe en la aplicación: no aparece en los HTML ni en los PDF de
+canciones que exportes.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -139,11 +145,10 @@ desplazamiento interno cuando no cabe todo. En móvil se apilan las
 zonas. \textbf{Ajustar al ancho} y los botones de zoom solo cambian la
 vista, no el tamaño de impresión.
 
-\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}}
 
 \Needspace{3.5cm}
-\hypertarget{tarjetas-del-compuxe1s}{%
-\section{Tarjetas del compás}\label{tarjetas-del-compuxe1s}}
+\section{Tarjetas del compás}\label{tarjetas-del-compuxe1s}
 
 Cada dibujo es una \textbf{tarjeta}. Tiene su nombre de acorde,
 calidad/color, digitación, grados, título exterior, anotación y
@@ -153,10 +158,12 @@ nombre de cada una. Se manejan igual.
 
 Usa el único selector \textbf{Tarjetas del compás} para elegir una
 tarjeta, o púlsala directamente en la hoja. \textbf{Añadir tarjeta} crea
-una tarjeta lista para introducir sus notas. \textbf{Duplicar tarjeta}
-copia la seleccionada a continuación; \textbf{Quitar tarjeta} borra
-solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las
-otras tarjetas, aunque compartan el mismo nombre.
+una tarjeta lista para introducir sus notas y sin nombre: la hoja no
+dibuja nada hasta que lo escribas (el editor muestra «Sin nombre» solo
+como ayuda). \textbf{Duplicar tarjeta} copia la seleccionada a
+continuación; \textbf{Quitar tarjeta} borra solamente esa tarjeta, tras
+confirmar. Al editar un campo no cambian las otras tarjetas, aunque
+compartan el mismo nombre.
 
 Los archivos anteriores siguen abriendo. Si contenían varias posiciones
 agrupadas bajo un acorde, ahora aparecen como tarjetas separadas en el
@@ -169,13 +176,53 @@ duplicar, mover o borrar compases. Su etiqueta no se renumera
 automáticamente al moverlos. Antes de borrar un compás se muestran las
 consecuencias para sus marcas musicales.
 
-\Needspace{3.5cm}
-\hypertarget{escribir-digitaciones-grados-y-textos}{%
-\section{Escribir digitaciones, grados y
-textos}\label{escribir-digitaciones-grados-y-textos}}
+\subsection{Repetir uno o dos
+compases}\label{repetir-uno-o-dos-compases}
 
-\hypertarget{digitaciuxf3n}{%
-\subsection{Digitación}\label{digitaciuxf3n}}
+Junto a \textbf{Añadir tarjeta} hay dos botones con el signo de
+repetición. No crean compases nuevos por sí solos ni copian tarjetas: la
+hoja dibuja un signo grande y el contenido se lee en el origen.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Repetir compás anterior} (signo de porcentaje musical): el
+  compás seleccionado repite el compás inmediatamente anterior. Está
+  desactivado en el primer compás. Si el compás tiene tarjetas, pide
+  confirmar antes de sustituirlas; cancelar no cambia nada y aceptar se
+  deshace de una vez. Se permiten varios compases de repetición
+  seguidos.
+\item
+  \textbf{Repetir dos compases anteriores} (dos barras oblicuas): el
+  compás seleccionado y el siguiente forman la pareja de destino y
+  repiten, en orden, los dos compases escritos antes. El signo se dibuja
+  sobre la barra de compás común y los dos destinos van siempre en la
+  misma línea. Necesita dos compases antes del seleccionado y uno
+  después: si falta el segundo destino, la aplicación pregunta antes de
+  añadir un compás vacío al final.
+\end{itemize}
+
+En un compás de repetición, el editor muestra un aviso con
+\textbf{Quitar repetición} (en la pareja quita las dos a la vez y deja
+ambos compases vacíos y editables). Si pulsas \textbf{Añadir tarjeta} en
+uno de ellos, se sale de la repetición y se avisa. Números, Coda, Fine,
+casillas y barras de repetición del compás se conservan.
+
+Si borras o mueves un compás de origen o de destino, la referencia se
+conserva y se avisa en el editor del compás y al mover; no se redirige
+sola. \textbf{Corregir referencia} la apunta de nuevo a los compases
+inmediatamente anteriores. Duplicar un compás de repetición hace que la
+copia repita el original; duplicar un destino de una pareja crea un
+compás vacío (y la pareja queda avisada si la copia la separa).
+
+Los archivos con estos campos (\texttt{repeatPrevious},
+\texttt{repeatPreviousTwo}) requieren 0.7.0 o posterior.
+
+\Needspace{3.5cm}
+\section{Escribir digitaciones, grados y
+textos}\label{escribir-digitaciones-grados-y-textos}
+
+\subsection{Digitación}\label{digitaciuxf3n}
 
 Introduce \textbf{seis valores, de sexta a primera cuerda}: la cuerda
 grave primero y la aguda al final. Usa \texttt{x} para una cuerda muda y
@@ -198,8 +245,7 @@ necesita. El límite actual es un intervalo visible de 32 trastes; si se
 supera, conserva los datos, avisa y bloquea la exportación hasta
 corregirlo.
 
-\hypertarget{grados-y-color}{%
-\subsection{Grados y color}\label{grados-y-color}}
+\subsection{Grados y color}\label{grados-y-color}
 
 Los seis campos de grados siguen el mismo orden, de sexta a primera
 cuerda. Son opcionales y manuales: puedes escribir \texttt{1},
@@ -210,8 +256,7 @@ Los textos largos se abrevian en el punto y se explican en una leyenda.
 El selector de calidad cambia el fondo de la tarjeta. No analiza sus
 notas ni genera una digitación.
 
-\hypertarget{elegir-los-colores}{%
-\subsection{Elegir los colores}\label{elegir-los-colores}}
+\subsection{Elegir los colores}\label{elegir-los-colores}
 
 Pulsa \textbf{Colores} en la cabecera. En \textbf{Calidad del acorde}
 cambia el fondo de mayor, menor, dominante, semidisminuido, disminuido y
@@ -224,26 +269,32 @@ ver los grados del 1 al 13. Cada uno tiene su propio color: cambiar
 escribir un hexadecimal \texttt{\#RRGGBB}. \textbf{Otro grado o
 etiqueta} añade valores como \texttt{bb7}, \texttt{\#\#4} o \texttt{R},
 de hasta 32 caracteres. Los símbolos ♭ y ♯ equivalen a \texttt{b} y
-\texttt{\#}. También se puede cambiar el color de las notas sin grado o
-sin un color propio.
+\texttt{\#}. Cada grado tiene un \textbf{Fondo} y un \textbf{Texto}
+independientes (selector y hexadecimal, cada uno con su flecha de
+restaurar); el texto es blanco por defecto y nunca se cambia solo. La
+muestra enseña la combinación real. También se pueden cambiar el fondo y
+el texto de las notas sin grado o sin un color propio; su fondo de serie
+es un gris claro (\texttt{\#d1d5db}).
 
 Las muestras se actualizan y los colores se aplican a todos los compases
-de esta canción. El texto y la rejilla se adaptan para leer sobre fondos
-oscuros. La flecha circular restaura un color; \textbf{Restaurar paleta
+de esta canción. En las tarjetas, el texto y la rejilla se adaptan para
+leer sobre fondos oscuros; en los puntos de grado manda el texto que
+elijas. La flecha circular restaura un color; \textbf{Restaurar paleta
 original} pide confirmar antes de quitar todos los colores
 personalizados.
 
 Pulsa \textbf{Listo} para cerrar y \textbf{Guardar JSON} para conservar
 la paleta en el archivo. Se incluye también en HTML e impresión. Abrir
-otra canción utiliza sus colores, o los originales si no tiene una
-paleta guardada. Las versiones anteriores a 0.3.0 no pueden abrir JSON
-con el campo \texttt{palette}; utiliza la aplicación actualizada.
+otra canción utiliza sus colores, o los predeterminados
+(\texttt{config/palette-defaults.json}) si no tiene una paleta guardada;
+esos valores nunca se escriben en tu archivo. Las versiones anteriores a
+0.3.0 no pueden abrir JSON con el campo \texttt{palette}; utiliza la
+aplicación actualizada.
 
-\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-acordes.png}
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/colores-acordes.png}}
 
-\hypertarget{tuxedtulos-anotaciones-y-grado-de-la-tarjeta}{%
 \subsection{Títulos, anotaciones y grado de la
-tarjeta}\label{tuxedtulos-anotaciones-y-grado-de-la-tarjeta}}
+tarjeta}\label{tuxedtulos-anotaciones-y-grado-de-la-tarjeta}
 
 El bloque \textbf{Textos de la tarjeta} aparece debajo de digitación y
 grados, siempre visible y sin pestañas. \textbf{Título sobre la tarjeta}
@@ -260,10 +311,9 @@ derecha de la tarjeta, junto al acorde. No modifica los seis grados de
 las cuerdas ni se calcula automáticamente. Este campo pertenece siempre
 a la posición seleccionada.
 
-\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/textos-deshacer.png}
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/textos-deshacer.png}}
 
-\hypertarget{tonalidad-de-cada-tarjeta}{%
-\subsection{Tonalidad de cada tarjeta}\label{tonalidad-de-cada-tarjeta}}
+\subsection{Tonalidad de cada tarjeta}\label{tonalidad-de-cada-tarjeta}
 
 En \textbf{Tonalidad} escribe un cambio de contexto y elige su
 \textbf{Calidad de tonalidad}. Mayor, menor y las demás calidades usan
@@ -288,8 +338,11 @@ archivo.
 
 Para ocultar las franjas en todas las hojas, abre los datos de canción
 pulsando su título y desmarca \textbf{Mostrar tonalidades de las
-tarjetas}. La tonalidad junto al título sigue visible. Vuelve a marcar
-para recuperar las franjas; no se borra ningún dato.
+tarjetas}. La tonalidad junto al título sigue visible. Mientras estén
+ocultas, los campos \textbf{Tonalidad} y \textbf{Calidad de tonalidad}
+de cada tarjeta también desaparecen del editor, porque no tendrían
+efecto en la hoja; sus valores se conservan y reaparecen al volver a
+marcar la casilla. No se borra ningún dato.
 
 Grado y tonalidad pertenecen a la tarjeta seleccionada, igual que el
 resto de sus campos. Se guardan en JSON y se conservan en vista previa,
@@ -297,8 +350,7 @@ HTML e impresión. Puedes probarlo abriendo
 \texttt{examples/textos-tonalidades.json}. Los archivos con estos campos
 nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
 
-\hypertarget{deshacer-y-rehacer}{%
-\subsection{Deshacer y rehacer}\label{deshacer-y-rehacer}}
+\subsection{Deshacer y rehacer}\label{deshacer-y-rehacer}
 
 Pulsa la flecha hacia la izquierda de la cabecera para \textbf{Deshacer}
 y la flecha hacia la derecha para \textbf{Rehacer}. También están dentro
@@ -321,12 +373,68 @@ tamaño; la última acción siempre se conserva. El historial no se incluye
 en el JSON. Una acción nueva después de deshacer elimina la rama de
 rehacer.
 
-\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-posiciones.png}
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-posiciones.png}}
+
+\subsection{Opciones de página}\label{opciones-de-puxe1gina}
+
+En los datos de canción hay dos opciones globales que solo cambian la
+presentación:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Máximo de compases por línea}: \textbf{Automático} (por
+  defecto) reparte según el ancho disponible, como siempre. Un número
+  del 1 al 16 es un tope, no una obligación: pueden caber menos compases
+  si las tarjetas son anchas o la pantalla estrecha. La pareja de una
+  repetición de dos compases no se separa, así que con tope 1 ocupa una
+  línea con sus dos compases.
+\item
+  \textbf{Mostrar números de compás}: al desmarcarla se ocultan las
+  etiquetas de todos los compases y las líneas verticales que los
+  separan, en la vista previa, el HTML y la impresión, útil para una
+  hoja de acordes que no es una partitura. Las etiquetas se conservan en
+  el archivo. Las líneas de las tarjetas, las barras y signos de
+  repetición, Coda, Fine, casillas, saltos y el número de página siguen
+  visibles.
+\end{itemize}
+
+Ambas opciones se guardan en el JSON (\texttt{maxMeasuresPerRow} y
+\texttt{showMeasureNumbers}, solo cuando no son los valores por defecto)
+y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
+
+\subsection{Ancho de cada compás y ajuste de
+línea}\label{ancho-de-cada-compuxe1s-y-ajuste-de-luxednea}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Ancho del compás}: en el menú de tres puntos del compás,
+  escribe un porcentaje del 10 al 100 \% del ancho de la línea. Vacío es
+  Automático (como siempre). El ancho nunca baja de lo que necesitan las
+  tarjetas: si el porcentaje no basta se usa el mínimo, aparece un aviso
+  bajo la vista previa y caben menos compases en esa línea.
+\item
+  \textbf{Ajustar línea al ancho}: cada línea de la vista previa tiene
+  un botón de doble flecha horizontal en el margen derecho de la hoja.
+  Al pulsarlo, el espacio libre se reparte entre los compases de esa
+  línea hasta el margen derecho, sin deformar los mástiles ni comprimir
+  ninguna tarjeta, y puede superar el 25 \%. Pulsa de nuevo (queda
+  resaltado) para volver a Automático, o usa Deshacer. Si la línea
+  cambia de composición, el reparto se recalcula con los compases que
+  caben.
+\end{itemize}
+
+Ambos ajustes se guardan en el JSON solo cuando se usan
+(\texttt{widthPercent}, \texttt{fillToEdge}); las versiones anteriores a
+0.7.0 no abren esos archivos.
+
+Las filas ya no se estiran a todo el ancho: cada tarjeta crece como
+mucho un 25 \% sobre su ancho natural y el sobrante queda a la derecha.
 
 \Needspace{3.5cm}
-\hypertarget{auxf1adir-varios-compases-mediante-una-lista}{%
 \section{Añadir varios compases mediante una
-lista}\label{auxf1adir-varios-compases-mediante-una-lista}}
+lista}\label{auxf1adir-varios-compases-mediante-una-lista}
 
 Abre el menú de tres puntos del bloque Compás y pulsa \textbf{Importar
 lista} e introduce una línea por compás:
@@ -357,9 +465,8 @@ canción y solo se importa si no hay errores. No sustituye los compases
 existentes.
 
 \Needspace{3.5cm}
-\hypertarget{repeticiones-casillas-y-saltos}{%
 \section{Repeticiones, casillas y
-saltos}\label{repeticiones-casillas-y-saltos}}
+saltos}\label{repeticiones-casillas-y-saltos}
 
 Pulsa \textbf{Marcas}, junto al selector del compás. El título del panel
 indica \textbf{Marcas del compás 4}, por ejemplo. Muestra las marcas
@@ -377,10 +484,11 @@ incluidas referencias pendientes que no puedan asociarse a un compás
 existente. \textbf{Ver este compás} vuelve al filtro local. Los avisos
 pendientes de toda la canción permanecen visibles.
 
-\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/marcas-compas.png}
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/marcas-compas.png}}
 
 El formulario permite añadir y editar la estructura escrita:
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Marca & Cómo prepararla \\
@@ -399,6 +507,7 @@ Fine que solicite el formulario. \\
 To Coda & Colócalo en el punto de salida y selecciona la Coda de
 destino. \\
 \end{longtable}
+}
 
 Para una indicación \textbf{D.S. al Coda}, crea primero el Segno y la
 Coda; después configura el salto y el To Coda correspondiente. Revisa el
@@ -411,9 +520,8 @@ Corrige el destino desde el panel. Antes de exportar referencias
 pendientes se pide confirmación.
 
 \Needspace{3.5cm}
-\hypertarget{guardar-y-recuperar-el-trabajo}{%
 \section{Guardar y recuperar el
-trabajo}\label{guardar-y-recuperar-el-trabajo}}
+trabajo}\label{guardar-y-recuperar-el-trabajo}
 
 \textbf{Guardar JSON} conserva la canción editable completa. Según el
 navegador, aparecerá un selector de archivo o una descarga. Elige una
@@ -436,8 +544,7 @@ Guarda el JSON antes de cerrar. Deshacer permite corregir acciones de
 esta sesión; no sustituye al archivo guardado.
 
 \Needspace{3.5cm}
-\hypertarget{exportar-e-imprimir}{%
-\section{Exportar e imprimir}\label{exportar-e-imprimir}}
+\section{Exportar e imprimir}\label{exportar-e-imprimir}
 
 Abre el menú \textbf{Exportar} de la cabecera. \textbf{Exportar HTML}
 crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes
@@ -476,10 +583,10 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida;
 nunca se modifican tus trastes para hacerlos caber.
 
 \Needspace{3.5cm}
-\hypertarget{si-algo-no-sale-como-esperabas}{%
 \section{Si algo no sale como
-esperabas}\label{si-algo-no-sale-como-esperabas}}
+esperabas}\label{si-algo-no-sale-como-esperabas}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Situación & Qué revisar \\
@@ -500,4 +607,5 @@ panel Marcas. \\
 El navegador no abre la aplicación & Abre GitHub Pages o arranca el
 servidor local; consulta la guía de instalación. \\
 \end{longtable}
+}
 \end{document}

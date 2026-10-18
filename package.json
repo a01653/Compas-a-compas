@@ -1,11 +1,11 @@
 {
   "name": "compas-a-compas",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "description": "Editor local de hojas de acordes de guitarra por compases.",
   "scripts": {
     "start": "node scripts/serve.mjs",
-    "test": "node --test"
+    "test": "node --import ./tests/setup.mjs --test"
   }
 }
