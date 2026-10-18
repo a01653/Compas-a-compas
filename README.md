@@ -115,7 +115,7 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 | [Instalación y arranque](docs/manuals/INSTALACION.md) | Doble clic en Windows, actualización y resolución de problemas |
 | [DTS](docs/DTS.md) | Arquitectura, contrato JSON, geometría, paginación y evidencia técnica |
 | [Requisitos](docs/REQUISITOS.md) | Funciones acordadas y límites de alcance |
-| [Encargo: repetición, tarjetas y opciones de página](docs/encargos/repeticion-compas-y-ajustes-tarjetas.md) | Repeticiones de uno y dos compases, nombres vacíos, colores de grado, máximo de compases por línea, numeración opcional y controles tonales contextuales; implementado en la rama `feature/repeticion-compas-y-nombres-vacios`, pendiente de revisión visual |
+| [Encargo: repetición, tarjetas y opciones de página](docs/encargos/repeticion-compas-y-ajustes-tarjetas.md) | Repeticiones de uno y dos compases, nombres vacíos, colores de grado, máximo de compases por línea, numeración y separadores opcionales, anchos por compás y controles tonales contextuales; implementado en 0.7.0, con revisión visual parcial completada |
 | [Diseño](docs/DISENO.md) | Aplicación completa, tarjetas e impresión |
 | [Modelo de datos](docs/DATOS.md) | Canción, compases, acordes, voicings y navegación musical |
 | [Colores predeterminados](config/palette-defaults.json) | Fondos y textos de calidades, grados y notas cuando la canción no define los suyos (ver DATOS.md) |
