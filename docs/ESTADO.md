@@ -2,9 +2,9 @@
 
 ## Estado del encargo: repetición de compás y ajustes de tarjetas — 18/10/2026
 
-La implementación 0.7.0 está en esta rama e incluye repetición de uno y dos compases, nombres nuevos vacíos, crecimiento limitado, colores configurables, máximo de compases por línea, ocultación de números y separadores, ancho manual por compás, ajuste de línea, controles tonales y botón Manual con página de ayuda. El esquema JSON, la validación, los manuales y la documentación acompañan los cambios. Según el informe de la rama, `npm test` pasa con 239 pruebas y `node scripts/build-pages.mjs` termina correctamente.
+La versión 0.7.0 está integrada en `main`. Incluye repetición de uno y dos compases, nombres nuevos vacíos, crecimiento limitado, colores configurables, máximo de compases por línea, ocultación de números y separadores, ancho manual por compás, ajuste de línea, controles tonales y botón Manual con página de ayuda. El esquema JSON, la validación, los manuales y la documentación acompañan los cambios. `npm test` pasa con 239 pruebas y `node scripts/build-pages.mjs` termina correctamente.
 
-Las capturas parciales de Edge sin cabeza muestran la interfaz y varias opciones de compás. Siguen pendientes el clic del botón Manual en un navegador con ventana y la comprobación en la URL real de GitHub Pages tras el despliegue. El PDF del manual se regenera y se sirve con tipo MIME `application/pdf` en el servidor local.
+GitHub Actions publicó la versión desde el commit `f39d88c` (ejecución 39135701530, correcta). En la web publicada, el botón Manual abre una pestaña nueva con `ayuda/index.html`; la página de ayuda aparece correctamente y enlaza al PDF, que responde 200 con `application/pdf`. Las capturas parciales de Edge sin cabeza cubren las opciones principales de compás. Siguen sin constar como revisados en esta entrega la impresión/PDF de la aplicación, el HTML exportado, las escalas 100–175 %, móvil, I Fall, Havana y una validación completa con AJV.
 
 ## Versión 0.7.0: repetición del compás anterior y ajustes de tarjetas — 18/10/2026
 
