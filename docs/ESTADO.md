@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Encargo pendiente: repetición de compás y ajustes de tarjetas — 18/10/2026
+
+Se documenta la petición en [instrucciones para Claude](encargos/repeticion-compas-y-ajustes-tarjetas.md): signo grande para repetir el compás anterior, botón visible junto a Añadir tarjeta, nombres nuevos vacíos sin guion en el dibujo y crecimiento horizontal limitado de las tarjetas con sobrante a la derecha. Incluye persistencia, compatibilidad, referencias, historial, renderizado, pruebas y sincronización local. Esta entrega modifica solo documentación; no implementa el comportamiento ni cambia la versión 0.6.3. Las comprobaciones de aceptación quedan pendientes para la implementación.
+
 ## Versión 0.6.3: reparto estable con escala fraccionaria — 18/10/2026
 
 El usuario aporta aplicación.html exportado con 0.6.2. Confirmado el reparto 1–3, 4–6, 7–9 y 10–12, en lugar de 1–4, 5–8 y 9–12 de la plantilla. Las 37 tarjetas, sus textos, IDs y SVG coinciden con la exportación de control; las reglas CSS son las mismas. La comprobación anterior al 100 % no cubría este caso.

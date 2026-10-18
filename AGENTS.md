@@ -6,6 +6,8 @@ Desarrollar Compás a compás a partir de los documentos de `docs/`. La interfaz
 
 ## Prioridad
 
+Encargo pendiente del 18/10/2026: [repetición del compás anterior, nombres vacíos y crecimiento limitado de tarjetas](docs/encargos/repeticion-compas-y-ajustes-tarjetas.md). Leerlo cuando se solicite ese cambio. Su presencia no significa que esté implementado.
+
 Las instrucciones más recientes del usuario prevalecen sobre estos documentos. Después, seguir `docs/REQUISITOS.md`, `docs/DISENO.md` y `docs/DATOS.md`. Los HTML y CSS de `references/` son referencias visuales, no especificaciones funcionales ni código listo para reutilizar sin cambios.
 
 No restaurar por copiar la plantilla: el límite fijo de tres trastes, dos tarjetas por compás, cuatro compases rígidos por fila, análisis automático ni páginas de armonía. La petición del 17/10/2026 sí incorpora franjas de tonalidad opcionales por voicing; seguir `docs/diseno/textos-y-tonalidades.md` para ese cambio.
