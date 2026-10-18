@@ -4,6 +4,8 @@
 
 La versión 0.7.0 está integrada en `main`. Incluye repetición de uno y dos compases, nombres nuevos vacíos, crecimiento limitado, colores configurables, máximo de compases por línea, ocultación de números y separadores, ancho manual por compás, ajuste de línea, controles tonales y botón Manual con página de ayuda. El esquema JSON, la validación, los manuales y la documentación acompañan los cambios. `npm test` pasa con 239 pruebas y `node scripts/build-pages.mjs` termina correctamente.
 
+Ampliación posterior de la vista de hojas: las filas ajustadas con la misma estructura comparten anchos de columna para alinear las tarjetas verticalmente. La regla se deriva del diseño y no añade campos al JSON. Si la cuadrícula común no cabe sin comprimir tarjetas, se conservan los anchos individuales. Documentación actualizada en `docs/DATOS.md`, `docs/DTS.md` y el manual de uso. `npm test`: 242 pruebas; empaquetado de Pages correcto.
+
 GitHub Actions publicó la versión desde el commit `f39d88c` (ejecución 39135701530, correcta). En la web publicada, el botón Manual abre una pestaña nueva con `ayuda/index.html`; la página de ayuda aparece correctamente y enlaza al PDF, que responde 200 con `application/pdf`. Las capturas parciales de Edge sin cabeza cubren las opciones principales de compás. Siguen sin constar como revisados en esta entrega la impresión/PDF de la aplicación, el HTML exportado, las escalas 100–175 %, móvil, I Fall, Havana y una validación completa con AJV.
 
 ## Versión 0.7.0: repetición del compás anterior y ajustes de tarjetas — 18/10/2026

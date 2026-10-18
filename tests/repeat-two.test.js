@@ -252,6 +252,83 @@ test('ajustar línea al ancho: llega al margen derecho sin comprimir ninguna col
   assert.equal(plain.fill, false);
 });
 
+test('filas ajustadas con cuatro compases alinean verticalmente las tarjetas', () => {
+  const widths = [
+    [140, 180, 130, 160],
+    [175, 135, 155, 145],
+    [125, 155, 185, 145],
+  ];
+  const units = widths.flatMap((row, rowIndex) => row.map((width, columnIndex) => ({
+    measureId: `m${rowIndex}-${columnIndex}`,
+    label: String(rowIndex * 4 + columnIndex + 1),
+    atoms: [{}],
+    fillToEdge: true,
+  })));
+  const plan = paginate({
+    units,
+    measureFragment: (ui) => {
+      const naturalWidth = widths[Math.floor(ui / 4)][ui % 4];
+      return { width: naturalWidth, height: 50, columns: [naturalWidth] };
+    },
+    content: { width: 800, height: 600 },
+    headerHeight: 40,
+    safety: 0,
+    columnGap: 6,
+    maxPerRow: 4,
+  });
+  const rows = plan.pages[0].rows;
+  assert.equal(rows.length, 3);
+  assert.ok(rows.every((row) => row.aligned));
+  const positions = rows.map((row) => {
+    let x = 0;
+    return row.fragments.map((fragment) => {
+      const left = x;
+      x += fragment.drawWidth + 6;
+      return [left, x];
+    });
+  });
+  for (let column = 0; column < 4; column++) {
+    for (let row = 1; row < rows.length; row++) {
+      assert.ok(Math.abs(positions[row][column][0] - positions[0][column][0]) < 0.01, `inicio de tarjeta ${column + 1}`);
+      assert.ok(Math.abs(positions[row][column][1] - positions[0][column][1]) < 0.01, `final de tarjeta ${column + 1}`);
+    }
+  }
+  assert.ok(rows.every((row) => Math.abs(row.fragments.reduce((n, f) => n + f.drawWidth, 0) + 18 - 800) < 0.01));
+  for (const row of rows) {
+    row.fragments.forEach((fragment) => assert.ok(fragment.tracks[0] >= fragment.columns[0]));
+  }
+});
+
+test('si no cabe la cuadrícula alineada, conserva el reparto individual sin comprimir', () => {
+  const widths = [
+    [300, 100, 100, 100],
+    [100, 300, 100, 100],
+    [100, 100, 300, 100],
+  ];
+  const units = widths.flatMap((row, rowIndex) => row.map((width, columnIndex) => ({
+    measureId: `wide-${rowIndex}-${columnIndex}`,
+    label: String(rowIndex * 4 + columnIndex + 1),
+    atoms: [{}],
+    fillToEdge: true,
+  })));
+  const plan = paginate({
+    units,
+    measureFragment: (ui) => {
+      const naturalWidth = widths[Math.floor(ui / 4)][ui % 4];
+      return { width: naturalWidth, height: 50, columns: [naturalWidth] };
+    },
+    content: { width: 800, height: 600 },
+    headerHeight: 40,
+    safety: 0,
+    columnGap: 6,
+    maxPerRow: 4,
+  });
+  const rows = plan.pages[0].rows;
+  assert.equal(rows.length, 3);
+  assert.ok(rows.every((row) => !row.aligned));
+  assert.ok(rows.every((row) => row.fragments.every((fragment) => fragment.tracks[0] >= fragment.columns[0])));
+});
+
 test('ancho y ajuste de línea: modelo, validación y compatibilidad', () => {
   const song = song5();
   const m = song.measures[1];

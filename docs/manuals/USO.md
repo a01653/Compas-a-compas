@@ -127,6 +127,8 @@ Las opciones se guardan en el JSON cuando tienen un valor distinto del predeterm
 
 Ambos ajustes se guardan en el JSON solo cuando se usan (`widthPercent`, `fillToEdge`); las versiones anteriores a 0.7.0 no abren esos archivos.
 
+Al ajustar al ancho varias filas de una misma página con la misma estructura, las tarjetas se alinean verticalmente. El reparto común respeta el ancho mínimo que necesita cada tarjeta; si no hay espacio suficiente para alinear sin comprimir contenido, se mantienen los anchos individuales.
+
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 % sobre su ancho natural y el sobrante queda a la derecha.
 
 ## Añadir varios compases mediante una lista

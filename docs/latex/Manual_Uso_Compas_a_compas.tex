@@ -1,4 +1,4 @@
-% Source-SHA256: c7ee6357e8ea2a9e36ded6d3ec1d536339d86f8a0a208d24718628caa53aefe7
+% Source-SHA256: 397cd2ee2b9a3076028422a9f010a565cbccb1973ff6baabe7ee0b1bca1b30f7
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -451,6 +451,12 @@ línea}\label{ancho-de-cada-compuxe1s-y-ajuste-de-luxednea}}
 Ambos ajustes se guardan en el JSON solo cuando se usan
 (\texttt{widthPercent}, \texttt{fillToEdge}); las versiones anteriores a
 0.7.0 no abren esos archivos.
+
+Al ajustar al ancho varias filas de una misma página con la misma
+estructura, las tarjetas se alinean verticalmente. El reparto común
+respeta el ancho mínimo que necesita cada tarjeta; si no hay espacio
+suficiente para alinear sin comprimir contenido, se mantienen los anchos
+individuales.
 
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como
 mucho un 25 \% sobre su ancho natural y el sobrante queda a la derecha.
