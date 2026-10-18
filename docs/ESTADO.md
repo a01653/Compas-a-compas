@@ -1,5 +1,17 @@
 # Estado de trabajo
 
+## Versión 0.6.3: reparto estable con escala fraccionaria — 18/10/2026
+
+El usuario aporta aplicación.html exportado con 0.6.2. Confirmado el reparto 1–3, 4–6, 7–9 y 10–12, en lugar de 1–4, 5–8 y 9–12 de la plantilla. Las 37 tarjetas, sus textos, IDs y SVG coinciden con la exportación de control; las reglas CSS son las mismas. La comprobación anterior al 100 % no cubría este caso.
+
+Reproducción real con Chromium 153 y --force-device-scale-factor=1.25: el borde de tarjeta de 1.6 px se resuelve a 1.6 px frente a 1 px al 100 %. Cada compás de dos tarjetas mide 268 px frente a 266 px. Cuatro compases con las separaciones suman 1090 px y superan el ancho útil, por lo que el compás 4 pasa a la segunda fila y el 5 queda segundo.
+
+Se reduce únicamente el relleno lateral de tarjeta de 6 a 5 px. El mismo fragmento mide 264 px al 125 % y cabe con holgura. No se modifica la geometría del mástil, la fuente de los textos, los datos musicales, el esquema JSON ni la regla adaptativa de reparto.
+
+Validación mediante Abrir, Guardar JSON y Exportar HTML de la aplicación con los dos JSON completos: Chromium 153 al 100 %, 125 %, 150 % y 175 % en escritorio, y al 200 % en móvil 390×844; Chromium 130 al 125 % en escritorio. I Fall mantiene dos hojas, tres filas en la primera (1–4, 5–8 y 9–12) y dos en la segunda. Havana mantiene seis hojas. Datos guardados idénticos, 37 y 108 tarjetas en orden, SVG con las mismas dimensiones, sin recursos externos en HTML, sin recortes ni desniveles entre números y tarjetas. HTML autónomo y PDF A4 horizontal generados en esas comprobaciones. Primera hoja del PDF de I Fall revisada visualmente en PNG.
+
+La prueba adicional de 24 compases y 86 tarjetas con textos largos, cuatro trastes, repeticiones, casilla y continuaciones vuelve a pasar sin pérdidas ni desbordamientos. Las 196 pruebas Node, el empaquetado de Pages y git diff --check pasan. No se ha probado el móvil físico del usuario ni Firefox, Safari o el diálogo nativo de impresión. Archivos: styles/sheet.css, package.json, index.html, README.md, CHANGELOG.md, docs/DISENO.md y este registro. Los archivos personales no se incorporan al repositorio.
+
 ## Versión 0.6.2: recuperar la tercera fila de I Fall — 18/10/2026
 
 Revisión directa del repositorio, sin usar el conector local. Reproducido en Chromium 153 con el JSON aportado: la primera hoja contenía los compases 1–8 y el documento ocupaba tres páginas. Las tres primeras filas necesitaban 734,06 px frente a los 703,20 px disponibles bajo la cabecera. La alineación de 0.6.1 era correcta, pero el espacio vertical impedía colocar la tercera fila.

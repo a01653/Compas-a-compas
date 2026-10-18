@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.6.3 — 18/10/2026
+
+- Se reduce de 6 a 5 px el relleno lateral de las tarjetas para evitar que el redondeo de los bordes a escalas fraccionarias cambie el reparto. Al 125 %, I Fall quedaba en filas 1–3 y 4–6; ahora mantiene 1–4 y 5–8 como al 100 %.
+- Se conservan el tamaño del mástil, los textos, la alineación y el formato JSON. El reparto sigue adaptándose a la anchura de los trastes y al contenido.
+
 ## 0.6.2 — 18/10/2026
 
 - Se reduce el espacio vertical de los números de compás y las separaciones entre filas y cabecera. I Fall in Love Too Easily vuelve a tener tres filas (compases 1–12) en su primera página y dos (13–19) en la segunda.
