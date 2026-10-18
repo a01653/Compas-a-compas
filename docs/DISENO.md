@@ -28,6 +28,7 @@ En móvil, apilar paneles; no encoger controles hasta volverlos ilegibles. La vi
 - Una franja rectangular opcional sobre cada tarjeta muestra los cambios explícitos de tonalidad. Lleva un fondo tenue y una línea inferior de 3 px, con esquinas rectas como la plantilla; los segmentos contiguos cubren el hueco entre tarjetas. Las posiciones sin cambio mantienen el contexto y el color anteriores, sin repetir etiqueta. La calidad se elige por separado de la del acorde y respeta la paleta de la canción. La casilla global de datos de canción oculta todas las franjas, sin borrar información.
 - El grado del voicing, las anotaciones y las tonalidades se escriben manualmente. No generar función romana ni familia/inversión obligatoria.
 - No dibujar agrupaciones por acorde, líneas de color bajo las tarjetas ni separadores verticales entre tarjetas de un mismo compás. Las barras de compás y de repetición conservan su función musical.
+- El relleno lateral de las tarjetas es de 5 px desde 0.6.3, con holgura para el redondeo de bordes a escalas fraccionarias.
 - El ancho crece al añadir trastes; la fila y la página se reorganizan. No estrechar indefinidamente cada celda para mantener cuatro compases por fila.
 
 ## Geometría del mástil
