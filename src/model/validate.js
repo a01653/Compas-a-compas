@@ -183,6 +183,7 @@ const song = object({
     showTonalities: boolean,
     showMeasureNumbers: boolean,
     maxMeasuresPerRow: (v, p, e) => { if (!Number.isInteger(v) || v < 1 || v > 16) fail(e, p, 'debe ser un entero entre 1 y 16 (sin el campo, el modo es automático)'); },
+    fretboardScalePercent: (v, p, e) => { if (!Number.isInteger(v) || v < 60 || v > 100) fail(e, p, 'debe ser un entero entre 60 y 100 (100 = tamaño normal)'); },
     measures: list(measure),
     structure,
   },

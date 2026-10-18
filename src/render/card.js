@@ -19,7 +19,7 @@ function degreeDot(mark, radius, palette, ink = inkColor()) {
 }
 
 /** Mástil SVG, o un aviso si abarca demasiados trastes para dibujarse legiblemente. */
-export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = mutedColor() } = {}) {
+export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = mutedColor(), scalePercent = 100 } = {}) {
   const g = layoutFretboard(voicing.frets, voicing.degrees);
   if (!g.drawable) {
     return h('div', { class: 'mastil-aviso', role: 'note' }, `No se puede dibujar: ${g.reason}`);
@@ -27,8 +27,8 @@ export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = muted
 
   const svg = s('svg', {
     class: 'mastil',
-    width: g.width,
-    height: g.height,
+    width: g.width * scalePercent / 100,
+    height: g.height * scalePercent / 100,
     viewBox: `0 0 ${g.width} ${g.height}`,
     role: 'img',
     'aria-label': `Mástil, trastes ${g.start} a ${g.end}`,
@@ -98,7 +98,7 @@ function tonalityBand(tonal, palette) {
  * (`lead`) pinta el número y la línea del compás.
  * `lead` = { label, continuation, barStart } · `tail` = barra de fin de repetición de la última columna.
  */
-export function cardNode(event, voicing, { selected = false, onSelect, palette, tonal = null, lead = null, tail = null } = {}) {
+export function cardNode(event, voicing, { selected = false, onSelect, palette, tonal = null, lead = null, tail = null, fretboardScalePercent = 100 } = {}) {
   const above = effectiveText(event, voicing, 'aboveText');
   const inside = effectiveText(event, voicing, 'insideText');
   const degree = voicing?.voicingDegree || '';
@@ -121,6 +121,7 @@ export function cardNode(event, voicing, { selected = false, onSelect, palette, 
       palette,
       ink: familyForeground(event.family, palette) || inkColor(),
       muted: familyForeground(event.family, palette) || mutedColor(),
+      scalePercent: fretboardScalePercent,
     }),
     legend.length
       ? h('ul', { class: 't-leyenda', 'aria-label': 'Grados completos' }, legend.map((item) => h('li', null, `${item.string}ª: ${item.degree}`)))

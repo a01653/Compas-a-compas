@@ -36,6 +36,7 @@ function eventNode(ctx, group, measureId, onSelect, edge) {
     return cardNode(event, voicing, {
       palette: ctx.song.palette,
       tonal: voicing ? ctx.tonality.get(voicing.id) || null : null,
+      fretboardScalePercent: ctx.song.fretboardScalePercent ?? 100,
       lead: index === 0 ? edge.lead : null,
       tail: index === group.atoms.length - 1 ? edge.tail : null,
       onSelect: onSelect ? () => onSelect({ measureId, eventId: event.id, voicingId: atom.voicingId }) : null,

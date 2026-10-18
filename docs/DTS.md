@@ -69,7 +69,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 
 | Entidad | Contenido |
 | --- | --- |
-| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities`, `showMeasureNumbers`, `maxMeasuresPerRow` y `palette` opcionales; los compases admiten `repeatPrevious` y `repeatPreviousTwo` (ver DATOS.md) |
+| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities`, `showMeasureNumbers`, `maxMeasuresPerRow`, `fretboardScalePercent` y `palette` opcionales; los compases admiten `repeatPrevious` y `repeatPreviousTwo` (ver DATOS.md) |
 | Compás | `id`, `label` y lista ordenada `chordEvents` |
 | Acorde | `id`, `chordName`, lista `voicings`; familia y textos opcionales |
 | Posición | `id`, `frets` de seis valores; grados de cuerda, textos, `voicingDegree` y `tonality` opcionales |

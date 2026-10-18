@@ -84,6 +84,7 @@ Se amplía el esquema 1 con campos opcionales. Los JSON anteriores siguen siendo
 | Canción | `keyFamily` | Una de las seis familias; ausente equivale a `other` para el color del contexto inicial. |
 | Canción | `showMeasureNumbers` | Booleano; ausente equivale a `true`. Solo `false` oculta las etiquetas de compás y las líneas verticales que separan los compases en la hoja (vista previa, HTML e impresión); no borra ni regenera las etiquetas, y conserva las líneas de las tarjetas, las barras y signos de repetición, Coda, Fine, casillas, saltos y la numeración de páginas. |
 | Canción | `maxMeasuresPerRow` | Entero de 1 a 16; ausente = modo automático (reparto vigente). Es un tope, no una obligación de llenar la línea; la pareja de destino de una repetición de dos compases no se separa y puede ocupar una línea aunque el tope sea 1. |
+| Canción | `fretboardScalePercent` | Entero de 60 a 100; escala uniforme de los diagramas de mástil. Ausente o 100 = tamaño normal. Cambia solo la presentación, no las digitaciones ni las notas. |
 | Canción | `showTonalities` | Booleano; ausente equivale a visible. Oculta las franjas, conservando la tonalidad del título y los datos. |
 | Posición | `voicingDegree` | Texto visible opcional, independiente de `degrees`; al vaciarlo se retira el campo. |
 | Posición | `tonality` | Objeto con `text` visible y `family` válida. No admite otras propiedades. Vacío se representa retirando el objeto completo. |
@@ -127,7 +128,7 @@ Añadir o duplicar crea una tarjeta independiente. Duplicar materializa los text
 - Duplicar un destino no copia la marca: la copia es un compás vacío. Los IDs de fuentes y destinos cuentan como usados al crear IDs nuevos.
 - La marca no expande el recorrido ni añade reproducción: la pareja cuenta como dos compases escritos.
 
-Compatibilidad: `schemaVersion` sigue siendo 1. Los lectores anteriores a 0.7.0 rechazan `repeatPrevious`, `repeatPreviousTwo`, `widthPercent`, `fillToEdge`, `showMeasureNumbers`, `maxMeasuresPerRow`, `palette.degreeText`, `palette.noteText` y `chordName` vacío; los archivos que no los usan se abren y guardan sin cambios.
+Compatibilidad: `schemaVersion` sigue siendo 1. Los lectores anteriores a 0.7.0 rechazan `repeatPrevious`, `repeatPreviousTwo`, `widthPercent`, `fillToEdge`, `showMeasureNumbers`, `maxMeasuresPerRow`, `palette.degreeText`, `palette.noteText` y `chordName` vacío; los archivos que no los usan se abren y guardan sin cambios. Las versiones anteriores a la incorporación de `fretboardScalePercent` rechazan ese campo.
 
 ### Ancho de compás y ajuste de línea (0.7.0)
 

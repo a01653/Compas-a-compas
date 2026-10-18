@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/INSTALACION.md",
-      "sha256": "9d3febbd37077c14c36a4f41994c65f198519aa83e978e61e56971400cd021bb",
+      "sha256": "11e53403d4d2c43a9d86b8ed516fa36893003dc083ac9525fa113a292d6ef807",
       "role": "source"
     },
     {
@@ -28,12 +28,12 @@
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.tex",
-      "sha256": "6f06798ee951d9d71f5b223c88055c38196636240749f3518d01e54b1d2ef928",
+      "sha256": "0731cf53a17a9e435a45f9e26e56e6670fe0d1d40aa5399a13a419adbe625d0d",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.pdf",
-      "sha256": "8eff216a8c8474b64316ee9a3ab305262f36b43b2d61e01acfb1e1ad199412bb",
+      "sha256": "1c34ad5ee204a95fbe4c2bf7c5b93c36a470bc9246f607a30afeee610ec45540",
       "role": "pdf"
     }
   ]

@@ -43,6 +43,12 @@
       "minimum": 1,
       "maximum": 16,
       "description": "Tope de compases por línea. Ausente = modo automático."
+    },
+    "fretboardScalePercent": {
+      "type": "integer",
+      "minimum": 60,
+      "maximum": 100,
+      "description": "Escala uniforme de los mástiles en las tarjetas. Ausente o 100 = tamaño normal."
     }
   },
   "required": [

@@ -206,12 +206,23 @@ export function setLineFill(song, measureIds, on) {
 /* ---------- Opciones de página (globales) ---------- */
 
 export const MAX_MEASURES_PER_ROW_LIMIT = 16;
+export const FRETBOARD_SCALE_MIN = 60;
+export const FRETBOARD_SCALE_MAX = 100;
 
 /** Automático = sin campo. Un entero entre 1 y el límite se guarda tal cual. */
 export function setMaxMeasuresPerRow(song, value) {
   const n = Number(value);
   if (Number.isInteger(n) && n >= 1 && n <= MAX_MEASURES_PER_ROW_LIMIT) song.maxMeasuresPerRow = n;
   else delete song.maxMeasuresPerRow;
+}
+
+/** Escala uniforme de los mástiles. 100 = tamaño normal; normal se representa omitiendo el campo. */
+export function setFretboardScalePercent(song, value) {
+  const n = Number(value);
+  if (Number.isInteger(n) && n >= FRETBOARD_SCALE_MIN && n <= FRETBOARD_SCALE_MAX) {
+    if (n === FRETBOARD_SCALE_MAX) delete song.fretboardScalePercent;
+    else song.fretboardScalePercent = n;
+  } else delete song.fretboardScalePercent;
 }
 
 /** Visible es el valor por defecto: solo se guarda el valor «oculto». */

@@ -1,4 +1,4 @@
-% Source-SHA256: 694ee5c537075afafb53d34941a6f971fdc14a1b692adb5f2554ecbc0b075d26
+% Source-SHA256: 8b2d889c07f02228630ca2667a092612e0ab379c07eb391af61da180bba44ddc
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -106,7 +106,8 @@ Aplicación 0.6.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
-\section{Objeto y alcance}\label{objeto-y-alcance}
+\hypertarget{objeto-y-alcance}{%
+\section{Objeto y alcance}\label{objeto-y-alcance}}
 
 Compás a compás es un editor local de hojas de acordes de guitarra.
 Organiza una canción en compases, admite varios acordes por compás y
@@ -127,16 +128,17 @@ marcas musicales son notación escrita: no hay un motor que ejecute o
 expanda el recorrido.
 
 \Needspace{3.5cm}
-\section{Arquitectura y ejecución}\label{arquitectura-y-ejecuciuxf3n}
+\hypertarget{arquitectura-y-ejecuciuxf3n}{%
+\section{Arquitectura y ejecución}\label{arquitectura-y-ejecuciuxf3n}}
 
-\subsection{Componentes}\label{componentes}
+\hypertarget{componentes}{%
+\subsection{Componentes}\label{componentes}}
 
 La aplicación usa HTML, CSS y módulos JavaScript nativos. No tiene
 framework, backend de negocio, base de datos ni dependencias npm de
 ejecución. Node.js 18 o superior sirve los archivos al navegador
 mediante HTTP local.
 
-{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.333333\linewidth-1.333333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.333333\linewidth-1.333333\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.333333\linewidth-1.333333\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Capa & Archivos principales & Responsabilidad \\
@@ -163,7 +165,6 @@ autónomo \\
 Arranque & \texttt{Abrir-Compas.cmd}, \texttt{scripts/launch.mjs},
 \texttt{scripts/serve.mjs} & Lanzador y servidor estático local \\
 \end{longtable}
-}
 
 Los estilos de interfaz están en \texttt{styles/app.css}; la hoja usa
 estilos compartidos de \texttt{styles/sheet.css}, tokens y exportación.
@@ -171,7 +172,8 @@ Las fuentes Caveat Brush y Gochi Hand están incluidas en
 \texttt{references/fonts.css}, sin descarga de fuentes remotas. El icono
 de la aplicación es \texttt{assets/icon.svg}.
 
-\subsection{Flujo de datos}\label{flujo-de-datos}
+\hypertarget{flujo-de-datos}{%
+\subsection{Flujo de datos}\label{flujo-de-datos}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -199,8 +201,9 @@ páginas y zoom son datos derivados y no se guardan como parte de la
 canción.
 
 \Needspace{3.5cm}
+\hypertarget{interfaz-compacta-y-contexto-de-compuxe1s}{%
 \section{Interfaz compacta y contexto de
-compás}\label{interfaz-compacta-y-contexto-de-compuxe1s}
+compás}\label{interfaz-compacta-y-contexto-de-compuxe1s}}
 
 El editor usa dos columnas: controles de compás y tarjeta a la
 izquierda, y hoja a la derecha. Los selectores permiten recorrer listas
@@ -235,7 +238,8 @@ cabeceras de tarjeta cambian la composición de la hoja, compartida con
 la exportación. La geometría del mástil no cambia.
 
 \Needspace{3.5cm}
-\section{Paleta editable}\label{paleta-editable}
+\hypertarget{paleta-editable}{%
+\section{Paleta editable}\label{paleta-editable}}
 
 \texttt{src/model/palette.js} define la resolución de colores, sus
 valores originales y el contraste del texto. El campo opcional
@@ -269,7 +273,8 @@ modifican geometría ni digitaciones al cambiar un color. Las notas al
 aire conservan el dibujo de círculo o punto según tengan grado.
 
 \Needspace{3.5cm}
-\section{Modelo y contrato JSON}\label{modelo-y-contrato-json}
+\hypertarget{modelo-y-contrato-json}{%
+\section{Modelo y contrato JSON}\label{modelo-y-contrato-json}}
 
 El contrato formal es \texttt{schemas/song.schema.json}.
 \texttt{src/model/validate.js} implementa la validación utilizada por la
@@ -277,9 +282,9 @@ aplicación sin cargar una biblioteca externa.
 \texttt{src/model/serialize.js} convierte entre objetos y JSON con
 sangría de dos espacios y salto final.
 
-\subsection{Entidades}\label{entidades}
+\hypertarget{entidades}{%
+\subsection{Entidades}\label{entidades}}
 
-{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Entidad & Contenido \\
@@ -290,9 +295,10 @@ Entidad & Contenido \\
 Canción & \texttt{schemaVersion}, \texttt{title}, \texttt{key},
 \texttt{measures}, \texttt{structure}; \texttt{documentVersion},
 \texttt{keyFamily}, \texttt{showTonalities},
-\texttt{showMeasureNumbers}, \texttt{maxMeasuresPerRow} y
-\texttt{palette} opcionales; los compases admiten
-\texttt{repeatPrevious} y \texttt{repeatPreviousTwo} (ver DATOS.md) \\
+\texttt{showMeasureNumbers}, \texttt{maxMeasuresPerRow},
+\texttt{fretboardScalePercent} y \texttt{palette} opcionales; los
+compases admiten \texttt{repeatPrevious} y \texttt{repeatPreviousTwo}
+(ver DATOS.md) \\
 Compás & \texttt{id}, \texttt{label} y lista ordenada
 \texttt{chordEvents} \\
 Acorde & \texttt{id}, \texttt{chordName}, lista \texttt{voicings};
@@ -302,7 +308,6 @@ cuerda, textos, \texttt{voicingDegree} y \texttt{tonality} opcionales \\
 Estructura & Listas \texttt{repeats}, \texttt{endings}, \texttt{markers}
 y \texttt{jumps} \\
 \end{longtable}
-}
 
 Los trastes se almacenan de sexta a primera cuerda: entero no negativo o
 \texttt{null} para una cuerda muda. Los grados, cuando existen, son seis
@@ -333,7 +338,8 @@ de un acorde, dos acordes en otro compás, cuatro trastes visibles,
 repeticiones, casillas y saltos. Es una demostración, no una
 transcripción musical.
 
-\subsection{Tarjetas independientes}\label{tarjetas-independientes}
+\hypertarget{tarjetas-independientes}{%
+\subsection{Tarjetas independientes}\label{tarjetas-independientes}}
 
 \texttt{src/model/cards.js} presenta una lista plana sobre los eventos y
 posiciones del esquema 1. Abrir, seleccionar y guardar no separa eventos
@@ -345,8 +351,9 @@ tarjeta activa; quitar borra solo esa tarjeta. Las marcas continúan
 referidas al compás. El historial conserva las divisiones y sus
 selecciones para deshacer y rehacer.
 
+\hypertarget{contexto-tonal-por-tarjeta}{%
 \subsection{Contexto tonal por
-tarjeta}\label{contexto-tonal-por-tarjeta}
+tarjeta}\label{contexto-tonal-por-tarjeta}}
 
 \texttt{src/model/tonality.js} resuelve el contexto según el orden
 escrito. La tonalidad general inicia el recorrido con
@@ -374,7 +381,8 @@ archivo que incluya campos nuevos necesita 0.5.0 o posterior. Los
 validadores manual y JSON Schema rechazan tipos, familias y propiedades
 desconocidos.
 
-\subsection{Identidad y validación}\label{identidad-y-validaciuxf3n}
+\hypertarget{identidad-y-validaciuxf3n}{%
+\subsection{Identidad y validación}\label{identidad-y-validaciuxf3n}}
 
 Los identificadores son estables y únicos en el documento. La etiqueta
 del compás es independiente de su posición en el array. Mover o
@@ -392,8 +400,9 @@ semánticas. Un destino musical ausente puede conservarse con aviso; no
 se reasigna por índice ni por una etiqueta parecida. Al exportar
 referencias pendientes se pide confirmación.
 
+\hypertarget{textos-e-importaciuxf3n-de-listas}{%
 \subsection{Textos e importación de
-listas}\label{textos-e-importaciuxf3n-de-listas}
+listas}\label{textos-e-importaciuxf3n-de-listas}}
 
 El acorde puede definir \texttt{aboveText} e \texttt{insideText}. En una
 posición, la ausencia del campo significa heredar; una cadena propia
@@ -413,8 +422,9 @@ al final únicamente si todas las líneas son válidas. No calcula
 duraciones ni grados.
 
 \Needspace{3.5cm}
+\hypertarget{estado-ediciuxf3n-y-persistencia}{%
 \section{Estado, edición y
-persistencia}\label{estado-ediciuxf3n-y-persistencia}
+persistencia}\label{estado-ediciuxf3n-y-persistencia}}
 
 \texttt{createStore} mantiene una canción mutable y una selección por
 IDs. Guarda además el nombre de archivo, el zoom, la firma del último
@@ -447,7 +457,8 @@ o puerto no comparte esa recuperación. Se usa también el aviso de salida
 con cambios pendientes cuando el navegador lo admite. No se sobrescribe
 automáticamente un archivo con nombre.
 
-\subsection{Historial de acciones}\label{historial-de-acciones}
+\hypertarget{historial-de-acciones}{%
+\subsection{Historial de acciones}\label{historial-de-acciones}}
 
 \texttt{createStore} conserva estados anterior y posterior de cada
 cambio de canción, con su selección por IDs. \texttt{emit} registra
@@ -475,16 +486,17 @@ confirmación o importación, para no invalidar referencias mientras una
 operación espera respuesta.
 
 \Needspace{3.5cm}
-\section{Geometría y notación}\label{geometruxeda-y-notaciuxf3n}
+\hypertarget{geometruxeda-y-notaciuxf3n}{%
+\section{Geometría y notación}\label{geometruxeda-y-notaciuxf3n}}
 
-\subsection{Mástil y tarjetas}\label{muxe1stil-y-tarjetas}
+\hypertarget{muxe1stil-y-tarjetas}{%
+\subsection{Mástil y tarjetas}\label{muxe1stil-y-tarjetas}}
 
 \texttt{layoutFretboard} es una función pura. Recorre las seis notas y
 calcula el intervalo visible. Con cuerdas al aire empieza en el traste
 1; de lo contrario comienza en el menor traste positivo. Si no hay notas
 pulsadas, mantiene el intervalo mínimo.
 
-{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Parámetro de la versión 0.1.3 & Valor \\
@@ -499,7 +511,6 @@ Relleno superior / inferior & 10 / 18 px CSS \\
 Intervalo visible mínimo / máximo & 3 / 32 trastes \\
 Rejilla de tres trastes, sin zona exterior & 84 × 85 px CSS \\
 \end{longtable}
-}
 
 El ancho SVG es \texttt{26\ +\ 28\ ×\ númeroDeTrastes\ +\ 4}; su altura
 es \texttt{10\ +\ 5\ ×\ 17\ +\ 18}, es decir, 113 px. La primera cuerda
@@ -518,7 +529,8 @@ plantilla; los textos largos se abrevian en los círculos y conservan una
 leyenda por cuerda. Las cuerdas mudas no dibujan grados. La familia es
 una elección visual, no un análisis de la digitación.
 
-\subsection{Repeticiones y saltos}\label{repeticiones-y-saltos}
+\hypertarget{repeticiones-y-saltos}{%
+\subsection{Repeticiones y saltos}\label{repeticiones-y-saltos}}
 
 Repeticiones y casillas referencian compases por ID. \texttt{times} es
 el total de pasadas; las casillas contienen sus pasadas y una repetición
@@ -538,15 +550,16 @@ dibujar barras, corchetes y símbolos. No interpreta indicaciones
 escritas como texto libre ni comprueba que el recorrido termine.
 
 \Needspace{3.5cm}
-\section{Medición y paginación}\label{mediciuxf3n-y-paginaciuxf3n}
+\hypertarget{mediciuxf3n-y-paginaciuxf3n}{%
+\section{Medición y paginación}\label{mediciuxf3n-y-paginaciuxf3n}}
 
-\subsection{Dimensiones vigentes}\label{dimensiones-vigentes}
+\hypertarget{dimensiones-vigentes}{%
+\subsection{Dimensiones vigentes}\label{dimensiones-vigentes}}
 
 La fuente de medidas de página es \texttt{src/layout/spec.js}. Cada hoja
 recibe sus variables CSS desde \texttt{pageStyleVars}, tanto en el
 editor como en medición y exportación.
 
-{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Parámetro & Valor \\
@@ -562,13 +575,13 @@ Separación de compases / filas / cabecera & 6 / 12 / 14 px CSS \\
 Reserva de reparto & 1 px CSS \\
 Separación visual entre hojas & 24 px CSS al 100 \% \\
 \end{longtable}
-}
 
 Cada hoja incluye título seguido de tonalidad y numeración actual/total
 arriba a la derecha. La versión del documento no se añade al pie de
 impresión.
 
-\subsection{Algoritmo}\label{algoritmo}
+\hypertarget{algoritmo}{%
+\subsection{Algoritmo}\label{algoritmo}}
 
 \texttt{atoms.js} representa unidades de contenido; una tarjeta y su
 título forman una pieza que no se divide. \texttt{measurer.js} renderiza
@@ -605,8 +618,9 @@ sola por ancho o alto, \texttt{collectProblems} recoge el fallo y
 bloquea Exportar e Imprimir. No se cortan notas ni se alteran
 digitaciones para ajustar la hoja.
 
+\hypertarget{cambios-concurrentes-de-interfaz}{%
 \subsection{Cambios concurrentes de
-interfaz}\label{cambios-concurrentes-de-interfaz}
+interfaz}\label{cambios-concurrentes-de-interfaz}}
 
 \texttt{ui/paginator.js} agrupa cambios con un retardo de 80 ms y un
 número de generación. Solo publica el resultado de la generación
@@ -621,8 +635,9 @@ controlador de exportación. El zoom, limitado al 10--150 \%, escala el
 visor sin intervenir en el reparto.
 
 \Needspace{3.5cm}
+\hypertarget{exportaciuxf3n-y-tratamiento-de-texto}{%
 \section{Exportación y tratamiento de
-texto}\label{exportaciuxf3n-y-tratamiento-de-texto}
+texto}\label{exportaciuxf3n-y-tratamiento-de-texto}}
 
 El HTML autónomo se construye desde los nodos del renderizador
 compartido. Incluye estilos y fuentes en línea, sin módulos JavaScript
@@ -643,7 +658,8 @@ o pies del navegador. Las opciones concretas dependen de ese navegador y
 de la impresora.
 
 \Needspace{3.5cm}
-\section{Servidor y lanzador local}\label{servidor-y-lanzador-local}
+\hypertarget{servidor-y-lanzador-local}{%
+\section{Servidor y lanzador local}\label{servidor-y-lanzador-local}}
 
 \texttt{scripts/serve.mjs} usa \texttt{node:http} y escucha
 exclusivamente en \texttt{127.0.0.1}, puerto 5174 por defecto. Admite
@@ -681,15 +697,15 @@ Claude Code, el conector MCP y Cloudflare son herramientas externas de
 desarrollo. No participan en el arranque ni en el uso de la aplicación.
 
 \Needspace{3.5cm}
+\hypertarget{comprobaciones-y-luxedmites-de-la-evidencia}{%
 \section{Comprobaciones y límites de la
-evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}
+evidencia}\label{comprobaciones-y-luxedmites-de-la-evidencia}}
 
 La evidencia de cada versión permanece identificada en la tabla y en
 \texttt{docs/ESTADO.md}. La ampliación 0.6.0 se ha comprobado en
 Chromium 153 sobre Linux; las pruebas Node se ejecutan también en el PC
 con Windows mediante el conector.
 
-{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Comprobación registrada & Resultado y entorno \\
@@ -748,7 +764,6 @@ papel A4 horizontal y sin página vacía final \\
 Lanzador & Servidor real, reutilización y cierre en Linux; apertura de
 navegador Windows mediante simulación \\
 \end{longtable}
-}
 
 Quedan pendientes el doble clic y cierre de consola reales en Windows,
 el diálogo de impresión nativo y las comprobaciones en Firefox y Safari.
@@ -762,8 +777,9 @@ recuperación depende de la disponibilidad y cuota de
 \texttt{localStorage}.
 
 \Needspace{3.5cm}
+\hypertarget{mantenimiento-y-documentaciuxf3n}{%
 \section{Mantenimiento y
-documentación}\label{mantenimiento-y-documentaciuxf3n}
+documentación}\label{mantenimiento-y-documentaciuxf3n}}
 
 Para comprobar el producto se ejecuta \texttt{npm\ test} desde la raíz.
 Para abrirlo se usa el lanzador o \texttt{npm\ start}. No se requiere
@@ -789,8 +805,9 @@ Registrar versión y entorno de cada comprobación en
 manuales parten de la carpeta principal.
 
 \Needspace{3.5cm}
+\hypertarget{repeticiones-de-compuxe1s-y-opciones-de-puxe1gina-070}{%
 \section{Repeticiones de compás y opciones de página
-(0.7.0)}\label{repeticiones-de-compuxe1s-y-opciones-de-puxe1gina-070}
+(0.7.0)}\label{repeticiones-de-compuxe1s-y-opciones-de-puxe1gina-070}}
 
 \begin{itemize}
 \tightlist

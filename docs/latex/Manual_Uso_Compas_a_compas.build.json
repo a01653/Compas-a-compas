@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "2a47906f0dd852475d567bc6d0de6b6c502c085fecb1a7c6dd860aa66d755562",
+      "sha256": "c7ee6357e8ea2a9e36ded6d3ec1d536339d86f8a0a208d24718628caa53aefe7",
       "role": "source"
     },
     {
@@ -53,7 +53,7 @@
     },
     {
       "path": "docs/manuals/capturas/datos-cancion.png",
-      "sha256": "7d1e98fcba69146e6c53145d142f7b2a49fb3e7c17cb57d510cfe6e0ffef0998",
+      "sha256": "315739e6235ef58b1132c66f3ae53ac5fca2feed4604ed28122b652d0fb8145a",
       "role": "capture"
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "ed3de20928f0e43048dce344aa8632f2ebf260aac8da583e352525d3b29e46c0",
+      "sha256": "8c30b09c44699b80835fd8a5527214c203e740b78e111fc40f9a954b80910782",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "bd4e9ed6d6973b5064307e8b11fdba3dd8169ac70bda8624cf0823fd837a83a5",
+      "sha256": "57695684238809bf0ce6ee7e8f693ab5ebc1ed5aefeec5d38126e7d785272e10",
       "role": "pdf"
     }
   ]
