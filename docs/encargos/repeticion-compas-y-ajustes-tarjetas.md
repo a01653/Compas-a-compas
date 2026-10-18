@@ -11,6 +11,7 @@ Este documento recoge un encargo nuevo. Su incorporación al repositorio no sign
 2. Colocar su botón fuera de los menús, junto a Añadir tarjeta, que es el nombre vigente del antiguo botón de añadir acorde.
 3. Crear las tarjetas con el nombre vacío. Al dejar vacío el nombre, la hoja no debe mostrar texto de prueba ni una raya.
 4. Limitar el crecimiento horizontal de las tarjetas: una fila con uno o pocos compases no debe estirarlos para ocupar todo el ancho.
+5. Permitir elegir por separado fondo y texto de cada grado; el texto será blanco por defecto. Cambiar el fondo predeterminado de «Sin grado o sin color propio» de #14183a a un gris claro.
 
 ## Símbolo de repetición de un compás
 
@@ -72,6 +73,29 @@ Aplicar el límite a todas las filas y también al compás de repetición, no so
 
 Esta petición sustituye, para el cambio encargado, cualquier instrucción anterior de rellenar todo el ancho de las filas parciales. Se conserva la paginación adaptativa, sin imponer cantidades fijas de compases o tarjetas.
 
+## Color de texto por grado y nuevo fondo neutro
+
+Ampliación del 18/10/2026: el usuario observa texto negro ilegible cuando usa #14183a. Reproducir el caso y revisar tanto el indicador del panel de colores como los números y letras de los puntos del mástil, en notas pisadas y cuerdas al aire.
+
+En Colores → Notas y grados, cada grado tendrá dos valores independientes: **Fondo** y **Texto**. Ambos deben poder elegirse con selector de color y hexadecimal #RRGGBB. El color de texto predeterminado será **#ffffff**, tal como pide el usuario.
+
+- Cubrir grados naturales, bemoles y sostenidos del 1 al 13 y cualquier etiqueta personalizada, incluidos bb7, ##4 y R.
+- Las equivalencias ♭/b y ♯/# deben utilizar la misma entrada normalizada. Cambiar texto o fondo de b3 no modifica 3 ni #3.
+- Respetar el color de texto elegido por el usuario. El cálculo automático de contraste no debe sobrescribir una elección explícita ni sustituir silenciosamente el blanco predeterminado solicitado.
+- Mostrar la combinación real en la muestra del panel. Actualizarla al cambiar cualquiera de los dos colores.
+- Permitir restaurar los valores predeterminados de forma clara y conservar Deshacer/Rehacer, guardado y recuperación.
+- Incluir también un color de texto de reserva para «Sin grado o sin color propio», usado cuando una etiqueta no tenga configuración propia. Una nota sin etiqueta no debe inventar ni dibujar un grado.
+
+Cambiar únicamente el fondo neutro predeterminado de las notas sin grado/color propio: de #14183a a **#d1d5db**, como elección inicial de gris claro. Conservar el fondo explícito que ya lleve un JSON: si el archivo guarda palette.note = "#14183a", debe seguir usándolo. Restaurar o abrir una canción sin fondo neutro personalizado debe usar el gris nuevo.
+
+No hacer una sustitución global de #14183a: ese color también es tinta de líneas, textos y parte del cálculo de contraste. Separar el color neutro de las notas de la tinta oscura general para no aclarar el mástil, los nombres o las barras musicales. Revisar DEFAULT_DOT y DEFAULT_NOTE_COLOR, foreground(), paletteDegreeColor() y degreeDot(); el valor efectivo debe ser coherente con y sin paleta y con tarjetas de fondo oscuro. Esta ampliación se refiere al texto de los grados dentro de los puntos; no convierte el grado escrito arriba a la derecha de una tarjeta en una nota ni mezcla ambos campos.
+
+Extender la paleta con campos opcionales de texto, sin convertir las cadenas existentes de palette.degrees en objetos ni cambiar el significado de sus fondos. Una opción es un mapa de colores de texto por grado y un valor de reserva; fijar los nombres definitivos al implementar y documentarlos. Si solo se personaliza el texto de una etiqueta, esa etiqueta debe seguir apareciendo en el panel aunque no tenga un fondo personalizado.
+
+Actualizar conjuntamente esquema, validación manual, serialización, edición y renderizador. Los archivos anteriores conservan sus fondos personalizados y abren sin migraciones ni escritura automática de campos nuevos. Al faltar un color de texto propio, utilizar el blanco por defecto. Documentar la compatibilidad con lectores antiguos. Aceptar solo colores hexadecimales válidos y mantener el rechazo de claves reservadas y CSS arbitrario.
+
+Aplicar las mismas combinaciones en vista previa, HTML autónomo e impresión. No cambiar fuentes, tamaño del grado ni notas musicales para corregir el color.
+
 ## Comprobaciones de aceptación
 
 - Compás 1 con uno o varios acordes; compás 2 marcado como repetición: aparece un único signo grande y no se duplican datos ni dibujos.
@@ -87,6 +111,8 @@ Esta petición sustituye, para el cambio encargado, cualquier instrucción anter
 - Probar el encuadre con los ejemplos existentes y, si están disponibles localmente, los JSON de I Fall y Havana. No incorporar archivos personales al repositorio.
 - Filas con una, dos y muchas tarjetas, compás con varias tarjetas y compás de repetición: crecimiento limitado, contenido a la izquierda y sobrante a la derecha. Comparar con una fila llena; probar cuatro o más trastes y textos largos sin recortes ni desbordamiento vertical.
 - Comprobar reparto a escala de pantalla 100 %, 125 %, 150 % y 175 %, además de móvil. Mantener el mástil y la lectura musical.
+- Color de texto independiente para 1, b3, #5, bb7 y una etiqueta personalizada; probar valores personalizados solo de texto y solo de fondo, normalización, restauración, historial, JSON y recuperación. Comparar punto del mástil y muestra del panel.
+- Fondo #14183a con texto blanco y con un texto elegido por el usuario; comprobar también tarjeta oscura, cuerdas al aire y exportación. Gris #d1d5db como fondo neutro sin personalización, sin alterar tintas del mástil. JSON antiguo con fondo neutro #14183a explícito conserva ese valor.
 - Ejecutar npm test y el empaquetado de Pages; registrar resultados reales, entorno y límites. No afirmar que una prueba ha pasado sin ejecutarla.
 
 ## Trabajo de Claude

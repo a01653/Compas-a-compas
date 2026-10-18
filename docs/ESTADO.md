@@ -2,7 +2,7 @@
 
 ## Encargo pendiente: repetición de compás y ajustes de tarjetas — 18/10/2026
 
-Se documenta la petición en [instrucciones para Claude](encargos/repeticion-compas-y-ajustes-tarjetas.md): signo grande para repetir el compás anterior, botón visible junto a Añadir tarjeta, nombres nuevos vacíos sin guion en el dibujo y crecimiento horizontal limitado de las tarjetas con sobrante a la derecha. Incluye persistencia, compatibilidad, referencias, historial, renderizado, pruebas y sincronización local. Esta entrega modifica solo documentación; no implementa el comportamiento ni cambia la versión 0.6.3. Las comprobaciones de aceptación quedan pendientes para la implementación.
+Se documenta la petición en [instrucciones para Claude](encargos/repeticion-compas-y-ajustes-tarjetas.md): signo grande para repetir el compás anterior, botón visible junto a Añadir tarjeta, nombres nuevos vacíos sin guion en el dibujo y crecimiento horizontal limitado de las tarjetas con sobrante a la derecha. Se amplía con color de texto independiente por grado (blanco por defecto) y fondo neutro gris claro #d1d5db, conservando fondos personalizados de JSON anteriores y separando ese neutro de la tinta general #14183a. Incluye persistencia, compatibilidad, referencias, historial, renderizado, pruebas y sincronización local. Esta entrega modifica solo documentación; no implementa el comportamiento ni cambia la versión 0.6.3. Las comprobaciones de aceptación quedan pendientes para la implementación.
 
 ## Versión 0.6.3: reparto estable con escala fraccionaria — 18/10/2026
 
