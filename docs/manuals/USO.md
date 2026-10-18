@@ -4,6 +4,8 @@ Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús
 
 ## Preparar una canción
 
+El botón **Manual** (icono de libro) de la barra superior abre una página de ayuda en otra pestaña, con un resumen y un enlace a este manual en PDF. Funciona igual en local que en GitHub Pages. Solo existe en la aplicación: no aparece en los HTML ni en los PDF de canciones que exportes.
+
 1. Abre la aplicación en [GitHub Pages](https://a01653.github.io/Compas-a-compas/) o con `Abrir-Compas.cmd` desde la carpeta del proyecto. En local, conserva abierta la consola que arranca el servidor.
 2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
 3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. La tonalidad aparece a continuación del nombre en cada hoja. Puedes elegir su calidad para el color inicial de las franjas de las tarjetas. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
@@ -17,11 +19,24 @@ La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los 
 
 Cada dibujo es una **tarjeta**. Tiene su nombre de acorde, calidad/color, digitación, grados, título exterior, anotación y tonalidad. Para escribir dos digitaciones del mismo acorde, añade dos tarjetas con ese nombre. Para escribir dos acordes distintos, cambia el nombre de cada una. Se manejan igual.
 
-Usa el único selector **Tarjetas del compás** para elegir una tarjeta, o púlsala directamente en la hoja. **Añadir tarjeta** crea una tarjeta lista para introducir sus notas. **Duplicar tarjeta** copia la seleccionada a continuación; **Quitar tarjeta** borra solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las otras tarjetas, aunque compartan el mismo nombre.
+Usa el único selector **Tarjetas del compás** para elegir una tarjeta, o púlsala directamente en la hoja. **Añadir tarjeta** crea una tarjeta lista para introducir sus notas y sin nombre: la hoja no dibuja nada hasta que lo escribas (el editor muestra «Sin nombre» solo como ayuda). **Duplicar tarjeta** copia la seleccionada a continuación; **Quitar tarjeta** borra solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las otras tarjetas, aunque compartan el mismo nombre.
 
 Los archivos anteriores siguen abriendo. Si contenían varias posiciones agrupadas bajo un acorde, ahora aparecen como tarjetas separadas en el selector. Abrir y guardar sin editar conserva el archivo; el cambio de interfaz no elimina datos ni crea notas.
 
 Selecciona un compás en el desplegable superior o con las flechas. El botón + añade un compás y el menú de tres puntos permite insertar, duplicar, mover o borrar compases. Su etiqueta no se renumera automáticamente al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
+
+### Repetir uno o dos compases
+
+Junto a **Añadir tarjeta** hay dos botones con el signo de repetición. No crean compases nuevos por sí solos ni copian tarjetas: la hoja dibuja un signo grande y el contenido se lee en el origen.
+
+- **Repetir compás anterior** (signo de porcentaje musical): el compás seleccionado repite el compás inmediatamente anterior. Está desactivado en el primer compás. Si el compás tiene tarjetas, pide confirmar antes de sustituirlas; cancelar no cambia nada y aceptar se deshace de una vez. Se permiten varios compases de repetición seguidos.
+- **Repetir dos compases anteriores** (dos barras oblicuas): el compás seleccionado y el siguiente forman la pareja de destino y repiten, en orden, los dos compases escritos antes. El signo se dibuja sobre la barra de compás común y los dos destinos van siempre en la misma línea. Necesita dos compases antes del seleccionado y uno después: si falta el segundo destino, la aplicación pregunta antes de añadir un compás vacío al final.
+
+En un compás de repetición, el editor muestra un aviso con **Quitar repetición** (en la pareja quita las dos a la vez y deja ambos compases vacíos y editables). Si pulsas **Añadir tarjeta** en uno de ellos, se sale de la repetición y se avisa. Números, Coda, Fine, casillas y barras de repetición del compás se conservan.
+
+Si borras o mueves un compás de origen o de destino, la referencia se conserva y se avisa en el editor del compás y al mover; no se redirige sola. **Corregir referencia** la apunta de nuevo a los compases inmediatamente anteriores. Duplicar un compás de repetición hace que la copia repita el original; duplicar un destino de una pareja crea un compás vacío (y la pareja queda avisada si la copia la separa).
+
+Los archivos con estos campos (`repeatPrevious`, `repeatPreviousTwo`) requieren 0.7.0 o posterior.
 
 ## Escribir digitaciones, grados y textos
 
@@ -49,11 +64,13 @@ El selector de calidad cambia el fondo de la tarjeta. No analiza sus notas ni ge
 
 Pulsa **Colores** en la cabecera. En **Calidad del acorde** cambia el fondo de mayor, menor, dominante, semidisminuido, disminuido y otros. Se usa la familia que hayas elegido en cada acorde; no se deduce del nombre.
 
-En **Notas y grados**, elige naturales, bemoles o sostenidos para ver los grados del 1 al 13. Cada uno tiene su propio color: cambiar `b3` no modifica `3`. Puedes usar el selector de color o escribir un hexadecimal `#RRGGBB`. **Otro grado o etiqueta** añade valores como `bb7`, `##4` o `R`, de hasta 32 caracteres. Los símbolos ♭ y ♯ equivalen a `b` y `#`. También se puede cambiar el color de las notas sin grado o sin un color propio.
+En **Notas y grados**, elige naturales, bemoles o sostenidos para ver los grados del 1 al 13. Cada uno tiene su propio color: cambiar `b3` no modifica `3`. Puedes usar el selector de color o escribir un hexadecimal `#RRGGBB`. **Otro grado o etiqueta** añade valores como `bb7`, `##4` o `R`, de hasta 32 caracteres. Los símbolos ♭ y ♯ equivalen a `b` y `#`. Cada grado tiene un **Fondo** y un **Texto** independientes (selector y hexadecimal, cada uno con su flecha de restaurar); el texto es blanco por defecto y nunca se cambia solo. La muestra enseña la combinación real. También se pueden cambiar el fondo y el texto de las notas sin grado o sin un color propio; su fondo de serie es un gris claro (`#d1d5db`).
 
-Las muestras se actualizan y los colores se aplican a todos los compases de esta canción. El texto y la rejilla se adaptan para leer sobre fondos oscuros. La flecha circular restaura un color; **Restaurar paleta original** pide confirmar antes de quitar todos los colores personalizados.
+Las muestras se actualizan y los colores se aplican a todos los compases de esta canción. En las tarjetas, el texto y la rejilla se adaptan para leer sobre fondos oscuros; en los puntos de grado manda el texto que elijas. La flecha circular restaura un color; **Restaurar paleta original** pide confirmar antes de quitar todos los colores personalizados.
 
-Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el archivo. Se incluye también en HTML e impresión. Abrir otra canción utiliza sus colores, o los originales si no tiene una paleta guardada. Las versiones anteriores a 0.3.0 no pueden abrir JSON con el campo `palette`; utiliza la aplicación actualizada.
+![Grados con fondo y texto independientes, con la muestra real de cada combinación.](capturas/colores-grados.png)
+
+Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el archivo. Se incluye también en HTML e impresión. Abrir otra canción utiliza sus colores, o los predeterminados (`config/palette-defaults.json`) si no tiene una paleta guardada; esos valores nunca se escriben en tu archivo. Las versiones anteriores a 0.3.0 no pueden abrir JSON con el campo `palette`; utiliza la aplicación actualizada.
 
 ![Paleta de fondos por calidad del acorde.](capturas/colores-acordes.png)
 
@@ -75,7 +92,7 @@ Deja el campo vacío para continuar con la tonalidad anterior, incluido su color
 
 La tonalidad general inicia el contexto; si no has elegido su calidad, usa el color neutro de **Otro**. Sin tonalidad general ni cambio previo no se inventa ninguna. Cuando está vacío, el campo muestra una guía «Hereda: …» y el color del contexto efectivo; al pasar el ratón se ve la explicación completa. Elegir una calidad con el campo vacío prepara el siguiente texto; no crea un cambio invisible en el archivo.
 
-Para ocultar las franjas en todas las hojas, abre los datos de canción pulsando su título y desmarca **Mostrar tonalidades de las tarjetas**. La tonalidad junto al título sigue visible. Vuelve a marcar para recuperar las franjas; no se borra ningún dato.
+Para ocultar las franjas en todas las hojas, abre los datos de canción pulsando su título y desmarca **Mostrar tonalidades de las tarjetas**. La tonalidad junto al título sigue visible. Mientras estén ocultas, los campos **Tonalidad** y **Calidad de tonalidad** de cada tarjeta también desaparecen del editor, porque no tendrían efecto en la hoja; sus valores se conservan y reaparecen al volver a marcar la casilla. No se borra ningún dato.
 
 Grado y tonalidad pertenecen a la tarjeta seleccionada, igual que el resto de sus campos. Se guardan en JSON y se conservan en vista previa, HTML e impresión. Puedes probarlo abriendo `examples/textos-tonalidades.json`. Los archivos con estos campos nuevos requieren 0.5.0 o posterior; los anteriores siguen abriendo.
 
@@ -88,6 +105,28 @@ La escritura continua en un campo se agrupa hasta salir de él. Fuera de los cam
 Guardar JSON conserva el historial de esta sesión. Abrir otra canción, crear una nueva o recuperar una copia empieza otro historial. Al recargar se conserva la canción que ofrezca la recuperación, pero no sus pasos de deshacer. Hay hasta 100 pasos, sujetos a un presupuesto de tamaño; la última acción siempre se conserva. El historial no se incluye en el JSON. Una acción nueva después de deshacer elimina la rama de rehacer.
 
 ![Selector de tarjetas, digitación y grados.](capturas/editor-posiciones.png)
+
+### Opciones de página
+
+En los datos de canción hay dos opciones globales que solo cambian la presentación:
+
+- **Máximo de compases por línea**: **Automático** (por defecto) reparte según el ancho disponible, como siempre. Un número del 1 al 16 es un tope, no una obligación: pueden caber menos compases si las tarjetas son anchas o la pantalla estrecha. La pareja de una repetición de dos compases no se separa, así que con tope 1 ocupa una línea con sus dos compases.
+- **Mostrar números de compás**: al desmarcarla se ocultan las etiquetas de todos los compases y las líneas verticales que los separan, en la vista previa, el HTML y la impresión, útil para una hoja de acordes que no es una partitura. Las etiquetas se conservan en el archivo. Las líneas de las tarjetas, las barras y signos de repetición, Coda, Fine, casillas, saltos y el número de página siguen visibles.
+
+![Datos de la canción: tonalidades, números de compás y máximo de compases por línea.](capturas/datos-cancion.png)
+
+Ambas opciones se guardan en el JSON solo cuando se usan y `showMeasureNumbers`, solo cuando no son los valores por defecto) y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
+
+### Ancho de cada compás y ajuste de línea
+
+- **Ancho del compás**: en el menú de tres puntos del compás, escribe un porcentaje del 10 al 100 % del ancho de la línea. Vacío es Automático (como siempre). El ancho nunca baja de lo que necesitan las tarjetas: si el porcentaje no basta se usa el mínimo, aparece un aviso bajo la vista previa y caben menos compases en esa línea.
+- **Ajustar línea al ancho**: cada línea de la vista previa tiene un botón de doble flecha horizontal en el margen derecho de la hoja. Al pulsarlo, el espacio libre se reparte entre los compases de esa línea hasta el margen derecho, sin deformar los mástiles ni comprimir ninguna tarjeta, y puede superar el 25 %. Pulsa de nuevo (queda resaltado) para volver a Automático, o usa Deshacer. Si la línea cambia de composición, el reparto se recalcula con los compases que caben.
+
+![Menú del compás con su etiqueta y su ancho.](capturas/opciones-compas.png)
+
+Ambos ajustes se guardan en el JSON solo cuando se usan (`widthPercent`, `fillToEdge`); las versiones anteriores a 0.7.0 no abren esos archivos.
+
+Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 % sobre su ancho natural y el sobrante queda a la derecha.
 
 ## Añadir varios compases mediante una lista
 

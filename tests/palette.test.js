@@ -1,8 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { tonalityBandStyle, familyBackground, familyForeground, foreground, isColor, paletteDegreeColor, paletteFamilyStyle, setPaletteColor, resetPaletteColor } from '../src/model/palette.js';
+import { familyStyle, tonalityBandStyle, familyBackground, familyForeground, foreground, isColor, paletteDegreeColor, paletteFamilyStyle, setPaletteColor, resetPaletteColor } from '../src/model/palette.js';
 import { degreeColor } from '../src/model/degrees.js';
-import { familyStyle } from '../src/model/families.js';
 import { validateSong } from '../src/model/validate.js';
 import { parseSongJson, serializeSong } from '../src/model/serialize.js';
 import { clone, loadDemo } from './helpers.js';
@@ -80,4 +79,57 @@ test('franjas tonales: calidad independiente, paleta y contraste sobre fondo ten
   assert.equal(tonalityBandStyle('constructor'), tonalityBandStyle('other'));
   assert.doesNotMatch(tonalityBandStyle('minor', { families: { minor: 'url(x)' } }), /url/);
   assert.equal(serializeSong(song), original);
+});
+
+import { defaultNoteColor, inkColor, neutralNote } from '../src/model/palette.js';
+
+test('texto por grado: independiente del fondo, blanco por defecto y sin sustituir la elección del usuario', () => {
+  const song = clone(loadDemo());
+  setPaletteColor(song, 'degrees', 'b3', '#14183a');
+  assert.deepEqual(paletteDegreeColor('♭3', song.palette), { bg: '#14183a', fg: '#ffffff' });
+  setPaletteColor(song, 'degreeText', '♭3', '#000000');
+  assert.equal(paletteDegreeColor('b3', song.palette).fg, '#000000');
+  assert.deepEqual(paletteDegreeColor('3', song.palette), { bg: '#0284C7', fg: '#ffffff' });
+  assert.deepEqual(paletteDegreeColor('#3', song.palette), { bg: '#0284C7', fg: '#ffffff' });
+  setPaletteColor(song, 'degreeText', '1', '#001122');
+  assert.deepEqual(paletteDegreeColor('1', song.palette), { bg: '#E11D48', fg: '#001122' });
+  setPaletteColor(song, 'degreeText', 'R', '#123456');
+  assert.deepEqual(paletteDegreeColor('R', song.palette), { bg: defaultNoteColor(), fg: '#123456' });
+  setPaletteColor(song, 'degrees', 'bb7', '#445566');
+  assert.deepEqual(paletteDegreeColor('bb7', song.palette), { bg: '#445566', fg: '#ffffff' });
+  assert.deepEqual(paletteDegreeColor('##4', song.palette), paletteDegreeColor('##4', {}));
+  for (const label of ['1', 'b3', '3', '5', 'b5', '9', '11', '#9', '#11']) assert.equal(paletteDegreeColor(label, {}).fg, '#ffffff', label);
+  for (const label of ['b7', '7', '13', 'b13', '6']) assert.deepEqual(paletteDegreeColor(label, {}), { bg: '#EDBC07', fg: '#3d2f00' }, label);
+  assert.deepEqual(paletteDegreeColor('b7', { degrees: { b7: '#112233' } }), { bg: '#112233', fg: '#ffffff' }, 'fondo propio: texto blanco');
+  assert.deepEqual(paletteDegreeColor('b7', { degreeText: { b7: '#000000' } }), { bg: '#EDBC07', fg: '#000000' }, 'texto propio respetado');
+});
+
+test('fondo neutro: gris claro de serie, #14183a explícito se respeta y la tinta no cambia', () => {
+  assert.equal(defaultNoteColor(), '#d1d5db');
+  assert.equal(inkColor(), '#14183a');
+  assert.deepEqual(neutralNote(undefined), { bg: '#d1d5db', fg: '#14183a' });
+  assert.deepEqual(neutralNote({ degrees: {} }), { bg: '#d1d5db', fg: '#14183a' });
+  assert.deepEqual(neutralNote({ note: '#14183a' }), { bg: '#14183a', fg: '#ffffff' });
+  assert.deepEqual(neutralNote({ note: '#14183a', noteText: '#ffcc00' }), { bg: '#14183a', fg: '#ffcc00' });
+  assert.equal(foreground('#eeeeee'), '#14183a');
+});
+
+test('texto por grado: guardado, restauración y validación', () => {
+  const song = clone(loadDemo());
+  setPaletteColor(song, 'degreeText', 'b3', '#112233');
+  setPaletteColor(song, 'noteText', '', '#445566');
+  const parsed = parseSongJson(serializeSong(song));
+  assert.equal(parsed.ok, true);
+  assert.deepEqual(parsed.song.palette, { degreeText: { b3: '#112233' }, noteText: '#445566' });
+  resetPaletteColor(song, 'degreeText', 'b3');
+  resetPaletteColor(song, 'noteText', '');
+  assert.equal('palette' in song, false);
+  for (const palette of [{ degreeText: { '5': 'red' } }, { degreeText: { '': '#112233' } }, { noteText: '#12' }, { degreeText: [] }]) {
+    const bad = clone(loadDemo()); bad.palette = palette;
+    assert.ok(validateSong(bad).errors.length, JSON.stringify(palette));
+  }
+  const proto = clone(loadDemo()); proto.palette = JSON.parse('{"degreeText":{"__proto__":"#112233"}}');
+  assert.ok(validateSong(proto).errors.length);
+  assert.equal(setPaletteColor(song, 'degreeText', 'constructor', '#112233'), false);
+  assert.equal(setPaletteColor(song, 'degreeText', '1', 'url(x)'), false);
 });

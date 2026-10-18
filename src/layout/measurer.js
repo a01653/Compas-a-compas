@@ -45,10 +45,14 @@ export function createMeasurer() {
       row.append(node);
       const rect = row.getBoundingClientRect();
       const width = node.getBoundingClientRect().width;
-      const tracks = getComputedStyle(row).gridTemplateRows.split(/\s+/).map(parseFloat);
+      const style = getComputedStyle(row);
+      const tracks = style.gridTemplateRows.split(/\s+/).map(parseFloat);
+      // Ancho natural de cada columna (pista) de la fila medida a su contenido: base del tope de crecimiento de cada tarjeta.
+      const cols = style.gridTemplateColumns.split(/\s+/).map(parseFloat);
       node.remove();
       const rows = tracks.length > 1 && tracks.every(Number.isFinite) ? tracks : undefined;
-      return rows ? { width, height: rect.height, rows } : { width, height: rect.height };
+      const columns = cols.length && cols.every((n) => Number.isFinite(n) && n > 0) ? cols : undefined;
+      return { width, height: rect.height, ...(rows ? { rows } : {}), ...(columns ? { columns } : {}) };
     },
 
     dispose() {

@@ -19,6 +19,7 @@ const MIME = {
   '.woff': 'font/woff',
   '.ttf': 'font/ttf',
   '.png': 'image/png',
+  '.pdf': 'application/pdf',
   '.ico': 'image/x-icon',
 };
 

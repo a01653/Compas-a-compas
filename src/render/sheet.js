@@ -3,9 +3,11 @@ import { cardNode } from './card.js';
 import { paletteFamilyStyle } from '../model/palette.js';
 import { projectMarks, fragmentMarks } from '../model/marksProjection.js';
 import { marksParts } from './marks.js';
+import { repeatSymbol, repeatSymbolTwo } from './repeat.js';
 import { buildUnits, fragmentFlags, groupAtoms } from '../layout/atoms.js';
-import { pageStyleVars } from '../layout/spec.js';
+import { MAX_ROW_EXPANSION, pageStyleVars } from '../layout/spec.js';
 import { deriveTonalityContext, tonalitiesVisible } from '../model/tonality.js';
+import { measureNumbersVisible } from '../model/song.js';
 
 /**
  * Renderizador único de hojas: la vista previa, la medición y el HTML exportado dibujan con estas funciones.
@@ -59,7 +61,9 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
   const parts = marksParts(fragmentMarks(ctx.byMeasure.get(unit.measureId), { isFirst, isLast }));
 
   // Número, línea del compás y barras de repetición viven en la zona del compás de cada columna, por debajo de título y franja.
-  const lead = { label: unit.label, continuation: !isFirst, barStart: parts.barStart };
+  // Con la numeración oculta solo se omite el texto de la etiqueta: el hueco, los datos y el resto de marcas no cambian.
+  const label = measureNumbersVisible(ctx.song) ? unit.label : null;
+  const lead = { label, continuation: !isFirst, barStart: parts.barStart };
 
   const groups = unit.atoms.length ? groupAtoms(unit, from, to) : [];
   const body = groups.length
@@ -67,11 +71,15 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
       lead: i === 0 ? lead : null,
       tail: i === groups.length - 1 ? parts.barEnd : null,
     })))
-    : h('div', { class: 't-pos t-pos-lead t-pos-vacio' },
-      h('div', { class: 't-num' }, h('span', { class: 'compas-num' }, unit.label),
-        isFirst ? null : h('span', { class: 'compas-continuacion' }, 'continuación')),
-      parts.barStart, parts.barEnd,
-      h('div', { class: 'compas-vacio' }, 'Compás vacío'));
+    : unit.repeatPrevious || unit.repeatPair
+      ? h('div', { class: `t-pos t-pos-lead t-pos-repite${unit.repeatPair ? ' t-pos-repite-doble' : ''}` },
+        h('div', { class: 't-num' }, label === null ? null : h('span', { class: 'compas-num' }, label)),
+        parts.barStart, parts.barEnd, unit.repeatPair === 'second' ? h('div', { class: 'compas-repite' }) : unit.repeatPair ? [h('div', { class: 'compas-repite' }), repeatSymbolTwo()] : repeatSymbol())
+      : h('div', { class: 't-pos t-pos-lead t-pos-vacio' },
+        h('div', { class: 't-num' }, label === null ? null : h('span', { class: 'compas-num' }, label),
+          isFirst ? null : h('span', { class: 'compas-continuacion' }, 'continuación')),
+        parts.barStart, parts.barEnd,
+        h('div', { class: 'compas-vacio' }, 'Compás vacío'));
 
   return h('div', {
     class: ['compas', isFirst ? '' : 'compas-cont', ...parts.classes].filter(Boolean).join(' '),
@@ -92,15 +100,43 @@ export function headerNode(song, pageText) {
     h('div', { class: 'hoja-pagina' }, pageText));
 }
 
-export function pageNode(ctx, page, number, total, { onSelect } = {}) {
+/**
+ * Pistas de la fila con tope individual: cada columna crece desde su contenido hasta, como mucho, su ancho natural medido más
+ * MAX_ROW_EXPANSION. El espacio se reparte en partes iguales entre las columnas que aún pueden crecer, nunca por encima del tope
+ * de ninguna, y el sobrante queda a la derecha. Sin anchos medidos, las columnas no se estiran (tamaño natural).
+ */
+function rowColumns(row) {
+  const parts = row.fragments.map((f) => f.tracks || f.columns || []);
+  const expected = row.fragments.reduce((sum, f) => sum + Math.max(1, f.to - f.from), 0);
+  if (parts.some((p, i) => p.length !== Math.max(1, row.fragments[i].to - row.fragments[i].from)) || parts.flat().length !== expected) return null;
+  const cap = (n) => `${Math.ceil(n * (1 + MAX_ROW_EXPANSION) * 100) / 100}px`;
+  // Pistas fijas (ancho manual o línea ajustada) o con tope individual de expansión (automático).
+  return `grid-template-columns:${row.fragments.map((f, i) => (f.tracks ? parts[i].map((n) => `${n}px`) : parts[i].map((n) => `minmax(min-content,${cap(n)})`))).flat().join(' ')}`;
+}
+
+export function pageNode(ctx, page, number, total, { onSelect, onFitRow } = {}) {
   return h('section', {
-    class: page.overflow ? 'hoja desborda' : 'hoja',
+    class: ['hoja', page.overflow ? 'desborda' : '', measureNumbersVisible(ctx.song) ? '' : 'sin-numeros'].filter(Boolean).join(' '),
     style: pageStyleVars(),
     'aria-label': `Hoja ${number} de ${total}`,
   },
     headerNode(ctx.song, `${number}/${total}`),
-    h('div', { class: 'hoja-cuerpo' }, page.rows.map((row) =>
-      h('div', { class: 'fila' }, row.fragments.map((f) => fragmentNode(ctx, f.unitIndex, f.from, f.to, { onSelect }))))));
+    h('div', { class: 'hoja-cuerpo' }, page.rows.map((row) => {
+      const line = h('div', { class: row.fill ? 'fila fila-ajustada' : 'fila', style: rowColumns(row) },
+        row.fragments.map((f) => fragmentNode(ctx, f.unitIndex, f.from, f.to, { onSelect })));
+      // Solo la vista previa envuelve la fila para colocar su botón en el margen; la exportación dibuja la fila sola.
+      return onFitRow ? h('div', { class: 'fila-caja' }, line, fitRowButton(row, ctx, onFitRow)) : line;
+    })));
+}
+
+/** Botón de la vista previa (no existe en el HTML exportado) para ajustar una línea al ancho o volver a automático. */
+function fitRowButton(row, ctx, onFitRow) {
+  const measureIds = [...new Set(row.fragments.map((f) => ctx.units[f.unitIndex].measureId))];
+  const label = row.fill ? 'Volver la línea a automático' : 'Ajustar línea al ancho';
+  return h('button', {
+    type: 'button', class: row.fill ? 'fila-ajuste activo' : 'fila-ajuste', title: label, 'aria-label': label, 'aria-pressed': row.fill ? 'true' : 'false',
+    onclick: (e) => { e.stopPropagation(); onFitRow({ measureIds, filled: Boolean(row.fill) }); },
+  }, '↔');
 }
 
 /** Marca la selección sobre nodos ya dibujados, sin reconstruirlos (no pierde foco ni desplazamiento). */

@@ -426,6 +426,7 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
   .brand h1 { font-size: 28px; }
   .topbar-file { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
   .topbar-file .btn { padding-inline: 8px; }
+  .topbar-file .file-state { grid-column: 1 / -1; max-width: none; }
   .layout { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 14px 12px calc(40px + env(safe-area-inset-bottom)); }
   .col { gap: 16px; }
   .panel { padding: 14px; }
@@ -435,3 +436,10 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
   .posiciones, .acorde-acciones { margin-left: 4px; }
   .acorde-acciones .btn-row .btn { flex: 1 1 100%; }
 }
+
+/* Botón por línea de la vista previa: vive en el margen derecho de la hoja y no existe en el HTML exportado ni en la impresión. */
+.vista-hojas .fila-ajuste { position: absolute; left: 100%; top: 2px; margin-left: 1px; width: 16px; height: 24px; padding: 0; border: 1px solid rgba(47, 107, 255, 0.35); border-radius: 4px; background: #fff; color: #2f6bff; font: 12px/1 sans-serif; cursor: pointer; opacity: .35; }
+.vista-hojas .fila-caja:hover .fila-ajuste, .vista-hojas .fila-ajuste:focus-visible, .vista-hojas .fila-ajuste.activo { opacity: 1; }
+.vista-hojas .fila-ajuste.activo { background: #2f6bff; color: #fff; }
+
+a.btn { text-decoration: none; }

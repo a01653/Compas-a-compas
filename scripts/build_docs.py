@@ -103,7 +103,7 @@ def build(doc, engine):
     inputs = [(source, "source"), (TEMPLATE, "template"), (GENERATOR, "generator"), (VERSION_FILE, "application-version")]
     inputs += [(capture, "capture") for capture in captures]
     outputs = [(DEST / (name + ext), role) for ext, role in ((".tex", "latex"), (".pdf", "pdf"))]
-    manifest = {"document": key, "applicationVersion": APP_VERSION, "edition": "2026-10-17",
+    manifest = {"document": key, "applicationVersion": APP_VERSION, "edition": "2026-10-18",
                 "source": source_name, "command": "python scripts/build_docs.py", "engine": engine,
                 "files": [{"path": rel(p), "sha256": sha(p), "role": role} for p, role in inputs + outputs]}
     (DEST / (name + ".build.json")).write_text(

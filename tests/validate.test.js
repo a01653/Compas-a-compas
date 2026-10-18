@@ -51,7 +51,7 @@ test('tipos incorrectos y campos obligatorios', () => {
   const data = clone(loadDemo());
   data.title = 3;
   delete data.structure;
-  data.measures[1].chordEvents[0].chordName = '';
+  data.measures[1].chordEvents[0].chordName = 7;
   data.measures[2].label = '';
   const paths = validateSong(data).errors.map((e) => e.path);
   assert.ok(paths.includes('title'));

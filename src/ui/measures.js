@@ -1,5 +1,5 @@
 import { h } from '../render/dom.js';
-import { addMeasure, deleteMeasure, duplicateMeasure, moveMeasure } from '../model/song.js';
+import { addMeasure, deleteMeasure, duplicateMeasure, moveMeasure, setMeasureWidth } from '../model/song.js';
 import { measureConsequences } from '../model/structure.js';
 import { selectedMeasure } from '../store.js';
 import { confirmDialog } from './dialog.js';
@@ -25,11 +25,14 @@ export function mountMeasuresPanel(root, store) {
     if (copy) store.commit('structure', { measureId: copy.id });
   });
   const move = (delta) => () => {
-    const { moved, inversions } = moveMeasure(store.state.song, store.state.selection.measureId, delta);
+    const { moved, inversions, repeats } = moveMeasure(store.state.song, store.state.selection.measureId, delta);
     if (!moved) return;
     store.commit('structure');
     if (inversions.length) {
       notify(`Aviso: este movimiento deja tramos invertidos. ${inversions.map((w) => w.message).join(' ')}`, { duration: 9000 });
+    }
+    if (repeats.length) {
+      notify(`Aviso: este movimiento deja repeticiones del compás anterior sin su origen inmediato. ${repeats.map((w) => w.message).join(' ')}`, { duration: 9000 });
     }
   };
   const bUp = button('↑ Subir', move(-1));
@@ -81,6 +84,11 @@ export function mountMeasuresPanel(root, store) {
     const m = selectedMeasure(store.state);
     if (m) { m.label = e.target.value; store.emit('text'); }
   } });
+  const width = h('input', { id: 'f-ancho-compas', type: 'number', min: 10, max: 100, step: 1, inputmode: 'numeric', placeholder: 'Automático',
+    'aria-describedby': 'hint-ancho-compas', oninput: e => {
+      const m = selectedMeasure(store.state);
+      if (m) { setMeasureWidth(m, e.target.value); store.emit('text'); }
+    } });
   root.append(
     h('div', { class: 'navigator-heading' },
       h('div', { class: 'navigator-caption' }, h('h2', { id: 't-compases' }, 'Compás'), h('span', { id: 'cuenta-compases', class: 'hint' })),
@@ -91,6 +99,8 @@ export function mountMeasuresPanel(root, store) {
         h('summary', { class: 'btn tool-icon', 'aria-label': 'Opciones del compás', title: 'Opciones del compás' }, icon('more')),
         h('div', { class: 'menu-content measure-menu' },
           h('div', { class: 'field' }, h('label', { for: 'f-etiqueta' }, 'Etiqueta del compás'), label),
+          h('div', { class: 'field' }, h('label', { for: 'f-ancho-compas' }, 'Ancho del compás (% de la línea)'), width,
+            h('p', { class: 'hint', id: 'hint-ancho-compas' }, 'Vacío = automático. Nunca baja del ancho que necesitan sus tarjetas; si no cabe, se avisa y caben menos compases por línea.')),
           bInsert, bDup, bUp, bDown, bDelete, bImport))));
 
   function render(state) {
@@ -106,11 +116,13 @@ export function mountMeasuresPanel(root, store) {
 
     select.replaceChildren(...state.song.measures.map(m => h('option', {
       value: m.id, selected: m.id === state.selection.measureId,
-    }, `${m.label} · ${m.chordEvents.map(e => e.chordName || 'Sin nombre').join(' / ') || 'Vacío'}`)));
+    }, `${m.label} · ${m.repeatPrevious ? 'Repite el anterior' : m.repeatPreviousTwo ? 'Repite los dos anteriores' : m.chordEvents.map(e => e.chordName?.trim() ? e.chordName : 'Sin nombre').join(' / ') || 'Vacío'}`)));
     if (!total) select.append(h('option', { value: '' }, 'Sin compases'));
     select.disabled = none;
     if (document.activeElement !== label) label.value = selectedMeasure(state)?.label || '';
     label.disabled = none;
+    if (document.activeElement !== width) width.value = Number.isInteger(selectedMeasure(state)?.widthPercent) ? String(selectedMeasure(state).widthPercent) : '';
+    width.disabled = none;
   }
 
   render(store.state);

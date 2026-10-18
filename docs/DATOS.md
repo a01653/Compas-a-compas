@@ -67,7 +67,7 @@ La barra de un nombre como `C/E` no es un separador de voicings: solo se analiza
 
 ## Paleta opcional desde 0.3.0
 
-`palette` es una extensión opcional del esquema 1. `families` asigna colores a las seis claves de familia; `degrees` asigna colores a etiquetas de 1 a 32 caracteres; `note` cambia el color de las notas sin grado o sin color específico. Solo se admiten colores `#RRGGBB`. Se rechazan propiedades desconocidas y las etiquetas reservadas `__proto__`, `constructor` y `prototype`.
+`palette` es una extensión opcional del esquema 1. Desde 0.7.0 admite además `degreeText` (mapa etiqueta → color de texto del grado, con la misma normalización ♭/b y ♯/# que `degrees`) y `noteText` (texto de las notas sin grado o sin color propio). Sin `degreeText`, el texto de un grado con fondo personalizado es blanco (`#ffffff`); un grado sin ninguna personalización conserva el de la plantilla (blanco, salvo los grados dorados: `#3d2f00` sobre `#EDBC07`). Sin `noteText`, el texto neutro es tinta oscura sobre el gris de serie `#d1d5db` y blanco si `note` lo fija el usuario (p. ej. el antiguo `#14183a`, que se respeta). Los lectores anteriores a 0.7.0 rechazan estos campos. `families` asigna colores a las seis claves de familia; `degrees` asigna colores a etiquetas de 1 a 32 caracteres; `note` cambia el color de las notas sin grado o sin color específico. Solo se admiten colores `#RRGGBB`. Se rechazan propiedades desconocidas y las etiquetas reservadas `__proto__`, `constructor` y `prototype`.
 
 Los documentos previos siguen siendo válidos y no reciben el campo al abrirlos o guardarlos sin personalizar. Un documento que incluya `palette` requiere la aplicación 0.3.0 o posterior: los lectores antiguos lo rechazan por campo desconocido, conservando así la regla de no descartar datos. El estado de selección, las notas, IDs y referencias musicales son independientes de la paleta. Restaurar toda la paleta elimina el campo opcional.
 
@@ -82,6 +82,8 @@ Se amplía el esquema 1 con campos opcionales. Los JSON anteriores siguen siendo
 | Entidad | Campo | Contrato |
 | --- | --- | --- |
 | Canción | `keyFamily` | Una de las seis familias; ausente equivale a `other` para el color del contexto inicial. |
+| Canción | `showMeasureNumbers` | Booleano; ausente equivale a `true`. Solo `false` oculta las etiquetas de compás y las líneas verticales que separan los compases en la hoja (vista previa, HTML e impresión); no borra ni regenera las etiquetas, y conserva las líneas de las tarjetas, las barras y signos de repetición, Coda, Fine, casillas, saltos y la numeración de páginas. |
+| Canción | `maxMeasuresPerRow` | Entero de 1 a 16; ausente = modo automático (reparto vigente). Es un tope, no una obligación de llenar la línea; la pareja de destino de una repetición de dos compases no se separa y puede ocupar una línea aunque el tope sea 1. |
 | Canción | `showTonalities` | Booleano; ausente equivale a visible. Oculta las franjas, conservando la tonalidad del título y los datos. |
 | Posición | `voicingDegree` | Texto visible opcional, independiente de `degrees`; al vaciarlo se retira el campo. |
 | Posición | `tonality` | Objeto con `text` visible y `family` válida. No admite otras propiedades. Vacío se representa retirando el objeto completo. |
@@ -97,3 +99,66 @@ La interfaz presenta una lista plana de tarjetas por compás. El formato histór
 Los campos se editan de forma individual. Cambiar el nombre o la calidad de una tarjeta que compartía evento separa únicamente las partes necesarias, conservando el orden, los IDs de posición y los textos efectivos. El primer fragmento retiene el ID del evento y los nuevos fragmentos reciben IDs propios. Las referencias musicales siguen ligadas al compás. La separación y la edición se deshacen juntas.
 
 Añadir o duplicar crea una tarjeta independiente. Duplicar materializa los textos efectivos para que el contenido no dependa del evento original; quitar borra solo la tarjeta elegida. Abrir, seleccionar o guardar sin editar no modifica el documento. No cambian `schemaVersion`, la validación ni las digitaciones manuales.
+
+
+## Compás que repite el anterior (0.7.0)
+
+`measures[].repeatPrevious` es un objeto opcional `{ "sourceMeasureId": "<id de compás>" }`. Representa el signo de repetición de un compás y es independiente de `chordName`, de los textos y de `structure.repeats`. Reglas:
+
+- Un compás con `repeatPrevious` debe tener `chordEvents: []` (validación manual y JSON Schema, `if/then`). No se copian tarjetas ni voicings; el contenido se lee del origen.
+- El origen debe ser el predecesor inmediato en el orden escrito. Si se borra o mueve el origen, la referencia se conserva y `checkStructure` emite un aviso (`kind: 'repeat'`): origen inexistente, a sí mismo, no inmediato o ciclo. Se abre con avisos; la acción «Corregir referencia» apunta al compás anterior.
+- Duplicar un compás de repetición crea la copia justo después con `sourceMeasureId` igual al ID del original (su «compás anterior»).
+- Los archivos sin el campo no se modifican al abrirlos ni guardarlos. `schemaVersion` sigue siendo 1; los lectores anteriores rechazan el campo por desconocido.
+- `chordEvents[].chordName` admite cadena vacía: la hoja no dibuja nada en su lugar.
+
+### Repetición de dos compases (0.7.0)
+
+`measures[].repeatPreviousTwo` es un objeto opcional que se escribe **solo en el primer compás de destino**:
+
+```json
+{ "id": "m3", "label": "3", "chordEvents": [],
+  "repeatPreviousTwo": { "sourceMeasureIds": ["m1", "m2"], "targetMeasureIds": ["m3", "m4"] } }
+```
+
+- `sourceMeasureIds` (los dos compases repetidos, en orden) y `targetMeasureIds` (la pareja de destino) tienen exactamente dos IDs distintos cada uno; `targetMeasureIds[0]` es el propio compás.
+- Ambos destinos tienen `chordEvents` vacíos (el esquema lo exige para el que lleva la marca; el segundo se comprueba como aviso) y no llevan `repeatPrevious`. `repeatPrevious` y `repeatPreviousTwo` no pueden coexistir en un mismo compás (error de forma).
+- Las fuentes deben ser los dos compases inmediatamente anteriores al primer destino, y los destinos, consecutivos. Si se borra o mueve cualquiera de los cuatro, los IDs se conservan y `checkStructure` emite avisos de tipo `repeat` (inexistente, repetido o ciclo, no consecutivos, fuentes no inmediatas, solapamiento, contenido propio en el segundo destino). El archivo se abre y la acción «Corregir referencia» recoloca las fuentes de forma expresa.
+- Una pareja que no cumple las condiciones de dibujo (destinos no consecutivos o con contenido) no se dibuja como pareja: aparece como compás vacío junto al aviso.
+- Duplicar un destino no copia la marca: la copia es un compás vacío. Los IDs de fuentes y destinos cuentan como usados al crear IDs nuevos.
+- La marca no expande el recorrido ni añade reproducción: la pareja cuenta como dos compases escritos.
+
+Compatibilidad: `schemaVersion` sigue siendo 1. Los lectores anteriores a 0.7.0 rechazan `repeatPrevious`, `repeatPreviousTwo`, `widthPercent`, `fillToEdge`, `showMeasureNumbers`, `maxMeasuresPerRow`, `palette.degreeText`, `palette.noteText` y `chordName` vacío; los archivos que no los usan se abren y guardan sin cambios.
+
+### Ancho de compás y ajuste de línea (0.7.0)
+
+Dos campos opcionales de `measures[]`, solo de presentación y siempre relativos (nunca píxeles ni valores medidos):
+
+| Campo | Tipo | Significado |
+|-------|------|-------------|
+| `widthPercent` | entero 10–100 | Ancho del compás como porcentaje del ancho útil de la línea. Ausente = ancho automático (reparto vigente, con el límite de expansión del 25 % por tarjeta). Afecta a toda la columna del compás. Nunca baja del ancho que necesita su contenido: si el porcentaje no basta, se usa el ancho mínimo, se avisa en la vista previa y la paginación coloca menos compases en la línea (siempre respetando `maxMeasuresPerRow`). Solo se aplica al compás entero, no a sus fragmentos de continuación. |
+| `fillToEdge` | booleano | `true` ajusta la línea del compás al margen derecho: el espacio libre se reparte entre los compases de esa línea proporcionalmente a su ancho natural (o manual), sin bajar de lo que necesita cada columna y pudiendo superar el 25 %. Se guarda solo `true`; automático = campo ausente. Una línea se ajusta si cualquiera de sus compases lo lleva. El botón de la línea marca el primer compás y, al volver a automático, quita la marca de todos los de la línea. |
+
+Si la composición de la línea cambia (otro máximo por línea, otro ancho, edición), la marca sigue en su compás y el reparto se recalcula con los compases que realmente caben. Los archivos sin estos campos no cambian al abrirse ni guardarse; las versiones anteriores a 0.7.0 rechazan los campos nuevos.
+
+## Colores predeterminados: `config/palette-defaults.json` (0.7.0)
+
+Los colores que se usan cuando una canción **no** define los suyos están en un único fichero, `config/palette-defaults.json`, y no se repiten en el código. Es configuración de la aplicación, no parte del formato de canción: no se copia al JSON de la canción.
+
+| Clave | Contenido |
+|-------|-----------|
+| `version` | Debe ser `1`. |
+| `ink` | Tinta oscura general (líneas, textos, barras) y base del cálculo de contraste de las calidades. |
+| `muted` | Tinta atenuada de las etiquetas del mástil (números de traste y de cuerda de la tarjeta) cuando la tarjeta no fuerza otro color. |
+| `text` | `default` (texto predeterminado de un grado con fondo propio), `light` y `fallback` (resultados del contraste automático de las calidades). |
+| `families` | Para cada calidad (`major`, `minor`, `dominant`, `half-diminished`, `diminished`, `other`): `bg` (fondo de tarjeta), `bd` (borde) y `accent` (franja de tonalidad). |
+| `degrees` | Etiqueta de grado → `{ bg, fg }` (fondo y texto de plantilla): 1, b3, 3, 5, b5, b7, 7, 13, b13, 9, b9, 11, #9 y #11. |
+| `naturalDegrees` | Para los números 1 a 13, el grado de `degrees` cuyo color usan los grados naturales y alterados no listados (p. ej. `6` → `13`). |
+| `note` | `bg` (fondo neutro de las notas sin grado o sin color propio), `text` (texto sobre ese fondo de serie) y `textOnCustomBg` (texto cuando el usuario fija el fondo neutro). |
+
+Reglas:
+
+- **Carga y validación**: la aplicación lo carga y valida al iniciarse. Todo valor es `#RRGGBB`; deben estar todas las calidades, `naturalDegrees` completo y apuntando a grados definidos, y no se admiten claves desconocidas. Si el fichero falta, no es JSON o tiene valores incorrectos, la aplicación no arranca y muestra el motivo (por ejemplo «no se encuentra el archivo (HTTP 404)» o «ink debe ser un color #RRGGBB»), sin dibujar con colores inventados.
+- **Prioridad**: `palette` de la canción (`families`, `degrees`, `degreeText`, `note`, `noteText`) siempre manda sobre el fichero, campo a campo. Abrir y guardar una canción no copia valores del fichero a su `palette` ni modifica los que tiene. Los documentos nuevos nacen sin `palette` y usan el fichero; «Restaurar paleta original» quita la `palette` de la canción y vuelve a él.
+- **Cambiarlo**: editar el fichero cambia los colores de todas las canciones que no los personalicen. Para empaquetar la aplicación (`scripts/build-pages.mjs`) se copia la carpeta `config/`.
+- **Fuera del fichero**: los colores generales de la interfaz (barras, paneles, botones, `styles/tokens.css`) no son parte de la paleta de la canción y no se configuran aquí.
+- Las pruebas instalan el fichero real antes de ejecutarse (`tests/setup.mjs`) y comprueban que sus valores se aplican, que la paleta de un JSON se conserva y que no quedan duplicados en `src/`.

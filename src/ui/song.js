@@ -1,5 +1,6 @@
 import { h } from '../render/dom.js';
 import { FAMILIES } from '../model/families.js';
+import { MAX_MEASURES_PER_ROW_LIMIT, measureNumbersVisible, setMaxMeasuresPerRow, setShowMeasureNumbers } from '../model/song.js';
 import { normalizeFamily, setKeyFamily, setShowTonalities, tonalitiesVisible } from '../model/tonality.js';
 
 export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
@@ -20,6 +21,14 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
     store.endEdit(); setShowTonalities(store.state.song, e.target.checked); store.emit('text');
   } });
 
+  const showNumbers = h('input', { id: 'f-mostrar-numeros', type: 'checkbox', 'aria-describedby': 'hint-mostrar-numeros', onchange: e => {
+    store.endEdit(); setShowMeasureNumbers(store.state.song, e.target.checked); store.emit('text');
+  } });
+  const maxPerRow = h('select', { id: 'f-max-compases', 'aria-describedby': 'hint-max-compases', onchange: e => {
+    store.endEdit(); setMaxMeasuresPerRow(store.state.song, e.target.value); store.emit('text');
+  } }, h('option', { value: '' }, 'Automático'),
+  Array.from({ length: MAX_MEASURES_PER_ROW_LIMIT }, (_, i) => h('option', { value: String(i + 1) }, String(i + 1))));
+
   root.append(
     h('div', { class: 'panel-head' }, h('h2', { id: 't-cancion' }, 'Canción')),
     h('div', { class: 'field' }, h('label', { for: 'f-titulo' }, 'Nombre de la canción'), title),
@@ -27,6 +36,10 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
     h('div', { class: 'field' }, h('label', { for: 'f-tono-calidad' }, 'Calidad de tonalidad'), keyFamily),
     h('div', { class: 'field field-check' }, h('label', { for: 'f-mostrar-tonalidades' }, showTonalities, 'Mostrar tonalidades de las tarjetas'),
       h('p', { class: 'hint', id: 'hint-mostrar-tonalidades' }, 'Muestra u oculta los cambios de tonalidad de las tarjetas. No oculta la tonalidad del título.')),
+    h('div', { class: 'field field-check' }, h('label', { for: 'f-mostrar-numeros' }, showNumbers, 'Mostrar números de compás'),
+      h('p', { class: 'hint', id: 'hint-mostrar-numeros' }, 'Oculta las etiquetas de todos los compases en la hoja (útil para una hoja de acordes). Se conservan en el archivo; repeticiones, Coda, Fine y casillas siguen visibles.')),
+    h('div', { class: 'field' }, h('label', { for: 'f-max-compases' }, 'Máximo de compases por línea'), maxPerRow,
+      h('p', { class: 'hint', id: 'hint-max-compases' }, 'Automático reparte según el ancho disponible. Un número es un tope: puede haber menos compases por línea si no caben.')),
     h('div', { class: 'field' }, h('label', { for: 'f-version' }, 'Versión del documento (opcional)'), docVersion,
       h('p', { class: 'hint' }, 'Texto libre para tus revisiones de la hoja. No es la versión de la aplicación ni la del formato del archivo.')),
     recovery);
@@ -42,6 +55,8 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
     key.value = state.song.key || '';
     keyFamily.value = normalizeFamily(state.song.keyFamily);
     showTonalities.checked = tonalitiesVisible(state.song);
+    showNumbers.checked = measureNumbersVisible(state.song);
+    maxPerRow.value = Number.isInteger(state.song.maxMeasuresPerRow) ? String(state.song.maxMeasuresPerRow) : '';
     docVersion.value = state.song.documentVersion || '';
   }
 

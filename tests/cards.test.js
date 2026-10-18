@@ -164,7 +164,7 @@ test('añadir tarjeta: acorde independiente con una digitación vacía, justo de
   const measure = song.measures[0];
   assert.deepEqual(eventShape(measure), [['v1'], [created.voicing.id], ['v2', 'v3'], []]);
   assert.equal(measure.chordEvents[0].id, 'e1');
-  assert.equal(created.event.chordName, 'Acorde nuevo');
+  assert.equal(created.event.chordName, '');
   assert.deepEqual(created.voicing.frets, [null, null, null, null, null, null]);
   const after = snapshot(song);
   for (const key of Object.keys(before)) assert.deepEqual(after[key], before[key], key);

@@ -33,6 +33,16 @@
     },
     "palette": {
       "$ref": "#/$defs/palette"
+    },
+    "showMeasureNumbers": {
+      "type": "boolean",
+      "description": "Ausente = true. Solo false oculta las etiquetas de compás en la hoja; no las borra."
+    },
+    "maxMeasuresPerRow": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 16,
+      "description": "Tope de compases por línea. Ausente = modo automático."
     }
   },
   "required": [
@@ -130,7 +140,7 @@
         },
         "chordName": {
           "type": "string",
-          "minLength": 1
+          "description": "Puede estar vacío: una tarjeta nueva no lleva nombre de prueba y la hoja no dibuja nada en su lugar."
         },
         "aboveText": {
           "type": "string"
@@ -180,6 +190,22 @@
             "$ref": "#/$defs/chordEvent"
           },
           "minItems": 0
+        },
+        "repeatPrevious": {
+          "$ref": "#/$defs/repeatPrevious"
+        },
+        "repeatPreviousTwo": {
+          "$ref": "#/$defs/repeatPreviousTwo"
+        },
+        "widthPercent": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 100,
+          "description": "Ancho manual del compás como porcentaje del ancho útil de la línea. Ausente = ancho automático. Nunca baja del ancho mínimo de sus tarjetas."
+        },
+        "fillToEdge": {
+          "type": "boolean",
+          "description": "Ajustar la línea de este compás al margen derecho (solo se guarda true; ausente = automático). Una línea se ajusta si alguno de sus compases lo lleva."
         }
       },
       "required": [
@@ -187,7 +213,40 @@
         "label",
         "chordEvents"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "anyOf": [
+              {
+                "required": [
+                  "repeatPrevious"
+                ]
+              },
+              {
+                "required": [
+                  "repeatPreviousTwo"
+                ]
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "chordEvents": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "not": {
+            "required": [
+              "repeatPrevious",
+              "repeatPreviousTwo"
+            ]
+          }
+        }
+      ]
     },
     "repeat": {
       "type": "object",
@@ -442,13 +501,84 @@
             "maxLength": 7
           }
         },
+        "degreeText": {
+          "type": "object",
+          "propertyNames": {
+            "minLength": 1,
+            "maxLength": 32,
+            "not": {
+              "enum": [
+                "__proto__",
+                "constructor",
+                "prototype"
+              ]
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "minLength": 7,
+            "maxLength": 7
+          }
+        },
         "note": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "minLength": 7,
+          "maxLength": 7
+        },
+        "noteText": {
           "type": "string",
           "pattern": "^#[0-9a-fA-F]{6}$",
           "minLength": 7,
           "maxLength": 7
         }
       }
+    },
+    "repeatPrevious": {
+      "type": "object",
+      "description": "El compás repite el compás inmediatamente anterior en el orden escrito (signo de repetición de un compás). No copia tarjetas ni voicings; un compás así no tiene chordEvents. La referencia se conserva si el origen se borra o se mueve y la aplicación avisa.",
+      "properties": {
+        "sourceMeasureId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "sourceMeasureId"
+      ],
+      "additionalProperties": false
+    },
+    "repeatPreviousTwo": {
+      "type": "object",
+      "description": "Marca en el primer compás de destino: la pareja de destino (targetMeasureIds, consecutivos, el primero es este compás) repite como pareja los dos compases inmediatamente anteriores (sourceMeasureIds, en orden). Sin tarjetas propias en los destinos. Si un compás se borra o se mueve, los IDs se conservan y la aplicación avisa.",
+      "properties": {
+        "sourceMeasureIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "targetMeasureIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "sourceMeasureIds",
+        "targetMeasureIds"
+      ],
+      "additionalProperties": false
     }
   }
 }

@@ -32,7 +32,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}$headtitle$}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación $appversion$ · 17/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación $appversion$ · 18/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -50,6 +50,8 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 \providecommand{\tightlist}{\setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
+% Pandoc 3.2+ envuelve las imágenes en \pandocbounded; con versiones anteriores no existe y esta definición no cambia nada.
+\providecommand{\pandocbounded}[1]{#1}
 \usepackage{graphicx,xurl,tikz}
 \usepackage[section]{placeins}
 \usepackage{amssymb,newunicodechar}
@@ -92,7 +94,7 @@ $endif$
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} $coversubtitle$\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación $appversion$ · 17/10/2026\par}
+{\sffamily\small Aplicación $appversion$ · 18/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}

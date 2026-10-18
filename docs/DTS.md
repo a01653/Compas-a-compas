@@ -69,7 +69,7 @@ El contrato formal es `schemas/song.schema.json`. `src/model/validate.js` implem
 
 | Entidad | Contenido |
 | --- | --- |
-| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities` y `palette` opcionales |
+| Canción | `schemaVersion`, `title`, `key`, `measures`, `structure`; `documentVersion`, `keyFamily`, `showTonalities`, `showMeasureNumbers`, `maxMeasuresPerRow` y `palette` opcionales; los compases admiten `repeatPrevious` y `repeatPreviousTwo` (ver DATOS.md) |
 | Compás | `id`, `label` y lista ordenada `chordEvents` |
 | Acorde | `id`, `chordName`, lista `voicings`; familia y textos opcionales |
 | Posición | `id`, `frets` de seis valores; grados de cuerda, textos, `voicingDegree` y `tonality` opcionales |
@@ -271,3 +271,15 @@ Los manuales canónicos son `docs/manuals/USO.md`, `docs/manuals/INSTALACION.md`
 Al modificar el modelo, revisar el esquema, el validador, la serialización y sus pruebas; una versión de esquema nueva requiere una política explícita de compatibilidad. Al modificar geometría o estilos de hoja, revisar vista previa, HTML, continuaciones y PDF sobre el mismo conjunto de datos. No se modifica `references/` para forzar una comparación visual.
 
 Registrar versión y entorno de cada comprobación en `docs/ESTADO.md`. Actualizar desde `main` con `git pull --ff-only`, conservando los cambios locales. Los manuales parten de la carpeta principal.
+
+
+## Repeticiones de compás y opciones de página (0.7.0)
+
+- **Repetición**: `buildUnits` marca cada unidad con `repeatPrevious` o `repeatPair` (`first` o `second`). El renderizador único (`render/sheet.js`) dibuja el signo SVG de `render/repeat.js` en lugar de tarjetas; el signo de dos compases lo dibuja el primer destino centrado en su borde derecho, sobre la barra común. La medición y el reparto usan los mismos nodos.
+- **Reparto**: `paginate` conserva juntos los dos destinos de una pareja (se miden como un bloque) y aplica `maxPerRow` (de `maxMeasuresPerRow`; 0 = automático). El segundo destino no cuenta contra el tope. El medidor lee el ancho natural de cada columna (`columns`) y la fila se dibuja con `grid-template-columns: minmax(min-content, natural × (1 + MAX_ROW_EXPANSION))` por columna (`MAX_ROW_EXPANSION = 0.25` en `layout/spec.js`): ninguna tarjeta supera su tope, el espacio se reparte entre las que aún pueden crecer y el sobrante queda a la derecha (`justify-content: start`).
+- **Numeración**: con `showMeasureNumbers: false` el renderizador omite el texto de la etiqueta pero conserva su hueco, de modo que alineación y alturas no cambian.
+- **Colores**: `palette.degreeText` y `palette.noteText` son opcionales; el fondo neutro de serie es `#d1d5db` (`DEFAULT_NOTE_COLOR`) y la tinta general sigue siendo `#14183a` (`INK_COLOR`). Nombres vacíos: el renderizador no dibuja sustituto.
+- **Ancho manual y ajuste de línea**: `buildUnits` lleva `widthPercent` y `fillToEdge`. `paginate` convierte el porcentaje en píxeles sobre el ancho útil (nunca por debajo del ancho natural medido; si no cabe, `notices`) y, en `finishRow`, calcula las pistas (`tracks`) de cada fragmento ajustado: el sobrante se reparte proporcionalmente al ancho natural de cada columna, de modo que ninguna se comprime. Los fragmentos automáticos conservan el tope de expansión por tarjeta. El botón por línea (doble flecha horizontal) solo existe en la vista previa (`pageNode` con `onFitRow`, envuelta en `.fila-caja`) y cada pulsación es un paso de historial.
+- **Sin numeración**: la hoja lleva la clase `sin-numeros`, que hace transparente el borde izquierdo de cada compás (conserva su ancho) y no dibuja la etiqueta; las barras de repetición y demás signos no cambian.
+- **Manual**: `index.html` enlaza con `ayuda/index.html` (`target="_blank"`, ruta relativa), una página estática sin JavaScript que enlaza con `docs/latex/Manual_Uso_Compas_a_compas.pdf`; `build-pages.mjs` copia `ayuda/` y el PDF a `_site/`. El enlace vive solo en `index.html`, no en el renderizador de hojas, así que no entra en los HTML exportados.
+- **Colores predeterminados**: `src/model/paletteDefaults.js` carga (`loadPaletteDefaults`, al inicio en `main.js`), valida (`validatePaletteDefaults`) e instala `config/palette-defaults.json`; `model/palette.js` lo lee en cada llamada (`inkColor`, `mutedColor`, `familyOf`, `defaultDegreeColor`, `neutralNote`, `foreground`). `model/families.js` solo guarda claves y etiquetas. Sin los valores instalados, usar la paleta lanza un error explicativo. Contrato completo en DATOS.md.

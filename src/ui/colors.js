@@ -1,13 +1,14 @@
 import { h } from '../render/dom.js';
 import { FAMILIES } from '../model/families.js';
-import { DEFAULT_NOTE_COLOR, familyBackground, foreground, isColor,
-  isPaletteLabel, normalizeDegree, paletteDegreeColor, setPaletteColor, resetPaletteColor } from '../model/palette.js';
+import { familyBackground, foreground, isColor, isPaletteLabel, neutralNote, normalizeDegree,
+  paletteDegreeColor, setPaletteColor, resetPaletteColor } from '../model/palette.js';
 import { confirmDialog } from './dialog.js';
 
 export function mountColorsPanel(root, store) {
   let tab = 'families';
   let accidental = '';
   let bindings = [];
+  let chips = [];
   const error = h('p', { class: 'error palette-error', role: 'alert' });
   const content = h('div');
   const tabs = ['families', 'degrees'].map((key, i) => h('button', {
@@ -20,52 +21,79 @@ export function mountColorsPanel(root, store) {
     },
   }, i === 0 ? 'Calidad del acorde' : 'Notas y grados'));
   root.append(h('h2', { id: 't-colors' }, 'Colores de la canción'),
-    h('p', { class: 'palette-intro' }, 'Se aplican a todos los compases de esta canción y se guardan en su JSON, HTML e impresión. El texto se ajusta al fondo para mantener la lectura.'),
+    h('p', { class: 'palette-intro' }, 'Se aplican a todos los compases de esta canción y se guardan en su JSON, HTML e impresión. En las tarjetas, el texto se ajusta al fondo. En los grados, fondo y texto se eligen por separado: el texto es blanco por defecto y no cambia solo.'),
     h('div', { class: 'editor-tabs', role: 'tablist', 'aria-label': 'Colores por acorde o grado' }, tabs), error, content);
 
   function colorValue(group, key) {
     const palette = store.state.song.palette;
     if (group === 'families') return familyBackground(key, palette);
-    if (group === 'note') return palette?.note || DEFAULT_NOTE_COLOR;
-    return paletteDegreeColor(key, palette)?.bg || palette?.note || DEFAULT_NOTE_COLOR;
+    if (group === 'note') return neutralNote(palette).bg;
+    if (group === 'noteText') return neutralNote(palette).fg;
+    const color = paletteDegreeColor(key, palette);
+    if (group === 'degreeText') return color?.fg || neutralNote(palette).fg;
+    return color?.bg || neutralNote(palette).bg;
   }
+  const isCustom = (group, key) => {
+    const palette = store.state.song.palette;
+    return group === 'note' || group === 'noteText' ? Boolean(palette?.[group]) : Object.prototype.hasOwnProperty.call(palette?.[group] || {}, key);
+  };
 
-  function entry(group, key, label) {
+  /** Selector, hexadecimal y restauración de un color. `caption` distingue Fondo de Texto en los grados. */
+  function colorRow(group, key, label, caption = null) {
+    const name = caption ? `${caption} ${label}` : label;
     const id = `color-${group}-${key}`;
-    const chip = h('span', { class: group === 'degrees' ? 'palette-chip degree-chip' : 'palette-chip', 'aria-hidden': 'true' }, label);
-    const color = h('input', { type: 'color', id, value: colorValue(group, key), 'aria-label': `Color ${label}`,
+    const color = h('input', { type: 'color', id, value: colorValue(group, key), 'aria-label': `Color ${name}`,
       oninput: event => {
         setPaletteColor(store.state.song, group, key, event.target.value); error.textContent = ''; store.emit('text');
       } });
     const hex = h('input', { type: 'text', class: 'color-hex', value: colorValue(group, key), maxlength: 7,
-      'aria-label': `Hexadecimal ${label}`, spellcheck: 'false', autocomplete: 'off', oninput: event => {
+      'aria-label': `Hexadecimal ${name}`, spellcheck: 'false', autocomplete: 'off', oninput: event => {
         if (!isColor(event.target.value)) { event.target.setAttribute('aria-invalid', 'true'); error.textContent = 'Escribe un color con formato #RRGGBB.'; return; }
         event.target.removeAttribute('aria-invalid'); error.textContent = '';
         setPaletteColor(store.state.song, group, key, event.target.value); store.emit('text');
       } });
-    const reset = h('button', { class: 'palette-reset', type: 'button', title: `Restaurar ${label}`, 'aria-label': `Restaurar ${label}`, onclick: () => {
+    const reset = h('button', { class: 'palette-reset', type: 'button', title: `Restaurar ${name}`, 'aria-label': `Restaurar ${name}`, onclick: () => {
       resetPaletteColor(store.state.song, group, key); error.textContent = ''; store.emit('text');
       hex.removeAttribute('aria-invalid'); hex.value = colorValue(group, key);
     } }, '↺');
-    bindings.push({ group, key, chip, color, hex, reset });
-    return h('div', { class: 'palette-entry' }, h('div', { class: 'palette-entry-head' }, h('label', { for: id }, label), reset),
-      h('div', { class: 'palette-inputs' }, color, hex), chip);
+    bindings.push({ group, key, color, hex, reset });
+    return { id, reset, inputs: h('div', { class: 'palette-inputs' }, color, hex) };
+  }
+
+  /** Grado o fondo neutro: Fondo y Texto independientes, con una muestra que combina los dos valores reales. */
+  function pairEntry(bgGroup, textGroup, key, label, chipClass) {
+    const chip = h('span', { class: chipClass, 'aria-hidden': 'true' }, label);
+    chips.push({ chip, bgGroup, textGroup, key });
+    const bg = colorRow(bgGroup, key, label, 'Fondo');
+    const fg = colorRow(textGroup, key, label, 'Texto');
+    return h('div', { class: 'palette-entry palette-pair' }, h('div', { class: 'palette-entry-head' }, h('span', { class: 'palette-name' }, label), chip),
+      h('div', { class: 'palette-line' }, h('label', { for: bg.id }, 'Fondo'), bg.inputs, bg.reset),
+      h('div', { class: 'palette-line' }, h('label', { for: fg.id }, 'Texto'), fg.inputs, fg.reset));
+  }
+
+  function entry(group, key, label) {
+    const chip = h('span', { class: 'palette-chip', 'aria-hidden': 'true' }, label);
+    const row = colorRow(group, key, label);
+    chips.push({ chip, bgGroup: group, key });
+    return h('div', { class: 'palette-entry' }, h('div', { class: 'palette-entry-head' }, h('label', { for: row.id }, label), row.reset), row.inputs, chip);
   }
 
   function sync() {
-    for (const { group, key, chip, color, hex, reset } of bindings) {
+    for (const { group, key, color, hex, reset } of bindings) {
       const value = colorValue(group, key);
       color.value = value;
       if (document.activeElement !== hex) { hex.value = value; hex.removeAttribute('aria-invalid'); }
+      reset.disabled = !isCustom(group, key);
+    }
+    for (const { chip, bgGroup, textGroup, key } of chips) {
+      const value = colorValue(bgGroup, key);
       chip.style.backgroundColor = value;
-      chip.style.color = group === 'degrees' ? paletteDegreeColor(key, store.state.song.palette)?.fg || foreground(value) : foreground(value);
-      const palette = store.state.song.palette;
-      reset.disabled = group === 'note' ? !palette?.note : !Object.prototype.hasOwnProperty.call(palette?.[group] || {}, key);
+      chip.style.color = textGroup ? colorValue(textGroup, key) : foreground(value);
     }
   }
 
   function render() {
-    bindings = []; error.textContent = '';
+    bindings = []; chips = []; error.textContent = '';
     tabs.forEach((button, i) => { const active = (i === 0 ? 'families' : 'degrees') === tab;
       button.setAttribute('aria-selected', String(active)); button.tabIndex = active ? 0 : -1; });
     const panel = h('div', { id: `colors-${tab}`, role: 'tabpanel', 'aria-labelledby': `colors-tab-${tab}` });
@@ -78,9 +106,10 @@ export function mountColorsPanel(root, store) {
           .map(([value, label]) => h('option', { value, selected: value === accidental }, label)));
       panel.append(h('div', { class: 'field' }, h('label', { for: 'colors-accidental' }, 'Grados'), filter));
       const keys = accidental === 'custom'
-        ? Object.keys(store.state.song.palette?.degrees || {}).filter(key => !/^[b#]?([1-9]|1[0-3])$/.test(key))
+        ? [...new Set([...Object.keys(store.state.song.palette?.degrees || {}), ...Object.keys(store.state.song.palette?.degreeText || {})])]
+          .filter(key => !/^[b#]?([1-9]|1[0-3])$/.test(key))
         : Array.from({ length: 13 }, (_, i) => accidental + (i + 1));
-      panel.append(h('div', { class: 'palette-grid degree-palette' }, keys.map(key => entry('degrees', key, key))));
+      panel.append(h('div', { class: 'palette-grid degree-palette' }, keys.map(key => pairEntry('degrees', 'degreeText', key, key, 'palette-chip degree-chip'))));
       const label = h('input', { type: 'text', id: 'custom-degree-label', maxlength: 64, placeholder: 'Por ejemplo: bb7, #5 o R', 'aria-label': 'Grado o etiqueta personalizada' });
       const add = () => {
         const key = normalizeDegree(label.value);
@@ -92,7 +121,7 @@ export function mountColorsPanel(root, store) {
       };
       panel.append(h('div', { class: 'palette-custom' }, h('label', { for: 'custom-degree-label' }, 'Otro grado o etiqueta'),
         h('div', { class: 'palette-custom-row' }, label, h('button', { type: 'button', class: 'btn', onclick: add }, 'Añadir'))),
-        h('div', { class: 'palette-neutral' }, entry('note', '', 'Sin grado o sin color propio')));
+        h('div', { class: 'palette-neutral' }, pairEntry('note', 'noteText', '', 'Sin grado o sin color propio', 'palette-chip degree-chip')));
     }
     content.replaceChildren(panel); sync();
   }

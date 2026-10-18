@@ -34,6 +34,12 @@ export function findDuplicateIds(song) {
 export function createIdFactory(song) {
   const used = new Set(listIds(song).map(([id]) => id));
 
+  for (const m of (Array.isArray(song.measures) ? song.measures : [])) {
+    if (typeof m?.repeatPrevious?.sourceMeasureId === 'string') used.add(m.repeatPrevious.sourceMeasureId);
+    for (const key of ['sourceMeasureIds', 'targetMeasureIds']) {
+      for (const id of (Array.isArray(m?.repeatPreviousTwo?.[key]) ? m.repeatPreviousTwo[key] : [])) if (typeof id === 'string') used.add(id);
+    }
+  }
   const st = song.structure && typeof song.structure === 'object' ? song.structure : {};
   for (const r of (Array.isArray(st.repeats) ? st.repeats : [])) {
     if (typeof r.startMeasureId === 'string') used.add(r.startMeasureId);

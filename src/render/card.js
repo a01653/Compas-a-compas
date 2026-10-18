@@ -1,19 +1,15 @@
 import { h, s } from './dom.js';
 import { layoutFretboard } from '../geometry/fretboard.js';
-import { DEFAULT_DOT, degreeColor, degreeDisplay } from '../model/degrees.js';
-import { paletteFamilyStyle, familyForeground, foreground, isColor, tonalityBandStyle } from '../model/palette.js';
+import { degreeColor, degreeDisplay } from '../model/degrees.js';
+import { inkColor, mutedColor, neutralNote, paletteFamilyStyle, familyForeground, isColor, tonalityBandStyle } from '../model/palette.js';
 import { effectiveText } from '../model/song.js';
 
-const INK = '#14183a';
-const MUTED = '#5c6ab0';
 
 /** Punto con grado manual (traste o cuerda al aire): color por grado; sin color definido, tinta. */
-function degreeDot(mark, radius, palette, ink = INK) {
-  const fallback = isColor(palette?.note) ? { bg: palette.note, fg: foreground(palette.note) }
-    : ink !== INK ? { bg: ink, fg: foreground(ink) } : DEFAULT_DOT;
-  const color = (mark.degree && degreeColor(mark.degree, palette)) || fallback;
-  const group = s('g', null, s('circle', { cx: mark.x, cy: mark.y, r: radius, fill: color.bg,
-    stroke: palette ? ink : null, 'stroke-width': palette ? .7 : null }));
+function degreeDot(mark, radius, palette, ink = inkColor()) {
+  // Notas sin grado o sin color propio: fondo neutro (gris de serie o el elegido), independiente de la tinta del mástil.
+  const color = (mark.degree && degreeColor(mark.degree, palette)) || neutralNote(palette);
+  const group = s('g', null, s('circle', { cx: mark.x, cy: mark.y, r: radius, fill: color.bg, stroke: ink, 'stroke-width': .7 }));
   if (mark.degree) {
     const shown = degreeDisplay(mark.degree);
     group.append(s('text', { x: mark.x, y: mark.y + shown.fontSize * 0.34, 'text-anchor': 'middle', 'font-size': shown.fontSize, fill: color.fg }, shown.text));
@@ -23,7 +19,7 @@ function degreeDot(mark, radius, palette, ink = INK) {
 }
 
 /** Mástil SVG, o un aviso si abarca demasiados trastes para dibujarse legiblemente. */
-export function fretboardSvg(voicing, { palette, ink = INK, muted = MUTED } = {}) {
+export function fretboardSvg(voicing, { palette, ink = inkColor(), muted = mutedColor() } = {}) {
   const g = layoutFretboard(voicing.frets, voicing.degrees);
   if (!g.drawable) {
     return h('div', { class: 'mastil-aviso', role: 'note' }, `No se puede dibujar: ${g.reason}`);
@@ -118,13 +114,13 @@ export function cardNode(event, voicing, { selected = false, onSelect, palette, 
     onclick: onSelect ? (e) => { e.stopPropagation(); onSelect(); } : null,
   },
     h('div', { class: 't-cab' },
-      h('div', { class: 't-nom' }, event.chordName || '—'),
+      h('div', { class: 't-nom' }, event.chordName?.trim() ? event.chordName : null),
       degree ? h('div', { class: 't-grado' }, degree) : null,
       inside ? h('div', { class: 't-txt' }, inside) : null),
     pending ? h('div', { class: 't-pend' }, 'Sin digitación (pendiente)') : fretboardSvg(voicing, {
       palette,
-      ink: familyForeground(event.family, palette) || INK,
-      muted: familyForeground(event.family, palette) || MUTED,
+      ink: familyForeground(event.family, palette) || inkColor(),
+      muted: familyForeground(event.family, palette) || mutedColor(),
     }),
     legend.length
       ? h('ul', { class: 't-leyenda', 'aria-label': 'Grados completos' }, legend.map((item) => h('li', null, `${item.string}ª: ${item.degree}`)))
@@ -140,7 +136,7 @@ export function cardNode(event, voicing, { selected = false, onSelect, palette, 
     top,
     h('div', { class: lead ? 't-pos t-pos-lead' : 't-pos' },
       h('div', { class: 't-num' }, lead ? [
-        h('span', { class: 'compas-num' }, lead.label),
+        lead.label === null ? null : h('span', { class: 'compas-num' }, lead.label),
         lead.continuation ? h('span', { class: 'compas-continuacion' }, 'continuación') : null,
       ] : null),
       lead?.barStart, tail, card));
