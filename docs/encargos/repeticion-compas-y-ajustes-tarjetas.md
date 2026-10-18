@@ -27,6 +27,12 @@ La acción se aplica al compás seleccionado. Botón visible junto a Añadir tar
 
 El signo repite el contenido completo del compás anterior, no solamente su último acorde. Es una decisión manual del usuario: no detectar ni convertir automáticamente acordes iguales. Se permiten varios compases de repetición consecutivos. No añadir reproducción ni expandir el recorrido musical.
 
+## Menús de tonalidad cuando la visualización está desactivada
+
+Cuando la opción global `showTonalities` esté desactivada, ocultar de los menús de edición por voicing los campos que configuran la franja tonal —incluidos **Tonalidad** y **Calidad de tonalidad**—, ya que no se muestran en la página. Mantener disponible el control global **Mostrar tonalidades** para poder reactivarlas. No ocultar otros datos de tonalidad que sigan teniendo un efecto visible, como la tonalidad del título.
+
+Ocultar esos controles no debe borrar ni modificar los valores `tonality` ya guardados en los voicings. Al reactivar la opción global, volver a mostrar los campos con sus valores anteriores. Guardar, abrir, deshacer, rehacer y recuperar deben conservarlos. Añadir esta regla y una captura/caso de uso a la documentación de la interfaz.
+
 ## Repetición de dos compases
 
 Añadir una acción visible **Repetir dos compases anteriores**, junto a **Repetir compás anterior**. Se aplica al compás seleccionado como el primero de los dos compases de destino; el compás siguiente es el segundo destino. La acción repite como pareja los dos compases escritos inmediatamente anteriores, en el mismo orden. No comprime ambos compases fuente en un único compás ni crea acordes duplicados.
@@ -139,7 +145,7 @@ Persistirlo como opción global del documento, por ejemplo `showMeasureNumbers`.
 - Probar el encuadre con los ejemplos existentes y, si están disponibles localmente, los JSON de I Fall y Havana. No incorporar archivos personales al repositorio.
 - Filas con una, dos y muchas tarjetas, compás con varias tarjetas y compás de repetición: crecimiento limitado, contenido a la izquierda y sobrante a la derecha. Comparar con una fila llena; probar cuatro o más trastes y textos largos sin recortes ni desbordamiento vertical.\n- Máximo de compases por línea en Automático reproduce la distribución actual; límites de 1, 2 y otros valores disponibles nunca se superan. Verificar que en pantallas estrechas o con tarjetas anchas se permiten menos compases, sin recortes, y que HTML e impresión coinciden.\n- Ocultar/mostrar numeración afecta a todos los compases de la canción en vista previa, HTML e impresión; las etiquetas guardadas se conservan. Los símbolos de repetición, Coda, Fine, casillas y saltos, y el número de página, siguen visibles.
 - Comprobar reparto a escala de pantalla 100 %, 125 %, 150 % y 175 %, además de móvil. Mantener el mástil y la lectura musical.
-- Color de texto independiente para 1, b3, #5, bb7 y una etiqueta personalizada; probar valores personalizados solo de texto y solo de fondo, normalización, restauración, historial, JSON y recuperación. Comparar punto del mástil y muestra del panel.
+- Color de texto independiente para 1, b3, #5, bb7 y una etiqueta personalizada; probar valores personalizados solo de texto y solo de fondo, normalización, restauración, historial, JSON y recuperación. Comparar punto del mástil y muestra del panel.\n- Al desactivar `showTonalities` desaparecen de los menús por voicing **Tonalidad** y **Calidad de tonalidad**; el control global sigue visible y los valores guardados reaparecen al reactivar la opción.
 - Fondo #14183a con texto blanco y con un texto elegido por el usuario; comprobar también tarjeta oscura, cuerdas al aire y exportación. Gris #d1d5db como fondo neutro sin personalización, sin alterar tintas del mástil. JSON antiguo con fondo neutro #14183a explícito conserva ese valor.
 - Ejecutar npm test y el empaquetado de Pages; registrar resultados reales, entorno y límites. No afirmar que una prueba ha pasado sin ejecutarla.
 
