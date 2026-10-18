@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.6.2 — 18/10/2026
+
+- Se reduce el espacio vertical de los números de compás y las separaciones entre filas y cabecera. I Fall in Love Too Easily vuelve a tener tres filas (compases 1–12) en su primera página y dos (13–19) en la segunda.
+- Se conserva el tamaño de las tarjetas y los mástiles, junto con todos los textos, digitaciones y franjas. La paginación sigue adaptándose al contenido; las filas altas pasan a otra hoja cuando hace falta.
+- Comprobados los JSON de I Fall y Havana en vista previa, guardado, HTML autónomo y PDF A4 horizontal. Havana mantiene seis páginas.
+
 ## 0.6.1 — 17/10/2026
 
 - Alineación de títulos, bandas de tonalidad, números y tarjetas en toda la fila, incluso cuando solo un compás tiene título o marcas.
