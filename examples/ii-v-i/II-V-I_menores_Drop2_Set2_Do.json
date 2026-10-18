@@ -35,7 +35,7 @@
                 "b3",
                 null
               ],
-              "aboveText": "Ruta 1",
+              "aboveText": "",
               "voicingDegree": "Fundamental",
               "anchorFret": 5
             }
@@ -71,7 +71,7 @@
                 "b7",
                 null
               ],
-              "aboveText": "Ruta 1",
+              "aboveText": "",
               "voicingDegree": "2ª Inversión",
               "anchorFret": 5
             }
@@ -107,7 +107,7 @@
                 "b3",
                 null
               ],
-              "aboveText": "Ruta 1",
+              "aboveText": "",
               "voicingDegree": "Fundamental",
               "anchorFret": 5
             }
@@ -143,7 +143,7 @@
                 "b5",
                 null
               ],
-              "aboveText": "Ruta 2",
+              "aboveText": "",
               "voicingDegree": "1ª Inversión",
               "anchorFret": 7
             }
@@ -179,7 +179,7 @@
                 "1",
                 null
               ],
-              "aboveText": "Ruta 2",
+              "aboveText": "",
               "voicingDegree": "3ª Inversión",
               "anchorFret": 7
             }
@@ -215,7 +215,7 @@
                 "5",
                 null
               ],
-              "aboveText": "Ruta 2",
+              "aboveText": "",
               "voicingDegree": "1ª Inversión",
               "anchorFret": 7
             }
@@ -251,7 +251,7 @@
                 "b7",
                 null
               ],
-              "aboveText": "Ruta 3",
+              "aboveText": "",
               "voicingDegree": "2ª Inversión",
               "anchorFret": 12
             }
@@ -287,7 +287,7 @@
                 "3",
                 null
               ],
-              "aboveText": "Ruta 3",
+              "aboveText": "",
               "voicingDegree": "Fundamental",
               "anchorFret": 12
             }
@@ -323,7 +323,7 @@
                 "b7",
                 null
               ],
-              "aboveText": "Ruta 3",
+              "aboveText": "",
               "voicingDegree": "2ª Inversión",
               "anchorFret": 12
             }
@@ -359,7 +359,7 @@
                 "1",
                 null
               ],
-              "aboveText": "Ruta 4",
+              "aboveText": "",
               "voicingDegree": "3ª Inversión",
               "anchorFret": 15
             }
@@ -395,7 +395,7 @@
                 "5",
                 null
               ],
-              "aboveText": "Ruta 4",
+              "aboveText": "",
               "voicingDegree": "1ª Inversión",
               "anchorFret": 15
             }
@@ -431,7 +431,7 @@
                 "1",
                 null
               ],
-              "aboveText": "Ruta 4",
+              "aboveText": "",
               "voicingDegree": "3ª Inversión",
               "anchorFret": 15
             }
