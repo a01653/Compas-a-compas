@@ -8,7 +8,7 @@ import { validateSong } from '../src/model/validate.js';
 import { createIdFactory } from '../src/model/ids.js';
 import {
   addEvent, addMeasure, clearRepeatPrevious, createEmptySong, deleteMeasure, duplicateMeasure, fixRepeatPrevious,
-  moveMeasure, setRepeatPrevious,
+  moveMeasure, setFretboardScalePercent, setRepeatPrevious,
 } from '../src/model/song.js';
 import { clone, loadDemo } from './helpers.js';
 
@@ -156,6 +156,20 @@ test('tarjeta nueva sin nombre de prueba; un nombre vacío es válido y los exis
   assert.equal(parseSongJson(serializeSong(legacy)).song.measures[0].chordEvents[0].chordName, 'Acorde nuevo');
 });
 
+test('escala de mástiles: 100 % restaura el tamaño normal y se omite del JSON', () => {
+  const song = createEmptySong();
+  setFretboardScalePercent(song, '70');
+  assert.equal(song.fretboardScalePercent, 70);
+  assert.deepEqual(validateSong(song), { errors: [], warnings: [] });
+  const invalid = clone(song);
+  invalid.fretboardScalePercent = 101;
+  assert.ok(validateSong(invalid).errors.some(error => error.path === 'fretboardScalePercent'));
+  setFretboardScalePercent(song, '100');
+  assert.equal('fretboardScalePercent' in song, false);
+  setFretboardScalePercent(song, '59');
+  assert.equal('fretboardScalePercent' in song, false);
+});
+
 import { readFileSync } from 'node:fs';
 import { paginate } from '../src/layout/paginate.js';
 
@@ -167,6 +181,8 @@ test('esquema JSON: repeatPrevious, chordName vacío y texto por grado', () => {
   assert.equal(schema.$defs.measure.allOf[0].then.properties.chordEvents.maxItems, 0);
   assert.deepEqual(schema.$defs.repeatPreviousTwo.required, ["sourceMeasureIds", "targetMeasureIds"]);
   assert.equal(schema.properties.maxMeasuresPerRow.minimum, 1);
+  assert.equal(schema.properties.fretboardScalePercent.minimum, 60);
+  assert.equal(schema.properties.fretboardScalePercent.maximum, 100);
   assert.equal(schema.$defs.chordEvent.properties.chordName.minLength, undefined);
   assert.ok(schema.$defs.palette.properties.degreeText && schema.$defs.palette.properties.noteText);
   assert.equal(schema.$defs.palette.additionalProperties, false);

@@ -1,6 +1,6 @@
 import { h } from '../render/dom.js';
 import { FAMILIES } from '../model/families.js';
-import { MAX_MEASURES_PER_ROW_LIMIT, measureNumbersVisible, setMaxMeasuresPerRow, setShowMeasureNumbers } from '../model/song.js';
+import { MAX_MEASURES_PER_ROW_LIMIT, measureNumbersVisible, setFretboardScalePercent, setMaxMeasuresPerRow, setShowMeasureNumbers } from '../model/song.js';
 import { normalizeFamily, setKeyFamily, setShowTonalities, tonalitiesVisible } from '../model/tonality.js';
 
 export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
@@ -28,6 +28,9 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
     store.endEdit(); setMaxMeasuresPerRow(store.state.song, e.target.value); store.emit('text');
   } }, h('option', { value: '' }, 'Automático'),
   Array.from({ length: MAX_MEASURES_PER_ROW_LIMIT }, (_, i) => h('option', { value: String(i + 1) }, String(i + 1))));
+  const fretboardScale = h('select', { id: 'f-escala-mastiles', 'aria-describedby': 'hint-escala-mastiles', onchange: e => {
+    store.endEdit(); setFretboardScalePercent(store.state.song, e.target.value); store.emit('text');
+  } }, [100, 90, 80, 75, 70, 65, 60].map(value => h('option', { value: String(value) }, `${value} %`)));
 
   root.append(
     h('div', { class: 'panel-head' }, h('h2', { id: 't-cancion' }, 'Canción')),
@@ -40,6 +43,8 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
       h('p', { class: 'hint', id: 'hint-mostrar-numeros' }, 'Oculta las etiquetas de todos los compases en la hoja (útil para una hoja de acordes). Se conservan en el archivo; repeticiones, Coda, Fine y casillas siguen visibles.')),
     h('div', { class: 'field' }, h('label', { for: 'f-max-compases' }, 'Máximo de compases por línea'), maxPerRow,
       h('p', { class: 'hint', id: 'hint-max-compases' }, 'Automático reparte según el ancho disponible. Un número es un tope: puede haber menos compases por línea si no caben.')),
+    h('div', { class: 'field' }, h('label', { for: 'f-escala-mastiles' }, 'Tamaño de los mástiles'), fretboardScale,
+      h('p', { class: 'hint', id: 'hint-escala-mastiles' }, 'Reduce proporcionalmente los diagramas para que quepan más filas por página. No cambia trastes ni notas.')),
     h('div', { class: 'field' }, h('label', { for: 'f-version' }, 'Versión del documento (opcional)'), docVersion,
       h('p', { class: 'hint' }, 'Texto libre para tus revisiones de la hoja. No es la versión de la aplicación ni la del formato del archivo.')),
     recovery);
@@ -57,6 +62,7 @@ export function mountSongPanel(root, store, { recoveryAvailable = true } = {}) {
     showTonalities.checked = tonalitiesVisible(state.song);
     showNumbers.checked = measureNumbersVisible(state.song);
     maxPerRow.value = Number.isInteger(state.song.maxMeasuresPerRow) ? String(state.song.maxMeasuresPerRow) : '';
+    fretboardScale.value = String(state.song.fretboardScalePercent ?? 100);
     docVersion.value = state.song.documentVersion || '';
   }
 

@@ -214,6 +214,7 @@ test('el esquema JSON declara los mismos campos nuevos que el validador', async 
   const schema = JSON.parse(readFileSync(new URL('../schemas/song.schema.json', import.meta.url), 'utf8'));
   assert.deepEqual(schema.properties.keyFamily, { $ref: '#/$defs/family' });
   assert.deepEqual(schema.properties.showTonalities, { type: 'boolean' });
+  assert.deepEqual(schema.properties.fretboardScalePercent, { type: 'integer', minimum: 60, maximum: 100, description: 'Escala uniforme de los mástiles en las tarjetas. Ausente o 100 = tamaño normal.' });
   assert.deepEqual(schema.$defs.family.enum, FAMILY_KEYS);
   assert.deepEqual(schema.$defs.tonality.required, ['text', 'family']);
   assert.equal(schema.$defs.tonality.additionalProperties, false);

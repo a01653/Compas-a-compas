@@ -108,14 +108,15 @@ Guardar JSON conserva el historial de esta sesión. Abrir otra canción, crear u
 
 ### Opciones de página
 
-En los datos de canción hay dos opciones globales que solo cambian la presentación:
+En los datos de canción hay opciones globales que solo cambian la presentación:
 
 - **Máximo de compases por línea**: **Automático** (por defecto) reparte según el ancho disponible, como siempre. Un número del 1 al 16 es un tope, no una obligación: pueden caber menos compases si las tarjetas son anchas o la pantalla estrecha. La pareja de una repetición de dos compases no se separa, así que con tope 1 ocupa una línea con sus dos compases.
 - **Mostrar números de compás**: al desmarcarla se ocultan las etiquetas de todos los compases y las líneas verticales que los separan, en la vista previa, el HTML y la impresión, útil para una hoja de acordes que no es una partitura. Las etiquetas se conservan en el archivo. Las líneas de las tarjetas, las barras y signos de repetición, Coda, Fine, casillas, saltos y el número de página siguen visibles.
+- **Tamaño de los mástiles**: reduce proporcionalmente los diagramas para que quepan más filas por página, sin cambiar trastes ni notas. El 100 % conserva el tamaño normal.
 
 ![Datos de la canción: tonalidades, números de compás y máximo de compases por línea.](capturas/datos-cancion.png)
 
-Ambas opciones se guardan en el JSON solo cuando se usan y `showMeasureNumbers`, solo cuando no son los valores por defecto) y las versiones anteriores a 0.7.0 no abren archivos que las incluyan.
+Las opciones se guardan en el JSON cuando tienen un valor distinto del predeterminado. Las versiones anteriores a la que incorpora `fretboardScalePercent` no abren archivos que incluyan ese campo.
 
 ### Ancho de cada compás y ajuste de línea
 
