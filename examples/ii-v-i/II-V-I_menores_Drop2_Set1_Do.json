@@ -6,7 +6,7 @@
   "keyFamily": "minor",
   "showTonalities": false,
   "showMeasureNumbers": false,
-  "maxMeasuresPerRow": 3,
+  "maxMeasuresPerRow": 4,
   "measures": [
     {
       "id": "m-minor-s1-r1-1",
