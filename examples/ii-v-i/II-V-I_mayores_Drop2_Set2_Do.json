@@ -6,7 +6,7 @@
   "keyFamily": "major",
   "showTonalities": false,
   "showMeasureNumbers": false,
-  "maxMeasuresPerRow": 4,
+  "maxMeasuresPerRow": 3,
   "measures": [
     {
       "id": "m-major-s2-r1-1",
