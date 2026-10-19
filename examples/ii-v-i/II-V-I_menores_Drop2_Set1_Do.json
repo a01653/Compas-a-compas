@@ -6,7 +6,7 @@
   "keyFamily": "minor",
   "showTonalities": false,
   "showMeasureNumbers": false,
-  "maxMeasuresPerRow": 4,
+  "maxMeasuresPerRow": 3,
   "measures": [
     {
       "id": "m-minor-s1-r1-1",
@@ -446,5 +446,6 @@
     "endings": [],
     "markers": [],
     "jumps": []
-  }
+  },
+  "fretboardScalePercent": 94
 }
