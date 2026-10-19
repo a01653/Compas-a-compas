@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.7.1**, edición **18/10/2026**, con el estilo de los manuales de Drop Route: portada azul, índice, instrucciones breves y fuentes editables.
+Documentación de Compás a compás **0.7.2**, edición **19/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |

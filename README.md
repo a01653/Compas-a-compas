@@ -127,6 +127,8 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 | [Estado](docs/ESTADO.md) | Estado actual y registro por fase |
 | [Referencias](references/README.md) | Procedencia y diferencias frente a las plantillas |
 
+Las instrucciones de trabajo y cierre están en [AGENTS.md](AGENTS.md) y el punto de entrada de Claude en [CLAUDE.md](CLAUDE.md). La publicación y sus validaciones se consultan en [GitHub Actions](https://github.com/a01653/Compas-a-compas/actions); la aplicación pública está en [GitHub Pages](https://a01653.github.io/Compas-a-compas/).
+
 ## Alcance
 
 Sin OCR, reproducción de audio, teoría ni generación automática de acordes. La aplicación se puede abrir desde el lanzador local o en GitHub Pages. Las canciones se guardan en JSON y no se sincronizan entre dispositivos.

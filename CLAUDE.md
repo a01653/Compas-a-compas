@@ -1,5 +1,7 @@
 # Claude Code: punto de entrada
 
+El flujo común de ramas, validación de cierre, mantenimiento documental y README está definido en `AGENTS.md`; estas instrucciones amplían ese flujo con el contexto específico de Compás a compás.
+
 Antes de desarrollar, leer en este orden:
 
 1. `AGENTS.md`
