@@ -1,5 +1,11 @@
 # Estado de trabajo
 
+## Nombre del PDF al imprimir — 21/10/2026
+
+Rama `fix/nombre-pdf-impresion`. Al usar **Imprimir / PDF** y elegir «Guardar como PDF», Chromium proponía `Compás a compás.pdf`, porque toma el nombre del título de la página principal y no del marco que se imprime. Ahora `src/ui/exporter.js` pone en la pestaña el título de la canción justo antes de `print()` y devuelve el de la aplicación en `afterprint` (o al limpiar el marco). El título sale de `exportTitle` en `src/export/document.js`, el mismo que lleva el HTML exportado («Hojas de acordes» si la canción no tiene título). Prueba nueva en `tests/export-document.test.js`. Documentación: `docs/manuals/USO.md`, `README.md` y `docs/DTS.md`; manual de uso y DTS regenerados (PDF, `.tex` y `.build.json`) con `python scripts/build_docs.py --engine xelatex` y revisadas visualmente sus páginas afectadas. El manual de instalación no cambia.
+
+Comprobaciones: `npm test` (247 pruebas) y `node scripts/build-pages.mjs` correctos. No se ha comprobado con un clic real el diálogo de impresión de Chrome/Edge ni de otros navegadores; Firefox y Safari pueden usar otra regla para el nombre propuesto.
+
 ## Traste de referencia y rutas II–V–I — 18/10/2026
 
 En la rama local `feature/anchor-fret-iivi` se añadió `anchorFret` opcional por posición: resalta una columna del mástil y la incluye en el rango visible. El editor, el render, la validación y `schemas/song.schema.json` ya lo admiten; `docs/DATOS.md`, `docs/DTS.md` y el manual de uso lo describen. `npm test` pasa con 246 pruebas. La revisión visual en navegador y la actualización de versión/publicación siguen pendientes. La rama no está fusionada ni publicada.

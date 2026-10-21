@@ -194,7 +194,7 @@ Abre el menú **Exportar** de la cabecera. **Exportar HTML** crea un archivo ún
 1. Selecciona **Guardar como PDF** como destino.
 2. Elige papel **A4 horizontal**, escala **100 %** y márgenes **Ninguno**.
 3. Desactiva los encabezados y pies del navegador. Activa los gráficos de fondo si los colores no aparecen.
-4. Revisa la previsualización y guarda el archivo.
+4. Revisa la previsualización y guarda el archivo. El nombre propuesto es el título de la canción (o «Hojas de acordes» si no tiene), no el de la aplicación.
 
 Cada página lleva nombre de canción, tonalidad y numeración `actual/total` arriba a la derecha. La hoja mide 297 × 210 mm y ya incluye sus márgenes de 5 mm.
 
