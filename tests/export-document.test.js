@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildExportDocument, escapeHtml, neutralizeStyle, htmlFileName } from '../src/export/document.js';
+import { buildExportDocument, escapeHtml, neutralizeStyle, htmlFileName, exportTitle } from '../src/export/document.js';
 
 const BODY = '<section class="hoja"><div class="hoja-titulo">Canci&oacute;n</div></section>';
 
@@ -50,4 +50,10 @@ test('título vacío y nombre de archivo', () => {
   assert.match(buildExportDocument({ title: '  ', css: '', bodyHtml: BODY }), /<title>Hojas de acordes<\/title>/);
   assert.equal(htmlFileName({ title: 'Canción de Prueba ¡Ñandú!' }), 'cancion-de-prueba-nandu.html');
   assert.equal(htmlFileName({ title: '' }), 'cancion.html');
+});
+
+test('el título de impresión, que da nombre al PDF, es el de la canción y no el de la aplicación', () => {
+  assert.equal(exportTitle('  I Fall  '), 'I Fall');
+  assert.equal(exportTitle(''), 'Hojas de acordes');
+  assert.equal(exportTitle(undefined), 'Hojas de acordes');
 });

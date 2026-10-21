@@ -1,6 +1,6 @@
 import { h } from '../render/dom.js';
 import { pageNode } from '../render/sheet.js';
-import { buildExportDocument, htmlFileName } from '../export/document.js';
+import { buildExportDocument, htmlFileName, exportTitle } from '../export/document.js';
 import { collectProblems } from '../layout/problems.js';
 import { ensureFonts, songSample } from '../layout/fonts.js';
 import { checkStructure } from '../model/structure.js';
@@ -71,15 +71,30 @@ async function saveHtml(text, suggestedName) {
 }
 
 let printFrame = null;
+let appTitle = null;
 
-/** Imprime el mismo HTML de la exportación desde un marco oculto: sin editor, sin selección resaltada. */
-function printHtml(html, sample) {
+/** Devuelve a la pestaña el título de la aplicación tras imprimir. */
+function restoreTitle() {
+  if (appTitle === null) return;
+  document.title = appTitle;
+  appTitle = null;
+}
+
+/**
+ * Imprime el mismo HTML de la exportación desde un marco oculto: sin editor, sin selección resaltada.
+ * Chromium propone el nombre del PDF a partir del título de la página principal, no del marco, así que
+ * mientras dura la impresión la pestaña lleva el título de la canción.
+ */
+function printHtml(html, sample, title) {
   if (printFrame) printFrame.remove();
   return new Promise((resolve, reject) => {
     const frame = h('iframe', { class: 'print-frame', title: 'Hojas para imprimir', 'aria-hidden': 'true', tabindex: '-1' });
     printFrame = frame;
     const cleanup = () => {
-      if (printFrame === frame) printFrame = null;
+      if (printFrame === frame) {
+        printFrame = null;
+        restoreTitle();
+      }
       frame.remove();
     };
     frame.addEventListener('load', async () => {
@@ -93,6 +108,8 @@ function printHtml(html, sample) {
         ]);
         win.addEventListener('afterprint', cleanup, { once: true });
         setTimeout(cleanup, 10 * 60 * 1000);
+        if (appTitle === null) appTitle = document.title;
+        document.title = title;
         win.focus();
         win.print();
         resolve();
@@ -214,6 +231,7 @@ export function mountExportControls(store, paginator) {
   printButton.addEventListener('click', () => guarded(async () => {
     const prepared = await prepare('print');
     if (!prepared) return;
-    await printHtml(buildHtml(prepared), songSample(prepared.result.snapshot));
+    const { snapshot } = prepared.result;
+    await printHtml(buildHtml(prepared), songSample(snapshot), exportTitle(snapshot.title));
   }));
 }

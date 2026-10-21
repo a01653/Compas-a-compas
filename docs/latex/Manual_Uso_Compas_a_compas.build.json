@@ -8,22 +8,22 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "06e19136ebcbdaca2f4440bd80892d99ecbd993fd769ba10b1ad78f45151dab9",
+      "sha256": "cd1dedf827827340fbfbb58ae37a5c6418263e06e58e9e11c68f9aefe816cc47",
       "role": "source"
     },
     {
       "path": "docs/latex/document-template.tex",
-      "sha256": "cb41b7d7694df7b27cb505564dd0f5751bc290c75d7bbdcd635f3f0a4bcb2108",
+      "sha256": "b9a774f52dd18f464bc7272e1e936937d6d74a094f4a56823d9ed57a22dcbeee",
       "role": "template"
     },
     {
       "path": "scripts/build_docs.py",
-      "sha256": "170d69efd84a53fea0bd6921ab945804d6a1bee095d16e5f04e6cb3e5693b00c",
+      "sha256": "c24ba26519b65b80c8a3f1b5b6f5b7fc081bd30625cc55280fa137b89ef8dc61",
       "role": "generator"
     },
     {
       "path": "package.json",
-      "sha256": "331846559d044f3a8bda66342d20212cfad8162c2354839add03113fe3e64326",
+      "sha256": "5b0c99edfb7c2f8a366bd998198dd02a8cd24a638a17620a4c0379c28c9615b0",
       "role": "application-version"
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "b6bc80c55870a633bd813b82cccca75ae6f085cd93cb465813e84d70edb4fdf5",
+      "sha256": "7abac9b033d0424abaf847676f0057f2117849c80f4b4aca7e522a43140808d1",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "c2af4600522c5482e1b818a0f43e12821059a0330548c0b47f2051e3469a6066",
+      "sha256": "b1630a2f380ae6ef2fd6bf4be3a443afa29771d0424a7956780f4684a16ec62d",
       "role": "pdf"
     }
   ]

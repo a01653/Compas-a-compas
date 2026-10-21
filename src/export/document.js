@@ -20,6 +20,11 @@ export function htmlFileName(song) {
   return suggestFileName(song).replace(/\.json$/, '.html');
 }
 
+/** Título de las hojas exportadas; también da nombre al PDF que propone el navegador al imprimir. */
+export function exportTitle(title) {
+  return String(title || '').trim() || 'Hojas de acordes';
+}
+
 /**
  * @param {{ title: string, css: string, bodyHtml: string }} p
  * `bodyHtml` debe venir de serializar nodos DOM (los textos de usuario salen escapados). Como defensa
@@ -29,7 +34,7 @@ export function buildExportDocument({ title, css, bodyHtml }) {
   if (/<\s*(script|link|iframe|object|embed|base|meta)\b/i.test(bodyHtml)) {
     throw new Error('El cuerpo de la exportación contiene etiquetas no permitidas.');
   }
-  const heading = String(title || '').trim() || 'Hojas de acordes';
+  const heading = exportTitle(title);
   return [
     '<!doctype html>',
     '<html lang="es">',

@@ -214,7 +214,7 @@ El HTML autónomo se construye desde los nodos del renderizador compartido. Incl
 
 Los textos de usuario se introducen mediante APIs de texto del DOM. Al ensamblar el documento se escapa el título HTML, se neutralizan cierres de `style` dentro del CSS y se rechazan etiquetas de ejecución o incrustación no permitidas en el cuerpo serializado. Los archivos JSON se validan antes de aplicarse.
 
-Imprimir usa el mismo HTML en un marco y llama a la impresión del navegador. No hay un generador PDF nativo en el producto. El usuario elige A4 horizontal, escala 100 %, sin márgenes añadidos ni encabezados o pies del navegador. Las opciones concretas dependen de ese navegador y de la impresora.
+Imprimir usa el mismo HTML en un marco y llama a la impresión del navegador. Mientras dura la impresión, la pestaña toma el título de la canción (`exportTitle`) y lo devuelve en `afterprint`, porque Chromium propone el nombre del PDF a partir del título de la página principal y no del marco. No hay un generador PDF nativo en el producto. El usuario elige A4 horizontal, escala 100 %, sin márgenes añadidos ni encabezados o pies del navegador. Las opciones concretas dependen de ese navegador y de la impresora.
 
 ## Servidor y lanzador local
 
