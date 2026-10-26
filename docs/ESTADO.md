@@ -1,5 +1,9 @@
 # Estado de trabajo
 
+## Lanzador `.cmd` sin falso «modificado» — 26/10/2026
+
+Rama `fix/cmd-crlf`. `Abrir-Compas.cmd` estaba guardado en Git con CRLF, pero `.gitattributes` (`*.cmd text eol=crlf`) pedía LF en el repositorio, así que Git lo marcaba siempre como modificado aunque el archivo fuese idéntico al publicado. `.gitattributes` pasa a `*.cmd -text`: el lanzador se guarda y se entrega tal cual, con CRLF, también al descargarlo suelto desde GitHub. El contenido de `Abrir-Compas.cmd` no cambia (comprobado byte a byte con `main`). Sin cambios de aplicación, versión ni documentación generada.
+
 ## Nombres de archivo como el título (0.7.4) — 26/10/2026
 
 Rama `fix/nombres-exportacion`, sobre `feature/titulo-sobre-compas`. A petición del usuario, **Exportar HTML** propone el título de la canción tal como se escribe, como el PDF (`I Fall in Love Too Easily.html`; antes `i-fall-in-love-too-easily.html`). Nueva función `titleFileName` en `src/model/serialize.js`, usada por `htmlFileName` (`src/export/document.js`) y por `suggestFileName`. Por decisión del usuario, **Guardar JSON** sigue usando el nombre del archivo abierto; solo una canción nueva propone el título. Se sustituyen por `_` los caracteres no válidos en Windows y se quitan puntos y espacios finales; sin título, el HTML se llama «Hojas de acordes.html» y el JSON «cancion.json». Pruebas actualizadas en `tests/export-document.test.js` y `tests/validate.test.js`. Documentación: `docs/manuals/USO.md`, `README.md`, `docs/DTS.md` y `CHANGELOG.md`.
