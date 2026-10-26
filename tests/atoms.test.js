@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildUnits, fragmentFlags, groupAtoms } from '../src/layout/atoms.js';
+import { buildUnits, fragmentFlags, groupAtoms, titleSpans } from '../src/layout/atoms.js';
 import { projectMarks, fragmentMarks } from '../src/model/marksProjection.js';
 import { loadDemo } from './helpers.js';
 
@@ -75,4 +75,12 @@ test('símbolos de borde solo en el primer y último fragmento de un compás par
   assert.deepEqual(parts.map((p) => p.endings.length), [1, 1, 1], 'la casilla se identifica en los tres');
   assert.deepEqual(parts.map((p) => [p.endings[0].continuesBefore, p.endings[0].continuesAfter]), [[false, true], [true, true], [true, false]]);
   assert.deepEqual(parts.map((p) => [p.spans[0].continuesBefore, p.spans[0].continuesAfter]), [[false, true], [true, true], [true, false]]);
+});
+
+test('el título exterior ocupa su tarjeta y las siguientes del fragmento hasta la próxima con título', () => {
+  assert.deepEqual(titleSpans(['B Final', '']), [{ start: 0, end: 2 }]);
+  assert.deepEqual(titleSpans(['', 'Puente', '', '']), [{ start: 1, end: 4 }]);
+  assert.deepEqual(titleSpans(['Intro', 'Otra', '']), [{ start: 0, end: 1 }, { start: 1, end: 3 }]);
+  assert.deepEqual(titleSpans(['', '']), []);
+  assert.deepEqual(titleSpans([]), []);
 });

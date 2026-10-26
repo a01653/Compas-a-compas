@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "cd1dedf827827340fbfbb58ae37a5c6418263e06e58e9e11c68f9aefe816cc47",
+      "sha256": "ef19349db649684d134d9f7a2575802f3f8ef315a1486f7cd3fc040c0366e84b",
       "role": "source"
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "7abac9b033d0424abaf847676f0057f2117849c80f4b4aca7e522a43140808d1",
+      "sha256": "533b0cebaefabf635abddc3a3eac03265193180f11e0662222420713efc359c0",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "b1630a2f380ae6ef2fd6bf4be3a443afa29771d0424a7956780f4684a16ec62d",
+      "sha256": "1d39cd5527b42e469b43b318ed3e3617dd625d733ad4526ed4b4cb798c50f54d",
       "role": "pdf"
     }
   ]

@@ -295,6 +295,9 @@ fieldset:disabled .field input, fieldset:disabled .field select { background: #f
 /* Solo outline/sombra: no altera dimensiones ni el CSS compartido de las hojas. */
 .vista-hojas .tarjeta { cursor: pointer; }
 .vista-hojas .tarjeta.sel { outline: 3px solid rgba(47, 107, 255, 0.7); outline-offset: 2px; }
+/* El título puede cruzar columnas de otras tarjetas: solo su recuadro responde al clic (selecciona su tarjeta), por encima de ellas. */
+.vista-hojas .compas > .t-titulo { position: relative; z-index: 1; pointer-events: none; }
+.vista-hojas .t-titulo-caja { cursor: pointer; pointer-events: auto; }
 
 /* Marco oculto desde el que se imprime exactamente el HTML exportado. */
 .print-frame { position: fixed; right: 0; bottom: 0; width: 1px; height: 1px; border: 0; opacity: 0; pointer-events: none; }

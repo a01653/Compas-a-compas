@@ -4,10 +4,10 @@ import { paletteFamilyStyle } from '../model/palette.js';
 import { projectMarks, fragmentMarks } from '../model/marksProjection.js';
 import { marksParts } from './marks.js';
 import { repeatSymbol, repeatSymbolTwo } from './repeat.js';
-import { buildUnits, fragmentFlags, groupAtoms } from '../layout/atoms.js';
+import { buildUnits, fragmentFlags, groupAtoms, titleSpans } from '../layout/atoms.js';
 import { MAX_ROW_EXPANSION, pageStyleVars } from '../layout/spec.js';
 import { deriveTonalityContext, tonalitiesVisible } from '../model/tonality.js';
-import { measureNumbersVisible } from '../model/song.js';
+import { effectiveText, measureNumbersVisible } from '../model/song.js';
 
 /**
  * Renderizador único de hojas: la vista previa, la medición y el HTML exportado dibujan con estas funciones.
@@ -53,6 +53,32 @@ function eventNode(ctx, group, measureId, onSelect, edge) {
 }
 
 /**
+ * Títulos exteriores del fragmento, colocados en la rejilla del compás (pista de títulos). Cada uno empieza en la columna de
+ * su tarjeta y puede ocupar las siguientes hasta la próxima tarjeta con título o el final del fragmento (titleSpans): así
+ * ajusta línea al ancho del compás y no al de su tarjeta. No ensancha columnas (contain: inline-size en sheet.css).
+ */
+function titleNodes(ctx, groups, measureId, onSelect) {
+  const cards = groups.flatMap((group) => {
+    const { event, voicings } = ctx.events.get(group.eventId);
+    return group.atoms.map((atom) => ({
+      eventId: event.id,
+      voicingId: atom.voicingId,
+      text: effectiveText(event, atom.voicingId === null ? null : voicings.get(atom.voicingId), 'aboveText'),
+    }));
+  });
+  return titleSpans(cards.map((card) => card.text)).map(({ start, end }) => {
+    const card = cards[start];
+    return h('div', {
+      class: 't-titulo',
+      style: `grid-column:${start + 1} / ${end + 1}`,
+      'data-event-id': card.eventId,
+      'data-voicing-id': card.voicingId ?? '',
+      onclick: onSelect ? (e) => { e.stopPropagation(); onSelect({ measureId, eventId: card.eventId, voicingId: card.voicingId }); } : null,
+    }, h('span', { class: 't-titulo-caja' }, card.text));
+  });
+}
+
+/**
  * Fragmento [from, to) de un compás. Los símbolos de borde (inicio/fin de repetición, marcas antes/después)
  * solo se dibujan en el primer y el último fragmento; los demás llevan solo continuidad.
  */
@@ -89,6 +115,7 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
     onclick: onSelect ? () => onSelect({ measureId: unit.measureId }) : null,
   },
     parts.strip,
+    groups.length ? titleNodes(ctx, groups, unit.measureId, onSelect) : null,
     body);
 }
 
