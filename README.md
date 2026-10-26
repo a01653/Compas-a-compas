@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.7.3 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.7.4 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 **Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
@@ -54,7 +54,7 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
-**Título sobre la tarjeta** aparece enmarcado, por encima y fuera de la línea vertical del compás, y puede extenderse sobre las tarjetas siguientes del mismo compás hasta la próxima con título; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
+**Título sobre compás** aparece enmarcado, por encima y fuera de la línea vertical del compás; empieza en la tarjeta donde se escribe y puede extenderse sobre las tarjetas siguientes del mismo compás hasta la próxima con título; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
 Los textos afectan únicamente a la tarjeta seleccionada. No hay un selector de alcance compartido.
 

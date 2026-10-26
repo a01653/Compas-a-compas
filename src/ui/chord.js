@@ -274,7 +274,7 @@ export function mountChordPanel(root, store) {
     const textsPanel = h('section', { id: 'editor-texts', class: 'editor-section', 'aria-labelledby': 'editor-texts-title' },
       h('h3', { id: 'editor-texts-title', class: 'editor-subtitle' }, 'Textos de la tarjeta'),
       h('div', { class: 'card-text-row' },
-        textField('f-encima', 'Título sobre la tarjeta', 'aboveText', 'Fuera del recuadro. Por ejemplo: Introducción.'),
+        textField('f-encima', 'Título sobre compás', 'aboveText', 'Encima del compás, desde esta tarjeta. Por ejemplo: Introducción.'),
         textField('f-dentro', 'Anotación dentro', 'insideText', 'Bajo el nombre del acorde. Por ejemplo: Drop 2 · 1ª inversión.')),
       // Con las tonalidades ocultas en la hoja, sus campos no tienen efecto visible: se ocultan sin tocar los valores guardados.
       h('div', { class: 'card-text-row tonality-row' },

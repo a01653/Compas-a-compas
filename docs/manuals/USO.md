@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.7.3 · Edición del manual: 26/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.7.4 · Edición del manual: 26/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -78,7 +78,7 @@ Pulsa **Listo** para cerrar y **Guardar JSON** para conservar la paleta en el ar
 
 ### Títulos, anotaciones y grado de la tarjeta
 
-El bloque **Textos de la tarjeta** aparece debajo de digitación y grados, siempre visible y sin pestañas. **Título sobre la tarjeta** se dibuja en un recuadro encima de su posición y fuera de la línea vertical del compás. Empieza en su tarjeta y puede ocupar el ancho del resto del compás: en un compás con dos tarjetas, un título como «B Final · combinación libre» se extiende sobre la segunda y queda en una sola línea. Si otra tarjeta del compás tiene su propio título, el primero termina donde empieza ese. Solo pasa a dos líneas cuando no cabe en el compás. **Anotación dentro** conserva su lugar bajo el nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
+El bloque **Textos de la tarjeta** aparece debajo de digitación y grados, siempre visible y sin pestañas. **Título sobre compás** se dibuja en un recuadro encima del compás, fuera de su línea vertical, empezando en la tarjeta donde lo escribes, y puede ocupar el ancho del resto del compás: en un compás con dos tarjetas, un título como «B Final · combinación libre» se extiende sobre la segunda y queda en una sola línea. Si otra tarjeta del compás tiene su propio título, el primero termina donde empieza ese. Solo pasa a dos líneas cuando no cabe en el compás. **Anotación dentro** conserva su lugar bajo el nombre del acorde. Vaciar cualquiera lo quita de esa tarjeta.
 
 Cada campo modifica solo la tarjeta seleccionada. No hay un selector para aplicar los textos a otras tarjetas.
 

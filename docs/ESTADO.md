@@ -1,5 +1,11 @@
 # Estado de trabajo
 
+## Versión 0.7.4: «Título sobre compás» — 26/10/2026
+
+Rama `feature/titulo-sobre-compas`. A petición del usuario, el campo **Título sobre la tarjeta** pasa a llamarse **Título sobre compás** (`src/ui/chord.js`), con la ayuda «Encima del compás, desde esta tarjeta». El dato sigue siendo `aboveText` de cada tarjeta y el dibujo no cambia. Versión 0.7.4 en `package.json`, pie de `index.html`, `README.md`, `CHANGELOG.md` y cabeceras de `docs/manuals/USO.md` y `docs/manuals/README.md`. Textos del manual de uso y README actualizados. Capturas `editor-general.png`, `editor-posiciones.png` y `textos-deshacer.png` retomadas con Edge sin cabeza (1440 × 960, escala 1,5); los tres documentos se regeneran porque llevan la versión en el pie. Los registros históricos (este archivo y `docs/diseno/textos-y-tonalidades.md`) conservan el nombre anterior.
+
+La 0.7.3 quedó publicada antes de este cambio: merge `87c8bed`, GitHub Actions ejecución 40328927722 correcta y la web muestra «Versión 0.7.3».
+
 ## Versión 0.7.3 — 26/10/2026
 
 Rama `chore/version-0-7-3`. Sube la versión a 0.7.3 para los dos cambios visibles publicados tras la 0.7.2: título sobre la tarjeta al ancho del compás y nombre del PDF al imprimir. Archivos: `package.json`, pie de `index.html`, `README.md`, `CHANGELOG.md`, cabeceras de `docs/manuals/USO.md`, `docs/manuals/README.md` y `docs/DTS.md`, fecha de edición del pie en `docs/latex/document-template.tex` y en el manifiesto de `scripts/build_docs.py`. Los tres documentos (PDF, `.tex` y `.build.json`) se regeneran porque llevan la versión en el pie. Sin cambios en el JSON.
