@@ -3,6 +3,7 @@
 ## 0.7.4 — 26/10/2026
 
 - El campo **Título sobre la tarjeta** pasa a llamarse **Título sobre compás**, porque el título se dibuja encima del compás y puede ocupar su ancho. Sigue empezando en la tarjeta donde se escribe; el dato (`aboveText`) y su comportamiento no cambian.
+- **Exportar HTML** propone como nombre el título de la canción tal como se escribe, igual que el PDF (`I Fall in Love Too Easily.html` en lugar de `i-fall-in-love-too-easily.html`). **Guardar JSON** mantiene el nombre del archivo abierto; una canción nueva también propone su título. Solo se sustituyen por `_` los caracteres no válidos en Windows.
 - Capturas del manual con el editor actualizadas (vista general, textos y selector de tarjetas).
 
 ## 0.7.3 — 26/10/2026

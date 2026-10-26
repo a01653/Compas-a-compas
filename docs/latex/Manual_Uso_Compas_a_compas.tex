@@ -1,4 +1,4 @@
-% Source-SHA256: 0c0aa64ce132301389ab04685d2b5ceceec8382e44e67c744581baac7bb2c56f
+% Source-SHA256: 5520ed3079489aacc3fa2eeac8a5cd9bb4e8ecc9e8d64972d22ccbbe989a9ca6
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -553,9 +553,11 @@ pendientes se pide confirmación.
 trabajo}\label{guardar-y-recuperar-el-trabajo}
 
 \textbf{Guardar JSON} conserva la canción editable completa. Según el
-navegador, aparecerá un selector de archivo o una descarga. Elige una
-carpeta conocida y conserva copias con nombres como
-\texttt{Mi-cancion-01.json}.
+navegador, aparecerá un selector de archivo o una descarga. Si abriste
+la canción desde un archivo, se propone el nombre de ese archivo; una
+canción nueva propone su título tal como lo escribiste (por ejemplo,
+\texttt{I\ Fall\ in\ Love\ Too\ Easily.json}). Elige una carpeta
+conocida y conserva copias con nombres como \texttt{Mi-cancion-01.json}.
 
 \textbf{Abrir JSON} permite continuar ese proyecto. Si el formato es
 inválido, tiene campos desconocidos o pertenece a otra versión de
@@ -577,7 +579,12 @@ esta sesión; no sustituye al archivo guardado.
 
 Abre el menú \textbf{Exportar} de la cabecera. \textbf{Exportar HTML}
 crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes
-abrirlo sin conexión y compartirlo. No contiene el editor ni sirve para
+abrirlo sin conexión y compartirlo. El nombre propuesto es el título de
+la canción tal como lo escribiste, igual que el del PDF:
+\texttt{I\ Fall\ in\ Love\ Too\ Easily.html}. Los caracteres que Windows
+no admite en un nombre de archivo
+(\texttt{\textbackslash{}\ /\ :\ *\ ?\ "\ \textless{}\ \textgreater{}\ \textbar{}})
+se sustituyen por \texttt{\_}. No contiene el editor ni sirve para
 recuperar una canción editable.
 
 \textbf{Imprimir / PDF} abre la impresión del navegador con las mismas

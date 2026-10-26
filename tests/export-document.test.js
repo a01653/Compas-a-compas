@@ -48,8 +48,13 @@ test('un cuerpo con etiquetas activas sin escapar se rechaza', () => {
 
 test('título vacío y nombre de archivo', () => {
   assert.match(buildExportDocument({ title: '  ', css: '', bodyHtml: BODY }), /<title>Hojas de acordes<\/title>/);
-  assert.equal(htmlFileName({ title: 'Canción de Prueba ¡Ñandú!' }), 'cancion-de-prueba-nandu.html');
-  assert.equal(htmlFileName({ title: '' }), 'cancion.html');
+  // Mismo nombre que el PDF: el título tal como se escribe, sin pasarlo a minúsculas ni a guiones.
+  assert.equal(htmlFileName({ title: 'I Fall in Love Too Easily' }), 'I Fall in Love Too Easily.html');
+  assert.equal(htmlFileName({ title: 'Canción de Prueba ¡Ñandú!' }), 'Canción de Prueba ¡Ñandú!.html');
+  assert.equal(htmlFileName({ title: '' }), 'Hojas de acordes.html');
+  assert.equal(htmlFileName({ title: ' A/B: "C"? ' }), 'A_B_ _C__.html');
+  assert.equal(htmlFileName({ title: 'A\\B' }), 'A_B.html');
+  assert.equal(htmlFileName({ title: 'Fin.' }), 'Fin.html');
 });
 
 test('el título de impresión, que da nombre al PDF, es el de la canción y no el de la aplicación', () => {

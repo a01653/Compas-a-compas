@@ -1,4 +1,4 @@
-import { suggestFileName } from '../model/serialize.js';
+import { titleFileName } from '../model/serialize.js';
 
 /** Ensambla el HTML autónomo. Puro: recibe estilos y hojas ya serializadas; no lleva JavaScript ni peticiones externas. */
 
@@ -16,8 +16,9 @@ export function neutralizeStyle(css) {
   return String(css).replace(/<\/(style)/gi, '<\\/$1');
 }
 
+/** Nombre del HTML exportado: el título de las hojas, el mismo que da nombre al PDF. */
 export function htmlFileName(song) {
-  return suggestFileName(song).replace(/\.json$/, '.html');
+  return titleFileName(exportTitle(song.title), 'html', exportTitle(''));
 }
 
 /** Título de las hojas exportadas; también da nombre al PDF que propone el navegador al imprimir. */

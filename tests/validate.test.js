@@ -99,6 +99,7 @@ test('JSON corrupto: error legible, sin excepción', () => {
 });
 
 test('nombre de archivo sugerido', () => {
-  assert.equal(suggestFileName({ title: 'Canción de Prueba ¡Ñandú!' }), 'cancion-de-prueba-nandu.json');
+  assert.equal(suggestFileName({ title: 'Canción de Prueba ¡Ñandú!' }), 'Canción de Prueba ¡Ñandú!.json');
+  assert.equal(suggestFileName({ title: 'I Fall in Love Too Easily' }), 'I Fall in Love Too Easily.json');
   assert.equal(suggestFileName({ title: '' }), 'cancion.json');
 });

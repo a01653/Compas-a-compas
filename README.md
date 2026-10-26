@@ -90,8 +90,8 @@ Un compás que no cabe en una fila pasa a la siguiente; si no cabe ni así, se p
 
 | Acción | Resultado |
 | --- | --- |
-| **Guardar JSON** | El proyecto editable completo. Es la única copia que permite seguir editando. Usa el selector de archivos del navegador si existe; si no, una descarga normal. |
-| **Exportar HTML** | Un archivo único con las hojas, fuentes y estilos incluidos. Sin editor, sin JavaScript y sin peticiones externas; se abre sin conexión. No se puede volver a editar. |
+| **Guardar JSON** | El proyecto editable completo. Es la única copia que permite seguir editando. Usa el selector de archivos del navegador si existe; si no, una descarga normal. Una canción abierta desde un archivo se guarda con el nombre de ese archivo; una nueva propone el título de la canción. |
+| **Exportar HTML** | Un archivo único con las hojas, fuentes y estilos incluidos. Sin editor, sin JavaScript y sin peticiones externas; se abre sin conexión. No se puede volver a editar. El nombre propuesto es el título de la canción, como el del PDF. |
 | **Imprimir / PDF** | Abre el diálogo de impresión del navegador sobre ese mismo HTML. Al guardar como PDF, el nombre propuesto es el título de la canción. No hay descarga de PDF nativa. |
 
 - **Impresión A4:** en el diálogo elige «Guardar como PDF» (o la impresora), A4 horizontal, márgenes «Ninguno» y desactiva «Encabezados y pies de página». La hoja mide 297 × 210 mm con márgenes de 5 mm y `actual/total` arriba a la derecha. Ctrl+P sobre el editor no imprime la interfaz.
