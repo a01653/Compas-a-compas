@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.7.2 · Edición del manual: 18/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.7.3 · Edición del manual: 26/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 

@@ -1,6 +1,6 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.6.0 · Esquema de canción 1 · Edición del DTS: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.7.3 · Esquema de canción 1 · Edición del DTS: 26/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
