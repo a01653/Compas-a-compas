@@ -1,1 +1,2 @@
-*.cmd text eol=crlf
+# Los lanzadores de Windows se guardan y entregan tal cual, con CRLF (también al descargarlos sueltos desde GitHub).
+*.cmd -text
