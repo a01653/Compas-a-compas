@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.7.2**, edición **19/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
+Documentación de Compás a compás **0.7.3**, edición **26/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |

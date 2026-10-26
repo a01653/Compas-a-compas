@@ -1,4 +1,4 @@
-% Source-SHA256: 11e53403d4d2c43a9d86b8ed516fa36893003dc083ac9525fa113a292d6ef807
+% Source-SHA256: 9d3febbd37077c14c36a4f41994c65f198519aa83e978e61e56971400cd021bb
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Instalación y arranque}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.2 · 18/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.3 · 26/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Abrir la aplicación desde la carpeta del proyecto\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.7.2 · 18/10/2026\par}
+{\sffamily\small Aplicación 0.7.3 · 26/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -106,8 +106,7 @@ Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
-\hypertarget{quuxe9-necesitas}{%
-\section{Qué necesitas}\label{quuxe9-necesitas}}
+\section{Qué necesitas}\label{quuxe9-necesitas}
 
 \begin{itemize}
 \tightlist
@@ -128,9 +127,8 @@ no hacen falta Claude, el conector ni el túnel de Cloudflare. Python,
 Pandoc y LaTeX solo se usan si quieres regenerar esta documentación.
 
 \Needspace{3.5cm}
-\hypertarget{tener-el-proyecto-en-su-carpeta}{%
 \section{Tener el proyecto en su
-carpeta}\label{tener-el-proyecto-en-su-carpeta}}
+carpeta}\label{tener-el-proyecto-en-su-carpeta}
 
 La ruta prevista en este equipo es:
 
@@ -156,8 +154,7 @@ En la raíz deben estar \texttt{Abrir-Compas.cmd}, \texttt{index.html},
 en \texttt{docs}.
 
 \Needspace{3.5cm}
-\hypertarget{abrir-cada-duxeda}{%
-\section{Abrir cada día}\label{abrir-cada-duxeda}}
+\section{Abrir cada día}\label{abrir-cada-duxeda}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -189,8 +186,7 @@ El lanzador reconoce la aplicación del puerto 5174 y puede reutilizar
 esa instancia anterior.
 
 \Needspace{3.5cm}
-\hypertarget{arranque-manual}{%
-\section{Arranque manual}\label{arranque-manual}}
+\section{Arranque manual}\label{arranque-manual}
 
 Si necesitas ver los mensajes o usar otro puerto:
 
@@ -215,9 +211,8 @@ editor; sus módulos necesitan una dirección HTTP. Los HTML exportados sí
 pueden abrirse directamente sin servidor.
 
 \Needspace{3.5cm}
-\hypertarget{actualizar-sin-perder-las-canciones}{%
 \section{Actualizar sin perder las
-canciones}\label{actualizar-sin-perder-las-canciones}}
+canciones}\label{actualizar-sin-perder-las-canciones}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -251,10 +246,10 @@ descartar archivos para una actualización normal. Los JSON guardados son
 tus copias editables: mantenlos aparte de los archivos de programa.
 
 \Needspace{3.5cm}
-\hypertarget{resolver-los-problemas-habituales}{%
 \section{Resolver los problemas
-habituales}\label{resolver-los-problemas-habituales}}
+habituales}\label{resolver-los-problemas-habituales}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Mensaje o síntoma & Solución \\
@@ -277,12 +272,13 @@ la carpeta principal, arranca otra vez y pulsa Ctrl+F5. \\
 No encuentro mi canción al volver & Abre el JSON que guardaste. La
 recuperación depende del navegador y del puerto utilizados. \\
 \end{longtable}
+}
 
 \Needspace{3.5cm}
-\hypertarget{duxf3nde-estuxe1n-la-ayuda-y-los-archivos}{%
 \section{Dónde están la ayuda y los
-archivos}\label{duxf3nde-estuxe1n-la-ayuda-y-los-archivos}}
+archivos}\label{duxf3nde-estuxe1n-la-ayuda-y-los-archivos}
 
+{\def\LTcaptype{none} % do not increment counter
 \begin{longtable}[]{@{}>{\raggedright\arraybackslash}p{\dimexpr0.320000\linewidth-1.000000\tabcolsep\relax}>{\raggedright\arraybackslash}p{\dimexpr0.680000\linewidth-1.000000\tabcolsep\relax}@{}}
 \toprule\noalign{}
 Archivo o carpeta & Uso \\
@@ -300,6 +296,7 @@ tonalidad por posición \\
 \texttt{docs/latex} & Manuales y DTS en PDF, fuentes LaTeX y manifiestos
 de construcción \\
 \end{longtable}
+}
 
 No se requiere instalar una PWA ni crear un entorno Python para utilizar
 el editor. El doble clic real del lanzador y el diálogo de impresión en

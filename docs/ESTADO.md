@@ -1,12 +1,18 @@
 # Estado de trabajo
 
+## Versión 0.7.3 — 26/10/2026
+
+Rama `chore/version-0-7-3`. Sube la versión a 0.7.3 para los dos cambios visibles publicados tras la 0.7.2: título sobre la tarjeta al ancho del compás y nombre del PDF al imprimir. Archivos: `package.json`, pie de `index.html`, `README.md`, `CHANGELOG.md`, cabeceras de `docs/manuals/USO.md`, `docs/manuals/README.md` y `docs/DTS.md`, fecha de edición del pie en `docs/latex/document-template.tex` y en el manifiesto de `scripts/build_docs.py`. Los tres documentos (PDF, `.tex` y `.build.json`) se regeneran porque llevan la versión en el pie. Sin cambios en el JSON.
+
 ## Título sobre la tarjeta al ancho del compás — 26/10/2026
 
-Rama `fix/titulo-ancho-tarjeta-compas`. El título exterior se limitaba al ancho de la columna de su tarjeta: en *I Fall in Love Too Easily*, compás 29, «B Final · combinación libre» ocupaba dos líneas aunque el compás tiene dos tarjetas. Ahora el título se dibuja en la pista de títulos del compás (`titleNodes` en `src/render/sheet.js`), desde la columna de su tarjeta hasta la siguiente tarjeta con título o el final del fragmento (`titleSpans` en `src/layout/atoms.js`); sigue alineado a la izquierda con su tarjeta y no ensancha columnas. `src/render/card.js` deja de dibujar el título dentro de la columna; `styles/sheet.css` coloca `.compas > .t-titulo`; `styles/app.css` hace que en la vista previa solo el recuadro reciba el clic (selecciona su tarjeta) por encima de las columnas que cruza. Prueba nueva en `tests/atoms.test.js`. Sin cambios en el JSON ni en la versión.
+Rama `fix/titulo-ancho-tarjeta-compas`. El título exterior se limitaba al ancho de la columna de su tarjeta: en *I Fall in Love Too Easily*, compás 29, «B Final · combinación libre» ocupaba dos líneas aunque el compás tiene dos tarjetas. Ahora el título se dibuja en la pista de títulos del compás (`titleNodes` en `src/render/sheet.js`), desde la columna de su tarjeta hasta la siguiente tarjeta con título o el final del fragmento (`titleSpans` en `src/layout/atoms.js`); sigue alineado a la izquierda con su tarjeta y no ensancha columnas. `src/render/card.js` deja de dibujar el título dentro de la columna; `styles/sheet.css` coloca `.compas > .t-titulo`; `styles/app.css` hace que en la vista previa solo el recuadro reciba el clic (selecciona su tarjeta) por encima de las columnas que cruza. Prueba nueva en `tests/atoms.test.js`. Sin cambios en el JSON; publicado primero como 0.7.2 y recogido después en la 0.7.3.
 
 Documentación: `docs/DISENO.md`, `docs/DTS.md`, `docs/manuals/USO.md` y `README.md`; manual de uso y DTS regenerados (PDF, `.tex` y `.build.json`) con `python scripts/build_docs.py --engine xelatex` y revisadas sus páginas afectadas (uso p. 7, DTS p. 10). El manual de instalación no cambia y se conserva su derivado anterior.
 
 Comprobado en Edge sin cabeza con el JSON del usuario y variantes en la carpeta temporal: compás 29 en una línea sobre las dos tarjetas (la fila baja de altura); dos títulos en un compás (el primero termina donde empieza el segundo); título más largo que el compás (ajusta línea al ancho del compás, sin invadir el siguiente); compás partido en dos filas (cada fragmento con sus títulos); barras de repetición del ejemplo demo; clic en la parte del título que cruza la segunda tarjeta selecciona la primera y el hueco libre selecciona la segunda; documento con solo los estilos de exportación. No se ha revisado la impresión/PDF real ni móvil.
+
+Integrado en `main` con el merge `5c84d6a` (commit `1bd6123`) y publicado por GitHub Actions (ejecución 40327477020, `build` y `deploy` correctos). La web de Pages sirve el código nuevo (`titleSpans` y `.compas > .t-titulo`); no se abrió la web publicada en un navegador.
 
 ## Nombre del PDF al imprimir — 21/10/2026
 

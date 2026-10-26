@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.7.3 — 26/10/2026
+
+- El **Título sobre la tarjeta** puede ocupar el ancho del compás y no solo el de su tarjeta: empieza en su tarjeta y se extiende sobre las siguientes del mismo compás hasta la próxima con título propio o el final del compás (o de la fila, si el compás continúa en otra). Solo ajusta línea cuando no cabe en ese espacio y nunca ensancha las tarjetas. En la vista previa, pulsar el recuadro selecciona su tarjeta.
+- Al usar **Imprimir / PDF**, el navegador propone como nombre del PDF el título de la canción en lugar de «Compás a compás».
+- Sin cambios en el JSON. Manual de uso, DTS y README actualizados.
+
 ## 0.7.2 — 18/10/2026
 
 - Cada voicing admite `anchorFret`, un traste de referencia cuya columna se resalta y que amplía el rango visible del mástil.
