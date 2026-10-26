@@ -64,3 +64,13 @@ export function groupAtoms(unit, from, to) {
   for (const group of groups) group.cutAfter = !group.atoms[group.atoms.length - 1].lastOfEvent;
   return groups;
 }
+
+/**
+ * Columnas de los títulos exteriores de un fragmento, a partir del título efectivo de cada tarjeta ('' = sin título).
+ * Cada título empieza en su tarjeta y ocupa las siguientes hasta la próxima con título o el final del fragmento:
+ * [{ start, end }] con `end` exclusivo, en índices de tarjeta del fragmento.
+ */
+export function titleSpans(texts) {
+  const starts = texts.flatMap((text, i) => (text ? [i] : []));
+  return starts.map((start, k) => ({ start, end: k + 1 < starts.length ? starts[k + 1] : texts.length }));
+}

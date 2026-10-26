@@ -70,6 +70,9 @@
 }
 .compas > .marcas { grid-row: 1; grid-column: 1 / -1; }
 .compas > .eventos { grid-row: 2 / span 3; grid-column: 1 / -1; }
+/* Título exterior: pista de títulos del compás, desde la columna de su tarjeta hasta la siguiente con título o el final del
+   fragmento (grid-column en línea, ver titleNodes en render/sheet.js). Ajusta línea al ancho de esas columnas y no las ensancha. */
+.compas > .t-titulo { grid-row: 2; align-self: end; contain: inline-size; margin-bottom: 2px; }
 .compas > .t-pos-vacio, .compas > .t-pos-repite { grid-row: 4; grid-column: 1 / -1; }
 /* Zona del compás de cada columna: hueco del número (en flujo, también en las columnas sin número) y tarjeta.
    La línea del compás es el borde de la primera columna: empieza junto al número y baja hasta el pie de la tarjeta,
@@ -134,10 +137,9 @@
    (sin barra, borde ni trazos de continuación). Cada tarjeta es independiente; no se añade duración. */
 .evento { display: grid; grid-row: 1 / span 3; grid-auto-flow: column; grid-template-columns: subgrid; grid-template-rows: subgrid; }
 
+/* La primera fila de la columna es el hueco del título, que dibuja el compás por encima (.compas > .t-titulo). */
 .tarjeta-col { display: grid; grid-row: 1 / span 3; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; }
-.t-sup { display: contents; }
-/* Título y franja no ensanchan la tarjeta (contain: inline-size) y ajustan línea. Solo existen si hay texto o contexto. */
-.t-titulo { grid-row: 1; align-self: end; contain: inline-size; margin-bottom: 2px; }
+/* La franja no ensancha la tarjeta (contain: inline-size) y ajusta línea. Solo existe si hay contexto de tonalidad. */
 .t-titulo-caja { display: inline-block; max-width: 100%; padding: 3px 8px; border: 2px solid var(--ink-deep); border-radius: 6px; background: #fff; font: 17px/1.15 var(--f-marker); color: var(--ink-deep); overflow-wrap: anywhere; }
 /* Franja de tonalidad: color de la familia de la tonalidad. La heredada tiene la misma caja y altura, pero no repite el texto. */
 .t-tono { grid-row: 2; align-self: stretch; contain: inline-size; box-sizing: border-box; min-height: 20px; margin: 0 -2px 2px; padding: 2px 3px; border: 0; border-bottom: 3px solid var(--tonal-color); border-radius: 0; background: var(--tonal-bg); font: 12px/1.15 var(--f-hand); color: var(--tonal-ink); overflow-wrap: anywhere; }

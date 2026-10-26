@@ -54,7 +54,7 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
 
-**Título sobre la tarjeta** aparece enmarcado, por encima y fuera de la línea vertical del compás; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
+**Título sobre la tarjeta** aparece enmarcado, por encima y fuera de la línea vertical del compás, y puede extenderse sobre las tarjetas siguientes del mismo compás hasta la próxima con título; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
 Los textos afectan únicamente a la tarjeta seleccionada. No hay un selector de alcance compartido.
 

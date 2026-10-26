@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/DTS.md",
-      "sha256": "0764943feceadf5a2082d77a2ffa0ba1613cdb9f9e3ab04092f14da3e7875a71",
+      "sha256": "b753cc4b902799092e0b79dff6c1a2273512639f5e66095eca81b271cb0f9a9c",
       "role": "source"
     },
     {
@@ -28,12 +28,12 @@
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.tex",
-      "sha256": "b984533db4947aac321130816e0e95b1a8506267ef0958e7900e676c7eb6e9d1",
+      "sha256": "4b333a024906f5e41ca0e29d76cf8de3825b9d6114648ffd9c7ca380fdc7fc70",
       "role": "latex"
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.pdf",
-      "sha256": "0c3fe982c6d93a6407c24f8297c0dc73d5236c11382a8123a887f450b5b2ae66",
+      "sha256": "410fdf32d54270d645fcbb309e0a0936d5f0d7953f6b4298419a86314baf7abb",
       "role": "pdf"
     }
   ]
