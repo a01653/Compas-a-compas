@@ -17,12 +17,20 @@ export function parseSongJson(textValue) {
   return { ok: true, song: data, warnings };
 }
 
+/**
+ * Nombre de archivo a partir de un título tal como se escribe, igual que el PDF que propone el navegador al imprimir.
+ * Solo se sustituyen por «_» los caracteres que Windows no admite y se quitan espacios y puntos finales.
+ */
+export function titleFileName(title, extension, fallback) {
+  const base = String(title || '')
+    .replace(/[\u0000-\u001f\u007f\\/:*?"<>|]/g, '_')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/[. ]+$/, '');
+  return `${base || fallback}.${extension}`;
+}
+
+/** Nombre propuesto al guardar una canción que no viene de un archivo. */
 export function suggestFileName(song) {
-  const slug = String(song.title || '')
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-  return `${slug || 'cancion'}.json`;
+  return titleFileName(song.title, 'json', 'cancion');
 }

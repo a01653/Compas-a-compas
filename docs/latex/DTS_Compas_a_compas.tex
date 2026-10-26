@@ -1,4 +1,4 @@
-% Source-SHA256: bf53051426c343bba39dc6fb10001dd2ba8772de4105751416fa37a845421003
+% Source-SHA256: c97d2b616eb425da86461e09b10ed54146306e58109724d57d22206ffa4116fd
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -652,10 +652,15 @@ Imprimir usa el mismo HTML en un marco y llama a la impresión del
 navegador. Mientras dura la impresión, la pestaña toma el título de la
 canción (\texttt{exportTitle}) y lo devuelve en \texttt{afterprint},
 porque Chromium propone el nombre del PDF a partir del título de la
-página principal y no del marco. No hay un generador PDF nativo en el
-producto. El usuario elige A4 horizontal, escala 100 \%, sin márgenes
-añadidos ni encabezados o pies del navegador. Las opciones concretas
-dependen de ese navegador y de la impresora.
+página principal y no del marco. El HTML exportado usa el mismo nombre
+(\texttt{htmlFileName}, con \texttt{titleFileName} de
+\texttt{model/serialize.js}): el título tal como se escribe,
+sustituyendo por \texttt{\_} los caracteres no válidos en Windows.
+Guardar JSON conserva el nombre del archivo abierto y, si no lo hay,
+propone el título con \texttt{suggestFileName}. No hay un generador PDF
+nativo en el producto. El usuario elige A4 horizontal, escala 100 \%,
+sin márgenes añadidos ni encabezados o pies del navegador. Las opciones
+concretas dependen de ese navegador y de la impresora.
 
 \Needspace{3.5cm}
 \section{Servidor y lanzador local}\label{servidor-y-lanzador-local}

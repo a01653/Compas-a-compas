@@ -1,5 +1,11 @@
 # Estado de trabajo
 
+## Nombres de archivo como el título (0.7.4) — 26/10/2026
+
+Rama `fix/nombres-exportacion`, sobre `feature/titulo-sobre-compas`. A petición del usuario, **Exportar HTML** propone el título de la canción tal como se escribe, como el PDF (`I Fall in Love Too Easily.html`; antes `i-fall-in-love-too-easily.html`). Nueva función `titleFileName` en `src/model/serialize.js`, usada por `htmlFileName` (`src/export/document.js`) y por `suggestFileName`. Por decisión del usuario, **Guardar JSON** sigue usando el nombre del archivo abierto; solo una canción nueva propone el título. Se sustituyen por `_` los caracteres no válidos en Windows y se quitan puntos y espacios finales; sin título, el HTML se llama «Hojas de acordes.html» y el JSON «cancion.json». Pruebas actualizadas en `tests/export-document.test.js` y `tests/validate.test.js`. Documentación: `docs/manuals/USO.md`, `README.md`, `docs/DTS.md` y `CHANGELOG.md`.
+
+Comprobado en Edge sin cabeza abriendo `I_Fall_in_Love_Too_Easily_completo_1-39.json` con el selector de la aplicación y forzando la descarga normal: Exportar HTML descarga `I Fall in Love Too Easily.html` y Guardar JSON descarga `I_Fall_in_Love_Too_Easily_completo_1-39.json`. No se ha probado el selector nativo de guardado de Chrome/Edge con ventana.
+
 ## Versión 0.7.4: «Título sobre compás» — 26/10/2026
 
 Rama `feature/titulo-sobre-compas`. A petición del usuario, el campo **Título sobre la tarjeta** pasa a llamarse **Título sobre compás** (`src/ui/chord.js`), con la ayuda «Encima del compás, desde esta tarjeta». El dato sigue siendo `aboveText` de cada tarjeta y el dibujo no cambia. Versión 0.7.4 en `package.json`, pie de `index.html`, `README.md`, `CHANGELOG.md` y cabeceras de `docs/manuals/USO.md` y `docs/manuals/README.md`. Textos del manual de uso y README actualizados. Capturas `editor-general.png`, `editor-posiciones.png` y `textos-deshacer.png` retomadas con Edge sin cabeza (1440 × 960, escala 1,5); los tres documentos se regeneran porque llevan la versión en el pie. Los registros históricos (este archivo y `docs/diseno/textos-y-tonalidades.md`) conservan el nombre anterior.

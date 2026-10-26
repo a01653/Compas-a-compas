@@ -177,7 +177,7 @@ Las marcas se dibujan, pero **no hay reproducción ni comprobación del recorrid
 
 ## Guardar y recuperar el trabajo
 
-**Guardar JSON** conserva la canción editable completa. Según el navegador, aparecerá un selector de archivo o una descarga. Elige una carpeta conocida y conserva copias con nombres como `Mi-cancion-01.json`.
+**Guardar JSON** conserva la canción editable completa. Según el navegador, aparecerá un selector de archivo o una descarga. Si abriste la canción desde un archivo, se propone el nombre de ese archivo; una canción nueva propone su título tal como lo escribiste (por ejemplo, `I Fall in Love Too Easily.json`). Elige una carpeta conocida y conserva copias con nombres como `Mi-cancion-01.json`.
 
 **Abrir JSON** permite continuar ese proyecto. Si el formato es inválido, tiene campos desconocidos o pertenece a otra versión de esquema, se rechaza y la canción abierta se conserva. Nuevo y Abrir avisan si tienes cambios pendientes.
 
@@ -187,7 +187,7 @@ Exportar HTML o imprimir no equivale a guardar los cambios del proyecto. Guarda 
 
 ## Exportar e imprimir
 
-Abre el menú **Exportar** de la cabecera. **Exportar HTML** crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes abrirlo sin conexión y compartirlo. No contiene el editor ni sirve para recuperar una canción editable.
+Abre el menú **Exportar** de la cabecera. **Exportar HTML** crea un archivo único con las hojas, estilos y fuentes incluidos. Puedes abrirlo sin conexión y compartirlo. El nombre propuesto es el título de la canción tal como lo escribiste, igual que el del PDF: `I Fall in Love Too Easily.html`. Los caracteres que Windows no admite en un nombre de archivo (`\ / : * ? " < > |`) se sustituyen por `_`. No contiene el editor ni sirve para recuperar una canción editable.
 
 **Imprimir / PDF** abre la impresión del navegador con las mismas hojas. Para guardar como PDF:
 
