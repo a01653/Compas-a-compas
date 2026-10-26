@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.7.4 — 26/10/2026
+
+- El campo **Título sobre la tarjeta** pasa a llamarse **Título sobre compás**, porque el título se dibuja encima del compás y puede ocupar su ancho. Sigue empezando en la tarjeta donde se escribe; el dato (`aboveText`) y su comportamiento no cambian.
+- Capturas del manual con el editor actualizadas (vista general, textos y selector de tarjetas).
+
 ## 0.7.3 — 26/10/2026
 
 - El **Título sobre la tarjeta** puede ocupar el ancho del compás y no solo el de su tarjeta: empieza en su tarjeta y se extiende sobre las siguientes del mismo compás hasta la próxima con título propio o el final del compás (o de la fila, si el compás continúa en otra). Solo ajusta línea cuando no cabe en ese espacio y nunca ensancha las tarjetas. En la vista previa, pulsar el recuadro selecciona su tarjeta.
