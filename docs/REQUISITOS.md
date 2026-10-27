@@ -6,6 +6,8 @@ Versión de la especificación: 1.0. Fecha: 16/10/2026. Estado: preparada para d
 
 **Ampliación 0.6.0:** tarjetas independientes con selector único y franjas rectangulares; sin barras ni separadores de grupos.
 
+**Ampliación solicitada el 27/10/2026, implementada en 0.8.0:** edición estructural de compases (R31–R36). Amplía R02: la renumeración de etiquetas tras una operación estructural está activada por defecto, se anuncia en cada aviso y se puede desactivar por canción para conservar los números originales; ya no es silenciosa ni obligatoria.
+
 ## Objetivo
 
 Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción cuando cambie un acorde o una digitación. El archivo JSON conserva la edición; HTML y PDF son salidas visuales.
@@ -20,6 +22,17 @@ Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción
 | R04 | Cada compás admite varias tarjetas independientes (en el formato, acordes con uno o varios voicings). No fijar un máximo de dos tarjetas. |
 | R05 | Corregir un compás o una tarjeta sin regenerar ni cambiar el resto de la canción. |
 | R06 | Permitir compases vacíos o de silencio y conservar su numeración. |
+
+## Edición estructural de compases (0.8.0)
+
+| ID | Requisito |
+| --- | --- |
+| R31 | Seleccionar uno o varios compases (casillas en modo selección, Ctrl+clic, Mayús+clic o desde el menú del compás) y aplicarles insertar antes o después, copiar, cortar, pegar antes o después, duplicar, sustituir, subir, bajar, intercambiar y borrar. Las mismas acciones en el menú del compás y en un menú contextual de la hoja. |
+| R32 | Mover bloques no contiguos conservando su orden. Copias, duplicados y pegados conservan acordes, voicings, textos, tonalidades y ancho, con IDs nuevos y únicos. Sustituir cambia el contenido y conserva ID, etiqueta y marcas. |
+| R33 | Las marcas siguen a su compás por ID y nunca se redirigen. Las repeticiones de un bloque copiado se rehacen respecto a su nueva posición; una pareja de dos compases se mueve entera y no se separa al insertar. Los avisos nuevos se muestran y la corrección de referencias es una acción expresa. |
+| R34 | Renumerar las etiquetas numéricas tras cada operación estructural, desde el número del primer compás numerado; opción por canción para conservar los números originales. |
+| R35 | Copiar y pegar una o varias tarjetas entre compases o canciones, sustituir la tarjeta entera o solo su digitación y reordenar las tarjetas de un compás. Seleccionar varias tarjetas, también salteadas, con Ctrl+clic, Mayús+clic o el modo selección: en la hoja, el recuadro de una tarjeta señala la tarjeta y el resto del compás señala el compás; una selección no mezcla tarjetas y compases. |
+| R36 | Deshacer y rehacer cada operación en un paso; borrar pide confirmación. Atajos Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+Z, Ctrl+Y, Alt+↑/↓ y Supr fuera de los campos. El JSON guardado conserva exactamente el resultado. |
 
 ## Tarjetas y digitaciones
 

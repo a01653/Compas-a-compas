@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.7.4 · Edición del manual: 26/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.8.0 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -19,11 +19,29 @@ La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los 
 
 Cada dibujo es una **tarjeta**. Tiene su nombre de acorde, calidad/color, digitación, grados, título exterior, anotación y tonalidad. Para escribir dos digitaciones del mismo acorde, añade dos tarjetas con ese nombre. Para escribir dos acordes distintos, cambia el nombre de cada una. Se manejan igual.
 
-Usa el único selector **Tarjetas del compás** para elegir una tarjeta, o púlsala directamente en la hoja. **Añadir tarjeta** crea una tarjeta lista para introducir sus notas y sin nombre: la hoja no dibuja nada hasta que lo escribas (el editor muestra «Sin nombre» solo como ayuda). **Duplicar tarjeta** copia la seleccionada a continuación; **Quitar tarjeta** borra solamente esa tarjeta, tras confirmar. Al editar un campo no cambian las otras tarjetas, aunque compartan el mismo nombre.
+Usa el único selector **Tarjetas del compás** para elegir una tarjeta, o púlsala directamente en la hoja. **Añadir tarjeta** crea una tarjeta lista para introducir sus notas y sin nombre: la hoja no dibuja nada hasta que lo escribas (el editor muestra «Sin nombre» solo como ayuda). **Duplicar tarjeta** copia la seleccionada a continuación. Al editar un campo no cambian las otras tarjetas, aunque compartan el mismo nombre.
 
 Los archivos anteriores siguen abriendo. Si contenían varias posiciones agrupadas bajo un acorde, ahora aparecen como tarjetas separadas en el selector. Abrir y guardar sin editar conserva el archivo; el cambio de interfaz no elimina datos ni crea notas.
 
-Selecciona un compás en el desplegable superior o con las flechas. El botón + añade un compás y el menú de tres puntos permite insertar, duplicar, mover o borrar compases. Su etiqueta no se renumera automáticamente al moverlos. Antes de borrar un compás se muestran las consecuencias para sus marcas musicales.
+Selecciona un compás en el desplegable superior o con las flechas. El botón + añade un compás al final. Para insertar, copiar, mover o borrar compases, consulta [Organizar compases](#organizar-compases).
+
+### Copiar, pegar y ordenar tarjetas
+
+El botón de tres puntos al final de la fila de tarjetas abre **Opciones de la tarjeta**. Las mismas opciones aparecen al pulsar una tarjeta de la hoja con el botón derecho. Se aplican a la tarjeta seleccionada o, si has marcado varias (ver [Seleccionar tarjetas o compases](#seleccionar-tarjetas-o-compases)), a todas ellas:
+
+- **Copiar tarjeta** guarda la tarjeta con su nombre, calidad, textos, grado, tonalidad y digitación. **Cortar tarjeta** la copia y la quita. Puedes pegarla en otro compás, o en otra canción que abras después, mientras no recargues la página.
+- **Pegar tarjeta antes** y **Pegar tarjeta después** añaden tarjetas independientes con lo copiado junto a la seleccionada, en el orden en que estaban. En un compás de repetición, primero se quita la repetición y se avisa.
+- **Sustituir tarjeta por la copiada** cambia la tarjeta entera por la copiada: nombre, calidad, textos, grado, tonalidad y digitación. La tarjeta conserva su sitio en el compás.
+- **Sustituir digitación por la copiada** cambia solo la digitación: trastes, grados por cuerda y traste de referencia. El nombre, la calidad, los textos, el grado de la tarjeta y su tonalidad no cambian. Sirve para probar otro voicing del mismo acorde sin reescribir sus textos.
+- **Mover tarjeta antes** y **Mover tarjeta después** cambian el orden de las tarjetas dentro del compás (una tarjeta cada vez). Si el archivo agrupaba varias posiciones bajo un mismo acorde, se reordenan dentro de él.
+- **Añadir tarjeta a la selección** marca la tarjeta sin usar el ratón.
+- **Quitar tarjeta** borra solamente la tarjeta o tarjetas seleccionadas, tras confirmar.
+
+Para sustituir, una tarjeta copiada sirve para todas las seleccionadas; si copiaste varias, selecciona otras tantas y se aplican en orden. Cada acción es un solo paso de **Deshacer**, y el aviso posterior incluye **Deshacer**.
+
+![Opciones de la tarjeta, con una tarjeta copiada: copiar, cortar, pegar, sustituir la tarjeta o su digitación, mover, marcar y quitar.](capturas/menu-tarjeta.png)
+
+Ejemplo: para usar en el compás 6 la digitación `x 3 5 3 4 3` que ya escribiste en el compás 2 sin perder el título «Puente» del compás 6, selecciona la tarjeta del compás 2, pulsa **Copiar tarjeta**, selecciona la tarjeta del compás 6 y pulsa **Sustituir digitación por la copiada**. Si quieres además su nombre y sus textos, usa **Sustituir tarjeta por la copiada**.
 
 ### Repetir uno o dos compases
 
@@ -34,9 +52,90 @@ Junto a **Añadir tarjeta** hay dos botones con el signo de repetición. No crea
 
 En un compás de repetición, el editor muestra un aviso con **Quitar repetición** (en la pareja quita las dos a la vez y deja ambos compases vacíos y editables). Si pulsas **Añadir tarjeta** en uno de ellos, se sale de la repetición y se avisa. Números, Coda, Fine, casillas y barras de repetición del compás se conservan.
 
-Si borras o mueves un compás de origen o de destino, la referencia se conserva y se avisa en el editor del compás y al mover; no se redirige sola. **Corregir referencia** la apunta de nuevo a los compases inmediatamente anteriores. Duplicar un compás de repetición hace que la copia repita el original; duplicar un destino de una pareja crea un compás vacío (y la pareja queda avisada si la copia la separa).
+Si borras o mueves un compás de origen o de destino, la referencia se conserva y se avisa en el editor del compás y al mover; no se redirige sola. **Corregir referencia** la apunta de nuevo a los compases inmediatamente anteriores. Duplicar o pegar un compás de repetición hace que la copia repita el compás que queda delante de ella; duplicar un solo destino de una pareja crea un compás vacío, que se coloca después de la pareja para no separarla.
 
 Los archivos con estos campos (`repeatPrevious`, `repeatPreviousTwo`) requieren 0.7.0 o posterior.
+
+## Organizar compases
+
+Las acciones de compás están en dos sitios con el mismo contenido: el menú de tres puntos del bloque **Compás** y el **menú contextual** que aparece al pulsar con el botón derecho un compás de la hoja fuera de sus tarjetas (en su número, su título o un hueco). Se aplican al compás activo o, si has seleccionado varios, a todos ellos en el orden de la canción. Cada acción es un solo paso de **Deshacer**. Si has copiado tarjetas, el menú contextual del compás ofrece además **Pegar tarjeta al final del compás**, que sirve también para un compás vacío.
+
+![Menú contextual de un compás en la hoja.](capturas/menu-contextual.png)
+
+Con la hoja enfocada, la tecla de menú del teclado o **Mayús+F10** abren el menú de lo seleccionado: el de la tarjeta o el del compás. En pantallas táctiles usa los menús de tres puntos del bloque Compás y de la fila de tarjetas.
+
+### Seleccionar tarjetas o compases
+
+En la hoja, lo que pulsas decide qué seleccionas: **dentro del recuadro de una tarjeta**, esa tarjeta; **en el resto del compás** (su número, su título, la franja de tonalidad o un hueco), el compás entero. Lo señalado se resalta más: con una tarjeta pulsada, el compás queda en segundo plano, y al revés. Copiar, cortar, mover y borrar, con sus atajos, actúan sobre lo señalado.
+
+Hay tres formas de marcar varias tarjetas o varios compases:
+
+1. **Ctrl+clic** (Cmd+clic en Mac) añade o quita una tarjeta o un compás de la selección. Si no había nada marcado, se incluye también lo último que pulsaste, si era del mismo tipo. Así puedes marcar tarjetas salteadas, por ejemplo la primera y la tercera de un compás de tres.
+2. **Mayús+clic** marca el tramo entre lo activo y lo pulsado: todas las tarjetas intermedias, en orden, o todos los compases intermedios.
+3. Con **Modo selección** (menú del compás), cada clic o toque en la hoja marca o desmarca la tarjeta o el compás pulsado. Las casillas de la esquina de cada compás muestran su estado. Sin ratón, usa **Añadir a la selección** del menú del compás o **Añadir tarjeta a la selección** del menú de la tarjeta.
+
+Una selección tiene tarjetas o compases, nunca las dos cosas: si tienes tarjetas marcadas y haces Ctrl+clic en un compás, las tarjetas se desmarcan y se marca el compás, y al revés. Los compases marcados se ven con fondo ámbar y borde discontinuo, y llevan ✓ en el desplegable; las tarjetas marcadas, con un anillo ámbar. Bajo el selector de compás aparece cuántos hay, con **Terminar** (sale del modo selección y conserva la marca) y **Quitar selección**. Un clic normal en la hoja, **Quitar selección** o **Esc** vuelven a una sola tarjeta o compás. La selección no se guarda en el archivo.
+
+![Modo selección con los compases 2 y 3 marcados.](capturas/seleccion-compases.png)
+
+Ejemplo: para llevar al compás 4 la primera y la tercera tarjeta del compás 2, pulsa la primera, haz Ctrl+clic en la tercera y pulsa **Ctrl+C**. Después pulsa el compás 4 fuera de sus tarjetas (o en su hueco, si está vacío) y pulsa **Ctrl+V**: las dos tarjetas se añaden al final del compás 4, en su orden. Si en vez del compás pulsas una de sus tarjetas, se pegan después de ella.
+
+![La primera y la tercera tarjeta del compás 2 marcadas con Ctrl+clic.](capturas/seleccion-tarjetas.png)
+
+### Insertar, mover e intercambiar
+
+- **Insertar compás antes** e **Insertar compás después** añaden un compás vacío junto a la selección.
+- **Subir (mover antes)** y **Bajar (mover después)** desplazan una posición los compases seleccionados, aunque no sean contiguos, y conservan su orden. Atajos: **Alt+↑** y **Alt+↓**.
+- **Intercambiar** cambia de sitio los dos compases seleccionados, con todo su contenido.
+
+Los dos compases de una repetición de dos compases se mueven siempre juntos, y lo que insertes o pegues junto a uno de ellos se coloca fuera de la pareja. Las marcas musicales (repeticiones, casillas, Segno, Coda, Fine y saltos) viajan con su compás.
+
+### Copiar, cortar, pegar y duplicar
+
+1. Selecciona uno o varios compases.
+2. Pulsa **Copiar** (**Ctrl+C**) o **Cortar** (**Ctrl+X**). Cortar quita los compases y, si tienen marcas, avisa antes.
+3. Selecciona el compás de destino y pulsa **Pegar después** (**Ctrl+V**) o **Pegar antes** (**Ctrl+Mayús+V**).
+
+Las copias conservan acordes, digitaciones, grados, textos, tonalidades y ancho del compás, con identificadores nuevos, de modo que nunca se repiten. **Duplicar** hace lo mismo en un paso y coloca la copia justo después del bloque. Lo copiado se puede pegar varias veces, y también en otra canción que abras después, mientras no recargues la página. Las copias no heredan **Ajustar línea al ancho**, que pertenece a la línea del original.
+
+Al pegar lo cortado en la misma canción, los compases recuperan sus identificadores: sus marcas vuelven a encontrarlos, como si los hubieras movido. Pegarlo una segunda vez crea copias.
+
+### Sustituir un compás por otro
+
+1. Copia el compás cuyo contenido quieres usar.
+2. Selecciona el compás que vas a cambiar y pulsa **Sustituir por lo copiado**. Confirma el aviso.
+
+Se cambian todas sus tarjetas, voicings, textos, tonalidades y su ancho; se conservan su etiqueta, su identificador y sus marcas. Un compás copiado puede sustituir a varios seleccionados a la vez; varios compases copiados sustituyen a otros tantos, en orden. Si el compás formaba parte de una repetición de dos compases, la pareja se quita y se avisa.
+
+### Borrar y deshacer
+
+**Borrar** (**Supr**) pide siempre confirmación y enumera las marcas que dependen de los compases: se conservan con la referencia pendiente y nunca se redirigen a otro compás. El aviso posterior incluye **Deshacer** para recuperar lo borrado al momento; también sirven la flecha de la cabecera y **Ctrl+Z**.
+
+### Numeración de los compases
+
+Con **Renumerar etiquetas automáticamente** marcado (opción por defecto, en el menú del compás), insertar, pegar, duplicar, mover, intercambiar o borrar vuelve a numerar en orden las etiquetas numéricas, empezando por el número del primer compás numerado: una canción que empieza en el compás 0 o en el 17 lo conserva. El aviso indica cuántas etiquetas han cambiado. Las etiquetas no numéricas, como «Intro» o «12a», se conservan y no consumen número.
+
+Desmárcalo para mantener los números originales de una partitura transcrita: los compases conservan su etiqueta al moverlos, los nuevos reciben el número siguiente al mayor y las copias se marcan «(copia)». La elección se guarda con la canción (`renumberMeasures`) y se puede deshacer. **Renumerar ahora** aplica la numeración en ese momento.
+
+### Repeticiones al reorganizar
+
+Mover o insertar un compás entre un compás de repetición y su origen deja la referencia apuntando al origen anterior. La aplicación no la cambia por su cuenta: el aviso lo explica y ofrece **Corregir referencias**, que apunta la repetición a los compases que ahora tiene delante.
+
+![Aviso tras mover el origen de un compás de repetición, con Corregir referencias.](capturas/aviso-corregir.png)
+
+### Atajos de teclado
+
+Funcionan fuera de los campos de texto y sin diálogos abiertos, sobre lo señalado en la hoja: las tarjetas o los compases seleccionados. Si has seleccionado texto en la página, Ctrl+C y Ctrl+X lo copian como siempre. Los menús muestran cada atajo junto a la opción a la que corresponde en ese momento.
+
+| Atajo | Acción |
+| --- | --- |
+| Ctrl+C / Ctrl+X | Copiar / cortar las tarjetas o los compases seleccionados |
+| Ctrl+V / Ctrl+Mayús+V | Pegar lo último copiado después / antes de la selección. Las tarjetas copiadas sobre un compás señalado van al final / al principio de ese compás |
+| Alt+↑ / Alt+↓ | Mover la tarjeta o los compases seleccionados una posición antes / después |
+| Supr | Borrar las tarjetas o los compases seleccionados, con confirmación |
+| Ctrl+Z / Ctrl+Y | Deshacer / rehacer |
+| Esc | Quitar la selección de varias tarjetas o compases |
+| Mayús+F10 | Menú contextual de lo seleccionado, con la hoja enfocada |
 
 ## Escribir digitaciones, grados y textos
 
@@ -100,7 +199,7 @@ Grado y tonalidad pertenecen a la tarjeta seleccionada, igual que el resto de su
 
 ### Deshacer y rehacer
 
-Pulsa la flecha hacia la izquierda de la cabecera para **Deshacer** y la flecha hacia la derecha para **Rehacer**. También están dentro de los diálogos de datos, marcas y colores, por lo que puedes deshacer una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la canción: textos, digitaciones, grados, tonalidades, su visibilidad, colores, compases, acordes, posiciones y marcas musicales.
+Pulsa la flecha hacia la izquierda de la cabecera para **Deshacer** y la flecha hacia la derecha para **Rehacer**. También están dentro de los diálogos de datos, marcas y colores, por lo que puedes deshacer una coda sin cerrar su panel. Se deshacen las acciones aplicadas a la canción: textos, digitaciones, grados, tonalidades, su visibilidad, colores, compases (también insertar, pegar, mover, sustituir, borrar y la renumeración que provoquen), acordes, posiciones y marcas musicales. Seleccionar compases no crea pasos.
 
 La escritura continua en un campo se agrupa hasta salir de él. Fuera de los campos funcionan **Ctrl+Z** y **Ctrl+Y** o **Ctrl+Mayús+Z**; en Mac se puede usar Cmd. Dentro de un campo se conserva el deshacer habitual del navegador, también para los borradores de marcas que todavía no se han añadido.
 
@@ -125,7 +224,7 @@ Las opciones se guardan en el JSON cuando tienen un valor distinto del predeterm
 - **Ancho del compás**: en el menú de tres puntos del compás, escribe un porcentaje del 10 al 100 % del ancho de la línea. Vacío es Automático (como siempre). El ancho nunca baja de lo que necesitan las tarjetas: si el porcentaje no basta se usa el mínimo, aparece un aviso bajo la vista previa y caben menos compases en esa línea.
 - **Ajustar línea al ancho**: cada línea de la vista previa tiene un botón de doble flecha horizontal en el margen derecho de la hoja. Al pulsarlo, el espacio libre se reparte entre los compases de esa línea hasta el margen derecho, sin deformar los mástiles ni comprimir ninguna tarjeta, y puede superar el 25 %. Pulsa de nuevo (queda resaltado) para volver a Automático, o usa Deshacer. Si la línea cambia de composición, el reparto se recalcula con los compases que caben.
 
-![Menú del compás con su etiqueta y su ancho.](capturas/opciones-compas.png)
+![Menú del compás: etiqueta, ancho, renumeración y primeras acciones de compás; el menú se desplaza para mostrar el resto.](capturas/opciones-compas.png)
 
 Ambos ajustes se guardan en el JSON solo cuando se usan (`widthPercent`, `fillToEdge`); las versiones anteriores a 0.7.0 no abren esos archivos.
 
@@ -211,4 +310,10 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | La siguiente hoja tiene tarjetas más anchas | Las filas parciales reparten el ancho disponible. El zoom no cambia el tamaño exportado. |
 | El grado no aparece | Comprueba el orden de las cuerdas y si esa cuerda está muda. |
 | Hay un destino pendiente | Vuelve a elegir la marca o el compás en el panel Marcas. |
+| Las etiquetas cambian al mover o borrar compases | Desmarca **Renumerar etiquetas automáticamente** en el menú del compás, o deshaz el último paso. |
+| Pegar o Sustituir están desactivados | Copia antes uno o varios compases o tarjetas. Para sustituir, copia uno solo o tantos como selecciones. |
+| Ctrl+V no pega | Sal del campo de texto donde está el cursor y cierra cualquier diálogo. Ctrl+V pega lo último que copiaste: compases o tarjetas. |
+| Ctrl+C copia el compás entero en vez de una tarjeta | Pulsa dentro del recuadro de la tarjeta; el número, el título y los huecos señalan el compás. |
+| Mover tarjeta está desactivado | Se mueve una sola tarjeta cada vez: quita la selección de varias. |
+| Un compás de repetición avisa tras mover compases | Pulsa **Corregir referencias** en el aviso o **Corregir referencia** en el editor del compás. |
 | El navegador no abre la aplicación | Abre GitHub Pages o arranca el servidor local; consulta la guía de instalación. |

@@ -13,8 +13,8 @@ El icono debe ser una pieza vectorial original y sencilla, legible a tamaño de 
 ## Editor vigente desde 0.6.0
 
 1. Cabecera con icono, canción activa, Abrir, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Nueva canción.
-2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas.
-3. Editor con un selector plano de tarjetas del compás y acciones Añadir tarjeta, Duplicar tarjeta y Quitar tarjeta. No hay dos niveles visibles de acorde y posición.
+2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas. Desde 0.8.0 el menú de opciones agrupa etiqueta, ancho, renumeración y las acciones estructurales (compás, copiar y pegar, selección de varios); una barra bajo el selector muestra la selección múltiple. El clic derecho sobre un compás de la hoja abre un menú contextual con las mismas acciones.
+3. Editor con un selector plano de tarjetas del compás y acciones Añadir tarjeta, Duplicar tarjeta y un menú de tarjeta (copiar, cortar, pegar, sustituir la tarjeta o su digitación, mover, marcar y quitar), el mismo que abre el clic derecho sobre una tarjeta de la hoja. No hay dos niveles visibles de acorde y posición.
 4. Digitación y grados encima de textos y tonalidad, siempre visibles y sin pestañas. Cada campo modifica solo la tarjeta seleccionada, incluido nombre y calidad.
 5. Panel de marcas ligado al compás activo, con selector de contexto y Ver todas las marcas. Incluye tramos que atraviesan el compás. La selección solo cambia la vista y el punto de partida de nuevas marcas; no mueve las ya guardadas.
 6. Vista previa más ancha a la derecha. El editor habitual cabe sin scroll en las ventanas de escritorio comprobadas; contenido extenso y móvil conservan desplazamiento cuando hace falta.
@@ -64,3 +64,5 @@ Una posición muy extendida puede obligar a dedicarle una fila o una página. Si
 El HTML histórico incluye lógica, datos de una obra y análisis ajenos a este producto. No copiar textos de esa canción ni ejecutar ese código dentro de la aplicación.
 
 Las flechas Deshacer y Rehacer permanecen en cabecera y en los diálogos de edición. El historial restaura la canción y la selección, sin guardar pasos en el JSON.
+
+En la vista previa se selecciona lo señalado: el recuadro de una tarjeta señala la tarjeta; el número, el título, la franja y los huecos señalan el compás. Lo señalado se resalta con más fuerza (con una tarjeta señalada, el compás activo queda con un tinte tenue, y al revés). La selección múltiple se marca en ámbar: los compases con fondo y contorno discontinuo, las tarjetas con un anillo que sigue su redondeo. El modo selección añade una casilla dibujada como fondo en la esquina de cada compás. Son solo estilos de la vista previa: no cambian dimensiones, paginación ni el HTML exportado.

@@ -1,4 +1,4 @@
-% Source-SHA256: c97d2b616eb425da86461e09b10ed54146306e58109724d57d22206ffa4116fd
+% Source-SHA256: 6c530f852c10be5bfa302040a24761ea78a59397fe9215a7386cd713e89c1d3f
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.7.4 · 26/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.0 · 27/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.7.4 · 26/10/2026\par}
+{\sffamily\small Aplicación 0.8.0 · 27/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.7.3 · Esquema de canción 1 · Edición del DTS: 26/10/2026.
+Aplicación 0.8.0 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -422,9 +422,22 @@ persistencia}\label{estado-ediciuxf3n-y-persistencia}
 
 \texttt{createStore} mantiene una canción mutable y una selección por
 IDs. Guarda además el nombre de archivo, el zoom, la firma del último
-guardado y el indicador de cambios pendientes. La firma se obtiene con
-\texttt{JSON.stringify}; \texttt{markSaved} actualiza la referencia de
-guardado.
+guardado y el indicador de cambios pendientes. Desde 0.8.0 añade la
+selección múltiple de compases (\texttt{marked}, IDs en orden escrito) y
+de tarjetas (\texttt{markedCards}, claves
+\texttt{v:\textless{}voicingId\textgreater{}} o
+\texttt{e:\textless{}eventId\textgreater{}} en orden escrito), que nunca
+coexisten; \texttt{selectionKind}
+(\textquotesingle measure\textquotesingle{} o
+\textquotesingle card\textquotesingle, lo último señalado); el modo
+selección (\texttt{selectMode}) y un contador de documento
+(\texttt{documentId}, que cambia en \texttt{replaceSong}). Ninguno se
+escribe en la canción ni crea pasos de historial; \texttt{marked} y
+\texttt{markedCards} se filtran a lo que existe al normalizar la
+selección. \texttt{selectionTarget(state)} decide si los atajos y el
+menú contextual actúan sobre tarjetas o compases. La firma se obtiene
+con \texttt{JSON.stringify}; \texttt{markSaved} actualiza la referencia
+de guardado.
 
 Los tipos de cambio son \texttt{text}, \texttt{structure},
 \texttt{document}, \texttt{history}, \texttt{selection}, \texttt{zoom} y
@@ -474,9 +487,15 @@ guarda en el JSON ni en localStorage.
 
 Los botones están en cabecera y dentro de los tres diálogos de edición.
 Ctrl+Z, Ctrl+Y y Ctrl+Mayús+Z operan fuera de campos; dentro se conserva
-el deshacer nativo. Los atajos globales no actúan sobre un diálogo de
-confirmación o importación, para no invalidar referencias mientras una
-operación espera respuesta.
+el deshacer nativo. Los atajos de edición (Ctrl+C, Ctrl+X, Ctrl+V,
+Ctrl+Mayús+V, Alt+↑/↓, Supr y Esc) los atiende
+\texttt{mountEditShortcuts}, que los dirige a las acciones de tarjeta o
+de compás según \texttt{selectionTarget} (pegar, según lo último
+copiado), con las mismas condiciones y además se inhiben con cualquier
+diálogo abierto o con texto seleccionado en la página (Ctrl+C y Ctrl+X).
+Los atajos globales no actúan sobre un diálogo de confirmación o
+importación, para no invalidar referencias mientras una operación espera
+respuesta.
 
 \Needspace{3.5cm}
 \section{Geometría y notación}\label{geometruxeda-y-notaciuxf3n}
@@ -717,6 +736,19 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.8.0 & 287 superadas en Windows (Node 24); 28 nuevas en
+\texttt{tests/measure-ops.test.js} para insertar, mover, intercambiar,
+copiar, pegar, duplicar, sustituir, borrar, renumerar, tarjetas, JSON e
+historial, y 11 en \texttt{tests/card-selection.test.js} para varias
+tarjetas (copiar salteadas, pegar antes y después, quitar, sustituir
+enteras o solo la digitación, duplicar) y su selección en el store \\
+Interfaz 0.8.0 & Edge 156 sin cabeza en Windows, 1440×960 y 390×844, con
+el ejemplo: Ctrl+clic, modo selección, menú contextual, menú del compás
+y de tarjeta, Ctrl+C/V/X, Alt+↑/↓, Supr con confirmación y Deshacer,
+cortar y pegar con marcas, Corregir referencias; Ctrl+clic en tarjetas
+salteadas, Ctrl+C y Ctrl+V en un compás vacío, Ctrl+clic en el número
+del compás, menú contextual de tarjeta, Sustituir tarjeta por la
+copiada, Supr sobre dos tarjetas y Deshacer; sin errores JavaScript \\
 Pruebas Node, 0.6.0 & 190 superadas en Windows; tarjetas,
 compatibilidad, historial y contraste de franjas \\
 Interfaz 0.6.0 & Selector único; edición independiente y foco; añadir,
@@ -882,5 +914,88 @@ manuales parten de la carpeta principal.
   \texttt{foreground}). \texttt{model/families.js} solo guarda claves y
   etiquetas. Sin los valores instalados, usar la paleta lanza un error
   explicativo. Contrato completo en DATOS.md.
+\end{itemize}
+
+\Needspace{3.5cm}
+\section{Edición estructural de compases
+(0.8.0)}\label{ediciuxf3n-estructural-de-compases-080}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Modelo} (\texttt{src/model/measureOps.js}): funciones puras
+  sobre la canción, probadas en Node. \texttt{measureUnits} agrupa en
+  una unidad los dos destinos de una repetición de dos compases
+  dibujable; \texttt{moveMeasures}, \texttt{swapMeasures} y el cortado
+  operan por unidades. \texttt{insertionPoint} desplaza fuera de una
+  pareja la inserción que caería entre sus destinos.
+  \texttt{copyMeasures} hace una copia profunda en orden escrito y
+  \texttt{pasteMeasures} asigna IDs nuevos con
+  \texttt{createIdFactory(song,\ reserved)}, que ahora admite IDs
+  reservados; con \texttt{reuseIds} conserva los IDs libres de lo
+  cortado. \texttt{relinkRepeats} rehace \texttt{repeatPrevious} y
+  \texttt{repeatPreviousTwo} de las copias según su posición.
+  \texttt{replaceMeasures}, \texttt{deleteMeasures},
+  \texttt{duplicateMeasures} y \texttt{fixRepeatReferences} completan el
+  conjunto. \texttt{runStructural} envuelve cada operación: guarda el
+  número inicial, renumera con \texttt{renumberLabels} si
+  \texttt{renumberMeasures} no es \texttt{false} y vuelve a redactar los
+  avisos con las etiquetas nuevas.
+\item
+  \textbf{Avisos}: las operaciones devuelven los avisos nuevos
+  (\texttt{newInversions}, \texttt{newRepeatWarnings}) y notas.
+  \texttt{measureConsequences} acepta una lista de IDs y omite las
+  relaciones internas del bloque. Nada se redirige;
+  \texttt{fixRepeatReferences} es una acción expresa del aviso.
+\item
+  \textbf{Tarjetas} (\texttt{src/model/cards.js}): \texttt{copyCard},
+  \texttt{pasteCard}, \texttt{pasteFingering} (solo \texttt{frets},
+  \texttt{degrees}, \texttt{anchorFret}) y \texttt{moveCard}, que separa
+  con \texttt{isolateCard} cuando la vecina pertenece a otro acorde.
+  Para varias tarjetas, identificadas por la clave de
+  \texttt{selectionKey}: \texttt{songCards} (todas en orden escrito, con
+  su compás), \texttt{copyCards}, \texttt{pasteCards} (antes o después
+  de una tarjeta, partiendo su acorde si hace falta, o al principio o al
+  final del compás), \texttt{removeCards}, \texttt{replaceCards} (la
+  tarjeta entera: datos del acorde y voicing, conservando posición e ID;
+  separa antes con \texttt{isolateCard} y vuelve a buscar cada tarjeta
+  porque separar cambia el acorde de sus vecinas),
+  \texttt{replaceFingerings} y \texttt{duplicateCards} (copias tras la
+  última tarjeta duplicada de cada compás). Sustituir admite una copiada
+  para todas o tantas como destinos.
+\item
+  \textbf{Interfaz}: \texttt{ui/measureActions.js} y
+  \texttt{ui/cardActions.js} definen cada acción (etiqueta, atajo,
+  disponibilidad y ejecución). Las de compás las usan el menú del compás
+  (\texttt{ui/measures.js}) y el menú contextual de un compás; las de
+  tarjeta, el menú de tarjeta del editor (\texttt{ui/chord.js}) y el
+  menú contextual de una tarjeta (ambos menús contextuales en
+  \texttt{ui/contextMenu.js}, abiertos desde \texttt{ui/preview.js}).
+  Los atajos de cada opción solo se muestran cuando se aplican a ella.
+  \texttt{ui/clipboard.js} es un portapapeles de sesión con huecos
+  separados para compases y tarjetas y \texttt{last} (lo último copiado,
+  que pega Ctrl+V); registra si los compases se cortaron y el
+  \texttt{documentId} de origen, para conservar IDs solo al pegar en la
+  misma canción. Las tarjetas pegadas siempre reciben IDs nuevos:
+  ninguna marca las referencia. \texttt{ui/notify.js} admite un botón de
+  acción (Deshacer, Corregir referencias) que solo deshace si la canción
+  no ha cambiado desde la acción.
+\item
+  \textbf{Vista previa}: un manejador en captura decide qué se señaló
+  (\texttt{.tarjeta} o el resto de \texttt{.compas}), lo guarda para el
+  clic simple (\texttt{selectionKind}) y atiende Ctrl+clic, Mayús+clic y
+  el modo selección antes que la selección de compás o tarjeta.
+  \texttt{applySelection(root,\ selection,\ \{\ marked,\ markedCards,\ target\ \})}
+  marca \texttt{.marcado} en compases y tarjetas y la clase
+  \texttt{apunta-tarjeta}, que atenúa el compás activo cuando lo
+  señalado es una tarjeta; \texttt{modo-seleccion} dibuja casillas como
+  imagen de fondo. No cambian dimensiones ni paginación, y el HTML
+  exportado no las incluye.
+\item
+  \textbf{Historial}: cada acción llama una vez a
+  \texttt{store.commit(\textquotesingle{}structure\textquotesingle{},\ selección,\ \{\ marked\ \textbar{}\ markedCards,\ kind\ \})},
+  de modo que operación y renumeración forman un único paso. Deshacer
+  restaura la canción; la selección múltiple se conserva filtrada a lo
+  que exista.
 \end{itemize}
 \end{document}

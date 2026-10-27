@@ -1,5 +1,15 @@
 # Cambios
 
+## 0.8.0 — 27/10/2026
+
+- **Edición estructural de compases.** El menú de tres puntos del bloque Compás y un nuevo menú contextual (clic derecho sobre un compás de la hoja, o Mayús+F10) ofrecen: insertar compás antes o después, copiar, cortar, pegar antes o después, sustituir por lo copiado, duplicar, subir, bajar, intercambiar y borrar. Cada acción es un paso de Deshacer.
+- **Selección de varios compases o varias tarjetas**: Ctrl+clic, Mayús+clic o **Modo selección** (casillas en la hoja), con una barra que indica la selección. En la hoja, pulsar dentro del recuadro de una tarjeta señala la tarjeta y pulsar en el resto del compás señala el compás entero; una selección es de tarjetas o de compases, nunca de ambos. Así se pueden marcar tarjetas salteadas (la primera y la tercera de un compás). Las acciones se aplican en orden escrito; mover bloques no contiguos de compases conserva su orden.
+- **Identificadores y referencias**: las copias reciben IDs nuevos sin repetidos; las marcas siguen a su compás y no se redirigen; las repeticiones copiadas se rehacen según su nueva posición; la pareja de una repetición de dos compases se mueve entera y no se separa al insertar. Cortar y pegar en la misma canción conserva los IDs, de modo que las marcas vuelven a encontrar su compás. Los avisos de repetición tras mover ofrecen **Corregir referencias**.
+- **Renumeración automática** de las etiquetas numéricas tras insertar, pegar, duplicar, mover o borrar, desde el número del primer compás. Se puede desactivar por canción para conservar la numeración original (`renumberMeasures: false`); **Renumerar ahora** la aplica en el momento.
+- **Tarjetas**: nuevo menú de tarjeta, también con clic derecho sobre una tarjeta de la hoja: **Copiar**, **Cortar**, **Pegar antes/después**, **Sustituir tarjeta por la copiada** (la tarjeta entera, con nombre, calidad, textos, grado, tonalidad y digitación), **Sustituir digitación por la copiada** (solo trastes, grados por cuerda y traste de referencia), **Mover tarjeta antes/después**, **Añadir tarjeta a la selección** y **Quitar tarjeta** (que sale de la fila de botones). Copiar, cortar, pegar, sustituir, duplicar y quitar actúan sobre todas las tarjetas marcadas. Con tarjetas copiadas, el menú de un compás ofrece pegarlas al final.
+- **Atajos** fuera de los campos: Ctrl+C, Ctrl+X, Ctrl+V, Ctrl+Mayús+V, Alt+↑, Alt+↓, Supr y Esc, además de Ctrl+Z y Ctrl+Y. Actúan sobre lo señalado (tarjetas o compases); Ctrl+V pega lo último copiado. Borrar siempre pide confirmación y el aviso posterior incluye **Deshacer**.
+- Formato: campo opcional `renumberMeasures`; sin cambio de `schemaVersion`. Manual de uso con la sección «Organizar compases» y capturas nuevas; DTS, DATOS, requisitos y validación actualizados.
+
 ## 0.7.4 — 26/10/2026
 
 - El campo **Título sobre la tarjeta** pasa a llamarse **Título sobre compás**, porque el título se dibuja encima del compás y puede ocupar su ancho. Sigue empezando en la tarjeta donde se escribe; el dato (`aboveText`) y su comportamiento no cambian.

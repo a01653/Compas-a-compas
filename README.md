@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.7.4 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.8.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 **Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
@@ -34,11 +34,11 @@ npm test
 
 ### Compases y tarjetas
 
-Cada dibujo se edita como una **tarjeta**, con nombre, calidad/color, digitación, grados, textos y tonalidad propios. El único selector recorre las tarjetas del compás. **Añadir tarjeta** crea otra; **Duplicar tarjeta** copia la elegida a continuación y **Quitar tarjeta** elimina solamente esa.
+Cada dibujo se edita como una **tarjeta**, con nombre, calidad/color, digitación, grados, textos y tonalidad propios. El único selector recorre las tarjetas del compás. **Añadir tarjeta** crea otra y **Duplicar tarjeta** copia la elegida a continuación. El menú de tres puntos de la tarjeta permite copiarla, pegarla en otro compás o canción, sustituir solo la digitación por la copiada, cambiar su orden y quitarla.
 
 Dos digitaciones del mismo acorde se escriben como dos tarjetas con ese nombre. Todos los campos son independientes: cambiar el nombre o la calidad de una tarjeta antigua no modifica las demás. Los JSON anteriores siguen abriendo y no se transforman al abrir o guardar sin editar.
 
-**Compases:** selector y flechas para recorrerlos, + para añadir y menú de tres puntos para insertar, duplicar, mover o borrar. Etiqueta visible editable, sin renumeración silenciosa; antes de borrar se muestran las consecuencias para las marcas.
+**Compases:** selector y flechas para recorrerlos y + para añadir. El menú de tres puntos y el clic derecho sobre un compás de la hoja ofrecen insertar antes o después, copiar, cortar, pegar, sustituir, duplicar, subir, bajar, intercambiar y borrar, sobre un compás o sobre varios (Ctrl+clic, Mayús+clic o **Modo selección**). En la hoja, Ctrl+clic dentro de una tarjeta marca solo esa tarjeta, aunque estén salteadas; fuera de las tarjetas marca el compás entero. Las tarjetas marcadas se copian, cortan, pegan, sustituyen enteras o solo en su digitación, duplican y quitan desde su menú o con el clic derecho. Atajos fuera de los campos, sobre lo señalado: Ctrl+C, Ctrl+X, Ctrl+V, Alt+↑/↓ y Supr. Las copias reciben IDs nuevos, las marcas siguen a su compás sin redirigirse y cada acción se deshace en un paso. Las etiquetas numéricas se renumeran tras cada cambio, con aviso; la opción se desactiva por canción para conservar la numeración original. Antes de borrar se muestran las consecuencias para las marcas.
 
 **Digitación:** seis valores de sexta a primera, `x` muda y `0` al aire. Formato compacto (`x35343`) o con espacios (`x 10 12 10 11 10`). El mástil parte de tres trastes y crece cuando hace falta, sin cambiar notas. Un intervalo de más de 32 trastes visibles se conserva con aviso y bloquea la salida hasta corregirlo.
 

@@ -163,3 +163,24 @@ Reglas:
 - **Cambiarlo**: editar el fichero cambia los colores de todas las canciones que no los personalicen. Para empaquetar la aplicación (`scripts/build-pages.mjs`) se copia la carpeta `config/`.
 - **Fuera del fichero**: los colores generales de la interfaz (barras, paneles, botones, `styles/tokens.css`) no son parte de la paleta de la canción y no se configuran aquí.
 - Las pruebas instalan el fichero real antes de ejecutarse (`tests/setup.mjs`) y comprueban que sus valores se aplican, que la paleta de un JSON se conserva y que no quedan duplicados en `src/`.
+
+## Edición estructural de compases (0.8.0)
+
+Las operaciones de `src/model/measureOps.js` mutan la canción y no añaden datos de sesión al JSON: la selección múltiple, el modo selección y el portapapeles no se guardan. El único campo nuevo es opcional:
+
+| Entidad | Campo | Contrato |
+| --- | --- | --- |
+| Canción | `renumberMeasures` | Booleano; ausente equivale a `true`. Solo se guarda `false`, que conserva las etiquetas originales al editar la estructura. |
+
+Reglas de identidad y referencias:
+
+- **Mover e intercambiar** reordenan `measures` sin cambiar ningún ID. Las marcas de `structure` siguen a su compás; un tramo invertido o una repetición cuyo origen deja de ser inmediato se avisan (`newInversions`, `newRepeatWarnings`) y no se corrigen solos. «Corregir referencias» (`fixRepeatReferences`) es una acción expresa; en una pareja solo se aplica si con ello desaparece su aviso.
+- **Unidades**: los dos destinos de una repetición de dos compases dibujable forman una unidad. Mover, intercambiar y cortar la tratan entera. Insertar o pegar en medio de la pareja se desplaza fuera de ella, hacia el lado pedido.
+- **Copiar, pegar, duplicar**: copia profunda de compases completos en orden escrito, sin `structure`. Compases, acordes y voicings reciben IDs nuevos de `createIdFactory`, que reserva también los IDs referenciados por marcas y repeticiones. `repeatPrevious` de una copia apunta al compás que queda delante; `repeatPreviousTwo` solo se conserva si el segundo destino también se copia justo detrás y hay dos compases delante, con fuentes y destinos nuevos; si no, el compás queda vacío y se avisa. Las copias no heredan `fillToEdge`. Los datos de otra canción se pegan igual, con IDs nuevos.
+- **Cortar y pegar en la misma canción** (misma sesión de documento): se conservan los IDs que sigan libres, de modo que las marcas pendientes vuelven a encontrar su compás, como en un movimiento. Un segundo pegado ya crea copias.
+- **Sustituir** cambia `chordEvents` (IDs nuevos), `widthPercent` y `repeatPrevious` del destino por los de la fuente; conserva `id`, `label`, `fillToEdge` y las marcas. Una fuente sirve para varios destinos; varias fuentes, para el mismo número de destinos en orden. Si el destino estaba en una pareja, la pareja se quita.
+- **Borrar** varios compases enumera las consecuencias del bloque completo (`measureConsequences` admite una lista) sin repetir las relaciones internas; nada se redirige.
+- **Etiquetas**: con renumeración, `runStructural` numera en orden las etiquetas `^\d+$` desde el número del primer compás numerado antes de la operación; las no numéricas se conservan y no consumen número. Sin renumeración, un compás nuevo recibe el mayor número más uno y una copia la etiqueta original seguida de « (copia)».
+- **Tarjetas**: `copyCard` guarda los datos del acorde y su voicing; `pasteCard` inserta una tarjeta independiente con IDs nuevos; `pasteFingering` sustituye solo `frets`, `degrees` y `anchorFret` (ausentes en la fuente se retiran); `moveCard` reordena voicings dentro de un acorde o, entre acordes, separa ambas tarjetas (`isolateCard`) e intercambia los acordes sin cambiar textos efectivos.
+
+Compatibilidad: `schemaVersion` sigue siendo 1. Los archivos sin `renumberMeasures` no cambian al abrirse ni guardarse; las versiones anteriores a 0.8.0 rechazan ese campo por desconocido.

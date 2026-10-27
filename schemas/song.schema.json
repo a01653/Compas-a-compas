@@ -38,6 +38,10 @@
       "type": "boolean",
       "description": "Ausente = true. Solo false oculta las etiquetas de compás en la hoja; no las borra."
     },
+    "renumberMeasures": {
+      "type": "boolean",
+      "description": "Ausente = true: insertar, pegar, duplicar, borrar o mover compases renumera las etiquetas numéricas en orden escrito. false conserva las etiquetas originales."
+    },
     "maxMeasuresPerRow": {
       "type": "integer",
       "minimum": 1,

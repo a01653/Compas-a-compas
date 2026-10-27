@@ -1,7 +1,7 @@
 {
   "document": "instalacion",
-  "applicationVersion": "0.7.4",
-  "edition": "2026-10-26",
+  "applicationVersion": "0.8.0",
+  "edition": "2026-10-27",
   "source": "docs/manuals/INSTALACION.md",
   "command": "python scripts/build_docs.py",
   "engine": "xelatex",
@@ -13,27 +13,27 @@
     },
     {
       "path": "docs/latex/document-template.tex",
-      "sha256": "3e87e5826018481fdecaff0d1c294aa313790e71553f3655da51f6d870cc3b4f",
+      "sha256": "aa5c82f3e8b6c03388dd4101549ead9ac91e4d6d3bb70de1da59faa524d74f21",
       "role": "template"
     },
     {
       "path": "scripts/build_docs.py",
-      "sha256": "34647ab487134ecb4625e335345d868690fa38bc80d4644fb31c1053a5f43228",
+      "sha256": "9b8938b0ef901fed84d539c5686383b1d3a6f46186ab2c706ba2c656eb0886e8",
       "role": "generator"
     },
     {
       "path": "package.json",
-      "sha256": "2f1e62f40fa3db8e0e0f66faa434eaac7b250c4561abfbe865f3e3d961b8a9ed",
+      "sha256": "46b57020618e04d06ed4d9a851ab8ac9cc56d84fbb5908eea5ddba3b2ab28f03",
       "role": "application-version"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.tex",
-      "sha256": "4aee0800ddc84856739f334d07cc99db08cd45997d84f8d3207d1f0c8ec857df",
+      "sha256": "b2e0eeef24e9a7668e9942949800a2c4b2d681002d6cd422d212189dd532d1b7",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.pdf",
-      "sha256": "2d0e41bf8bb90e6e292c07d40365eb8a78439df3f3d13b4bc6e9d471f9a3f186",
+      "sha256": "35c38c9854652a1bfbb7fa16bb1f8858203ffb211a3d2f8c55fc2914ce754f5d",
       "role": "pdf"
     }
   ]

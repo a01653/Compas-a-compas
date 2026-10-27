@@ -4,25 +4,28 @@ import { formatFrets, parseFrets } from '../model/frets.js';
 import { addMeasure, addVoicing, canRepeatTwo, clearRepeatPrevious, clearRepeatPreviousTwo, effectiveText, fixRepeatPrevious,
   fixRepeatPreviousTwo, leaveRepeat, previousMeasure, repeatPairOf, setRepeatPrevious, setRepeatPreviousTwo } from '../model/song.js';
 import { checkStructure } from '../model/structure.js';
-import { addCard, cardKey, duplicateCard, findCard, flatCards, isolateCard, removeCard, selectionOf, setCardTextValue } from '../model/cards.js';
+import { addCard, cardKey, findCard, flatCards, isolateCard, selectionOf, setCardTextValue } from '../model/cards.js';
 import { selectedEvent, selectedMeasure, selectedVoicing } from '../store.js';
 import { confirmDialog } from './dialog.js';
 import { focusSoon, notify } from './notify.js';
 import { fretRange, spanMessage } from '../geometry/fretboard.js';
 import { applyDegrees, degreesToInputs } from '../model/degrees.js';
-import { actionButton, iconButton } from './icons.js';
+import { actionButton, icon, iconButton } from './icons.js';
 import { paletteFamilyStyle } from '../model/palette.js';
 import { DEFAULT_TONALITY_FAMILY, deriveTonalityContext, describeTonality, setAnchorFret, setTonality, setTonalityFamily, setVoicingDegree, tonalitiesVisible } from '../model/tonality.js';
 
 const STRINGS = ['6ª', '5ª', '4ª', '3ª', '2ª', '1ª'];
 const NO_FRETS = [null, null, null, null, null, null];
+/** Menú de tarjeta: las mismas acciones que el menú contextual de una tarjeta en la hoja (ui/cardActions.js). */
+const CARD_MENU = ['copy', 'cut', 'pasteBefore', 'pasteAfter', 'replace', 'fingering', 'moveBefore', 'moveAfter', 'toggleMark', 'remove'];
 function field(id, label, value, update, extra = {}) {
   return h('div', { class: 'field' }, h('label', { for: id }, label),
     h('input', { id, type: 'text', value, autocomplete: 'off', oninput: e => update(e.target.value), ...extra }));
 }
 
-export function mountChordPanel(root, store) {
+export function mountChordPanel(root, store, { clipboard, cardActions }) {
   let refreshContext = null;
+  let syncClipboard = null;
   const body = h('div', { class: 'chord-body' });
   root.append(h('div', { class: 'editor-heading' }, h('h2', { id: 't-acorde' }, 'Tarjetas'),
     h('span', { class: 'live-badge' }, h('span', { 'aria-hidden': 'true' }), 'En directo')), body);
@@ -33,17 +36,18 @@ export function mountChordPanel(root, store) {
     renderedTonal = tonalitiesVisible(song);
     refreshContext = null;
     const measure = selectedMeasure(state);
+    syncClipboard = null;
     if (!measure) { body.replaceChildren(h('p', { class: 'hint empty-editor' }, 'Añade un compás para empezar.')); return; }
     // `event` y `voicing` se actualizan sin reconstruir el formulario cuando una edición separa la tarjeta o completa una pendiente.
     let event = selectedEvent(state);
     let voicing = selectedVoicing(state);
-    const commit = selection => store.commit('structure', { measureId: measure.id, ...selection });
+    const commit = selection => store.commit('structure', { measureId: measure.id, ...selection }, { kind: 'card' });
     const voicingControls = []; // Campos que solo existen cuando la tarjeta ya tiene digitación.
 
     const cardSelect = h('select', { id: 'card-select', 'aria-label': 'Seleccionar tarjeta del compás',
       onchange: e => {
         const card = findCard(measure, e.target.value);
-        if (card) store.select({ measureId: measure.id, ...selectionOf(card) });
+        if (card) store.select({ measureId: measure.id, ...selectionOf(card) }, { kind: 'card' });
       } });
     function fillSelector() {
       const cards = flatCards(measure);
@@ -106,20 +110,31 @@ export function mountChordPanel(root, store) {
       : measure.repeatPrevious ? 'Este compás ya repite el anterior: quita esa repetición antes.'
         : pair ? 'Este compás ya forma parte de una repetición de dos compases.'
           : `Repite como pareja los compases ${song.measures[index - 2].label} y ${song.measures[index - 1].label} en este compás (${measure.label}) y el siguiente. Si no hay siguiente, pregunta antes de añadirlo.`;
-    const duplicate = iconButton('copy', 'Duplicar tarjeta', () => {
-      const copy = duplicateCard(song, measure.id, event.id, voicing ? voicing.id : null);
-      commit({ eventId: copy.event.id, voicingId: copy.voicing ? copy.voicing.id : null });
-    });
-    const remove = iconButton('trash', 'Quitar tarjeta', async () => {
-      const choice = await confirmDialog({ title: `¿Quitar la tarjeta «${event.chordName || 'sin nombre'}»?`, intro: 'Se elimina solo esta tarjeta.',
-        actions: [{ label: 'Cancelar', value: 'cancel' }, { label: 'Quitar tarjeta', value: 'remove', kind: 'danger' }] });
-      if (choice !== 'remove') return;
-      const { next } = removeCard(song, measure.id, event.id, voicing ? voicing.id : null);
-      commit(next || {});
-    });
-    duplicate.disabled = remove.disabled = !event;
+    const duplicate = iconButton('copy', 'Duplicar tarjeta', () => cardActions.run('duplicate'));
+
+    // Copiar, pegar, sustituir y ordenar: se aplican a las tarjetas marcadas o, si no hay, a esta. El portapapeles de tarjetas es
+    // independiente del de compases y sirve entre compases y canciones.
+    const menuButtons = CARD_MENU.map(id => h('button', { type: 'button', class: 'btn menu-action', 'data-action': id, onclick: () => cardActions.run(id) }));
+    syncClipboard = () => {
+      for (const button of menuButtons) {
+        const item = cardActions.item(button.dataset.action);
+        button.replaceChildren(...[h('span', null, item.label), item.hint ? h('kbd', null, item.hint) : null].filter(Boolean));
+        button.disabled = Boolean(item.disabled);
+        button.classList.toggle('danger', Boolean(item.danger));
+        if (item.title) button.title = item.title;
+        else button.removeAttribute('title');
+      }
+      const dup = cardActions.item('duplicate');
+      duplicate.disabled = Boolean(dup.disabled);
+      duplicate.title = dup.label;
+      duplicate.setAttribute('aria-label', dup.label);
+    };
+    syncClipboard();
+    const cardMenu = h('details', { class: 'action-menu card-menu' },
+      h('summary', { class: 'btn btn-soft tool-icon', 'aria-label': 'Opciones de la tarjeta', title: 'Copiar, pegar, sustituir, ordenar o quitar tarjetas' }, icon('more')),
+      h('div', { class: 'menu-content' }, menuButtons));
     const nodes = [h('div', { class: 'section-label' }, 'Tarjetas del compás', h('span', null, String(flatCards(measure).length))),
-      h('div', { class: 'selector-row' }, cardSelect, addButton, repeatButton, repeatTwoButton, duplicate, remove)];
+      h('div', { class: 'selector-row' }, cardSelect, addButton, repeatButton, repeatTwoButton, duplicate, cardMenu)];
     if (!previous) nodes.push(h('p', { class: 'hint repeat-hint' }, 'Repetir compás anterior no está disponible: no hay compás anterior.'));
     else if (!canTwo) nodes.push(h('p', { class: 'hint repeat-hint' }, 'Repetir dos compases anteriores no está disponible: hacen falta dos compases antes de este.'));
     if (measure.repeatPrevious || measure.repeatPreviousTwo || pair) {
@@ -286,6 +301,7 @@ export function mountChordPanel(root, store) {
     body.replaceChildren(...nodes);
   }
   render(store.state);
+  clipboard.subscribe(() => syncClipboard?.());
   store.subscribe((state, scope) => {
     if (['selection', 'structure', 'document', 'history'].includes(scope)) render(state);
     else if (scope === 'text') {
