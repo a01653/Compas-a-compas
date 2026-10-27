@@ -239,7 +239,7 @@ export function mountChordPanel(root, store, { clipboard, cardActions }) {
       h('h3', { id: 'editor-notes-title', class: 'editor-subtitle' }, 'Digitación y grados'),
       h('div', { class: 'field fret-field' },
         h('div', { class: 'field-heading' }, h('label', { for: 'f-frets' }, 'Digitación · 6ª a 1ª'), rangeBadge), frets,
-        h('span', { class: 'hint', id: 'f-frets-hint' }, 'x muda · 0 al aire · dos cifras: separa con espacios'), note, error, span),
+        h('span', { class: 'hint', id: 'f-frets-hint' }, 'x muda · 0 al aire · dos cifras: espacios o letras (a = 10)'), note, error, span),
       h('div', { class: 'field' }, h('label', { for: 'f-anchor-fret' }, 'Traste de referencia resaltado'), anchorInput,
         h('span', { class: 'hint', id: 'f-anchor-fret-hint' }, 'Opcional. Sombrea esa columna y amplía el mástil si hace falta.'), anchorError),
       h('fieldset', { class: 'degrees' }, h('legend', null, 'Grados manuales', h('span', { class: 'optional' }, 'Opcional')),

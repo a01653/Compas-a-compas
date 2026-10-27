@@ -16,7 +16,7 @@
 
 `frets` es un array de seis valores en orden sexta→primera: entero ≥ 0 o `null` para muda. El 0 es cuerda al aire. La entrada textual x/X se convierte a null, nunca a 0.
 
-Formato compacto válido para seis caracteres: `x35343`. Para dos cifras: `x 10 12 10 11 10`. No interpretar un bloque ambiguo de más de seis caracteres como trastes de dos cifras; solicitar separadores. Validar entrada antes de modificar el voicing anterior.
+Formato compacto válido para seis caracteres: `x35343`. Para dos cifras: `x 10 12 10 11 10`, o una letra por traste de 10 a 24 (`a` = 10 … `o` = 24, sin distinguir mayúsculas; `x` sigue siendo muda), de modo que `xa9axa` equivale a `x 10 9 10 x 10`. Las letras también valen entre separadores. El JSON guarda siempre números. No interpretar un bloque ambiguo de más de seis caracteres como trastes de dos cifras; solicitar separadores. Validar entrada antes de modificar el voicing anterior.
 
 `degrees`, si existe, contiene seis etiquetas en el mismo orden; null indica ausencia. `anchorFret`, si aparece, es un entero positivo que resalta esa columna del mástil como referencia; el rango visible se amplía para incluirla aunque ninguna nota caiga en ese traste. No almacenar coordenadas, colores calculados ni rango de trastes: se derivan de los datos. Las etiquetas manuales deben conservarse aunque el nombre del acorde no esté en un catálogo.
 
