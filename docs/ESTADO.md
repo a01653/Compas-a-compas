@@ -11,6 +11,8 @@ Rama `feature/digitacion-letras`. A petición del usuario, el campo **Digitació
 
 Pendiente: no se ha probado con un pegado real desde el portapapeles del sistema (se simula con `Input.insertText`, que genera el mismo evento `input`), ni en Firefox o Safari.
 
+Integrado en `main` con el merge `4010432` (commit `c0b3b54`) y publicado por GitHub Actions (ejecución 40556452595, `build` y `deploy` correctos). Tras la fusión, `npm test` (288) y `node scripts/build-pages.mjs` pasan también en `main`. La web de Pages muestra «Versión 0.8.1» y sirve el `src/model/frets.js` nuevo; no se abrió la web publicada en un navegador.
+
 ## Edición estructural de compases (0.8.0) — 27/10/2026
 
 Rama `feature/edicion-estructural-compases`. Encargo del usuario en cuatro bloques: selección y acciones básicas, copiar y pegar, sustitución y ordenación, y seguridad (deshacer, referencias, JSON, pruebas y documentación).
