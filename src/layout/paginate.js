@@ -10,6 +10,8 @@
  * Reglas:
  *  - El orden escrito se conserva y cada tarjeta aparece exactamente una vez.
  *  - Un compás entero que cabe en la fila actual va en ella; si no, empieza otra fila; si falta altura, otra hoja.
+ *  - Un compás con salto de línea forzado (`unit.breakBefore`) empieza siempre otra fila, salvo el segundo destino de una
+ *    pareja de repetición, que va siempre junto al primero.
  *  - Un compás que no cabe ni en una fila vacía de una hoja nueva se parte entre tarjetas en fragmentos
  *    consecutivos (misma etiqueta, marcados como continuación), llenando antes el hueco de la hoja actual.
  *  - Si una sola tarjeta (o la cabecera) no cabe ni sola, se registra un error, se coloca igualmente (no se
@@ -185,6 +187,7 @@ export function paginate({ units, measureFragment, content, headerHeight, column
     const n = unit.atoms.length;
     let from = 0;
     const count = unit.repeatPair === 'second' ? 0 : 1; // El segundo destino ya se contó con el primero.
+    if (unit.breakBefore && unit.repeatPair !== 'second') closeRow();
     for (;;) {
       if (!page) newPage();
       const whole = measure(ui, from, n);

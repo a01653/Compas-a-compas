@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.8.1**, edición **27/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
+Documentación de Compás a compás **0.9.0**, edición **27/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |
@@ -39,6 +39,8 @@ Las capturas de `capturas/` corresponden a la aplicación 0.7.0 real (18/10/2026
 No son capturas de Windows ni acreditan la validación nativa del lanzador o del diálogo de impresión. Al cambiar controles, textos o distribución, actualizar las capturas antes de reconstruir el manual.
 
 La captura textos-deshacer.png usa examples/textos-tonalidades.json, con ocho posiciones, títulos enmarcados, grados y cambios de tonalidad. No es una transcripción de la obra que sirve de referencia visual.
+
+Capturas de 0.9.0 (27/10/2026), con el mismo procedimiento (Edge sin cabeza en Windows, ventana de 1440 × 960 px, escala 1,5, servidor local): `editor-general.png` muestra ahora la hoja de ejemplo con que arranca la aplicación y la cabecera con **Nuevo** y **Ejemplos**; `opciones-compas.png` y `menu-contextual.png` se retomaron con **Salto de línea antes**, abriendo `examples/cancion-demo.json` desde **Ejemplos** (clic derecho sobre el compás 2, como antes); `textos-deshacer.png` se retomó por la cabecera y la versión del pie. Nuevas: `menu-ejemplos.png` (menú Ejemplos abierto, recortado a la barra de archivo; retomada al añadir el catálogo de voicings Drop, con ocho entradas), `salto-linea.png` (hoja de ejemplo tras **Salto de línea antes** en el compás 3) e `intercambiar-tarjetas.png` (Dm7 del compás 1 y Cmaj7 del compás 4 marcadas con Ctrl+clic y su menú contextual).
 
 ## Botón Manual de la aplicación
 

@@ -1,6 +1,6 @@
 {
   "document": "uso",
-  "applicationVersion": "0.8.1",
+  "applicationVersion": "0.9.0",
   "edition": "2026-10-27",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "7d581e0d08656b1b30204f197ca9503d1c15e21f62043e6d9afa00621b5c8a99",
+      "sha256": "4ef5287fa624ea05d38a5ba89fccecea4b7b1c94526a059378628a56ddf0fddc",
       "role": "source"
     },
     {
@@ -23,12 +23,17 @@
     },
     {
       "path": "package.json",
-      "sha256": "353891d45d750bcaeee84157f4e38fbe0a531a8ed3b03444f54cb8664aecc48c",
+      "sha256": "e2cf17394e1373594f1b5b64d5aac212eb4605e52789ca041c8d7e94fd6a1478",
       "role": "application-version"
     },
     {
       "path": "docs/manuals/capturas/editor-general.png",
-      "sha256": "58e41e43509eb57da6262cce46ccf6a818ad959257476f53dd671b8cba1f133d",
+      "sha256": "3740abceb027bf3b5c75708709c94e22e5ffdfb8a30e48b97b16ad02f08ae601",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/menu-ejemplos.png",
+      "sha256": "043a132ed406da68d2695c7592e4fc09847eedce2b25d3dbc26ab9ff03bfe405",
       "role": "capture"
     },
     {
@@ -37,8 +42,13 @@
       "role": "capture"
     },
     {
+      "path": "docs/manuals/capturas/intercambiar-tarjetas.png",
+      "sha256": "cbafbd384de0a6a87d9d4cdd6ee538825131cbde83cebda5426f01e2003290c3",
+      "role": "capture"
+    },
+    {
       "path": "docs/manuals/capturas/menu-contextual.png",
-      "sha256": "9095f3b48a77301aff219831ace3bc8579ba8480b39a5393957c4314221bb864",
+      "sha256": "1dbd64f1661aaa944bf045067aff1c90c87d71feaea40da7b2363dfa0abd3c60",
       "role": "capture"
     },
     {
@@ -68,7 +78,7 @@
     },
     {
       "path": "docs/manuals/capturas/textos-deshacer.png",
-      "sha256": "2fde7ac3ce1b6725eb81f0ec01bdce1e362120f40daee7d709ebeaf06f08f860",
+      "sha256": "00e1ea02781b794a8bb1530025b134eb0c82793ef5a71f737686b99a7d1e0d23",
       "role": "capture"
     },
     {
@@ -83,7 +93,12 @@
     },
     {
       "path": "docs/manuals/capturas/opciones-compas.png",
-      "sha256": "0f602e61e64d2259db6257114b5603b08e0501929b784a4faa34f207cf11aa36",
+      "sha256": "aa1c6844c35e5b0d4f59f49742ba501fadf7aab2d27482a0d68757f8235b8b0d",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/salto-linea.png",
+      "sha256": "ff571817bca97f5bf06f95e49006138a2ac1432ae135b492188633b7c9e3141e",
       "role": "capture"
     },
     {
@@ -93,12 +108,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "09e36dc47feeaa9aff67e8c30e1d229e47aaba6dbf2f05a9d162ac28082879fb",
+      "sha256": "67bf4251c2e38cc95a1fe2a1a22ec9d20552fdc3e714e582e7d27cb1cfbc2b1a",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "a1e1e8468d02f8400d9033d87b86ce0eca3615495bbb1614b4036b38c28c79d9",
+      "sha256": "a2cb7623f42603dc133c7a79575acc33ad36c75934fbbcb37237e14c72caab40",
       "role": "pdf"
     }
   ]

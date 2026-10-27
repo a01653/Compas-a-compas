@@ -1,4 +1,4 @@
-% Source-SHA256: a53c0efc313f3ae3bd67a008aa959b4749b9ad414a1ee807f18937ce6ec0a037
+% Source-SHA256: 280ff1de5c003a7072e6de66b44c619d3a44eddd5d1b9476b4a1cfed2a75e084
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.1 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.9.0 · 27/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.8.1 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.9.0 · 27/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.8.1 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
+Aplicación 0.9.0 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -335,7 +335,13 @@ Ejemplo mínimo válido:
 \texttt{examples/cancion-demo.json} amplía el ejemplo con dos posiciones
 de un acorde, dos acordes en otro compás, cuatro trastes visibles,
 repeticiones, casillas y saltos. Es una demostración, no una
-transcripción musical.
+transcripción musical. Desde 0.9.0 la aplicación arranca con
+\texttt{examples/ii-v-i-mayor-do.json} (ver «Ejemplos, Nuevo, salto de
+línea e intercambio»).
+\texttt{examples/Catalogo\_Drop\_voicings\_Compas\_a\_compas.json}
+(aportado por el usuario) reúne 124 voicings en Do: Drop 2, Drop 3, Drop
+2+4 y Cdim7, en 31 compases de una tarjeta por inversión y un compás por
+línea (\texttt{maxMeasuresPerRow:\ 1}).
 
 \subsection{Tarjetas independientes}\label{tarjetas-independientes}
 
@@ -736,6 +742,22 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.9.0 & 303 superadas en Windows (Node 24.14.1);
+\texttt{tests/examples.test.js} (catálogo frente a la carpeta
+\texttt{examples/}, validez de todos los ejemplos, II--V--I inicial
+comprobado nota a nota como Drop 2 con grados e inversión,
+\texttt{createStarterSong}) y \texttt{tests/line-break-swap.test.js}
+(intercambio de dos tarjetas en el mismo acorde, entre compases y
+pendientes; salto de línea en la paginación, en el primer compás, en una
+pareja de repetición, activación múltiple, validación y copias) \\
+Interfaz 0.9.0 & Edge sin cabeza en Windows, servidor local: arranque,
+menú Ejemplos (ocho entradas; el catálogo de voicings Drop abre 8 hojas
+y 124 tarjetas), Nuevo y confirmación con cambios sin guardar en
+1440×960 y 390×844; cabecera sin desbordamiento entre 390 y 1600 px;
+salto de línea desde el menú contextual y el del compás, marca ↵,
+Deshacer y HTML exportado (filas 1--2 y 3--4, sin marca); intercambio de
+dos tarjetas de compases distintos y ausencia de la opción con una
+sola \\
 Pruebas Node, 0.8.1 & 288 superadas en Windows (Node 24);
 \texttt{tests/frets.test.js} añade la digitación con letras (\texttt{a}
 = 10 \ldots{} \texttt{o} = 24), sus rechazos y la lista con letras \\
@@ -1000,5 +1022,70 @@ manuales parten de la carpeta principal.
   de modo que operación y renumeración forman un único paso. Deshacer
   restaura la canción; la selección múltiple se conserva filtrada a lo
   que exista.
+\end{itemize}
+
+\Needspace{3.5cm}
+\section{Ejemplos, Nuevo, salto de línea e intercambio
+(0.9.0)}\label{ejemplos-nuevo-salto-de-luxednea-e-intercambio-090}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Catálogo de ejemplos}: una web estática no puede listar una
+  carpeta, así que \texttt{examples/index.json} enumera
+  \texttt{\{\ file,\ title\ \}} y \texttt{default} (el ejemplo inicial).
+  \texttt{src/model/examples.js} (\texttt{readCatalog}) valida su forma:
+  rutas relativas \texttt{.json} sin \texttt{..}, títulos no vacíos, sin
+  repetidos y con \texttt{default} incluido. \texttt{src/ui/examples.js}
+  descarga el catálogo (\texttt{fetchCatalog}) y cada ejemplo
+  (\texttt{fetchExample}, que pasa por \texttt{parseSongJson}), y monta
+  el menú \textbf{Ejemplos} de la cabecera; al elegir uno pide la misma
+  confirmación que Abrir (\texttt{confirmDiscard} de
+  \texttt{ui/file.js}), sustituye la canción con el nombre de su archivo
+  y borra la copia de recuperación. \texttt{main.js} arranca con
+  \texttt{default} en lugar de \texttt{cancion-demo.json}. Una prueba
+  exige que el catálogo coincida con todos los JSON de
+  \texttt{examples/}, que todos validen, y comprueba nota a nota que
+  cada tarjeta del ejemplo inicial es un Drop 2 en las cuerdas 4--1 con
+  grados e inversión correctos.
+\item
+  \textbf{Nuevo}: \texttt{createStarterSong} (\texttt{model/song.js})
+  parte de \texttt{createEmptySong} (que siguen usando las pruebas como
+  canción vacía) y añade título «Nombre del tema», tonalidad
+  «Tonalidad», \texttt{showTonalities:\ false} y una tarjeta con nombre
+  vacío y seis cuerdas mudas. El botón pasa del menú de tres puntos a la
+  cabecera.
+\item
+  \textbf{Cabecera}: entre 761 y 1540 px Nuevo y Abrir muestran solo su
+  icono (con \texttt{title}) y el estado del archivo admite dos líneas;
+  hasta 1280 px también Colores y Manual. Entre 761 y 1240 px la barra
+  de archivo baja a una segunda fila, como en móvil; en móvil el menú de
+  ejemplos ocupa el ancho de la barra.
+\item
+  \textbf{Salto de línea}: \texttt{breakBefore} en
+  \texttt{measures{[}{]}}; \texttt{buildUnits} lo copia a la unidad y
+  \texttt{paginate} cierra la fila en curso antes de colocar el compás
+  (salvo
+  \texttt{repeatPair\ ===\ \textquotesingle{}second\textquotesingle{}}).
+  Por ser parte del reparto, la vista previa, el HTML y la impresión
+  coinciden. \texttt{toggleBreakBefore} (\texttt{model/song.js}) lo
+  activa en todos los compases indicados si falta en alguno y, si no, lo
+  quita. La acción \texttt{lineBreak} de \texttt{ui/measureActions.js}
+  (menú del compás y menú contextual) excluye el primer compás y el
+  segundo destino de una pareja. \texttt{pageNode} acepta
+  \texttt{onBreakRow}: solo en la vista previa dibuja en
+  \texttt{.fila-caja} un botón ↵ en el margen izquierdo que lo quita.
+  \texttt{pasteMeasures} no lo copia.
+\item
+  \textbf{Intercambiar tarjetas}: \texttt{swapCards} y
+  \texttt{canSwapCards} (\texttt{model/cards.js}) intercambian
+  exactamente dos tarjetas: dentro de un acorde, sus voicings; si no,
+  separan cada una con \texttt{isolateCard} y se cambian los acordes
+  entre posiciones, aunque estén en compases distintos. Devuelven las
+  dos selecciones en orden escrito. La acción \texttt{swap} de
+  \texttt{ui/cardActions.js} lleva \texttt{hidden} cuando no hay dos
+  tarjetas marcadas: el menú contextual la omite y el menú de tarjeta
+  (\texttt{ui/chord.js}) oculta su botón. Ambas tarjetas quedan marcadas
+  y el paso se deshace de una vez.
 \end{itemize}
 \end{document}

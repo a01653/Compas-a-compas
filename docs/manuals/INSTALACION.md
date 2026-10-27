@@ -1,6 +1,6 @@
 # Instalación y arranque — Compás a compás
 
-Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Qué necesitas
 
@@ -93,8 +93,11 @@ Si Git avisa de cambios locales o de ramas divergentes, detente y revisa esos ca
 | Archivo o carpeta | Uso |
 | --- | --- |
 | `Abrir-Compas.cmd` | Arranque diario en Windows |
+| `examples/index.json` | Lista de ejemplos del menú **Ejemplos**; el primero se abre al arrancar |
+| `examples/ii-v-i-mayor-do.json` | Hoja de ejemplo inicial: II–V–I mayor en Do, Drop 2 set 1 |
 | `examples/cancion-demo.json` | Ejemplo para practicar |
 | `examples/textos-tonalidades.json` | Títulos enmarcados, grado y tonalidad por posición |
+| `examples/Catalogo_Drop_voicings_Compas_a_compas.json` | Catálogo de voicings Drop 2, Drop 3, Drop 2+4 y disminuidos en Do |
 | `docs/manuals/USO.md` | Manual de uso editable |
 | `docs/manuals/INSTALACION.md` | Esta guía editable |
 | `docs/DTS.md` | Diseño técnico del software |

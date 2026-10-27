@@ -42,6 +42,9 @@ Este documento define pruebas por realizar. No certifica que hayan pasado. Autom
 | V37 | Ctrl+clic en la primera y la tercera tarjeta de un compás de tres, Ctrl+C, clic en un compás vacío y Ctrl+V | Solo se marcan esas dos; se pegan al final del compás, en orden, con IDs nuevos; Ctrl+clic en el número del compás desmarca las tarjetas y marca el compás |
 | V38 | Sustituir una tarjeta entera por la copiada | Cambian nombre, calidad, textos, grado, tonalidad y digitación; la tarjeta conserva su sitio y su ID, y sus vecinas de acorde no cambian |
 | V39 | Pegar `xa9axa` en **Digitación**; después probar `xp9axa` y `x1012101110` | Queda `x 10 9 10 x 10` (G7 en los trastes 9–11); las otras dos entradas muestran aviso y conservan la digitación anterior |
+| V40 | Abrir la aplicación; usar **Ejemplos** y **Nuevo** con cambios sin guardar | Arranca con el II–V–I en Do (Dm7 y G7, Cmaj7, Dm7 y G7, Cmaj7; Drop 2 set 1; grados 1, 3, 5 y 7 en color; sin marcas); Ejemplos lista todos los JSON de `examples/`; ambos piden decidir antes de descartar; Nuevo deja «Nombre del tema», «Tonalidad» y un compás con una tarjeta vacía |
+| V41 | **Salto de línea antes** en el compás 3 de la hoja de ejemplo; exportar; pulsar la marca ↵ | Los compases 3 y 4 bajan a otra línea en la vista previa y en el HTML (sin la marca); la marca o **Quitar salto de línea** vuelven al reparto automático; cada cambio se deshace en un paso |
+| V42 | Marcar dos tarjetas de compases distintos y elegir **Intercambiar las dos tarjetas** | Cada tarjeta ocupa el sitio de la otra con sus datos; la opción no aparece con una o tres tarjetas marcadas; Deshacer lo revierte |
 | V36 | Deshacer y rehacer cada operación; guardar y abrir el JSON | Un paso por operación; el JSON reabierto es idéntico al estado editado |
 
 Verificar la orientación A4 real del PDF y revisar todas las páginas de una exportación de varias hojas. No limitar la revisión a una captura de la primera pantalla.

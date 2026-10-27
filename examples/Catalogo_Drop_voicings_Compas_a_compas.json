@@ -1,0 +1,2951 @@
+{
+  "schemaVersion": 1,
+  "documentVersion": "1.0",
+  "title": "Catálogo de voicings Drop — Do",
+  "key": "C",
+  "showTonalities": false,
+  "showMeasureNumbers": false,
+  "measures": [
+    {
+      "id": "m001",
+      "label": "D2S1 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e001",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v001",
+              "frets": [
+                null,
+                null,
+                10,
+                12,
+                12,
+                12
+              ],
+              "degrees": [
+                null,
+                null,
+                "1",
+                "5",
+                "7",
+                "3"
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 2 · cuerdas 4–3–2–1"
+            },
+            {
+              "id": "v002",
+              "frets": [
+                null,
+                null,
+                2,
+                4,
+                1,
+                3
+              ],
+              "degrees": [
+                null,
+                null,
+                "3",
+                "7",
+                "1",
+                "5"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v003",
+              "frets": [
+                null,
+                null,
+                5,
+                5,
+                5,
+                7
+              ],
+              "degrees": [
+                null,
+                null,
+                "5",
+                "1",
+                "3",
+                "7"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v004",
+              "frets": [
+                null,
+                null,
+                9,
+                9,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "7",
+                "3",
+                "5",
+                "1"
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m003",
+      "label": "D2S1 · C7",
+      "chordEvents": [
+        {
+          "id": "e003",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v006",
+              "frets": [
+                null,
+                null,
+                10,
+                12,
+                11,
+                12
+              ],
+              "degrees": [
+                null,
+                null,
+                "1",
+                "5",
+                "b7",
+                "3"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v007",
+              "frets": [
+                null,
+                null,
+                2,
+                3,
+                1,
+                3
+              ],
+              "degrees": [
+                null,
+                null,
+                "3",
+                "b7",
+                "1",
+                "5"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v008",
+              "frets": [
+                null,
+                null,
+                5,
+                5,
+                5,
+                6
+              ],
+              "degrees": [
+                null,
+                null,
+                "5",
+                "1",
+                "3",
+                "b7"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v009",
+              "frets": [
+                null,
+                null,
+                8,
+                9,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "b7",
+                "3",
+                "5",
+                "1"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m004",
+      "label": "D2S1 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e004",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v010",
+              "frets": [
+                null,
+                null,
+                10,
+                12,
+                11,
+                11
+              ],
+              "degrees": [
+                null,
+                null,
+                "1",
+                "5",
+                "b7",
+                "b3"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v011",
+              "frets": [
+                null,
+                null,
+                1,
+                3,
+                1,
+                3
+              ],
+              "degrees": [
+                null,
+                null,
+                "b3",
+                "b7",
+                "1",
+                "5"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v012",
+              "frets": [
+                null,
+                null,
+                5,
+                5,
+                4,
+                6
+              ],
+              "degrees": [
+                null,
+                null,
+                "5",
+                "1",
+                "b3",
+                "b7"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v013",
+              "frets": [
+                null,
+                null,
+                8,
+                8,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "b7",
+                "b3",
+                "5",
+                "1"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m005",
+      "label": "D2S1 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e005",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v014",
+              "frets": [
+                null,
+                null,
+                10,
+                11,
+                11,
+                11
+              ],
+              "degrees": [
+                null,
+                null,
+                "1",
+                "b5",
+                "b7",
+                "b3"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v015",
+              "frets": [
+                null,
+                null,
+                1,
+                3,
+                1,
+                2
+              ],
+              "degrees": [
+                null,
+                null,
+                "b3",
+                "b7",
+                "1",
+                "b5"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v016",
+              "frets": [
+                null,
+                null,
+                4,
+                5,
+                4,
+                6
+              ],
+              "degrees": [
+                null,
+                null,
+                "b5",
+                "1",
+                "b3",
+                "b7"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v017",
+              "frets": [
+                null,
+                null,
+                8,
+                8,
+                7,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "b7",
+                "b3",
+                "b5",
+                "1"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m006",
+      "label": "D2S2 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e006",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v018",
+              "frets": [
+                null,
+                3,
+                5,
+                4,
+                5,
+                null
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                "7",
+                "3",
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 2 · cuerdas 5–4–3–2"
+            },
+            {
+              "id": "v019",
+              "frets": [
+                null,
+                7,
+                9,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                null,
+                "3",
+                "7",
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v020",
+              "frets": [
+                null,
+                10,
+                10,
+                9,
+                12,
+                null
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                "3",
+                "7",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v021",
+              "frets": [
+                null,
+                14,
+                14,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "7",
+                "3",
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m008",
+      "label": "D2S2 · C7",
+      "chordEvents": [
+        {
+          "id": "e008",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v023",
+              "frets": [
+                null,
+                3,
+                5,
+                3,
+                5,
+                null
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                "b7",
+                "3",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v024",
+              "frets": [
+                null,
+                7,
+                8,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                null,
+                "3",
+                "b7",
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v025",
+              "frets": [
+                null,
+                10,
+                10,
+                9,
+                11,
+                null
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                "3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v026",
+              "frets": [
+                null,
+                13,
+                14,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "3",
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m009",
+      "label": "D2S2 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e009",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v027",
+              "frets": [
+                null,
+                3,
+                5,
+                3,
+                4,
+                null
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                "b7",
+                "b3",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v028",
+              "frets": [
+                null,
+                6,
+                8,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                null,
+                "b3",
+                "b7",
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v029",
+              "frets": [
+                null,
+                10,
+                10,
+                8,
+                11,
+                null
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                "b3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v030",
+              "frets": [
+                null,
+                13,
+                13,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "b3",
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m010",
+      "label": "D2S2 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e010",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v031",
+              "frets": [
+                null,
+                3,
+                4,
+                3,
+                4,
+                null
+              ],
+              "degrees": [
+                null,
+                "1",
+                "b5",
+                "b7",
+                "b3",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v032",
+              "frets": [
+                null,
+                6,
+                8,
+                5,
+                7,
+                null
+              ],
+              "degrees": [
+                null,
+                "b3",
+                "b7",
+                "1",
+                "b5",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v033",
+              "frets": [
+                null,
+                9,
+                10,
+                8,
+                11,
+                null
+              ],
+              "degrees": [
+                null,
+                "b5",
+                "1",
+                "b3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v034",
+              "frets": [
+                null,
+                13,
+                13,
+                11,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "b3",
+                "b5",
+                "1",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m011",
+      "label": "D2S3 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e011",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v035",
+              "frets": [
+                8,
+                10,
+                9,
+                9,
+                null,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                "7",
+                "3",
+                null,
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 2 · cuerdas 6–5–4–3"
+            },
+            {
+              "id": "v036",
+              "frets": [
+                12,
+                14,
+                10,
+                12,
+                null,
+                null
+              ],
+              "degrees": [
+                "3",
+                "7",
+                "1",
+                "5",
+                null,
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v037",
+              "frets": [
+                3,
+                3,
+                2,
+                4,
+                null,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                "3",
+                "7",
+                null,
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v038",
+              "frets": [
+                7,
+                7,
+                5,
+                5,
+                null,
+                null
+              ],
+              "degrees": [
+                "7",
+                "3",
+                "5",
+                "1",
+                null,
+                null
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m013",
+      "label": "D2S3 · C7",
+      "chordEvents": [
+        {
+          "id": "e013",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v040",
+              "frets": [
+                8,
+                10,
+                8,
+                9,
+                null,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                "b7",
+                "3",
+                null,
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v041",
+              "frets": [
+                12,
+                13,
+                10,
+                12,
+                null,
+                null
+              ],
+              "degrees": [
+                "3",
+                "b7",
+                "1",
+                "5",
+                null,
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v042",
+              "frets": [
+                3,
+                3,
+                2,
+                3,
+                null,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                "3",
+                "b7",
+                null,
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v043",
+              "frets": [
+                6,
+                7,
+                5,
+                5,
+                null,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "3",
+                "5",
+                "1",
+                null,
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m014",
+      "label": "D2S3 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e014",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v044",
+              "frets": [
+                8,
+                10,
+                8,
+                8,
+                null,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                "b7",
+                "b3",
+                null,
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v045",
+              "frets": [
+                11,
+                13,
+                10,
+                12,
+                null,
+                null
+              ],
+              "degrees": [
+                "b3",
+                "b7",
+                "1",
+                "5",
+                null,
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v046",
+              "frets": [
+                3,
+                3,
+                1,
+                3,
+                null,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                "b3",
+                "b7",
+                null,
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v047",
+              "frets": [
+                6,
+                6,
+                5,
+                5,
+                null,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "b3",
+                "5",
+                "1",
+                null,
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m015",
+      "label": "D2S3 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e015",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v048",
+              "frets": [
+                8,
+                9,
+                8,
+                8,
+                null,
+                null
+              ],
+              "degrees": [
+                "1",
+                "b5",
+                "b7",
+                "b3",
+                null,
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v049",
+              "frets": [
+                11,
+                13,
+                10,
+                11,
+                null,
+                null
+              ],
+              "degrees": [
+                "b3",
+                "b7",
+                "1",
+                "b5",
+                null,
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v050",
+              "frets": [
+                2,
+                3,
+                1,
+                3,
+                null,
+                null
+              ],
+              "degrees": [
+                "b5",
+                "1",
+                "b3",
+                "b7",
+                null,
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v051",
+              "frets": [
+                6,
+                6,
+                4,
+                5,
+                null,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "b3",
+                "b5",
+                "1",
+                null,
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m016",
+      "label": "D3S1 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e016",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v052",
+              "frets": [
+                null,
+                3,
+                null,
+                4,
+                5,
+                3
+              ],
+              "degrees": [
+                null,
+                "1",
+                null,
+                "7",
+                "3",
+                "5"
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 3 · cuerdas 5–3–2–1"
+            },
+            {
+              "id": "v053",
+              "frets": [
+                null,
+                7,
+                null,
+                5,
+                8,
+                7
+              ],
+              "degrees": [
+                null,
+                "3",
+                null,
+                "1",
+                "5",
+                "7"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v054",
+              "frets": [
+                null,
+                10,
+                null,
+                9,
+                12,
+                8
+              ],
+              "degrees": [
+                null,
+                "5",
+                null,
+                "3",
+                "7",
+                "1"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v055",
+              "frets": [
+                null,
+                14,
+                null,
+                12,
+                13,
+                12
+              ],
+              "degrees": [
+                null,
+                "7",
+                null,
+                "5",
+                "1",
+                "3"
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m018",
+      "label": "D3S1 · C7",
+      "chordEvents": [
+        {
+          "id": "e018",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v057",
+              "frets": [
+                null,
+                3,
+                null,
+                3,
+                5,
+                3
+              ],
+              "degrees": [
+                null,
+                "1",
+                null,
+                "b7",
+                "3",
+                "5"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v058",
+              "frets": [
+                null,
+                7,
+                null,
+                5,
+                8,
+                6
+              ],
+              "degrees": [
+                null,
+                "3",
+                null,
+                "1",
+                "5",
+                "b7"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v059",
+              "frets": [
+                null,
+                10,
+                null,
+                9,
+                11,
+                8
+              ],
+              "degrees": [
+                null,
+                "5",
+                null,
+                "3",
+                "b7",
+                "1"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v060",
+              "frets": [
+                null,
+                13,
+                null,
+                12,
+                13,
+                12
+              ],
+              "degrees": [
+                null,
+                "b7",
+                null,
+                "5",
+                "1",
+                "3"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m019",
+      "label": "D3S1 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e019",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v061",
+              "frets": [
+                null,
+                3,
+                null,
+                3,
+                4,
+                3
+              ],
+              "degrees": [
+                null,
+                "1",
+                null,
+                "b7",
+                "b3",
+                "5"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v062",
+              "frets": [
+                null,
+                6,
+                null,
+                5,
+                8,
+                6
+              ],
+              "degrees": [
+                null,
+                "b3",
+                null,
+                "1",
+                "5",
+                "b7"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v063",
+              "frets": [
+                null,
+                10,
+                null,
+                8,
+                11,
+                8
+              ],
+              "degrees": [
+                null,
+                "5",
+                null,
+                "b3",
+                "b7",
+                "1"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v064",
+              "frets": [
+                null,
+                13,
+                null,
+                12,
+                13,
+                11
+              ],
+              "degrees": [
+                null,
+                "b7",
+                null,
+                "5",
+                "1",
+                "b3"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m020",
+      "label": "D3S1 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e020",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v065",
+              "frets": [
+                null,
+                3,
+                null,
+                3,
+                4,
+                2
+              ],
+              "degrees": [
+                null,
+                "1",
+                null,
+                "b7",
+                "b3",
+                "b5"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v066",
+              "frets": [
+                null,
+                6,
+                null,
+                5,
+                7,
+                6
+              ],
+              "degrees": [
+                null,
+                "b3",
+                null,
+                "1",
+                "b5",
+                "b7"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v067",
+              "frets": [
+                null,
+                9,
+                null,
+                8,
+                11,
+                8
+              ],
+              "degrees": [
+                null,
+                "b5",
+                null,
+                "b3",
+                "b7",
+                "1"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v068",
+              "frets": [
+                null,
+                13,
+                null,
+                11,
+                13,
+                11
+              ],
+              "degrees": [
+                null,
+                "b7",
+                null,
+                "b5",
+                "1",
+                "b3"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m021",
+      "label": "D3S2 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e021",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v069",
+              "frets": [
+                8,
+                null,
+                9,
+                9,
+                8,
+                null
+              ],
+              "degrees": [
+                "1",
+                null,
+                "7",
+                "3",
+                "5",
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 3 · cuerdas 6–4–3–2"
+            },
+            {
+              "id": "v070",
+              "frets": [
+                12,
+                null,
+                10,
+                12,
+                12,
+                null
+              ],
+              "degrees": [
+                "3",
+                null,
+                "1",
+                "5",
+                "7",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v071",
+              "frets": [
+                3,
+                null,
+                2,
+                4,
+                1,
+                null
+              ],
+              "degrees": [
+                "5",
+                null,
+                "3",
+                "7",
+                "1",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v072",
+              "frets": [
+                7,
+                null,
+                5,
+                5,
+                5,
+                null
+              ],
+              "degrees": [
+                "7",
+                null,
+                "5",
+                "1",
+                "3",
+                null
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m023",
+      "label": "D3S2 · C7",
+      "chordEvents": [
+        {
+          "id": "e023",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v074",
+              "frets": [
+                8,
+                null,
+                8,
+                9,
+                8,
+                null
+              ],
+              "degrees": [
+                "1",
+                null,
+                "b7",
+                "3",
+                "5",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v075",
+              "frets": [
+                12,
+                null,
+                10,
+                12,
+                11,
+                null
+              ],
+              "degrees": [
+                "3",
+                null,
+                "1",
+                "5",
+                "b7",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v076",
+              "frets": [
+                3,
+                null,
+                2,
+                3,
+                1,
+                null
+              ],
+              "degrees": [
+                "5",
+                null,
+                "3",
+                "b7",
+                "1",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v077",
+              "frets": [
+                6,
+                null,
+                5,
+                5,
+                5,
+                null
+              ],
+              "degrees": [
+                "b7",
+                null,
+                "5",
+                "1",
+                "3",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m024",
+      "label": "D3S2 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e024",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v078",
+              "frets": [
+                8,
+                null,
+                8,
+                8,
+                8,
+                null
+              ],
+              "degrees": [
+                "1",
+                null,
+                "b7",
+                "b3",
+                "5",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v079",
+              "frets": [
+                11,
+                null,
+                10,
+                12,
+                11,
+                null
+              ],
+              "degrees": [
+                "b3",
+                null,
+                "1",
+                "5",
+                "b7",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v080",
+              "frets": [
+                3,
+                null,
+                1,
+                3,
+                1,
+                null
+              ],
+              "degrees": [
+                "5",
+                null,
+                "b3",
+                "b7",
+                "1",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v081",
+              "frets": [
+                6,
+                null,
+                5,
+                5,
+                4,
+                null
+              ],
+              "degrees": [
+                "b7",
+                null,
+                "5",
+                "1",
+                "b3",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m025",
+      "label": "D3S2 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e025",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v082",
+              "frets": [
+                8,
+                null,
+                8,
+                8,
+                7,
+                null
+              ],
+              "degrees": [
+                "1",
+                null,
+                "b7",
+                "b3",
+                "b5",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v083",
+              "frets": [
+                11,
+                null,
+                10,
+                11,
+                11,
+                null
+              ],
+              "degrees": [
+                "b3",
+                null,
+                "1",
+                "b5",
+                "b7",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v084",
+              "frets": [
+                2,
+                null,
+                1,
+                3,
+                1,
+                null
+              ],
+              "degrees": [
+                "b5",
+                null,
+                "b3",
+                "b7",
+                "1",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v085",
+              "frets": [
+                6,
+                null,
+                4,
+                5,
+                4,
+                null
+              ],
+              "degrees": [
+                "b7",
+                null,
+                "b5",
+                "1",
+                "b3",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m026",
+      "label": "D24S1 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e026",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v086",
+              "frets": [
+                null,
+                3,
+                5,
+                null,
+                5,
+                7
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                null,
+                "3",
+                "7"
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 2+4 · cuerdas 5–4–2–1"
+            },
+            {
+              "id": "v087",
+              "frets": [
+                null,
+                7,
+                9,
+                null,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                "3",
+                "7",
+                null,
+                "5",
+                "1"
+              ],
+              "voicingDegree": "1.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            },
+            {
+              "id": "v088",
+              "frets": [
+                null,
+                10,
+                10,
+                null,
+                12,
+                12
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                null,
+                "7",
+                "3"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v089",
+              "frets": [
+                null,
+                14,
+                14,
+                null,
+                13,
+                15
+              ],
+              "degrees": [
+                null,
+                "7",
+                "3",
+                null,
+                "1",
+                "5"
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m028",
+      "label": "D24S1 · C7",
+      "chordEvents": [
+        {
+          "id": "e028",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v092",
+              "frets": [
+                null,
+                3,
+                5,
+                null,
+                5,
+                6
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                null,
+                "3",
+                "b7"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v093",
+              "frets": [
+                null,
+                7,
+                8,
+                null,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                "3",
+                "b7",
+                null,
+                "5",
+                "1"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v094",
+              "frets": [
+                null,
+                10,
+                10,
+                null,
+                11,
+                12
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                null,
+                "b7",
+                "3"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v095",
+              "frets": [
+                null,
+                13,
+                14,
+                null,
+                13,
+                15
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "3",
+                null,
+                "1",
+                "5"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m029",
+      "label": "D24S1 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e029",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v096",
+              "frets": [
+                null,
+                3,
+                5,
+                null,
+                4,
+                6
+              ],
+              "degrees": [
+                null,
+                "1",
+                "5",
+                null,
+                "b3",
+                "b7"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v097",
+              "frets": [
+                null,
+                6,
+                8,
+                null,
+                8,
+                8
+              ],
+              "degrees": [
+                null,
+                "b3",
+                "b7",
+                null,
+                "5",
+                "1"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v098",
+              "frets": [
+                null,
+                10,
+                10,
+                null,
+                11,
+                11
+              ],
+              "degrees": [
+                null,
+                "5",
+                "1",
+                null,
+                "b7",
+                "b3"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v099",
+              "frets": [
+                null,
+                13,
+                13,
+                null,
+                13,
+                15
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "b3",
+                null,
+                "1",
+                "5"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m030",
+      "label": "D24S1 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e030",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v100",
+              "frets": [
+                null,
+                3,
+                4,
+                null,
+                4,
+                6
+              ],
+              "degrees": [
+                null,
+                "1",
+                "b5",
+                null,
+                "b3",
+                "b7"
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v101",
+              "frets": [
+                null,
+                6,
+                8,
+                null,
+                7,
+                8
+              ],
+              "degrees": [
+                null,
+                "b3",
+                "b7",
+                null,
+                "b5",
+                "1"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v102",
+              "frets": [
+                null,
+                9,
+                10,
+                null,
+                11,
+                11
+              ],
+              "degrees": [
+                null,
+                "b5",
+                "1",
+                null,
+                "b7",
+                "b3"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v103",
+              "frets": [
+                null,
+                13,
+                13,
+                null,
+                13,
+                14
+              ],
+              "degrees": [
+                null,
+                "b7",
+                "b3",
+                null,
+                "1",
+                "b5"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m031",
+      "label": "D24S2 · Cmaj7",
+      "chordEvents": [
+        {
+          "id": "e031",
+          "chordName": "Cmaj7",
+          "family": "major",
+          "voicings": [
+            {
+              "id": "v104",
+              "frets": [
+                8,
+                10,
+                null,
+                9,
+                12,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                null,
+                "3",
+                "7",
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Drop 2+4 · cuerdas 6–5–3–2"
+            },
+            {
+              "id": "v105",
+              "frets": [
+                12,
+                14,
+                null,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                "3",
+                "7",
+                null,
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "1.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            },
+            {
+              "id": "v106",
+              "frets": [
+                3,
+                3,
+                null,
+                4,
+                5,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                null,
+                "7",
+                "3",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v107",
+              "frets": [
+                7,
+                7,
+                null,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                "7",
+                "3",
+                null,
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "3.ª inversión",
+              "insideText": "Alternativa C6: bajar 2 trastes la 7.ª."
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m033",
+      "label": "D24S2 · C7",
+      "chordEvents": [
+        {
+          "id": "e033",
+          "chordName": "C7",
+          "family": "dominant",
+          "voicings": [
+            {
+              "id": "v110",
+              "frets": [
+                8,
+                10,
+                null,
+                9,
+                11,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                null,
+                "3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v111",
+              "frets": [
+                12,
+                13,
+                null,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                "3",
+                "b7",
+                null,
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v112",
+              "frets": [
+                3,
+                3,
+                null,
+                3,
+                5,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                null,
+                "b7",
+                "3",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v113",
+              "frets": [
+                6,
+                7,
+                null,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "3",
+                null,
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m034",
+      "label": "D24S2 · Cm7",
+      "chordEvents": [
+        {
+          "id": "e034",
+          "chordName": "Cm7",
+          "family": "minor",
+          "voicings": [
+            {
+              "id": "v114",
+              "frets": [
+                8,
+                10,
+                null,
+                8,
+                11,
+                null
+              ],
+              "degrees": [
+                "1",
+                "5",
+                null,
+                "b3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v115",
+              "frets": [
+                11,
+                13,
+                null,
+                12,
+                13,
+                null
+              ],
+              "degrees": [
+                "b3",
+                "b7",
+                null,
+                "5",
+                "1",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v116",
+              "frets": [
+                3,
+                3,
+                null,
+                3,
+                4,
+                null
+              ],
+              "degrees": [
+                "5",
+                "1",
+                null,
+                "b7",
+                "b3",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v117",
+              "frets": [
+                6,
+                6,
+                null,
+                5,
+                8,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "b3",
+                null,
+                "1",
+                "5",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m035",
+      "label": "D24S2 · Cm7(b5)",
+      "chordEvents": [
+        {
+          "id": "e035",
+          "chordName": "Cm7(b5)",
+          "family": "half-diminished",
+          "voicings": [
+            {
+              "id": "v118",
+              "frets": [
+                8,
+                9,
+                null,
+                8,
+                11,
+                null
+              ],
+              "degrees": [
+                "1",
+                "b5",
+                null,
+                "b3",
+                "b7",
+                null
+              ],
+              "voicingDegree": "Fundamental"
+            },
+            {
+              "id": "v119",
+              "frets": [
+                11,
+                13,
+                null,
+                11,
+                13,
+                null
+              ],
+              "degrees": [
+                "b3",
+                "b7",
+                null,
+                "b5",
+                "1",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v120",
+              "frets": [
+                2,
+                3,
+                null,
+                3,
+                4,
+                null
+              ],
+              "degrees": [
+                "b5",
+                "1",
+                null,
+                "b7",
+                "b3",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v121",
+              "frets": [
+                6,
+                6,
+                null,
+                5,
+                7,
+                null
+              ],
+              "degrees": [
+                "b7",
+                "b3",
+                null,
+                "1",
+                "b5",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m036",
+      "label": "Cdim7 · S3",
+      "chordEvents": [
+        {
+          "id": "e036",
+          "chordName": "Cdim7",
+          "family": "diminished",
+          "voicings": [
+            {
+              "id": "v122",
+              "frets": [
+                8,
+                9,
+                7,
+                8,
+                null,
+                null
+              ],
+              "degrees": [
+                "1",
+                "b5",
+                "°7",
+                "b3",
+                null,
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Disminuido · cuerdas 6–5–4–3"
+            },
+            {
+              "id": "v123",
+              "frets": [
+                11,
+                12,
+                10,
+                11,
+                null,
+                null
+              ],
+              "degrees": [
+                "b3",
+                "°7",
+                "1",
+                "b5",
+                null,
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v124",
+              "frets": [
+                2,
+                3,
+                1,
+                2,
+                null,
+                null
+              ],
+              "degrees": [
+                "b5",
+                "1",
+                "b3",
+                "°7",
+                null,
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v125",
+              "frets": [
+                5,
+                6,
+                4,
+                5,
+                null,
+                null
+              ],
+              "degrees": [
+                "°7",
+                "b3",
+                "b5",
+                "1",
+                null,
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m037",
+      "label": "Cdim7 · S2",
+      "chordEvents": [
+        {
+          "id": "e037",
+          "chordName": "Cdim7",
+          "family": "diminished",
+          "voicings": [
+            {
+              "id": "v126",
+              "frets": [
+                null,
+                3,
+                4,
+                2,
+                4,
+                null
+              ],
+              "degrees": [
+                null,
+                "1",
+                "b5",
+                "°7",
+                "b3",
+                null
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Disminuido · cuerdas 5–4–3–2"
+            },
+            {
+              "id": "v127",
+              "frets": [
+                null,
+                6,
+                7,
+                5,
+                7,
+                null
+              ],
+              "degrees": [
+                null,
+                "b3",
+                "°7",
+                "1",
+                "b5",
+                null
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v128",
+              "frets": [
+                null,
+                9,
+                10,
+                8,
+                10,
+                null
+              ],
+              "degrees": [
+                null,
+                "b5",
+                "1",
+                "b3",
+                "°7",
+                null
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v129",
+              "frets": [
+                null,
+                12,
+                13,
+                11,
+                13,
+                null
+              ],
+              "degrees": [
+                null,
+                "°7",
+                "b3",
+                "b5",
+                "1",
+                null
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    },
+    {
+      "id": "m038",
+      "label": "Cdim7 · S1",
+      "chordEvents": [
+        {
+          "id": "e038",
+          "chordName": "Cdim7",
+          "family": "diminished",
+          "voicings": [
+            {
+              "id": "v130",
+              "frets": [
+                null,
+                null,
+                10,
+                11,
+                10,
+                11
+              ],
+              "degrees": [
+                null,
+                null,
+                "1",
+                "b5",
+                "°7",
+                "b3"
+              ],
+              "voicingDegree": "Fundamental",
+              "aboveText": "Disminuido · cuerdas 4–3–2–1"
+            },
+            {
+              "id": "v131",
+              "frets": [
+                null,
+                null,
+                1,
+                2,
+                1,
+                2
+              ],
+              "degrees": [
+                null,
+                null,
+                "b3",
+                "°7",
+                "1",
+                "b5"
+              ],
+              "voicingDegree": "1.ª inversión"
+            },
+            {
+              "id": "v132",
+              "frets": [
+                null,
+                null,
+                4,
+                5,
+                4,
+                5
+              ],
+              "degrees": [
+                null,
+                null,
+                "b5",
+                "1",
+                "b3",
+                "°7"
+              ],
+              "voicingDegree": "2.ª inversión"
+            },
+            {
+              "id": "v133",
+              "frets": [
+                null,
+                null,
+                7,
+                8,
+                7,
+                8
+              ],
+              "degrees": [
+                null,
+                null,
+                "°7",
+                "b3",
+                "b5",
+                "1"
+              ],
+              "voicingDegree": "3.ª inversión"
+            }
+          ]
+        }
+      ],
+      "fillToEdge": true
+    }
+  ],
+  "structure": {
+    "repeats": [],
+    "endings": [],
+    "markers": [],
+    "jumps": []
+  },
+  "maxMeasuresPerRow": 1,
+  "fretboardScalePercent": 70
+}

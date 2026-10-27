@@ -241,6 +241,34 @@ const cardsOf = (song, keys) => {
   return songCards(song).filter(card => wanted.has(card.key));
 };
 
+/** ¿Hay exactamente dos tarjetas distintas que intercambiar? */
+export const canSwapCards = (song, keys) => new Set(keys).size === 2 && cardsOf(song, keys).length === 2;
+
+/**
+ * Intercambia las posiciones de dos tarjetas, en el mismo compás o en compases distintos. Cada una viaja con su nombre, calidad,
+ * textos, grado, tonalidad y digitación, como al moverla (moveCard): dentro de un mismo acorde se reordenan sus voicings; si no,
+ * cada tarjeta se separa antes en su propio acorde (isolateCard) y se intercambian los acordes. Devuelve las dos selecciones
+ * resultantes en orden escrito, o [] si no son exactamente dos.
+ */
+export function swapCards(song, keys) {
+  if (!canSwapCards(song, keys)) return [];
+  const [a, b] = cardsOf(song, keys);
+  if (a.event === b.event) {
+    const list = a.event.voicings;
+    [list[a.voicingIndex], list[b.voicingIndex]] = [list[b.voicingIndex], list[a.voicingIndex]];
+  } else {
+    const first = isolateCard(song, a.measure, a.event, a.voicing);
+    const second = isolateCard(song, b.measure, b.event, b.voicing);
+    const i = a.measure.chordEvents.indexOf(first);
+    const j = b.measure.chordEvents.indexOf(second);
+    a.measure.chordEvents[i] = second;
+    b.measure.chordEvents[j] = first;
+  }
+  const order = songCards(song).map(card => card.key);
+  return keys.map(key => cardSelection(song, key)).filter(Boolean)
+    .sort((x, y) => order.indexOf(selectionKey(x)) - order.indexOf(selectionKey(y)));
+}
+
 /** Contenido copiable de varias tarjetas, en orden escrito aunque estén salteadas o en compases distintos. */
 export function copyCards(song, keys) {
   return cardsOf(song, keys).map(card => copyCard(card.measure, card.event.id, card.voicing ? card.voicing.id : null));

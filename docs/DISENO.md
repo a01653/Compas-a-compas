@@ -12,7 +12,7 @@ El icono debe ser una pieza vectorial original y sencilla, legible a tamaño de 
 
 ## Editor vigente desde 0.6.0
 
-1. Cabecera con icono, canción activa, Abrir, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Nueva canción.
+1. Cabecera con icono, canción activa, Nuevo, Abrir, menú Ejemplos, Guardar JSON y menú Exportar. El nombre abre el diálogo de datos; el menú de tres puntos contiene Datos de la canción. Desde 0.9.0 la aplicación arranca con la hoja de ejemplo de `examples/index.json` y, entre 761 y 1240 px, la barra de archivo baja a una segunda fila para que la canción activa siga legible.
 2. Bloque Compás: selector, anterior/siguiente, añadir, opciones y acceso Marcas. Desde 0.8.0 el menú de opciones agrupa etiqueta, ancho, renumeración y las acciones estructurales (compás, copiar y pegar, selección de varios); una barra bajo el selector muestra la selección múltiple. El clic derecho sobre un compás de la hoja abre un menú contextual con las mismas acciones.
 3. Editor con un selector plano de tarjetas del compás y acciones Añadir tarjeta, Duplicar tarjeta y un menú de tarjeta (copiar, cortar, pegar, sustituir la tarjeta o su digitación, mover, marcar y quitar), el mismo que abre el clic derecho sobre una tarjeta de la hoja. No hay dos niveles visibles de acorde y posición.
 4. Digitación y grados encima de textos y tonalidad, siempre visibles y sin pestañas. Cada campo modifica solo la tarjeta seleccionada, incluido nombre y calidad.

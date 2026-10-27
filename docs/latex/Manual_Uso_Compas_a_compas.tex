@@ -1,4 +1,4 @@
-% Source-SHA256: 7d581e0d08656b1b30204f197ca9503d1c15e21f62043e6d9afa00621b5c8a99
+% Source-SHA256: 4ef5287fa624ea05d38a5ba89fccecea4b7b1c94526a059378628a56ddf0fddc
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.1 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.9.0 · 27/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.8.1 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.9.0 · 27/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.8.1 · Edición del manual: 27/10/2026. Autor del proyecto:
+Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -123,9 +123,10 @@ exportes.
   \texttt{Abrir-Compas.cmd} desde la carpeta del proyecto. En local,
   conserva abierta la consola que arranca el servidor.
 \item
-  Abre el menú superior de tres puntos y pulsa \textbf{Nueva canción}, o
-  pulsa \textbf{Abrir} para continuar una canción guardada. Para
-  practicar puedes abrir \texttt{examples/cancion-demo.json}.
+  Pulsa \textbf{Nuevo} para empezar una canción, \textbf{Abrir} para
+  continuar una guardada o elige una página en el menú \textbf{Ejemplos}
+  (ver \hyperref[hoja-de-ejemplo-nuevo-y-ejemplos]{Hoja de ejemplo,
+  Nuevo y Ejemplos}).
 \item
   Pulsa el título de la cabecera para abrir los datos y escribe el
   \textbf{nombre de la canción} y la \textbf{tonalidad}. La tonalidad
@@ -147,6 +148,48 @@ zonas. \textbf{Ajustar al ancho} y los botones de zoom solo cambian la
 vista, no el tamaño de impresión.
 
 \pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/editor-general.png}}
+
+\subsection{Hoja de ejemplo, Nuevo y
+Ejemplos}\label{hoja-de-ejemplo-nuevo-y-ejemplos}
+
+Al abrir la aplicación aparece una hoja de ejemplo: un II--V--I mayor en
+Do en cuatro compases, \textbf{Dm7} y \textbf{G7} en el compás 1,
+\textbf{Cmaj7} en el 2, otra vez \textbf{Dm7} y \textbf{G7} en el 3 y
+\textbf{Cmaj7} en el 4. Todas las tarjetas son voicings Drop 2 en las
+cuatro primeras cuerdas (set 1), con los grados 1, 3, 5 y 7 en sus
+colores y la inversión escrita en la anotación, por ejemplo «Drop 2 Set
+1 · 2ª inversión». El título es «Nombre del tema» y la tonalidad
+«Tonalidad»: sustitúyelos en los datos de la canción. No lleva marcas
+musicales.
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Nuevo} deja una hoja limpia: título «Nombre del tema»,
+  tonalidad «Tonalidad» y un compás con una tarjeta vacía ya
+  seleccionada, lista para escribir su nombre y su digitación. Las
+  franjas de tonalidad de las tarjetas empiezan ocultas para no repetir
+  «Tonalidad»; actívalas con \textbf{Mostrar tonalidades de las
+  tarjetas} en los datos de la canción.
+\item
+  \textbf{Ejemplos} abre una lista con las páginas de la carpeta
+  \texttt{examples/} del proyecto: el ejemplo inicial, la demostración
+  del editor, el ejemplo de textos y tonalidades, las cuatro rutas
+  II--V--I Drop 2 (mayores y menores, sets 1 y 2) y el \textbf{Catálogo
+  de voicings Drop · Do}: Cmaj7, C7, Cm7 y Cm7(b5) en sus cuatro
+  inversiones con Drop 2 (sets 1 a 3), Drop 3 (sets 1 y 2) y Drop 2+4
+  (sets 1 y 2), más Cdim7 en tres sets, un compás por línea. Al elegir
+  una, sustituye a la canción abierta.
+\end{itemize}
+
+\textbf{Nuevo}, \textbf{Abrir} y \textbf{Ejemplos} avisan antes si
+tienes cambios sin guardar. Un ejemplo abierto se guarda con el nombre
+de su archivo (por ejemplo, \texttt{ii-v-i-mayor-do.json}); elige otro
+nombre al guardar para conservar tu versión aparte. En pantallas
+medianas, \textbf{Nuevo} y \textbf{Abrir} muestran solo su icono; al
+pasar el ratón aparece su nombre.
+
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/menu-ejemplos.png}}
 
 \Needspace{3.5cm}
 \section{Tarjetas del compás}\label{tarjetas-del-compuxe1s}
@@ -212,6 +255,12 @@ compases}), a todas ellas:
   el archivo agrupaba varias posiciones bajo un mismo acorde, se
   reordenan dentro de él.
 \item
+  \textbf{Intercambiar las dos tarjetas} solo aparece cuando hay
+  exactamente dos tarjetas seleccionadas. Cada una pasa al sitio de la
+  otra con su nombre, calidad, textos, grado, tonalidad y digitación,
+  aunque estén en compases distintos. Las dos siguen marcadas, así que
+  repetirlo las devuelve a su sitio.
+\item
   \textbf{Añadir tarjeta a la selección} marca la tarjeta sin usar el
   ratón.
 \item
@@ -232,6 +281,14 @@ título «Puente» del compás 6, selecciona la tarjeta del compás 2, pulsa
 \textbf{Copiar tarjeta}, selecciona la tarjeta del compás 6 y pulsa
 \textbf{Sustituir digitación por la copiada}. Si quieres además su
 nombre y sus textos, usa \textbf{Sustituir tarjeta por la copiada}.
+
+Ejemplo de intercambio: en la hoja de ejemplo, pulsa la tarjeta
+\textbf{Dm7} del compás 1, haz \textbf{Ctrl+clic} en la tarjeta
+\textbf{Cmaj7} del compás 4 y pulsa con el botón derecho una de las dos.
+Elige \textbf{Intercambiar las dos tarjetas}: Cmaj7 pasa al compás 1 y
+Dm7 al compás 4. El aviso incluye \textbf{Deshacer}.
+
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/intercambiar-tarjetas.png}}
 
 \subsection{Repetir uno o dos
 compases}\label{repetir-uno-o-dos-compases}
@@ -737,6 +794,39 @@ individuales.
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como
 mucho un 25 \% sobre su ancho natural y el sobrante queda a la derecha.
 
+\subsection{Salto de línea forzado}\label{salto-de-luxednea-forzado}
+
+Para que un compás empiece una línea nueva aunque quepa en la anterior,
+por ejemplo para que cada frase quede en su propia línea o para que la
+línea cuadre mejor:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Selecciona el compás que debe empezar la línea.
+\item
+  Abre el menú de tres puntos del bloque \textbf{Compás}, o pulsa ese
+  compás en la hoja con el botón derecho fuera de sus tarjetas.
+\item
+  Elige \textbf{Salto de línea antes}.
+\end{enumerate}
+
+El compás y los que le siguen pasan a la línea siguiente. En la vista
+previa aparece una marca ↵ en el margen izquierdo de esa línea. Para
+volver al reparto automático, pulsa la marca o elige \textbf{Quitar
+salto de línea} en el mismo menú. Con varios compases seleccionados se
+aplica a todos. No tiene efecto en el primer compás ni en el segundo de
+una repetición de dos compases, que va siempre junto al primero. El HTML
+exportado y la impresión respetan el salto, sin la marca ↵. Si la línea
+nueva tampoco cabe en el ancho, se reparte como siempre. Las copias de
+un compás no heredan el salto.
+
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/salto-linea.png}}
+
+El salto se guarda en el JSON como \texttt{breakBefore} solo cuando se
+usa; las versiones anteriores a 0.9.0 no abren archivos que lo incluyan.
+
 \Needspace{3.5cm}
 \section{Añadir varios compases mediante una
 lista}\label{auxf1adir-varios-compases-mediante-una-lista}
@@ -839,14 +929,14 @@ conocida y conserva copias con nombres como \texttt{Mi-cancion-01.json}.
 
 \textbf{Abrir JSON} permite continuar ese proyecto. Si el formato es
 inválido, tiene campos desconocidos o pertenece a otra versión de
-esquema, se rechaza y la canción abierta se conserva. Nuevo y Abrir
-avisan si tienes cambios pendientes.
+esquema, se rechaza y la canción abierta se conserva. Nuevo, Abrir y
+Ejemplos avisan si tienes cambios pendientes.
 
 El navegador guarda además una recuperación local y la ofrece al volver
 a entrar si quedaron cambios pendientes. Depende del mismo navegador,
 perfil y dirección de la aplicación; otro puerto usa otro
-almacenamiento. Se borra al guardar, abrir o crear una canción.
-\textbf{La recuperación no sustituye al archivo JSON.}
+almacenamiento. Se borra al guardar, abrir, crear una canción o abrir un
+ejemplo. \textbf{La recuperación no sustituye al archivo JSON.}
 
 Exportar HTML o imprimir no equivale a guardar los cambios del proyecto.
 Guarda el JSON antes de cerrar. Deshacer permite corregir acciones de
@@ -933,6 +1023,14 @@ recuadro de la tarjeta; el número, el título y los huecos señalan el
 compás. \\
 Mover tarjeta está desactivado & Se mueve una sola tarjeta cada vez:
 quita la selección de varias. \\
+No aparece Intercambiar las dos tarjetas & Solo aparece con exactamente
+dos tarjetas seleccionadas: marca la segunda con Ctrl+clic. \\
+Un compás empieza línea aunque cabría en la anterior & Tiene un salto de
+línea forzado: pulsa la marca ↵ del margen izquierdo o \textbf{Quitar
+salto de línea} en el menú del compás. \\
+Una canción nueva no muestra la tonalidad en las tarjetas &
+\textbf{Nuevo} oculta las franjas de tonalidad: activa \textbf{Mostrar
+tonalidades de las tarjetas} en los datos de la canción. \\
 Un compás de repetición avisa tras mover compases & Pulsa
 \textbf{Corregir referencias} en el aviso o \textbf{Corregir referencia}
 en el editor del compás. \\

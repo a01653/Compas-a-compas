@@ -261,7 +261,8 @@ function relinkRepeats(song, copies, idMap) {
  * nuevos. Con `reuseIds` (pegar lo cortado en la misma canción) se conservan los IDs que siguen libres: así las marcas que se
  * quedaron esperando esos compases vuelven a encontrarlos, como en un movimiento. Una copia conserva su etiqueta numérica para
  * renumerarla; sin renumeración, o si no es numérica, se marca «(copia)». Lo recuperado de un corte conserva su etiqueta.
- * Las copias no heredan `fillToEdge`: ajustar la línea pertenece a la línea donde estaba el original, no al contenido.
+ * Las copias no heredan `fillToEdge` ni `breakBefore`: ajustar o empezar la línea pertenece a la línea donde estaba el original,
+ * no al contenido.
  */
 export function pasteMeasures(song, measures, index, { renumber = true, reuseIds = false } = {}) {
   const inUse = new Set(listIds(song).map(([id]) => id));
@@ -279,6 +280,7 @@ export function pasteMeasures(song, measures, index, { renumber = true, reuseIds
     else {
       copy.label = renumber && NUMERIC.test(source.label) ? source.label : `${source.label} (copia)`;
       delete copy.fillToEdge;
+      delete copy.breakBefore;
     }
     for (const event of copy.chordEvents) {
       event.id = ident(event.id, 'e');

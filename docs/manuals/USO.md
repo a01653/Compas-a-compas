@@ -1,19 +1,30 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.8.1 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
 El botón **Manual** (icono de libro) de la barra superior abre una página de ayuda en otra pestaña, con un resumen y un enlace a este manual en PDF. Funciona igual en local que en GitHub Pages. Solo existe en la aplicación: no aparece en los HTML ni en los PDF de canciones que exportes.
 
 1. Abre la aplicación en [GitHub Pages](https://a01653.github.io/Compas-a-compas/) o con `Abrir-Compas.cmd` desde la carpeta del proyecto. En local, conserva abierta la consola que arranca el servidor.
-2. Abre el menú superior de tres puntos y pulsa **Nueva canción**, o pulsa **Abrir** para continuar una canción guardada. Para practicar puedes abrir `examples/cancion-demo.json`.
+2. Pulsa **Nuevo** para empezar una canción, **Abrir** para continuar una guardada o elige una página en el menú **Ejemplos** (ver [Hoja de ejemplo, Nuevo y Ejemplos](#hoja-de-ejemplo-nuevo-y-ejemplos)).
 3. Pulsa el título de la cabecera para abrir los datos y escribe el **nombre de la canción** y la **tonalidad**. La tonalidad aparece a continuación del nombre en cada hoja. Puedes elegir su calidad para el color inicial de las franjas de las tarjetas. La **versión del documento** es una etiqueta opcional para tus revisiones; no cambia la versión de la aplicación.
 4. Añade compases y sus posiciones. Revisa el resultado a la derecha y guarda con **Guardar JSON**.
 
 La interfaz tiene un editor compacto a la izquierda y la hoja a la derecha. Los selectores de compás y tarjeta evitan listas verticales largas. Digitación y grados quedan en la parte alta del editor; los textos y la tonalidad de la tarjeta aparecen debajo. El editor conserva desplazamiento interno cuando no cabe todo. En móvil se apilan las zonas. **Ajustar al ancho** y los botones de zoom solo cambian la vista, no el tamaño de impresión.
 
-![Vista general: editor compacto a la izquierda y hoja a la derecha.](capturas/editor-general.png)
+![Vista general: la hoja de ejemplo con que arranca la aplicación, con el editor compacto a la izquierda y la hoja a la derecha.](capturas/editor-general.png)
+
+### Hoja de ejemplo, Nuevo y Ejemplos
+
+Al abrir la aplicación aparece una hoja de ejemplo: un II–V–I mayor en Do en cuatro compases, **Dm7** y **G7** en el compás 1, **Cmaj7** en el 2, otra vez **Dm7** y **G7** en el 3 y **Cmaj7** en el 4. Todas las tarjetas son voicings Drop 2 en las cuatro primeras cuerdas (set 1), con los grados 1, 3, 5 y 7 en sus colores y la inversión escrita en la anotación, por ejemplo «Drop 2 Set 1 · 2ª inversión». El título es «Nombre del tema» y la tonalidad «Tonalidad»: sustitúyelos en los datos de la canción. No lleva marcas musicales.
+
+- **Nuevo** deja una hoja limpia: título «Nombre del tema», tonalidad «Tonalidad» y un compás con una tarjeta vacía ya seleccionada, lista para escribir su nombre y su digitación. Las franjas de tonalidad de las tarjetas empiezan ocultas para no repetir «Tonalidad»; actívalas con **Mostrar tonalidades de las tarjetas** en los datos de la canción.
+- **Ejemplos** abre una lista con las páginas de la carpeta `examples/` del proyecto: el ejemplo inicial, la demostración del editor, el ejemplo de textos y tonalidades, las cuatro rutas II–V–I Drop 2 (mayores y menores, sets 1 y 2) y el **Catálogo de voicings Drop · Do**: Cmaj7, C7, Cm7 y Cm7(b5) en sus cuatro inversiones con Drop 2 (sets 1 a 3), Drop 3 (sets 1 y 2) y Drop 2+4 (sets 1 y 2), más Cdim7 en tres sets, un compás por línea. Al elegir una, sustituye a la canción abierta.
+
+**Nuevo**, **Abrir** y **Ejemplos** avisan antes si tienes cambios sin guardar. Un ejemplo abierto se guarda con el nombre de su archivo (por ejemplo, `ii-v-i-mayor-do.json`); elige otro nombre al guardar para conservar tu versión aparte. En pantallas medianas, **Nuevo** y **Abrir** muestran solo su icono; al pasar el ratón aparece su nombre.
+
+![Menú Ejemplos de la cabecera, con las páginas de la carpeta de ejemplos.](capturas/menu-ejemplos.png)
 
 ## Tarjetas del compás
 
@@ -34,6 +45,7 @@ El botón de tres puntos al final de la fila de tarjetas abre **Opciones de la t
 - **Sustituir tarjeta por la copiada** cambia la tarjeta entera por la copiada: nombre, calidad, textos, grado, tonalidad y digitación. La tarjeta conserva su sitio en el compás.
 - **Sustituir digitación por la copiada** cambia solo la digitación: trastes, grados por cuerda y traste de referencia. El nombre, la calidad, los textos, el grado de la tarjeta y su tonalidad no cambian. Sirve para probar otro voicing del mismo acorde sin reescribir sus textos.
 - **Mover tarjeta antes** y **Mover tarjeta después** cambian el orden de las tarjetas dentro del compás (una tarjeta cada vez). Si el archivo agrupaba varias posiciones bajo un mismo acorde, se reordenan dentro de él.
+- **Intercambiar las dos tarjetas** solo aparece cuando hay exactamente dos tarjetas seleccionadas. Cada una pasa al sitio de la otra con su nombre, calidad, textos, grado, tonalidad y digitación, aunque estén en compases distintos. Las dos siguen marcadas, así que repetirlo las devuelve a su sitio.
 - **Añadir tarjeta a la selección** marca la tarjeta sin usar el ratón.
 - **Quitar tarjeta** borra solamente la tarjeta o tarjetas seleccionadas, tras confirmar.
 
@@ -42,6 +54,10 @@ Para sustituir, una tarjeta copiada sirve para todas las seleccionadas; si copia
 ![Opciones de la tarjeta, con una tarjeta copiada: copiar, cortar, pegar, sustituir la tarjeta o su digitación, mover, marcar y quitar.](capturas/menu-tarjeta.png)
 
 Ejemplo: para usar en el compás 6 la digitación `x 3 5 3 4 3` que ya escribiste en el compás 2 sin perder el título «Puente» del compás 6, selecciona la tarjeta del compás 2, pulsa **Copiar tarjeta**, selecciona la tarjeta del compás 6 y pulsa **Sustituir digitación por la copiada**. Si quieres además su nombre y sus textos, usa **Sustituir tarjeta por la copiada**.
+
+Ejemplo de intercambio: en la hoja de ejemplo, pulsa la tarjeta **Dm7** del compás 1, haz **Ctrl+clic** en la tarjeta **Cmaj7** del compás 4 y pulsa con el botón derecho una de las dos. Elige **Intercambiar las dos tarjetas**: Cmaj7 pasa al compás 1 y Dm7 al compás 4. El aviso incluye **Deshacer**.
+
+![Dos tarjetas marcadas en compases distintos y su menú contextual con Intercambiar las dos tarjetas.](capturas/intercambiar-tarjetas.png)
 
 ### Repetir uno o dos compases
 
@@ -233,6 +249,20 @@ Al ajustar al ancho varias filas de una misma página con la misma estructura, l
 
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 % sobre su ancho natural y el sobrante queda a la derecha.
 
+### Salto de línea forzado
+
+Para que un compás empiece una línea nueva aunque quepa en la anterior, por ejemplo para que cada frase quede en su propia línea o para que la línea cuadre mejor:
+
+1. Selecciona el compás que debe empezar la línea.
+2. Abre el menú de tres puntos del bloque **Compás**, o pulsa ese compás en la hoja con el botón derecho fuera de sus tarjetas.
+3. Elige **Salto de línea antes**.
+
+El compás y los que le siguen pasan a la línea siguiente. En la vista previa aparece una marca ↵ en el margen izquierdo de esa línea. Para volver al reparto automático, pulsa la marca o elige **Quitar salto de línea** en el mismo menú. Con varios compases seleccionados se aplica a todos. No tiene efecto en el primer compás ni en el segundo de una repetición de dos compases, que va siempre junto al primero. El HTML exportado y la impresión respetan el salto, sin la marca ↵. Si la línea nueva tampoco cabe en el ancho, se reparte como siempre. Las copias de un compás no heredan el salto.
+
+![Hoja de ejemplo con un salto de línea antes del compás 3: la marca ↵ señala la línea forzada.](capturas/salto-linea.png)
+
+El salto se guarda en el JSON como `breakBefore` solo cuando se usa; las versiones anteriores a 0.9.0 no abren archivos que lo incluyan.
+
 ## Añadir varios compases mediante una lista
 
 Abre el menú de tres puntos del bloque Compás y pulsa **Importar lista** e introduce una línea por compás:
@@ -279,9 +309,9 @@ Las marcas se dibujan, pero **no hay reproducción ni comprobación del recorrid
 
 **Guardar JSON** conserva la canción editable completa. Según el navegador, aparecerá un selector de archivo o una descarga. Si abriste la canción desde un archivo, se propone el nombre de ese archivo; una canción nueva propone su título tal como lo escribiste (por ejemplo, `I Fall in Love Too Easily.json`). Elige una carpeta conocida y conserva copias con nombres como `Mi-cancion-01.json`.
 
-**Abrir JSON** permite continuar ese proyecto. Si el formato es inválido, tiene campos desconocidos o pertenece a otra versión de esquema, se rechaza y la canción abierta se conserva. Nuevo y Abrir avisan si tienes cambios pendientes.
+**Abrir JSON** permite continuar ese proyecto. Si el formato es inválido, tiene campos desconocidos o pertenece a otra versión de esquema, se rechaza y la canción abierta se conserva. Nuevo, Abrir y Ejemplos avisan si tienes cambios pendientes.
 
-El navegador guarda además una recuperación local y la ofrece al volver a entrar si quedaron cambios pendientes. Depende del mismo navegador, perfil y dirección de la aplicación; otro puerto usa otro almacenamiento. Se borra al guardar, abrir o crear una canción. **La recuperación no sustituye al archivo JSON.**
+El navegador guarda además una recuperación local y la ofrece al volver a entrar si quedaron cambios pendientes. Depende del mismo navegador, perfil y dirección de la aplicación; otro puerto usa otro almacenamiento. Se borra al guardar, abrir, crear una canción o abrir un ejemplo. **La recuperación no sustituye al archivo JSON.**
 
 Exportar HTML o imprimir no equivale a guardar los cambios del proyecto. Guarda el JSON antes de cerrar. Deshacer permite corregir acciones de esta sesión; no sustituye al archivo guardado.
 
@@ -316,5 +346,8 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Ctrl+V no pega | Sal del campo de texto donde está el cursor y cierra cualquier diálogo. Ctrl+V pega lo último que copiaste: compases o tarjetas. |
 | Ctrl+C copia el compás entero en vez de una tarjeta | Pulsa dentro del recuadro de la tarjeta; el número, el título y los huecos señalan el compás. |
 | Mover tarjeta está desactivado | Se mueve una sola tarjeta cada vez: quita la selección de varias. |
+| No aparece Intercambiar las dos tarjetas | Solo aparece con exactamente dos tarjetas seleccionadas: marca la segunda con Ctrl+clic. |
+| Un compás empieza línea aunque cabría en la anterior | Tiene un salto de línea forzado: pulsa la marca ↵ del margen izquierdo o **Quitar salto de línea** en el menú del compás. |
+| Una canción nueva no muestra la tonalidad en las tarjetas | **Nuevo** oculta las franjas de tonalidad: activa **Mostrar tonalidades de las tarjetas** en los datos de la canción. |
 | Un compás de repetición avisa tras mover compases | Pulsa **Corregir referencias** en el aviso o **Corregir referencia** en el editor del compás. |
 | El navegador no abre la aplicación | Abre GitHub Pages o arranca el servidor local; consulta la guía de instalación. |

@@ -1,4 +1,4 @@
-% Source-SHA256: 9d3febbd37077c14c36a4f41994c65f198519aa83e978e61e56971400cd021bb
+% Source-SHA256: db35def554ce5bdec50815257f2a31e0600a2a5457820a48e734fe188bf08906
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Instalación y arranque}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.1 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.9.0 · 27/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Abrir la aplicación desde la carpeta del proyecto\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.8.1 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.9.0 · 27/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.6.0 · Edición del manual: 17/10/2026. Autor del proyecto:
+Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -287,9 +287,15 @@ Archivo o carpeta & Uso \\
 \bottomrule\noalign{}
 \endlastfoot
 \texttt{Abrir-Compas.cmd} & Arranque diario en Windows \\
+\texttt{examples/index.json} & Lista de ejemplos del menú
+\textbf{Ejemplos}; el primero se abre al arrancar \\
+\texttt{examples/ii-v-i-mayor-do.json} & Hoja de ejemplo inicial:
+II--V--I mayor en Do, Drop 2 set 1 \\
 \texttt{examples/cancion-demo.json} & Ejemplo para practicar \\
 \texttt{examples/textos-tonalidades.json} & Títulos enmarcados, grado y
 tonalidad por posición \\
+\texttt{examples/Catalogo\_Drop\_voicings\_Compas\_a\_compas.json} &
+Catálogo de voicings Drop 2, Drop 3, Drop 2+4 y disminuidos en Do \\
 \texttt{docs/manuals/USO.md} & Manual de uso editable \\
 \texttt{docs/manuals/INSTALACION.md} & Esta guía editable \\
 \texttt{docs/DTS.md} & Diseño técnico del software \\

@@ -1,4 +1,4 @@
-import { createEmptySong } from '../model/song.js';
+import { createStarterSong } from '../model/song.js';
 import { parseSongJson, serializeSong, suggestFileName } from '../model/serialize.js';
 import { validateSong, formatError } from '../model/validate.js';
 import { confirmDialog, errorDialog } from './dialog.js';
@@ -81,7 +81,7 @@ export function mountFileControls(store, { recovery, recoveryHint }) {
 
   async function createNew() {
     if (!(await confirmDiscard())) return;
-    store.replaceSong(createEmptySong());
+    store.replaceSong(createStarterSong());
     recovery.clear();
     notify('Canción nueva creada.');
   }
