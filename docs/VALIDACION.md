@@ -33,6 +33,15 @@ Este documento define pruebas por realizar. No certifica que hayan pasado. Autom
 | V27 | Teclado y foco | Etiquetas, orden de tabulación y foco visible en los controles |
 | V28 | Texto con <, >, comillas, tildes y símbolos | Se muestra como texto; no ejecuta scripts ni rompe exportación |
 | V29 | Abrir o crear otra canción con cambios pendientes | No se pierde trabajo sin una decisión visible del usuario |
+| V30 | Insertar antes y después, borrar y mover compases con renumeración | Etiquetas consecutivas desde el primer número; aviso con el número de cambios; sin renumeración se conservan |
+| V31 | Seleccionar compases no contiguos y moverlos | Mantienen su orden; marcas e IDs viajan con cada compás; una pareja de repetición se mueve entera |
+| V32 | Copiar, pegar y duplicar un bloque con repeticiones | Contenido idéntico, IDs nuevos sin duplicados, repeticiones rehechas respecto a su posición |
+| V33 | Cortar un compás con marcas y pegarlo en la misma canción | Se avisa antes; al pegar, las marcas vuelven a encontrarlo |
+| V34 | Sustituir un compás por otro copiado | Cambia el contenido; etiqueta, ID y marcas se conservan |
+| V35 | Copiar una tarjeta, pegarla y sustituir solo la digitación de otra | La tarjeta pegada es independiente; la digitación cambia sin tocar nombre, textos ni tonalidad |
+| V37 | Ctrl+clic en la primera y la tercera tarjeta de un compás de tres, Ctrl+C, clic en un compás vacío y Ctrl+V | Solo se marcan esas dos; se pegan al final del compás, en orden, con IDs nuevos; Ctrl+clic en el número del compás desmarca las tarjetas y marca el compás |
+| V38 | Sustituir una tarjeta entera por la copiada | Cambian nombre, calidad, textos, grado, tonalidad y digitación; la tarjeta conserva su sitio y su ID, y sus vecinas de acorde no cambian |
+| V36 | Deshacer y rehacer cada operación; guardar y abrir el JSON | Un paso por operación; el JSON reabierto es idéntico al estado editado |
 
 Verificar la orientación A4 real del PDF y revisar todas las páginas de una exportación de varias hojas. No limitar la revisión a una captura de la primera pantalla.
 

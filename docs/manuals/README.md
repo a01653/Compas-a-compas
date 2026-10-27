@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.7.4**, edición **26/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
+Documentación de Compás a compás **0.8.0**, edición **27/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |
@@ -45,3 +45,5 @@ La captura textos-deshacer.png usa examples/textos-tonalidades.json, con ocho po
 La barra superior de la aplicación incluye un botón **Manual** (icono de libro) que abre la página `ayuda/index.html` en otra pestaña mediante una ruta relativa, por lo que funciona en local y bajo la URL de GitHub Pages. La página resume el uso y enlaza con `docs/latex/Manual_Uso_Compas_a_compas.pdf` (en lugar de enlazar directamente al PDF, que algunos navegadores descargan sin mostrar). `scripts/build-pages.mjs` copia la carpeta `ayuda/` y el PDF a `_site/`. El botón no forma parte de las hojas: no aparece en los HTML ni en los PDF exportados. Tras cambiar `USO.md` hay que regenerar el PDF (`python scripts/build_docs.py`) para que la aplicación publique el manual actualizado.
 
 Con Pandoc 3.2 o posterior la plantilla define `\pandocbounded` (`document-template.tex`); con versiones anteriores la definición no cambia nada.
+
+Capturas de 0.8.0 (27/10/2026), con el mismo procedimiento (Edge sin cabeza en Windows, ventana de 1440 × 960 px, escala 1,5, `examples/cancion-demo.json` servido en local): `editor-general.png`, `editor-posiciones.png` y `opciones-compas.png` se retomaron porque cambian la fila de tarjetas y el menú del compás; `textos-deshacer.png` se retomó abriendo `examples/textos-tonalidades.json` por el selector de archivo. Nuevas: `menu-tarjeta.png` (opciones de la tarjeta Cm7 del compás 1, tras copiar con Ctrl+C la tarjeta E5 del compás 3 para que se vean activas las opciones de pegar y sustituir), `menu-contextual.png` (clic derecho sobre el compás 2), `seleccion-compases.png` (modo selección con los compases 2 y 3 marcados), `seleccion-tarjetas.png` (tras pegar una copia de F7 al final del compás 2, la primera y la tercera tarjeta marcadas con Ctrl+clic; recortada al principio del compás 3) y `aviso-corregir.png` (aviso tras convertir el compás 4 en repetición del anterior y subir el compás 3 con Alt+↑; ventana de 1440 × 560 px para que el aviso y la fila quepan juntos). `seleccion-compases.png` se recorta al final del compás 3.

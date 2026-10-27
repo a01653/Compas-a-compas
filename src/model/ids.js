@@ -30,9 +30,9 @@ export function findDuplicateIds(song) {
   return [...seen].filter(([, paths]) => paths.length > 1).map(([id, paths]) => ({ id, paths }));
 }
 
-/** Generador de IDs nuevos que no colisiona con el documento ni con los ya generados. */
-export function createIdFactory(song) {
-  const used = new Set(listIds(song).map(([id]) => id));
+/** Generador de IDs nuevos que no colisiona con el documento, con `reserved` (IDs que se van a conservar) ni con los ya generados. */
+export function createIdFactory(song, reserved = []) {
+  const used = new Set([...listIds(song).map(([id]) => id), ...reserved]);
 
   for (const m of (Array.isArray(song.measures) ? song.measures : [])) {
     if (typeof m?.repeatPrevious?.sourceMeasureId === 'string') used.add(m.repeatPrevious.sourceMeasureId);

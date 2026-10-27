@@ -167,10 +167,18 @@ function fitRowButton(row, ctx, onFitRow) {
   }, '↔');
 }
 
-/** Marca la selección sobre nodos ya dibujados, sin reconstruirlos (no pierde foco ni desplazamiento). */
-export function applySelection(root, selection) {
+/**
+ * Marca la selección sobre nodos ya dibujados, sin reconstruirlos (no pierde foco ni desplazamiento). `marked` y `markedCards`
+ * son las selecciones múltiples de compases y de tarjetas; `target` ('measure' o 'card') resalta más lo que se señaló. Solo
+ * cambia clases, nunca dimensiones.
+ */
+export function applySelection(root, selection, { marked = [], markedCards = [], target = 'measure' } = {}) {
+  const set = new Set(marked);
+  const cards = new Set(markedCards);
+  root.classList.toggle('apunta-tarjeta', target === 'card');
   for (const el of root.querySelectorAll('.compas')) {
     el.classList.toggle('sel', el.dataset.measureId === selection.measureId);
+    el.classList.toggle('marcado', set.has(el.dataset.measureId));
   }
   // Ayuda del editor: marca el grupo del acorde seleccionado; no cambia dimensiones ni paginación.
   for (const el of root.querySelectorAll('.evento')) {
@@ -180,6 +188,7 @@ export function applySelection(root, selection) {
     const voicingMatches = el.dataset.voicingId === '' ? selection.voicingId === null : el.dataset.voicingId === selection.voicingId;
     const on = el.dataset.eventId === selection.eventId && voicingMatches;
     el.classList.toggle('sel', on);
+    el.classList.toggle('marcado', cards.has(el.dataset.voicingId ? `v:${el.dataset.voicingId}` : `e:${el.dataset.eventId}`));
     if (on) el.setAttribute('aria-current', 'true');
     else el.removeAttribute('aria-current');
   }

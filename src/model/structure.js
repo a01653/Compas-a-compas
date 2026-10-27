@@ -143,40 +143,58 @@ export function newInversions(before, after) {
   return after.filter((w) => w.kind === 'inverted' && !known.has(w.objectId));
 }
 
-/** Qué le pasa a la estructura si se borra un compás. Nada se redirige: las marcas quedan con referencia pendiente. */
-export function measureConsequences(song, measureId) {
+/**
+ * Qué le pasa a la estructura si se borra un compás o un bloque (`measureIds` admite un ID o una lista). Nada se redirige: las
+ * marcas quedan con referencia pendiente. Las relaciones entre compases que se borran juntos no se enumeran.
+ */
+export function measureConsequences(song, measureIds) {
+  const ids = new Set(Array.isArray(measureIds) ? measureIds : [measureIds]);
+  const single = ids.size === 1;
   const st = structureOf(song);
   const out = [];
+  const where = (id) => (single ? 'este compás' : `el ${measureName(song, id)}`);
+  const Where = (id) => (single ? 'Este compás' : `El ${measureName(song, id)}`);
   for (const m of song.measures || []) {
+    if (ids.has(m.id)) {
+      // El que se borra lleva su propia marca; solo importa si su segundo destino se queda.
+      const second = m.repeatPreviousTwo?.targetMeasureIds[1];
+      if (second && !ids.has(second) && song.measures.some((x) => x.id === second)) {
+        out.push(`La repetición de dos compases de ${where(m.id)} desaparece con él: el ${measureName(song, second)} queda como compás vacío.`);
+      }
+      continue;
+    }
     const pair = m.repeatPreviousTwo;
-    if (pair && m.id !== measureId && pair.sourceMeasureIds.includes(measureId)) {
-      out.push(`El compás ${m.label} repite este compás junto con otro: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
+    const source = pair?.sourceMeasureIds.find((id) => ids.has(id));
+    if (source) {
+      out.push(`El compás ${m.label} repite ${where(source)} junto con otro: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
     }
-    if (pair && pair.targetMeasureIds.includes(measureId)) {
-      out.push(`Este compás es un destino de la repetición de dos compases del compás ${m.label}: la pareja quedará incompleta, con la referencia pendiente.`);
+    const target = pair?.targetMeasureIds.find((id) => ids.has(id));
+    if (target) {
+      out.push(`${Where(target)} es un destino de la repetición de dos compases del compás ${m.label}: la pareja quedará incompleta, con la referencia pendiente.`);
     }
-    if (m.repeatPrevious?.sourceMeasureId === measureId && m.id !== measureId) {
-      out.push(`El compás ${m.label} repite este compás: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
+    if (ids.has(m.repeatPrevious?.sourceMeasureId)) {
+      out.push(`El compás ${m.label} repite ${where(m.repeatPrevious.sourceMeasureId)}: conservará la referencia, que quedará pendiente (sin redirigirse a otro).`);
     }
   }
   for (const r of st.repeats) {
-    if (r.startMeasureId === measureId) out.push(`La repetición ×${r.times} empieza en este compás: quedará con el inicio pendiente.`);
-    if (r.endMeasureId === measureId) out.push(`La repetición ×${r.times} termina en este compás: quedará con el final pendiente.`);
+    if (ids.has(r.startMeasureId)) out.push(`La repetición ×${r.times} empieza en ${where(r.startMeasureId)}: quedará con el inicio pendiente.`);
+    if (ids.has(r.endMeasureId)) out.push(`La repetición ×${r.times} termina en ${where(r.endMeasureId)}: quedará con el final pendiente.`);
   }
   for (const e of st.endings) {
-    if (e.startMeasureId === measureId || e.endMeasureId === measureId) out.push(`La casilla ${e.passes.join(', ')} usa este compás como límite: quedará con un extremo pendiente.`);
+    const edge = [e.startMeasureId, e.endMeasureId].find((id) => ids.has(id));
+    if (edge) out.push(`La casilla ${e.passes.join(', ')} usa ${where(edge)} como límite: quedará con un extremo pendiente.`);
   }
   const markerIds = new Set();
   for (const m of st.markers) {
-    if (m.measureId === measureId) {
+    if (ids.has(m.measureId)) {
       markerIds.add(m.id);
-      out.push(`${MARKER_NAMES[m.type]} (${m.edge === 'before' ? 'antes' : 'después'} de este compás): la marca se conserva sin compás.`);
+      out.push(`${MARKER_NAMES[m.type]} (${m.edge === 'before' ? 'antes' : 'después'} de ${where(m.measureId)}): la marca se conserva sin compás.`);
     }
   }
   for (const j of st.jumps) {
-    if (j.measureId === measureId) out.push(`${JUMP_NAMES[j.type] || j.type} está en este compás: se conserva sin compás.`);
+    if (ids.has(j.measureId)) out.push(`${JUMP_NAMES[j.type] || j.type} está en ${where(j.measureId)}: se conserva sin compás.`);
     for (const field of ['segnoMarkerId', 'codaMarkerId', 'fineMarkerId']) {
-      if (j[field] && markerIds.has(j[field])) out.push(`${JUMP_NAMES[j.type] || j.type} apunta a una marca de este compás: quedará con el destino pendiente, sin redirigirse a otro.`);
+      if (j[field] && markerIds.has(j[field])) out.push(`${JUMP_NAMES[j.type] || j.type} apunta a una marca de ${single ? 'este compás' : 'los compases borrados'}: quedará con el destino pendiente, sin redirigirse a otro.`);
     }
   }
   return out;

@@ -14,6 +14,7 @@ const PATHS = {
   percent2: ['M14 4L5 20', 'M19 4L10 20', 'M4 6a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0', 'M17 18a1.6 1.6 0 1 0 3.2 0a1.6 1.6 0 1 0-3.2 0'],
   book: ['M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z', 'M4 19V5', 'M9 7h6'],
   repeat: ['M3 8l3-3h13v5M21 16l-3 3H5v-5M3 8V3M21 16v5'],
+  check: ['M5 12.5l4.5 4.5L19 7'],
 };
 export function icon(name) {
   return s('svg', { class: 'ui-icon', viewBox: '0 0 24 24', width: 18, height: 18,

@@ -294,3 +294,47 @@
 /* Créditos a la izquierda y versión a la derecha. Los créditos siguen visibles en móvil, donde el resto del pie se oculta. */
 .workspace-status > span.creditos { display: inline; }
 .workspace-status > span:not(.creditos) { margin-left: auto; }
+
+/* ---------- Edición estructural de compases (0.8.0) ---------- */
+.measure-menu { width: min(300px, calc(100vw - 32px)); max-height: min(76vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+.menu-content .check-field label { display: flex; align-items: center; gap: 8px; font-weight: 600; cursor: pointer; }
+.menu-content .check-field input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--ink); }
+.menu-content .check-field .btn { margin-top: 4px; }
+.menu-group { margin: 2px 0 6px; padding-top: 6px; border-top: 1px solid #eceff6; }
+.menu-group-title { margin: 0 6px 4px; font: 600 10px/1.2 var(--f-ui); text-transform: uppercase; letter-spacing: .08em; color: #68728e; }
+.menu-grid { display: grid; gap: 1px; }
+.menu-content .menu-action { justify-content: space-between; gap: 12px; min-height: 32px; padding: 5px 8px; font-size: 13px; }
+.menu-content .menu-action.danger:not(:disabled), .menu-content .btn.danger:not(:disabled) { color: var(--danger); }
+.menu-action kbd, .context-item kbd { flex: none; font: 10px/1 var(--f-ui); color: #7a8398; }
+.menu-content .menu-action:disabled { background: none; opacity: .5; }
+.card-menu .menu-content { width: min(300px, calc(100vw - 32px)); }
+
+.selection-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; padding: 5px 6px 5px 10px; border: 1px solid #c9d6fb; border-radius: 9px; background: #eef3ff; color: var(--ink); font-size: 12px; }
+.selection-bar[hidden] { display: none; }
+.selection-bar .ui-icon { flex: none; width: 15px; height: 15px; }
+.selection-text { flex: 1 1 140px; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+.selection-bar .btn { min-height: 30px; padding: 3px 10px; font-size: 12px; }
+
+.context-menu { position: fixed; z-index: 60; min-width: 236px; max-width: calc(100vw - 16px); max-height: calc(100vh - 16px); overflow-y: auto; padding: 6px; border: 1px solid #dce1ed; border-radius: 10px; background: #fff; box-shadow: 0 14px 38px #17214b33; font: 13px/1.2 var(--f-ui); }
+.context-heading { padding: 4px 8px 6px; font-weight: 700; color: var(--ink); }
+.context-sep { height: 1px; margin: 4px 2px; background: #eceff6; }
+.context-item { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; min-height: 32px; padding: 6px 8px; border: 0; border-radius: 6px; background: none; color: var(--text); font: inherit; text-align: left; cursor: pointer; }
+.context-item:hover:not(:disabled), .context-item:focus-visible { background: #f0f3fa; outline: none; }
+.context-item:focus-visible { box-shadow: inset 0 0 0 2px var(--focus); }
+.context-item:disabled { opacity: .45; cursor: default; }
+.context-item.danger:not(:disabled) { color: var(--danger); }
+
+.toast-action { margin-left: 12px; padding: 4px 10px; border: 1px solid #ffffff88; border-radius: 6px; background: none; color: #fff; font: 600 0.9rem var(--f-ui); cursor: pointer; }
+.toast-action:hover { background: #ffffff1f; }
+
+/* Selección múltiple en la hoja: solo fondo, contorno y una casilla de fondo; no cambia dimensiones ni la paginación. */
+.vista-hojas .compas.marcado { background-color: rgba(255, 196, 61, 0.16); outline: 2px dashed rgba(196, 128, 0, 0.75); outline-offset: -2px; }
+.vista-hojas.modo-seleccion .compas { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='1' y='1' width='14' height='14' rx='3' fill='white' stroke='%231b2a78' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 3px top 3px; }
+.vista-hojas.modo-seleccion .compas.marcado { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Crect x='1' y='1' width='14' height='14' rx='3' fill='%231b2a78' stroke='%231b2a78' stroke-width='1.5'/%3E%3Cpath d='M4.5 8.2l2.4 2.4 4.6-5' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.vista-hojas.modo-seleccion .compas, .vista-hojas.modo-seleccion .tarjeta { cursor: copy; }
+/* Tarjetas marcadas: anillo ámbar que sigue el redondeo; con la activa marcada, su contorno azul se separa para verse ambos. */
+.vista-hojas .tarjeta.marcado { box-shadow: 0 0 0 3px rgba(255, 196, 61, 0.95), 0 0 0 5px rgba(196, 128, 0, 0.7); }
+.vista-hojas .tarjeta.sel.marcado { outline-width: 2px; outline-offset: 7px; }
+/* Lo señalado se resalta más: con una tarjeta señalada el compás activo queda en segundo plano, y al revés. */
+.vista-hojas.apunta-tarjeta .compas.sel, .vista-hojas.apunta-tarjeta .compas.sel.en-rep { background: rgba(166, 203, 233, 0.08); box-shadow: 0 0 0 1px rgba(47, 107, 255, 0.22); }
+.vista-hojas:not(.apunta-tarjeta) .tarjeta.sel { outline: 2px solid rgba(47, 107, 255, 0.35); }

@@ -17,6 +17,9 @@ import { mountWorkspace } from './ui/workspace.js';
 import { mountColorsPanel } from './ui/colors.js';
 import { mountHistoryControls } from './ui/history.js';
 import { loadPaletteDefaults } from './model/paletteDefaults.js';
+import { createClipboard } from './ui/clipboard.js';
+import { createMeasureActions, mountEditShortcuts } from './ui/measureActions.js';
+import { createCardActions } from './ui/cardActions.js';
 
 const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
@@ -109,18 +112,23 @@ async function boot() {
   const store = createStore(song, { fileName: 'cancion-demo.json' });
   const recovery = createRecovery();
 
+  const clipboard = createClipboard();
+  const measureActions = createMeasureActions(store, clipboard);
+  const cardActions = createCardActions(store, clipboard);
+
   const songPanel = mountSongPanel(document.getElementById('panel-cancion'), store);
-  mountMeasuresPanel(document.getElementById('panel-compases'), store);
-  mountChordPanel(document.getElementById('panel-acorde'), store);
+  mountMeasuresPanel(document.getElementById('panel-compases'), store, { actions: measureActions, clipboard });
+  mountChordPanel(document.getElementById('panel-acorde'), store, { clipboard, cardActions });
   const marksPanel = mountMarksPanel(document.getElementById('panel-marcas'), store);
   mountColorsPanel(document.getElementById('panel-colors'), store);
-  const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store);
+  const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store, { measureActions, cardActions });
   mountExportControls(store, paginator);
   mountStatus(store);
   mountFileControls(store, { recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
   mountWorkspace(store, { marksPanel });
   mountHistoryControls(store);
+  mountEditShortcuts(store, { measures: measureActions, cards: cardActions, clipboard });
 
   await offerRecovery(store, recovery);
 }

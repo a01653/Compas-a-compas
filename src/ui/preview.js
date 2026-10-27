@@ -5,6 +5,9 @@ import { collectProblems } from '../layout/problems.js';
 import { ZOOM_MIN, ZOOM_MAX, clampZoom, fitZoom } from '../layout/zoom.js';
 import { createPaginator } from './paginator.js';
 import { setLineFill } from '../model/song.js';
+import { selectionTarget, targetCardKeys, targetMeasureIds } from '../store.js';
+import { selectionKey } from '../model/cards.js';
+import { openContextMenu } from './contextMenu.js';
 
 const MIN = Math.round(ZOOM_MIN * 100);
 const MAX = Math.round(ZOOM_MAX * 100);
@@ -12,8 +15,12 @@ const MAX = Math.round(ZOOM_MAX * 100);
 /**
  * Vista previa paginada. Devuelve el paginador para que la exportación espere a la última paginación.
  * El zoom solo escala lo ya dibujado: no mide ni reparte de nuevo. Seleccionar solo cambia clases.
+ * Sobre la hoja se actúa sobre lo señalado: dentro del recuadro de una tarjeta, la tarjeta; en el resto del compás (número,
+ * título, franja, huecos), el compás entero. Ctrl+clic marca o desmarca, Mayús+clic marca un tramo, en modo selección un clic
+ * marca o desmarca, y el clic derecho (o la tecla de menú / Mayús+F10 con la hoja enfocada) abre el menú contextual de la
+ * tarjeta o del compás.
  */
-export function mountPreviewPanel(root, store) {
+export function mountPreviewPanel(root, store, { measureActions, cardActions } = {}) {
   const warn = h('div', { class: 'warn-box warn-vista', hidden: true, role: 'alert' });
   const summary = h('span', { class: 'hint', 'aria-live': 'polite' }, 'A4 apaisado · calculando hojas…');
   const notice = h('div', { class: 'warn-box warn-aviso', hidden: true, role: 'status' });
@@ -89,7 +96,8 @@ export function mountPreviewPanel(root, store) {
     }
     const { pages } = result.layout;
     pageCount = pages.length;
-    const onSelect = (selection) => store.select(selection);
+    // El clic simple selecciona como siempre; `pointed` (fijado en captura) dice si se señaló la tarjeta o el compás.
+    const onSelect = (selection) => store.select(selection, { clearMarked: true, kind: pointed });
     // «Ajustar línea al ancho»: cada pulsación es un paso de historial, así que se puede deshacer.
     const onFitRow = ({ measureIds, filled }) => {
       store.endEdit();
@@ -98,7 +106,7 @@ export function mountPreviewPanel(root, store) {
     };
     pagesEl.replaceChildren(...pages.map((page, i) => pageNode(result.ctx, page, i + 1, pageCount, { onSelect, onFitRow })));
     renderNotices(result.layout.notices || []);
-    applySelection(pagesEl, store.state.selection);
+    paintSelection(store.state);
     summary.textContent = `A4 apaisado · ${pageCount} ${pageCount === 1 ? 'hoja' : 'hojas'}`;
     renderProblems(collectProblems(result.snapshot, result.layout));
     applyZoom();
@@ -109,9 +117,73 @@ export function mountPreviewPanel(root, store) {
     onResult: showResult,
   });
 
+  function paintSelection(state) {
+    applySelection(pagesEl, state.selection, { marked: state.marked, markedCards: state.markedCards, target: selectionTarget(state) });
+  }
+  function syncMode(state) {
+    pagesEl.classList.toggle('modo-seleccion', state.selectMode);
+  }
   store.subscribe((state, scope) => {
+    syncMode(state);
     if (scope === 'zoom') applyZoom();
-    else if (scope === 'selection') applySelection(pagesEl, state.selection);
+    else if (scope === 'selection') paintSelection(state);
+  });
+  syncMode(store.state);
+
+  // Clics con modificador y modo selección: se atienden en captura, antes de que el compás o la tarjeta seleccionen.
+  const measureAt = (target) => target instanceof Element ? target.closest('.compas[data-measure-id]') : null;
+  const cardAt = (target, measure) => {
+    const card = target instanceof Element ? target.closest('.tarjeta[data-event-id]') : null;
+    return card ? { measureId: measure.dataset.measureId, eventId: card.dataset.eventId, voicingId: card.dataset.voicingId || null } : null;
+  };
+  let pointed = 'measure';
+  // Mayús+clic no debe seleccionar texto de la hoja.
+  pagesEl.addEventListener('mousedown', (event) => { if (event.shiftKey && measureAt(event.target)) event.preventDefault(); });
+  pagesEl.addEventListener('click', (event) => {
+    const measure = measureAt(event.target);
+    if (!measure || event.target.closest('button')) return;
+    const id = measure.dataset.measureId;
+    const card = cardAt(event.target, measure);
+    pointed = card ? 'card' : 'measure';
+    if (event.shiftKey) card ? store.markCardRange(card) : store.markRange(id);
+    else if (event.ctrlKey || event.metaKey) card ? store.toggleMarkedCard(card, { withActive: true }) : store.toggleMarked(id, { withActive: true });
+    else if (store.state.selectMode) card ? store.toggleMarkedCard(card) : store.toggleMarked(id);
+    else return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+
+  function openMenuFor(x, y) {
+    if (!measureActions) return;
+    if (cardActions && selectionTarget(store.state) === 'card') {
+      openContextMenu({ x, y, label: 'Acciones de la tarjeta', items: cardActions.contextItems(), returnFocus: viewport });
+      return;
+    }
+    // Con tarjetas copiadas, el compás ofrece pegarlas al final (sirve también para un compás vacío o de repetición).
+    const extraPaste = cardActions && !cardActions.item('pasteEnd').disabled ? [cardActions.item('pasteEnd')] : [];
+    openContextMenu({ x, y, label: 'Acciones del compás', items: measureActions.contextItems({ extraPaste }), returnFocus: viewport });
+  }
+  pagesEl.addEventListener('contextmenu', (event) => {
+    const measure = measureAt(event.target);
+    if (!measure || !measureActions) return;
+    event.preventDefault();
+    const id = measure.dataset.measureId;
+    const card = cardAt(event.target, measure);
+    const { state } = store;
+    // Como en un explorador de archivos: el clic derecho fuera de la selección selecciona solo lo pulsado.
+    if (card) {
+      if (selectionTarget(state) !== 'card' || !targetCardKeys(state).includes(selectionKey(card))) store.select(card, { clearMarked: true, kind: 'card' });
+    } else if (selectionTarget(state) !== 'measure' || !targetMeasureIds(state).includes(id)) {
+      store.select(id === state.selection.measureId ? state.selection : { measureId: id }, { clearMarked: true, kind: 'measure' });
+    }
+    openMenuFor(event.clientX, event.clientY);
+  });
+  viewport.addEventListener('keydown', (event) => {
+    if (event.key !== 'ContextMenu' && !(event.key === 'F10' && event.shiftKey)) return;
+    event.preventDefault();
+    const active = selectionTarget(store.state) === 'card' ? pagesEl.querySelector('.tarjeta.sel') : null;
+    const box = (active || pagesEl.querySelector('.compas.sel') || viewport).getBoundingClientRect();
+    openMenuFor(box.left + 12, box.top + 12);
   });
 
   // `scrollbar-gutter: stable` (CSS) mantiene constante el ancho útil, de modo que escalar no
