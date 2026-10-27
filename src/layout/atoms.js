@@ -40,7 +40,8 @@ export function buildUnits(song) {
     return { measureId: measure.id, label: measure.label, index, atoms, repeatPrevious: Boolean(measure.repeatPrevious) && !pairRole.has(measure.id),
       repeatPair: pairRole.get(measure.id) || null,
       widthPercent: Number.isFinite(measure.widthPercent) ? measure.widthPercent : null,
-      fillToEdge: measure.fillToEdge === true };
+      fillToEdge: measure.fillToEdge === true,
+      breakBefore: measure.breakBefore === true };
   });
 }
 

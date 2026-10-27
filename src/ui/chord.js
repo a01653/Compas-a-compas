@@ -17,7 +17,7 @@ import { DEFAULT_TONALITY_FAMILY, deriveTonalityContext, describeTonality, setAn
 const STRINGS = ['6ª', '5ª', '4ª', '3ª', '2ª', '1ª'];
 const NO_FRETS = [null, null, null, null, null, null];
 /** Menú de tarjeta: las mismas acciones que el menú contextual de una tarjeta en la hoja (ui/cardActions.js). */
-const CARD_MENU = ['copy', 'cut', 'pasteBefore', 'pasteAfter', 'replace', 'fingering', 'moveBefore', 'moveAfter', 'toggleMark', 'remove'];
+const CARD_MENU = ['copy', 'cut', 'pasteBefore', 'pasteAfter', 'replace', 'fingering', 'swap', 'moveBefore', 'moveAfter', 'toggleMark', 'remove'];
 function field(id, label, value, update, extra = {}) {
   return h('div', { class: 'field' }, h('label', { for: id }, label),
     h('input', { id, type: 'text', value, autocomplete: 'off', oninput: e => update(e.target.value), ...extra }));
@@ -120,6 +120,7 @@ export function mountChordPanel(root, store, { clipboard, cardActions }) {
         const item = cardActions.item(button.dataset.action);
         button.replaceChildren(...[h('span', null, item.label), item.hint ? h('kbd', null, item.hint) : null].filter(Boolean));
         button.disabled = Boolean(item.disabled);
+        button.hidden = Boolean(item.hidden);
         button.classList.toggle('danger', Boolean(item.danger));
         if (item.title) button.title = item.title;
         else button.removeAttribute('title');

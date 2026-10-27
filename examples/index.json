@@ -1,0 +1,13 @@
+{
+  "default": "ii-v-i-mayor-do.json",
+  "examples": [
+    { "file": "ii-v-i-mayor-do.json", "title": "Ejemplo inicial · II–V–I mayor en Do" },
+    { "file": "cancion-demo.json", "title": "Demostración del editor" },
+    { "file": "textos-tonalidades.json", "title": "Textos y tonalidades" },
+    { "file": "ii-v-i/II-V-I_mayores_Drop2_Set1_Do.json", "title": "Rutas II–V–I mayores · Drop 2 · Set 1" },
+    { "file": "ii-v-i/II-V-I_mayores_Drop2_Set2_Do.json", "title": "Rutas II–V–I mayores · Drop 2 · Set 2" },
+    { "file": "ii-v-i/II-V-I_menores_Drop2_Set1_Do.json", "title": "Rutas II–V–I menores · Drop 2 · Set 1" },
+    { "file": "ii-v-i/II-V-I_menores_Drop2_Set2_Do.json", "title": "Rutas II–V–I menores · Drop 2 · Set 2" },
+    { "file": "Catalogo_Drop_voicings_Compas_a_compas.json", "title": "Catálogo de voicings Drop · Do" }
+  ]
+}

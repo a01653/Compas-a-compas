@@ -12,7 +12,7 @@ import { mountFileControls } from './ui/file.js';
 import { confirmDialog } from './ui/dialog.js';
 import { notify } from './ui/notify.js';
 import { h } from './render/dom.js';
-import { validateSong, formatError } from './model/validate.js';
+import { formatError } from './model/validate.js';
 import { mountWorkspace } from './ui/workspace.js';
 import { mountColorsPanel } from './ui/colors.js';
 import { mountHistoryControls } from './ui/history.js';
@@ -20,15 +20,10 @@ import { loadPaletteDefaults } from './model/paletteDefaults.js';
 import { createClipboard } from './ui/clipboard.js';
 import { createMeasureActions, mountEditShortcuts } from './ui/measureActions.js';
 import { createCardActions } from './ui/cardActions.js';
+import { fetchCatalog, fetchExample, mountExamplesMenu } from './ui/examples.js';
+import { exampleFileName } from './model/examples.js';
 
-const DEMO_URL = 'examples/cancion-demo.json';
 const AUTOSAVE_MS = 800;
-
-async function loadDemo() {
-  const response = await fetch(DEMO_URL);
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return response.json();
-}
 
 function mountStatus(store) {
   const el = document.getElementById('estado-archivo');
@@ -92,24 +87,25 @@ async function boot() {
     return;
   }
 
-  let song;
+  // Se arranca con el ejemplo inicial del catálogo (examples/index.json), que también alimenta el menú Ejemplos.
+  let catalog, opened;
   try {
-    song = await loadDemo();
+    catalog = await fetchCatalog();
+    opened = await fetchExample(catalog.default);
   } catch (error) {
     const notice = document.getElementById('aviso-carga');
-    notice.textContent = `No se pudo cargar ${DEMO_URL} (${error.message}). Abre la aplicación desde un servidor local, no con file://. Consulta el README.`;
+    notice.textContent = `No se pudo cargar el ejemplo inicial (${error.message}). Abre la aplicación desde un servidor local, no con file://. Consulta el README.`;
     notice.hidden = false;
     return;
   }
-  const { errors } = validateSong(song);
-  if (errors.length) {
+  if (!opened.ok) {
     const notice = document.getElementById('aviso-carga');
-    notice.replaceChildren(h('strong', null, 'El ejemplo no es válido: '), errors.map(formatError).join(' · '));
+    notice.replaceChildren(h('strong', null, `El ejemplo ${catalog.default} no es válido: `), opened.errors.map(formatError).join(' · '));
     notice.hidden = false;
     return;
   }
 
-  const store = createStore(song, { fileName: 'cancion-demo.json' });
+  const store = createStore(opened.song, { fileName: exampleFileName(catalog.default) });
   const recovery = createRecovery();
 
   const clipboard = createClipboard();
@@ -124,7 +120,8 @@ async function boot() {
   const paginator = mountPreviewPanel(document.getElementById('panel-vista'), store, { measureActions, cardActions });
   mountExportControls(store, paginator);
   mountStatus(store);
-  mountFileControls(store, { recovery });
+  const fileControls = mountFileControls(store, { recovery });
+  mountExamplesMenu(store, { catalog, confirmDiscard: fileControls.confirmDiscard, recovery });
   mountAutosave(store, recovery, (ok) => songPanel.setRecoveryHint(ok));
   mountWorkspace(store, { marksPanel });
   mountHistoryControls(store);

@@ -4,7 +4,7 @@ Interfaz compacta: acordes, posiciones, digitación y grados a mano; datos de ca
 
 Editor local de hojas de acordes de guitarra, organizado por compases. Permite preparar una canción, corregir sus tarjetas, guardar el proyecto editable en JSON y exportar una hoja HTML autónoma para imprimir o guardar como PDF desde el navegador.
 
-Versión 0.8.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
+Versión 0.9.0 ([CHANGELOG](CHANGELOG.md)). La evidencia de cada fase está en [docs/ESTADO.md](docs/ESTADO.md).
 
 **Textos y tonalidades por posición:** [textos, títulos enmarcados, grado y tonalidad por voicing](docs/diseno/textos-y-tonalidades.md), según la plantilla aportada el 17/10/2026.
 
@@ -34,11 +34,13 @@ npm test
 
 ### Compases y tarjetas
 
-Cada dibujo se edita como una **tarjeta**, con nombre, calidad/color, digitación, grados, textos y tonalidad propios. El único selector recorre las tarjetas del compás. **Añadir tarjeta** crea otra y **Duplicar tarjeta** copia la elegida a continuación. El menú de tres puntos de la tarjeta permite copiarla, pegarla en otro compás o canción, sustituir solo la digitación por la copiada, cambiar su orden y quitarla.
+La aplicación arranca con una hoja de ejemplo: un II–V–I mayor en Do (Dm7–G7 | Cmaj7 | Dm7–G7 | Cmaj7) con voicings Drop 2 del set 1, grados 1, 3, 5 y 7 de colores, «Nombre del tema» como título y «Tonalidad» como tonalidad. **Nuevo** deja una hoja limpia con ese título y esa tonalidad y un compás con una tarjeta vacía. El menú **Ejemplos** abre las páginas de la carpeta [`examples/`](examples/), enumeradas en [`examples/index.json`](examples/index.json).
+
+Cada dibujo se edita como una **tarjeta**, con nombre, calidad/color, digitación, grados, textos y tonalidad propios. El único selector recorre las tarjetas del compás. **Añadir tarjeta** crea otra y **Duplicar tarjeta** copia la elegida a continuación. El menú de tres puntos de la tarjeta permite copiarla, pegarla en otro compás o canción, sustituir solo la digitación por la copiada, cambiar su orden y quitarla. Con exactamente dos tarjetas seleccionadas, ese menú y el clic derecho ofrecen **Intercambiar las dos tarjetas**, aunque estén en compases distintos.
 
 Dos digitaciones del mismo acorde se escriben como dos tarjetas con ese nombre. Todos los campos son independientes: cambiar el nombre o la calidad de una tarjeta antigua no modifica las demás. Los JSON anteriores siguen abriendo y no se transforman al abrir o guardar sin editar.
 
-**Compases:** selector y flechas para recorrerlos y + para añadir. El menú de tres puntos y el clic derecho sobre un compás de la hoja ofrecen insertar antes o después, copiar, cortar, pegar, sustituir, duplicar, subir, bajar, intercambiar y borrar, sobre un compás o sobre varios (Ctrl+clic, Mayús+clic o **Modo selección**). En la hoja, Ctrl+clic dentro de una tarjeta marca solo esa tarjeta, aunque estén salteadas; fuera de las tarjetas marca el compás entero. Las tarjetas marcadas se copian, cortan, pegan, sustituyen enteras o solo en su digitación, duplican y quitan desde su menú o con el clic derecho. Atajos fuera de los campos, sobre lo señalado: Ctrl+C, Ctrl+X, Ctrl+V, Alt+↑/↓ y Supr. Las copias reciben IDs nuevos, las marcas siguen a su compás sin redirigirse y cada acción se deshace en un paso. Las etiquetas numéricas se renumeran tras cada cambio, con aviso; la opción se desactiva por canción para conservar la numeración original. Antes de borrar se muestran las consecuencias para las marcas.
+**Compases:** selector y flechas para recorrerlos y + para añadir. El menú de tres puntos y el clic derecho sobre un compás de la hoja ofrecen insertar antes o después, copiar, cortar, pegar, sustituir, duplicar, subir, bajar, intercambiar, **Salto de línea antes** (el compás empieza una línea nueva; una marca ↵ en el margen de la vista previa lo quita) y borrar, sobre un compás o sobre varios (Ctrl+clic, Mayús+clic o **Modo selección**). En la hoja, Ctrl+clic dentro de una tarjeta marca solo esa tarjeta, aunque estén salteadas; fuera de las tarjetas marca el compás entero. Las tarjetas marcadas se copian, cortan, pegan, sustituyen enteras o solo en su digitación, duplican y quitan desde su menú o con el clic derecho. Atajos fuera de los campos, sobre lo señalado: Ctrl+C, Ctrl+X, Ctrl+V, Alt+↑/↓ y Supr. Las copias reciben IDs nuevos, las marcas siguen a su compás sin redirigirse y cada acción se deshace en un paso. Las etiquetas numéricas se renumeran tras cada cambio, con aviso; la opción se desactiva por canción para conservar la numeración original. Antes de borrar se muestran las consecuencias para las marcas.
 
 **Digitación:** seis valores de sexta a primera, `x` muda y `0` al aire. Formato compacto (`x35343`), con espacios (`x 10 12 10 11 10`) o compacto con letras para los trastes de 10 a 24 (`a` = 10 … `o` = 24): `xa9axa` equivale a `x 10 9 10 x 10`. El mástil parte de tres trastes y crece cuando hace falta, sin cambiar notas. Un intervalo de más de 32 trastes visibles se conserva con aviso y bloquea la salida hasta corregirlo.
 
@@ -52,7 +54,7 @@ Los JSON anteriores siguen abriendo. Un JSON con el nuevo campo opcional `palett
 
 ### Textos de la tarjeta
 
-Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; el menú superior de tres puntos contiene **Nueva canción**.
+Digitación, grados y **Textos de la tarjeta** están siempre visibles, uno debajo de otro, sin pestañas. Los datos generales se abren pulsando el nombre de canción en la cabecera. **Exportar** agrupa HTML e impresión; **Nuevo** y **Ejemplos** están en la cabecera y el menú superior de tres puntos contiene **Datos de la canción**.
 
 **Título sobre compás** aparece enmarcado, por encima y fuera de la línea vertical del compás; empieza en la tarjeta donde se escribe y puede extenderse sobre las tarjetas siguientes del mismo compás hasta la próxima con título; **Anotación dentro** sigue bajo el nombre del acorde. Muestran el texto que realmente aparece, también en archivos anteriores con textos propios por posición. Dejar un campo vacío lo quita de esa tarjeta.
 
@@ -96,9 +98,9 @@ Un compás que no cabe en una fila pasa a la siguiente; si no cabe ni así, se p
 
 - **Impresión A4:** en el diálogo elige «Guardar como PDF» (o la impresora), A4 horizontal, márgenes «Ninguno» y desactiva «Encabezados y pies de página». La hoja mide 297 × 210 mm con márgenes de 5 mm y `actual/total` arriba a la derecha. Ctrl+P sobre el editor no imprime la interfaz.
 - Si hay referencias musicales pendientes, se muestran y se pide confirmar antes de exportar o imprimir.
-- **Archivo:** Nuevo, Abrir JSON y Guardar JSON. Un archivo inválido o de otra versión se rechaza con errores legibles y la canción abierta queda intacta. Los campos desconocidos bloquean la apertura en vez de descartarse.
+- **Archivo:** Nuevo, Abrir JSON, Ejemplos y Guardar JSON. Un archivo inválido o de otra versión se rechaza con errores legibles y la canción abierta queda intacta. Los campos desconocidos bloquean la apertura en vez de descartarse.
 - **Versión del documento:** campo opcional de texto libre para tus revisiones. No es la versión de la aplicación ni la del formato del archivo; abrir un archivo no la modifica.
-- **Cambios sin guardar:** el encabezado los indica y Nuevo y Abrir piden decidir.
+- **Cambios sin guardar:** el encabezado los indica y Nuevo, Abrir y Ejemplos piden decidir.
 - **Recuperación local:** los cambios pendientes se copian en `localStorage` del navegador y se ofrecen al volver a abrir la aplicación. Es una red de seguridad, no un guardado; se borra al guardar, abrir o crear una canción.
 
 ## Navegadores
@@ -121,7 +123,7 @@ Manuales en PDF, con fuentes editables: [uso](docs/latex/Manual_Uso_Compas_a_com
 | [Colores predeterminados](config/palette-defaults.json) | Fondos y textos de calidades, grados y notas cuando la canción no define los suyos (ver DATOS.md) |
 | [Manual de uso (PDF)](docs/latex/Manual_Uso_Compas_a_compas.pdf) | Se llega desde el botón **Manual** de la aplicación, que abre una página de ayuda con el enlace |
 | [Esquema JSON](schemas/song.schema.json) | Contrato para guardar canciones |
-| [Ejemplo editable](examples/cancion-demo.json) | Datos de prueba; no es una transcripción de una obra |
+| [Ejemplos](examples/index.json) | Lista del menú **Ejemplos**: hoja inicial II–V–I en Do, [demostración del editor](examples/cancion-demo.json), textos y tonalidades, rutas II–V–I y [catálogo de voicings Drop en Do](examples/Catalogo_Drop_voicings_Compas_a_compas.json); no son transcripciones de obras |
 | [Plan](docs/PLAN.md) | Fases, entregables y condiciones de cierre |
 | [Validación](docs/VALIDACION.md) | Casos que debe superar la aplicación |
 | [Estado](docs/ESTADO.md) | Estado actual y registro por fase |

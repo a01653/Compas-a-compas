@@ -17,6 +17,19 @@ export function createEmptySong() {
 const clone = (value) => JSON.parse(JSON.stringify(value));
 export const emptyFrets = () => [null, null, null, null, null, null];
 
+/**
+ * Canción del botón «Nuevo»: título y tonalidad provisionales para sustituir y un compás con una tarjeta vacía.
+ * Las franjas de tonalidad se ocultan para no repetir «Tonalidad» en la primera tarjeta; se activan en los datos de la canción.
+ */
+export function createStarterSong() {
+  const song = createEmptySong();
+  song.title = 'Nombre del tema';
+  song.key = 'Tonalidad';
+  song.showTonalities = false;
+  song.measures[0].chordEvents.push({ id: 'e1', chordName: '', family: 'other', voicings: [{ id: 'v1', frets: emptyFrets() }] });
+  return song;
+}
+
 export function findMeasure(song, id) {
   return song.measures.find((m) => m.id === id) || null;
 }
@@ -201,6 +214,20 @@ export function setLineFill(song, measureIds, on) {
   const measures = measureIds.map((id) => findMeasure(song, id)).filter(Boolean);
   for (const measure of measures) delete measure.fillToEdge;
   if (on && measures.length) measures[0].fillToEdge = true;
+}
+
+/**
+ * Salto de línea forzado: el compás empieza una línea nueva en la hoja aunque cupiera en la anterior. Solo se guarda `true`.
+ * Devuelve los compases que cambian; si alguno de los indicados no lo tiene, se activa en todos, y si no, se quita de todos.
+ */
+export function toggleBreakBefore(song, measureIds) {
+  const measures = measureIds.map((id) => findMeasure(song, id)).filter(Boolean);
+  const on = measures.some((measure) => measure.breakBefore !== true);
+  for (const measure of measures) {
+    if (on) measure.breakBefore = true;
+    else delete measure.breakBefore;
+  }
+  return { on, measures };
 }
 
 /* ---------- Opciones de página (globales) ---------- */

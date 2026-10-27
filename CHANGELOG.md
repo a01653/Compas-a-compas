@@ -1,5 +1,15 @@
 # Cambios
 
+## 0.9.0 — 27/10/2026
+
+- **Hoja de ejemplo al arrancar**: un II–V–I mayor en Do en cuatro compases (Dm7 y G7 | Cmaj7 | Dm7 y G7 | Cmaj7) con voicings Drop 2 del set 1, grados 1, 3, 5 y 7 en sus colores y la inversión en la anotación («Drop 2 Set 1 · 2ª inversión»). Título «Nombre del tema», tonalidad «Tonalidad» y sin marcas (`examples/ii-v-i-mayor-do.json`).
+- **Menú Ejemplos** en la cabecera con las páginas de la carpeta `examples/`, enumeradas en `examples/index.json`. Pide confirmación si hay cambios sin guardar. Incluye el nuevo **Catálogo de voicings Drop · Do** (Drop 2, Drop 3, Drop 2+4 y Cdim7; `examples/Catalogo_Drop_voicings_Compas_a_compas.json`).
+- **Nuevo** pasa del menú de tres puntos a la cabecera y crea una hoja con solo «Nombre del tema», «Tonalidad» y un compás con una tarjeta vacía, con las franjas de tonalidad ocultas.
+- **Salto de línea antes** (menú del compás y clic derecho): el compás empieza una línea nueva aunque quepa en la anterior. Una marca ↵ en el margen de la vista previa lo indica y lo quita. Se respeta en el HTML y en la impresión. Nuevo campo opcional `breakBefore`; sin cambio de `schemaVersion`.
+- **Intercambiar las dos tarjetas**: con exactamente dos tarjetas seleccionadas, el menú de la tarjeta y el clic derecho las cambian de sitio con todos sus datos, también entre compases distintos.
+- Cabecera más compacta en pantallas medianas: Nuevo y Abrir pasan a icono y, entre 761 y 1240 px, la barra de archivo baja a una segunda fila (antes se salía de la ventana entre 761 y 1000 px).
+- Manual de uso con las secciones «Hoja de ejemplo, Nuevo y Ejemplos» y «Salto de línea forzado» y capturas nuevas; DTS, DATOS, requisitos (R37–R39) y validación (V40–V42) actualizados.
+
 ## 0.8.1 — 27/10/2026
 
 - **Digitación con letras** para los trastes de dos cifras: `a` = 10, `b` = 11… hasta `o` = 24, sin distinguir mayúsculas (`x` sigue siendo muda). Se puede escribir o pegar `xa9axa`, que equivale a `x 10 9 10 x 10`; también en **Importar lista** (`G7 @ xa9axa`). El JSON guarda los números de siempre.

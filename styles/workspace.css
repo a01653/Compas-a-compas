@@ -308,6 +308,7 @@
 .menu-action kbd, .context-item kbd { flex: none; font: 10px/1 var(--f-ui); color: #7a8398; }
 .menu-content .menu-action:disabled { background: none; opacity: .5; }
 .card-menu .menu-content { width: min(300px, calc(100vw - 32px)); }
+.examples-menu { width: min(330px, calc(100vw - 32px)); }
 
 .selection-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 7px; padding: 5px 6px 5px 10px; border: 1px solid #c9d6fb; border-radius: 9px; background: #eef3ff; color: var(--ink); font-size: 12px; }
 .selection-bar[hidden] { display: none; }
@@ -338,3 +339,25 @@
 /* Lo señalado se resalta más: con una tarjeta señalada el compás activo queda en segundo plano, y al revés. */
 .vista-hojas.apunta-tarjeta .compas.sel, .vista-hojas.apunta-tarjeta .compas.sel.en-rep { background: rgba(166, 203, 233, 0.08); box-shadow: 0 0 0 1px rgba(47, 107, 255, 0.22); }
 .vista-hojas:not(.apunta-tarjeta) .tarjeta.sel { outline: 2px solid rgba(47, 107, 255, 0.35); }
+
+/* ---------- Nuevo y Ejemplos (0.9.0) ---------- */
+/* Para que la canción activa conserve su sitio, Nuevo y Abrir pasan antes a icono; Ejemplos conserva el texto hasta el final. */
+@media (min-width: 761px) and (max-width: 1540px) {
+  .compact-workspace .topbar-file > #btn-nuevo, .compact-workspace .topbar-file > #btn-abrir { font-size: 0; gap: 0; }
+  .compact-workspace .topbar-file .file-state { max-width: 132px; white-space: normal; line-height: 1.35; }
+}
+@media (min-width: 761px) and (max-width: 1280px) {
+  .compact-workspace .topbar-file #open-colors, .compact-workspace .topbar-file > #btn-manual { font-size: 0; gap: 0; }
+}
+/* Entre 761 y 1240 px la barra de archivo baja a una segunda fila, como en móvil, y la canción activa sigue legible. */
+@media (min-width: 761px) and (max-width: 1240px) {
+  .compact-workspace .topbar { height: auto; flex-wrap: wrap; row-gap: 10px; }
+  .compact-workspace .topbar-file { width: 100%; justify-content: flex-end; }
+  .compact-workspace .topbar-file .file-state { flex: 1 1 auto; max-width: none; }
+}
+/* En móvil el menú de ejemplos ocupa el ancho de la barra de archivo, bajo ella, en lugar de salirse por la izquierda. */
+@media (max-width: 760px) {
+  .compact-workspace .topbar-file { flex-wrap: wrap; position: relative; }
+  .compact-workspace #examples-menu { position: static; }
+  .compact-workspace .examples-menu { left: 0; right: 0; width: auto; }
+}

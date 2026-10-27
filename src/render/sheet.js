@@ -142,7 +142,7 @@ function rowColumns(row) {
   return `grid-template-columns:${row.fragments.map((f, i) => (f.tracks ? parts[i].map((n) => `${n}px`) : parts[i].map((n) => `minmax(min-content,${cap(n)})`))).flat().join(' ')}`;
 }
 
-export function pageNode(ctx, page, number, total, { onSelect, onFitRow } = {}) {
+export function pageNode(ctx, page, number, total, { onSelect, onFitRow, onBreakRow } = {}) {
   return h('section', {
     class: ['hoja', page.overflow ? 'desborda' : '', measureNumbersVisible(ctx.song) ? '' : 'sin-numeros'].filter(Boolean).join(' '),
     style: pageStyleVars(),
@@ -152,8 +152,8 @@ export function pageNode(ctx, page, number, total, { onSelect, onFitRow } = {}) 
     h('div', { class: 'hoja-cuerpo' }, page.rows.map((row) => {
       const line = h('div', { class: row.fill ? 'fila fila-ajustada' : 'fila', style: rowColumns(row) },
         row.fragments.map((f) => fragmentNode(ctx, f.unitIndex, f.from, f.to, { onSelect })));
-      // Solo la vista previa envuelve la fila para colocar su botón en el margen; la exportación dibuja la fila sola.
-      return onFitRow ? h('div', { class: 'fila-caja' }, line, fitRowButton(row, ctx, onFitRow)) : line;
+      // Solo la vista previa envuelve la fila para colocar sus botones en los márgenes; la exportación dibuja la fila sola.
+      return onFitRow ? h('div', { class: 'fila-caja' }, onBreakRow ? breakRowButton(row, ctx, onBreakRow) : null, line, fitRowButton(row, ctx, onFitRow)) : line;
     })));
 }
 
@@ -165,6 +165,18 @@ function fitRowButton(row, ctx, onFitRow) {
     type: 'button', class: row.fill ? 'fila-ajuste activo' : 'fila-ajuste', title: label, 'aria-label': label, 'aria-pressed': row.fill ? 'true' : 'false',
     onclick: (e) => { e.stopPropagation(); onFitRow({ measureIds, filled: Boolean(row.fill) }); },
   }, '↔');
+}
+
+/** Marca de la vista previa (no existe en el HTML exportado), en el margen izquierdo de una línea forzada por un salto de línea. */
+function breakRowButton(row, ctx, onBreakRow) {
+  const first = row.fragments[0];
+  const unit = first && first.from === 0 ? ctx.units[first.unitIndex] : null;
+  if (!unit?.breakBefore || unit.repeatPair === 'second') return null;
+  const label = `Salto de línea forzado en el compás ${unit.label}. Pulsa para quitarlo.`;
+  return h('button', {
+    type: 'button', class: 'fila-salto', title: label, 'aria-label': label,
+    onclick: (e) => { e.stopPropagation(); onBreakRow({ measureId: unit.measureId, label: unit.label }); },
+  }, '↵');
 }
 
 /**

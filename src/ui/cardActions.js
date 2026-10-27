@@ -1,7 +1,7 @@
 import { findMeasure, leaveRepeat, repeatPairOf } from '../model/song.js';
 import {
-  canMoveCard, canReplaceCards, canReplaceFingerings, cardSelection, copyCards, duplicateCards, moveCard, pasteCards, removeCards,
-  replaceCards, replaceFingerings, selectionKey, songCards,
+  canMoveCard, canReplaceCards, canReplaceFingerings, canSwapCards, cardSelection, copyCards, duplicateCards, moveCard, pasteCards,
+  removeCards, replaceCards, replaceFingerings, selectionKey, songCards, swapCards,
 } from '../model/cards.js';
 import { selectionTarget, targetCardKeys } from '../store.js';
 import { confirmDialog } from './dialog.js';
@@ -129,6 +129,18 @@ export function createCardActions(store, clipboard) {
     if (moved) store.commit('structure', { measureId: sel.measureId, ...moved }, { kind: 'card' });
   }
 
+  /** Solo con dos tarjetas seleccionadas: cada una pasa al sitio de la otra. Quedan marcadas para poder deshacerlo a mano. */
+  function swap() {
+    const keys = targets();
+    if (!canSwapCards(song(), keys)) return;
+    store.endEdit();
+    const [a, b] = cardsOf(keys);
+    const where = (card) => `${nameOf(card)} (compás ${card.measure.label})`;
+    const text = `Tarjetas ${where(a)} y ${where(b)} intercambiadas.`;
+    commitCards(swapCards(song(), keys));
+    notify(text, { action: undoNotice(store) });
+  }
+
   async function remove() {
     const keys = targets();
     if (!keys.length) return;
@@ -153,7 +165,7 @@ export function createCardActions(store, clipboard) {
   }
 
   const runners = {
-    copy, cut, replace, fingering, duplicate, remove, toggleMark,
+    copy, cut, replace, fingering, duplicate, swap, remove, toggleMark,
     pasteBefore: () => paste('before'),
     pasteAfter: () => paste('after'),
     pasteStart: () => paste('before', false),
@@ -207,6 +219,11 @@ export function createCardActions(store, clipboard) {
         };
       }
       case 'duplicate': return { ...base, label: some('Duplicar tarjeta', `Duplicar ${n} tarjetas`), disabled: !n };
+      // Solo aparece con exactamente dos tarjetas seleccionadas (hidden); con otra cantidad no tiene sentido.
+      case 'swap': return {
+        ...base, label: 'Intercambiar las dos tarjetas', disabled: !canSwapCards(state.song, keys), hidden: n !== 2,
+        title: 'Cada tarjeta pasa al sitio de la otra, con su nombre, calidad, textos, grado, tonalidad y digitación. Sirve entre compases distintos.',
+      };
       case 'moveBefore':
       case 'moveAfter': {
         const delta = id === 'moveBefore' ? -1 : 1;
@@ -234,14 +251,14 @@ export function createCardActions(store, clipboard) {
     /** Opciones del menú contextual de una tarjeta en la hoja, con un encabezado que nombra las tarjetas afectadas. */
     contextItems() {
       const keys = targets();
-      const pick = (...list) => list.map(item);
+      const pick = (...list) => list.map(item).filter((it) => !it.hidden);
       return [
         { heading: keys.length ? phrase(keys).text : 'Sin tarjeta' },
         ...pick('copy', 'cut', 'pasteBefore', 'pasteAfter'),
         { separator: true },
         ...pick('replace', 'fingering'),
         { separator: true },
-        ...pick('duplicate', 'moveBefore', 'moveAfter'),
+        ...pick('swap', 'duplicate', 'moveBefore', 'moveAfter'),
         { separator: true },
         ...pick('toggleMark', 'clearMarked'),
         { separator: true },

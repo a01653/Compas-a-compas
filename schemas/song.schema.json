@@ -221,6 +221,10 @@
         "fillToEdge": {
           "type": "boolean",
           "description": "Ajustar la línea de este compás al margen derecho (solo se guarda true; ausente = automático). Una línea se ajusta si alguno de sus compases lo lleva."
+        },
+        "breakBefore": {
+          "type": "boolean",
+          "description": "Salto de línea forzado: el compás empieza una línea nueva aunque cupiera en la anterior (solo se guarda true; ausente = reparto automático)."
         }
       },
       "required": [
