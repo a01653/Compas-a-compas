@@ -41,6 +41,7 @@ Este documento define pruebas por realizar. No certifica que hayan pasado. Autom
 | V35 | Copiar una tarjeta, pegarla y sustituir solo la digitación de otra | La tarjeta pegada es independiente; la digitación cambia sin tocar nombre, textos ni tonalidad |
 | V37 | Ctrl+clic en la primera y la tercera tarjeta de un compás de tres, Ctrl+C, clic en un compás vacío y Ctrl+V | Solo se marcan esas dos; se pegan al final del compás, en orden, con IDs nuevos; Ctrl+clic en el número del compás desmarca las tarjetas y marca el compás |
 | V38 | Sustituir una tarjeta entera por la copiada | Cambian nombre, calidad, textos, grado, tonalidad y digitación; la tarjeta conserva su sitio y su ID, y sus vecinas de acorde no cambian |
+| V39 | Pegar `xa9axa` en **Digitación**; después probar `xp9axa` y `x1012101110` | Queda `x 10 9 10 x 10` (G7 en los trastes 9–11); las otras dos entradas muestran aviso y conservan la digitación anterior |
 | V36 | Deshacer y rehacer cada operación; guardar y abrir el JSON | Un paso por operación; el JSON reabierto es idéntico al estado editado |
 
 Verificar la orientación A4 real del PDF y revisar todas las páginas de una exportación de varias hojas. No limitar la revisión a una captura de la primera pantalla.

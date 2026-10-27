@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.8.0 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.8.1 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -146,10 +146,11 @@ Introduce **seis valores, de sexta a primera cuerda**: la cuerda grave primero y
 ```text
 x 3 5 3 4 3       Cm7
 x 10 12 10 11 10  Una posición en trastes de dos cifras
+xa9axa            G7: lo mismo que x 10 9 10 x 10, con letras
 0 2 2 4 0 0       Ejemplo que ocupa cuatro trastes
 ```
 
-También se acepta `x35343` cuando cada traste tiene una cifra. Usa espacios si hay trastes de dos cifras. Una entrada incorrecta muestra un aviso y conserva la última digitación válida.
+También se acepta `x35343` cuando cada traste tiene una cifra. Para los trastes de dos cifras, sepáralos con espacios o escribe cada uno con una letra: `a` = 10, `b` = 11, `c` = 12… hasta `o` = 24. Así puedes pegar `xa9axa` tal cual; al volver a la tarjeta, el campo lo muestra como `x 10 9 10 x 10`. Una entrada incorrecta muestra un aviso y conserva la última digitación válida.
 
 Una tarjeta nueva empieza con todas las cuerdas mudas: debes introducir sus notas. En el dibujo, la primera cuerda está arriba. El mástil muestra al menos tres trastes y **crece solo** a cuatro o más si lo necesita. El límite actual es un intervalo visible de 32 trastes; si se supera, conserva los datos, avisa y bloquea la exportación hasta corregirlo.
 
@@ -243,7 +244,7 @@ Abre el menú de tres puntos del bloque Compás y pulsa **Importar lista** e int
 ```
 
 - `|` separa la etiqueta y el contenido del compás.
-- `@` separa el nombre del acorde y su digitación.
+- `@` separa el nombre del acorde y su digitación, escrita como en el campo **Digitación**, también con letras (`G7 @ xa9axa`).
 - `;` añade otro acorde al mismo compás.
 - ` / `, con espacios, añade otra posición al acorde. `C/E` sigue siendo un nombre de acorde.
 - Una línea como `3 |` crea un compás vacío.

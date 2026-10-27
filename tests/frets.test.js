@@ -12,6 +12,22 @@ test('entradas válidas: compacta, con separadores y de dos cifras', () => {
   assert.deepEqual(parseFrets('x;10;12;10;11;10').frets, [null, 10, 12, 10, 11, 10]);
 });
 
+test('letras para trastes de dos cifras: a = 10 … o = 24, también con separadores', () => {
+  assert.deepEqual(parseFrets('xa9axa').frets, [null, 10, 9, 10, null, 10]);
+  assert.deepEqual(parseFrets('XA9AXA').frets, [null, 10, 9, 10, null, 10]);
+  assert.deepEqual(parseFrets('xacaba').frets, [null, 10, 12, 10, 11, 10]);
+  assert.deepEqual(parseFrets('x a 9 a x a').frets, [null, 10, 9, 10, null, 10]);
+  assert.deepEqual(parseFrets('ooxx00').frets, [24, 24, null, null, 0, 0]);
+  assert.equal(formatFrets(parseFrets('xa9axa').frets), 'x 10 9 10 x 10');
+  for (const text of ['xp9axa', 'x a 9 a x z', 'xa9ax?', 'x 10 9 aa x 10']) {
+    assert.match(parseFrets(text).error, /no es válido/, text);
+  }
+  assert.match(parseFrets('x1012101110').error, /letras/);
+  const { measures, errors } = parseList('1 | G7 @ xa9axa / 3 2 3 4 x x');
+  assert.deepEqual(errors, []);
+  assert.deepEqual(measures[0].events[0].voicings, [[null, 10, 9, 10, null, 10], [3, 2, 3, 4, null, null]]);
+});
+
 test('x nunca se convierte en 0 y 0 nunca en muda', () => {
   const { frets } = parseFrets('x0x0x0');
   assert.deepEqual(frets, [null, 0, null, 0, null, 0]);

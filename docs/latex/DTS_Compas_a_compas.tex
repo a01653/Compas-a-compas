@@ -1,4 +1,4 @@
-% Source-SHA256: 6c530f852c10be5bfa302040a24761ea78a59397fe9215a7386cd713e89c1d3f
+% Source-SHA256: a53c0efc313f3ae3bd67a008aa959b4749b9ad414a1ee807f18937ce6ec0a037
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.0 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.8.1 · 27/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.8.0 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.8.1 · 27/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.8.0 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
+Aplicación 0.8.1 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -736,6 +736,9 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.8.1 & 288 superadas en Windows (Node 24);
+\texttt{tests/frets.test.js} añade la digitación con letras (\texttt{a}
+= 10 \ldots{} \texttt{o} = 24), sus rechazos y la lista con letras \\
 Pruebas Node, 0.8.0 & 287 superadas en Windows (Node 24); 28 nuevas en
 \texttt{tests/measure-ops.test.js} para insertar, mover, intercambiar,
 copiar, pegar, duplicar, sustituir, borrar, renumerar, tarjetas, JSON e

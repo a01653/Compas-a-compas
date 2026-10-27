@@ -1,5 +1,10 @@
 # Cambios
 
+## 0.8.1 — 27/10/2026
+
+- **Digitación con letras** para los trastes de dos cifras: `a` = 10, `b` = 11… hasta `o` = 24, sin distinguir mayúsculas (`x` sigue siendo muda). Se puede escribir o pegar `xa9axa`, que equivale a `x 10 9 10 x 10`; también en **Importar lista** (`G7 @ xa9axa`). El JSON guarda los números de siempre.
+- Capturas del editor retomadas con la ayuda nueva del campo de digitación.
+
 ## 0.8.0 — 27/10/2026
 
 - **Edición estructural de compases.** El menú de tres puntos del bloque Compás y un nuevo menú contextual (clic derecho sobre un compás de la hoja, o Mayús+F10) ofrecen: insertar compás antes o después, copiar, cortar, pegar antes o después, sustituir por lo copiado, duplicar, subir, bajar, intercambiar y borrar. Cada acción es un paso de Deshacer.

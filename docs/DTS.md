@@ -1,6 +1,6 @@
 # Documento de Diseño Técnico del Software — Compás a compás
 
-Aplicación 0.8.0 · Esquema de canción 1 · Edición del DTS: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.8.1 · Esquema de canción 1 · Edición del DTS: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Objeto y alcance
 
@@ -236,6 +236,7 @@ La evidencia de cada versión permanece identificada en la tabla y en `docs/ESTA
 
 | Comprobación registrada | Resultado y entorno |
 | --- | --- |
+| Pruebas Node, 0.8.1 | 288 superadas en Windows (Node 24); `tests/frets.test.js` añade la digitación con letras (`a` = 10 … `o` = 24), sus rechazos y la lista con letras |
 | Pruebas Node, 0.8.0 | 287 superadas en Windows (Node 24); 28 nuevas en `tests/measure-ops.test.js` para insertar, mover, intercambiar, copiar, pegar, duplicar, sustituir, borrar, renumerar, tarjetas, JSON e historial, y 11 en `tests/card-selection.test.js` para varias tarjetas (copiar salteadas, pegar antes y después, quitar, sustituir enteras o solo la digitación, duplicar) y su selección en el store |
 | Interfaz 0.8.0 | Edge 156 sin cabeza en Windows, 1440×960 y 390×844, con el ejemplo: Ctrl+clic, modo selección, menú contextual, menú del compás y de tarjeta, Ctrl+C/V/X, Alt+↑/↓, Supr con confirmación y Deshacer, cortar y pegar con marcas, Corregir referencias; Ctrl+clic en tarjetas salteadas, Ctrl+C y Ctrl+V en un compás vacío, Ctrl+clic en el número del compás, menú contextual de tarjeta, Sustituir tarjeta por la copiada, Supr sobre dos tarjetas y Deshacer; sin errores JavaScript |
 | Pruebas Node, 0.6.0 | 190 superadas en Windows; tarjetas, compatibilidad, historial y contraste de franjas |

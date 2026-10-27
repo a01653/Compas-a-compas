@@ -1,5 +1,16 @@
 # Estado de trabajo
 
+## Digitación con letras (0.8.1) — 27/10/2026
+
+Rama `feature/digitacion-letras`. A petición del usuario, el campo **Digitación** admite pegar `xa9axa`: una letra de `a` a `o` vale un traste de 10 a 24, sin distinguir mayúsculas (`x` sigue siendo muda), así que `xa9axa` equivale a `x 10 9 10 x 10`. Las letras valen también entre separadores y en **Importar lista**, que usa el mismo lector. El JSON guarda números como siempre; al volver a la tarjeta el campo muestra `x 10 9 10 x 10`. Más de seis caracteres seguidos siguen siendo ambiguos; el aviso propone ahora separadores o letras.
+
+- **Archivos**: `src/model/frets.js` (`parseFrets`), ayuda del campo en `src/ui/chord.js`, `tests/frets.test.js`; versión 0.8.1 en `package.json`, pie de `index.html` y cabeceras de `docs/manuals/USO.md`, `docs/manuals/README.md` y `docs/DTS.md`.
+- **Pruebas**: `npm test`, 288 superadas en Windows con Node 24 (una nueva: letras en minúscula y mayúscula, con separadores, `o` = 24, rechazo de `p`, `z`, `?` y `aa`, aviso de ambigüedad y lista con letras). `node scripts/build-pages.mjs` correcto.
+- **Revisión en navegador**: Edge sin cabeza en Windows, servidor local en el puerto 5175, `examples/cancion-demo.json`, 1440 × 960 y 390 × 844: pegar `xa9axa` (con `Input.insertText`) en la digitación de Cm7 dibuja la tarjeta en los trastes 9–11 y, al volver a ella, el campo muestra `x 10 9 10 x 10`; `xp9axa` y `x1012101110` muestran su aviso y conservan la digitación anterior; la ayuda cabe en una línea en ambos anchos; sin desplazamiento horizontal en 390 px y sin errores JavaScript.
+- **Documentación**: manual de uso (Digitación e Importar lista), DATOS, REQUISITOS (R09), VALIDACIÓN (V39), README, CHANGELOG, DTS (evidencia de pruebas) e índice de manuales. Capturas retomadas: `editor-general`, `editor-posiciones` y `textos-deshacer` (ayuda nueva y versión del pie). Los tres documentos regenerados con `python scripts/build_docs.py --engine xelatex`; revisadas las páginas 10 y 16 del manual de uso y 12 del DTS.
+
+Pendiente: no se ha probado con un pegado real desde el portapapeles del sistema (se simula con `Input.insertText`, que genera el mismo evento `input`), ni en Firefox o Safari.
+
 ## Edición estructural de compases (0.8.0) — 27/10/2026
 
 Rama `feature/edicion-estructural-compases`. Encargo del usuario en cuatro bloques: selección y acciones básicas, copiar y pegar, sustitución y ordenación, y seguridad (deshacer, referencias, JSON, pruebas y documentación).
