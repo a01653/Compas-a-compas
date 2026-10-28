@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.10.0 · Edición del manual: 28/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -249,19 +249,28 @@ Al ajustar al ancho varias filas de una misma página con la misma estructura, l
 
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 % sobre su ancho natural y el sobrante queda a la derecha.
 
+**Filas compactas.** Si un compás no cabe a lo ancho en la línea, antes de pasarlo a la siguiente se prueba la línea entera con las tarjetas más estrechas: pierden el margen interior hasta quedarse en el ancho del mástil con sus números de cuerda y de traste, que no cambia. Si así cabe, la línea se compacta. Por ejemplo, cuatro compases de dos tarjetas de tres trastes caben en una línea aunque lleven las barras de una repetición. No hay que hacer nada: ocurre solo cuando hace falta, respeta el máximo de compases por línea y se ve igual en el HTML y en la impresión. Si la línea compacta tiene sitio libre, o está ajustada al ancho, las tarjetas vuelven a crecer y el mástil queda centrado. Para que un compás no comparta línea, usa un salto de línea.
+
+![Línea compacta: los compases 21 a 24, con la repetición, caben en una línea con las tarjetas estrechadas hasta su mástil.](capturas/fila-compacta.png)
+
 ### Salto de línea forzado
 
-Para que un compás empiece una línea nueva aunque quepa en la anterior, por ejemplo para que cada frase quede en su propia línea o para que la línea cuadre mejor:
+Para cortar la línea en un compás concreto aunque quepa más, por ejemplo para que cada frase quede en su propia línea o para que la línea cuadre mejor, hay dos opciones:
 
-1. Selecciona el compás que debe empezar la línea.
+- **Salto de línea antes**: el compás empieza una línea nueva.
+- **Salto de línea después**: el compás termina su línea y el siguiente empieza otra.
+
+1. Selecciona el compás.
 2. Abre el menú de tres puntos del bloque **Compás**, o pulsa ese compás en la hoja con el botón derecho fuera de sus tarjetas.
-3. Elige **Salto de línea antes**.
+3. Elige **Salto de línea antes** o **Salto de línea después**.
 
-El compás y los que le siguen pasan a la línea siguiente. En la vista previa aparece una marca ↵ en el margen izquierdo de esa línea. Para volver al reparto automático, pulsa la marca o elige **Quitar salto de línea** en el mismo menú. Con varios compases seleccionados se aplica a todos. No tiene efecto en el primer compás ni en el segundo de una repetición de dos compases, que va siempre junto al primero. El HTML exportado y la impresión respetan el salto, sin la marca ↵. Si la línea nueva tampoco cabe en el ancho, se reparte como siempre. Las copias de un compás no heredan el salto.
+En la vista previa cada salto lleva una marca ↵ azul: el de antes en el margen izquierdo de la línea que empieza; el de después abajo a la derecha del compás que termina la línea. Para volver al reparto automático, pulsa la marca o elige **Quitar salto de línea antes** o **Quitar salto de línea después** en el mismo menú. Con varios compases seleccionados se aplica a todos. El salto antes no tiene efecto en el primer compás ni en el segundo de una repetición de dos compases; el salto después, en el último compás ni en el primero de esa repetición, porque los dos van siempre juntos. El HTML exportado y la impresión respetan los saltos, sin las marcas. Si la línea nueva tampoco cabe en el ancho, se reparte como siempre. Las copias de un compás no heredan los saltos.
 
 ![Hoja de ejemplo con un salto de línea antes del compás 3: la marca ↵ señala la línea forzada.](capturas/salto-linea.png)
 
-El salto se guarda en el JSON como `breakBefore` solo cuando se usa; las versiones anteriores a 0.9.0 no abren archivos que lo incluyan.
+![Hoja de ejemplo con un salto de línea después del compás 2: la marca ↵ queda abajo a la derecha del compás que termina la línea.](capturas/salto-linea-despues.png)
+
+Los saltos se guardan en el JSON solo cuando se usan, como `breakBefore` y `breakAfter`; las versiones anteriores a 0.9.0 no abren archivos con `breakBefore`, y las anteriores a 0.10.0, con `breakAfter`.
 
 ## Añadir varios compases mediante una lista
 
@@ -347,7 +356,8 @@ Si una digitación o un bloque no cabe, se avisa y se bloquea la salida; nunca s
 | Ctrl+C copia el compás entero en vez de una tarjeta | Pulsa dentro del recuadro de la tarjeta; el número, el título y los huecos señalan el compás. |
 | Mover tarjeta está desactivado | Se mueve una sola tarjeta cada vez: quita la selección de varias. |
 | No aparece Intercambiar las dos tarjetas | Solo aparece con exactamente dos tarjetas seleccionadas: marca la segunda con Ctrl+clic. |
-| Un compás empieza línea aunque cabría en la anterior | Tiene un salto de línea forzado: pulsa la marca ↵ del margen izquierdo o **Quitar salto de línea** en el menú del compás. |
+| Un compás empieza línea aunque cabría en la anterior | Tiene un salto de línea antes, o el compás anterior uno después: pulsa la marca ↵ (en el margen izquierdo de la línea o tras el compás anterior) o elige **Quitar salto de línea antes** o **Quitar salto de línea después** en el menú del compás. |
+| Las tarjetas de una línea son más estrechas que las de otras | Es una línea compacta: así cabe un compás más. Si prefieres el ancho normal, pon un salto de línea antes del último compás de esa línea. |
 | Una canción nueva no muestra la tonalidad en las tarjetas | **Nuevo** oculta las franjas de tonalidad: activa **Mostrar tonalidades de las tarjetas** en los datos de la canción. |
 | Un compás de repetición avisa tras mover compases | Pulsa **Corregir referencias** en el aviso o **Corregir referencia** en el editor del compás. |
 | El navegador no abre la aplicación | Abre GitHub Pages o arranca el servidor local; consulta la guía de instalación. |

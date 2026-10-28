@@ -217,18 +217,21 @@ export function setLineFill(song, measureIds, on) {
 }
 
 /**
- * Salto de línea forzado: el compás empieza una línea nueva en la hoja aunque cupiera en la anterior. Solo se guarda `true`.
+ * Saltos de línea forzados. Antes (`breakBefore`): el compás empieza una línea nueva en la hoja aunque cupiera en la anterior.
+ * Después (`breakAfter`): el compás termina su línea y el siguiente empieza otra. Solo se guarda `true`.
  * Devuelve los compases que cambian; si alguno de los indicados no lo tiene, se activa en todos, y si no, se quita de todos.
  */
-export function toggleBreakBefore(song, measureIds) {
+function toggleMeasureFlag(song, measureIds, key) {
   const measures = measureIds.map((id) => findMeasure(song, id)).filter(Boolean);
-  const on = measures.some((measure) => measure.breakBefore !== true);
+  const on = measures.some((measure) => measure[key] !== true);
   for (const measure of measures) {
-    if (on) measure.breakBefore = true;
-    else delete measure.breakBefore;
+    if (on) measure[key] = true;
+    else delete measure[key];
   }
   return { on, measures };
 }
+export const toggleBreakBefore = (song, measureIds) => toggleMeasureFlag(song, measureIds, 'breakBefore');
+export const toggleBreakAfter = (song, measureIds) => toggleMeasureFlag(song, measureIds, 'breakAfter');
 
 /* ---------- Opciones de página (globales) ---------- */
 

@@ -10,8 +10,11 @@
  * Reglas:
  *  - El orden escrito se conserva y cada tarjeta aparece exactamente una vez.
  *  - Un compás entero que cabe en la fila actual va en ella; si no, empieza otra fila; si falta altura, otra hoja.
- *  - Un compás con salto de línea forzado (`unit.breakBefore`) empieza siempre otra fila, salvo el segundo destino de una
- *    pareja de repetición, que va siempre junto al primero.
+ *  - Un compás con salto de línea antes (`unit.breakBefore`), o detrás de uno con salto de línea después (`breakAfter`), empieza
+ *    siempre otra fila, salvo el segundo destino de una pareja de repetición, que va siempre junto al primero.
+ *  - Si un compás entero no cabe a lo ancho en la fila (ni en una vacía) y quien llama sabe medir tarjetas compactas
+ *    (`measureCompact`), se prueba la fila entera con las tarjetas estrechadas hasta su mástil; si así cabe, la fila queda
+ *    compacta (`row.compact`) y lo que se añada después también se mide compacto. Se intenta antes de partir o pasar de hoja.
  *  - Un compás que no cabe ni en una fila vacía de una hoja nueva se parte entre tarjetas en fragmentos
  *    consecutivos (misma etiqueta, marcados como continuación), llenando antes el hueco de la hoja actual.
  *  - Si una sola tarjeta (o la cabecera) no cabe ni sola, se registra un error, se coloca igualmente (no se
@@ -47,11 +50,13 @@ export const totalHeight = (parts) => sum(parts.rows) + parts.extra;
  * @param {object} p
  * @param {Array<{ measureId: string, label: string, atoms: Array<object> }>} p.units
  * @param {(unitIndex: number, from: number, to: number) => { width: number, height: number }} p.measureFragment
+ * @param {(unitIndex: number, from: number, to: number) => { width: number, height: number }} [p.measureCompact] el mismo
+ *   fragmento con las tarjetas compactas (estrechadas hasta su mástil); sin él no se compacta ninguna fila
  * @param {{ width: number, height: number }} p.content área útil de la hoja
  * @param {number} p.headerHeight altura medida de la cabecera
  * @param {number} [p.maxPerRow] tope de compases (fragmentos) por fila; 0 = automático, como hasta ahora
  */
-export function paginate({ units, measureFragment, content, headerHeight, columnGap = 0, rowGap = 0, headerGap = 0, safety = 0, maxPerRow = 0 }) {
+export function paginate({ units, measureFragment, measureCompact = null, content, headerHeight, columnGap = 0, rowGap = 0, headerGap = 0, safety = 0, maxPerRow = 0 }) {
   const errors = [];
   const notices = [];
   const maxW = content.width - safety;
@@ -65,17 +70,17 @@ export function paginate({ units, measureFragment, content, headerHeight, column
   }
 
   const cache = new Map();
-  const measure = (ui, from, to) => {
-    const key = `${ui}:${from}:${to}`;
+  const measure = (ui, from, to, compact = false) => {
+    const key = `${ui}:${from}:${to}${compact ? ':c' : ''}`;
     let size = cache.get(key);
     if (!size) {
-      size = measureFragment(ui, from, to);
+      size = compact ? measureCompact(ui, from, to) : measureFragment(ui, from, to);
       // Ancho manual (porcentaje del ancho útil): solo en el compás entero y nunca por debajo de su contenido natural.
       const unit = units[ui];
       if (unit.widthPercent && from === 0 && to >= unit.atoms.length) {
         const wanted = Math.min(maxW, (content.width * unit.widthPercent) / 100);
         if (wanted >= size.width) size = { ...size, natural: size.width, width: wanted };
-        else {
+        else if (!compact) { // El aviso sale de la medida normal; la compacta no lo repite.
           notices.push({
             kind: 'width',
             measureId: unit.measureId,
@@ -169,14 +174,45 @@ export function paginate({ units, measureFragment, content, headerHeight, column
     row = null;
   };
   // `count` = compases que añade lo que se coloca. Un tope no impide una fila vacía (una pareja de dos compases cabe sola).
+  const limited = (count) => maxPerRow > 0 && row && row.fragments.length + count > maxPerRow;
   const fitsRow = (size, count = 1) => {
     const w = row ? row.width + columnGap + size.width : size.width;
     const hgt = totalHeight(row ? mergeHeights(row.heights, heightParts(size)) : heightParts(size));
-    const limited = maxPerRow > 0 && row && row.fragments.length + count > maxPerRow;
-    return !limited && w <= maxW && y + hgt <= bodyH;
+    return !limited(count) && w <= maxW && y + hgt <= bodyH;
+  };
+  /**
+   * ¿Cabe la fila entera (lo ya colocado más `pieces`, [[ui, from, to]]) con las tarjetas compactas? Solo se prueba si la fila
+   * aún no lo es: compactar es el último recurso antes de cerrar la fila, partir el compás o pasar de hoja.
+   */
+  const fitsCompact = (pieces, count = 1) => {
+    if (!measureCompact || row?.compact || limited(count)) return false;
+    const all = [...(row ? row.fragments.map((f) => [f.unitIndex, f.from, f.to]) : []), ...pieces];
+    const sizes = all.map(([ui, from, to]) => measure(ui, from, to, true));
+    const w = sizes.reduce((total, size, i) => total + (i ? columnGap : 0) + size.width, 0);
+    const hgt = totalHeight(sizes.map(heightParts).reduce(mergeHeights));
+    return w <= maxW && y + hgt <= bodyH;
+  };
+  const emptyRow = (compact = false) => ({ fragments: [], width: 0, height: 0, heights: { rows: [], extra: 0 }, compact });
+  /** Vuelve a colocar lo ya puesto en la fila con sus medidas compactas; lo que se añada después también será compacto. */
+  const compactRow = () => {
+    const placed = row ? row.fragments : [];
+    row = emptyRow(true);
+    for (const f of placed) add(f.unitIndex, f.from, f.to, measure(f.unitIndex, f.from, f.to, true));
+  };
+  /** Coloca [from, to) en la fila actual si cabe, tal cual o compactando la fila. */
+  const place = (ui, from, to, count) => {
+    const size = measure(ui, from, to, Boolean(row?.compact));
+    if (fitsRow(size, count)) {
+      add(ui, from, to, size);
+      return true;
+    }
+    if (!fitsCompact([[ui, from, to]], count)) return false;
+    compactRow();
+    add(ui, from, to, measure(ui, from, to, true));
+    return true;
   };
   const add = (ui, from, to, size) => {
-    if (!row) row = { fragments: [], width: 0, height: 0, heights: { rows: [], extra: 0 } };
+    if (!row) row = emptyRow();
     row.width += (row.fragments.length ? columnGap : 0) + size.width;
     row.heights = mergeHeights(row.heights, heightParts(size));
     row.height = totalHeight(row.heights);
@@ -187,37 +223,36 @@ export function paginate({ units, measureFragment, content, headerHeight, column
     const n = unit.atoms.length;
     let from = 0;
     const count = unit.repeatPair === 'second' ? 0 : 1; // El segundo destino ya se contó con el primero.
-    if (unit.breakBefore && unit.repeatPair !== 'second') closeRow();
+    if ((unit.breakBefore || units[ui - 1]?.breakAfter) && unit.repeatPair !== 'second') closeRow();
     for (;;) {
       if (!page) newPage();
       const whole = measure(ui, from, n);
 
       // Pareja de repetición de dos compases: sus dos destinos van siempre en la misma fila (el signo cae sobre la barra común).
       if (from === 0 && unit.repeatPair === 'first' && units[ui + 1]) {
-        const next = measure(ui + 1, 0, units[ui + 1].atoms.length);
-        const parts = mergeHeights(heightParts(whole), heightParts(next));
-        const pair = { width: whole.width + columnGap + next.width, height: totalHeight(parts), rows: parts.rows, extra: parts.extra };
-        if (!fitsRow(pair, 2) && row) {
+        const pieces = [[ui, 0, n], [ui + 1, 0, units[ui + 1].atoms.length]];
+        const pairFits = () => {
+          const [a, b] = pieces.map(([i, f, t]) => measure(i, f, t, Boolean(row?.compact)));
+          const parts = mergeHeights(heightParts(a), heightParts(b));
+          return fitsRow({ width: a.width + columnGap + b.width, height: totalHeight(parts), rows: parts.rows, extra: parts.extra }, 2)
+            || fitsCompact(pieces, 2);
+        };
+        if (!pairFits() && row) {
           closeRow();
-          if (!fitsRow(pair, 2) && !isFresh()) newPage();
+          if (!pairFits() && !isFresh()) newPage();
         }
       }
 
-      if (fitsRow(whole, count)) {
-        add(ui, from, n, whole);
-        break;
-      }
+      if (place(ui, from, n, count)) break;
       if (row) {
         closeRow();
-        if (fitsRow(whole, count)) {
-          add(ui, from, n, whole);
-          break;
-        }
+        if (place(ui, from, n, count)) break;
       }
       const fresh = isFresh();
-      if (!fresh && whole.width <= maxW && whole.height <= bodyH) {
+      const fitsEmpty = (size) => size.width <= maxW && size.height <= bodyH;
+      if (!fresh && (fitsEmpty(whole) || (measureCompact && fitsEmpty(measure(ui, from, n, true))))) {
         newPage();
-        add(ui, from, n, whole);
+        if (!place(ui, from, n, count)) add(ui, from, n, whole);
         break;
       }
 

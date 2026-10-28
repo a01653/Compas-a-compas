@@ -7,7 +7,7 @@ import { icon, iconButton } from './icons.js';
 
 /** Grupos del menú del compás: las mismas acciones que el menú contextual de la hoja. */
 const GROUPS = [
-  ['Compás', ['insertBefore', 'insertAfter', 'duplicate', 'moveUp', 'moveDown', 'swap', 'lineBreak', 'remove']],
+  ['Compás', ['insertBefore', 'insertAfter', 'duplicate', 'moveUp', 'moveDown', 'swap', 'lineBreak', 'lineBreakAfter', 'remove']],
   ['Copiar y pegar', ['copy', 'cut', 'pasteBefore', 'pasteAfter', 'replace']],
   ['Selección de varios', ['toggleMark', 'toggleSelectMode', 'clearMarked']],
 ];

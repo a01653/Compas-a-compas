@@ -39,9 +39,13 @@ export function createMeasurer() {
       return height;
     },
 
-    /** Tamaño del fragmento solo en una fila, con la altura desglosada en las pistas que la fila comparte entre compases. */
-    fragment(ctx, unitIndex, from, to) {
+    /**
+     * Tamaño del fragmento solo en una fila, con la altura desglosada en las pistas que la fila comparte entre compases.
+     * `compact` lo mide en una fila compacta (tarjetas estrechadas hasta su mástil, ver .fila-compacta en sheet.css).
+     */
+    fragment(ctx, unitIndex, from, to, { compact = false } = {}) {
       const node = fragmentNode(ctx, unitIndex, from, to);
+      row.classList.toggle('fila-compacta', compact);
       row.append(node);
       const rect = row.getBoundingClientRect();
       const width = node.getBoundingClientRect().width;

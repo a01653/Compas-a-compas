@@ -6,6 +6,8 @@ Versión de la especificación: 1.0. Fecha: 16/10/2026. Estado: preparada para d
 
 **Ampliación 0.6.0:** tarjetas independientes con selector único y franjas rectangulares; sin barras ni separadores de grupos.
 
+**Ampliación solicitada el 28/10/2026, implementada en 0.10.0:** filas compactas (R40) y salto de línea después (R41).
+
 **Ampliación solicitada el 27/10/2026, implementada en 0.9.0:** hoja de ejemplo inicial, menú de ejemplos y botón Nuevo (R37), salto de línea forzado (R38) e intercambio de dos tarjetas (R39).
 
 **Ampliación solicitada el 27/10/2026, implementada en 0.8.0:** edición estructural de compases (R31–R36). Amplía R02: la renumeración de etiquetas tras una operación estructural está activada por defecto, se anuncia en cada aviso y se puede desactivar por canción para conservar los números originales; ya no es silenciosa ni obligatoria.
@@ -38,6 +40,8 @@ Crear y editar hojas de acordes de guitarra por compás sin rehacer una canción
 | R37 | Al abrir, la vista previa muestra una hoja de ejemplo con título «Nombre del tema», tonalidad «Tonalidad», sin marcas: un II–V–I mayor en Do en cuatro compases (Dm7 y G7, Cmaj7, Dm7 y G7, Cmaj7), con voicings Drop 2 del set 1, grados 1, 3, 5 y 7 con sus colores y la anotación «Drop 2 Set 1 · <inversión>». Un menú de la cabecera abre las páginas de la carpeta de ejemplos del proyecto y un botón Nuevo crea una hoja con solo ese título, esa tonalidad y un compás con una tarjeta vacía. |
 | R38 | Un compás seleccionado puede llevar un salto de línea forzado: empieza una línea nueva en la hoja aunque cupiera en la anterior. Se activa y se quita desde el menú del compás y el menú contextual, y se respeta en la vista previa, el HTML y la impresión. |
 | R39 | Con exactamente dos tarjetas seleccionadas, el menú de la tarjeta y el menú contextual ofrecen Intercambiar, que cambia de posición ambas tarjetas con todos sus datos, también entre compases distintos. Con otra cantidad, la opción no aparece. |
+| R40 | Cuando un compás no cabe a lo ancho en una línea, las tarjetas de esa línea se estrechan si así cabe, como mínimo hasta el ancho del mástil con sus números de cuerda y de traste. Cuatro compases de dos tarjetas de tres trastes caben en una línea. Se respeta el máximo de compases por línea y la salida coincide con la vista previa. |
+| R41 | Además del salto de línea antes, un compás seleccionado puede llevar un salto de línea después: termina su línea y el siguiente empieza otra. Ambos se activan y se quitan desde el menú del compás y el menú contextual y llevan un símbolo ↵ visible en la vista previa (no en la salida). |
 
 ## Tarjetas y digitaciones
 

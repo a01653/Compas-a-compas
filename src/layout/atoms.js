@@ -41,7 +41,8 @@ export function buildUnits(song) {
       repeatPair: pairRole.get(measure.id) || null,
       widthPercent: Number.isFinite(measure.widthPercent) ? measure.widthPercent : null,
       fillToEdge: measure.fillToEdge === true,
-      breakBefore: measure.breakBefore === true };
+      breakBefore: measure.breakBefore === true,
+      breakAfter: measure.breakAfter === true };
   });
 }
 

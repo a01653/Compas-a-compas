@@ -4,7 +4,7 @@ import { PAGE_PX, PREVIEW_GAP } from '../layout/spec.js';
 import { collectProblems } from '../layout/problems.js';
 import { ZOOM_MIN, ZOOM_MAX, clampZoom, fitZoom } from '../layout/zoom.js';
 import { createPaginator } from './paginator.js';
-import { setLineFill, toggleBreakBefore } from '../model/song.js';
+import { setLineFill, toggleBreakAfter, toggleBreakBefore } from '../model/song.js';
 import { selectionTarget, targetCardKeys, targetMeasureIds } from '../store.js';
 import { selectionKey } from '../model/cards.js';
 import { openContextMenu } from './contextMenu.js';
@@ -106,12 +106,12 @@ export function mountPreviewPanel(root, store, { measureActions, cardActions } =
       setLineFill(store.state.song, measureIds, !filled);
       store.emit('structure');
     };
-    // La marca ↵ de una línea forzada quita el salto de línea de su compás, también en un paso de historial.
-    const onBreakRow = ({ measureId, label }) => {
+    // Las marcas ↵ (antes, en el margen izquierdo de la línea; después, tras el compás) quitan su salto, en un paso de historial.
+    const onBreakRow = ({ measureId, label, side }) => {
       store.endEdit();
-      toggleBreakBefore(store.state.song, [measureId]);
+      (side === 'after' ? toggleBreakAfter : toggleBreakBefore)(store.state.song, [measureId]);
       store.emit('structure');
-      notify(`Se quitó el salto de línea forzado del compás ${label}.`, { action: undoNotice(store) });
+      notify(`Se quitó el salto de línea ${side === 'after' ? 'después' : 'antes'} del compás ${label}.`, { action: undoNotice(store) });
     };
     pagesEl.replaceChildren(...pages.map((page, i) => pageNode(result.ctx, page, i + 1, pageCount, { onSelect, onFitRow, onBreakRow })));
     renderNotices(result.layout.notices || []);

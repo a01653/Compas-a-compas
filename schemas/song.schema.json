@@ -224,7 +224,11 @@
         },
         "breakBefore": {
           "type": "boolean",
-          "description": "Salto de línea forzado: el compás empieza una línea nueva aunque cupiera en la anterior (solo se guarda true; ausente = reparto automático)."
+          "description": "Salto de línea antes: el compás empieza una línea nueva aunque cupiera en la anterior (solo se guarda true; ausente = reparto automático)."
+        },
+        "breakAfter": {
+          "type": "boolean",
+          "description": "Salto de línea después: el compás termina su línea y el siguiente empieza otra aunque cupiera (solo se guarda true; ausente = reparto automático)."
         }
       },
       "required": [

@@ -8,6 +8,7 @@ export function computeLayout(ctx, measurer) {
   const plan = paginate({
     units: ctx.units,
     measureFragment: (unitIndex, from, to) => measurer.fragment(ctx, unitIndex, from, to),
+    measureCompact: (unitIndex, from, to) => measurer.fragment(ctx, unitIndex, from, to, { compact: true }),
     content,
     headerHeight,
     columnGap: GAPS.column,

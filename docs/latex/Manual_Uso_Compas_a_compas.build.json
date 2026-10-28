@@ -1,29 +1,29 @@
 {
   "document": "uso",
-  "applicationVersion": "0.9.0",
-  "edition": "2026-10-27",
+  "applicationVersion": "0.10.0",
+  "edition": "2026-10-28",
   "source": "docs/manuals/USO.md",
   "command": "python scripts/build_docs.py",
   "engine": "xelatex",
   "files": [
     {
       "path": "docs/manuals/USO.md",
-      "sha256": "4ef5287fa624ea05d38a5ba89fccecea4b7b1c94526a059378628a56ddf0fddc",
+      "sha256": "9cf73ee0b2c651926c4fb125b9f8e73e1ffff730b20a0aaf9443d51a5ac806ec",
       "role": "source"
     },
     {
       "path": "docs/latex/document-template.tex",
-      "sha256": "64a521b15d56b68653e329fc97310764ebb354d59ac93414a2fdcece3824638a",
+      "sha256": "4b408e833111c6511f114e9462537ca53514373e7b5b93f28f35bf9e08f5b37e",
       "role": "template"
     },
     {
       "path": "scripts/build_docs.py",
-      "sha256": "e26a57ea5acb1612ba6510672182b6e0b4fd6261b4127111392fb67c9b7ee30a",
+      "sha256": "3af2596d03ce8d2dad37d842c17aad0a1798ef4b7ef9e79ede53016ee9f798bf",
       "role": "generator"
     },
     {
       "path": "package.json",
-      "sha256": "e2cf17394e1373594f1b5b64d5aac212eb4605e52789ca041c8d7e94fd6a1478",
+      "sha256": "1402bf4cd8fe44851393a3caa1dcaef0a9afc4f011d6c4b93c9a4e57350e1cf5",
       "role": "application-version"
     },
     {
@@ -48,7 +48,7 @@
     },
     {
       "path": "docs/manuals/capturas/menu-contextual.png",
-      "sha256": "1dbd64f1661aaa944bf045067aff1c90c87d71feaea40da7b2363dfa0abd3c60",
+      "sha256": "dde212012f3a9df6147a1835cb195e8163ad3b3ce05cfbd8ae19d55c571137c1",
       "role": "capture"
     },
     {
@@ -93,12 +93,22 @@
     },
     {
       "path": "docs/manuals/capturas/opciones-compas.png",
-      "sha256": "aa1c6844c35e5b0d4f59f49742ba501fadf7aab2d27482a0d68757f8235b8b0d",
+      "sha256": "c6d9f8670d267f8e4e783cdff9f2caa32aa18746ab9e67fc4a56e3c348d8c6bb",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/fila-compacta.png",
+      "sha256": "8be75b7fef194fc4c508248f673bf1c64aa2b93e3ec058480b916382498ebfcb",
       "role": "capture"
     },
     {
       "path": "docs/manuals/capturas/salto-linea.png",
       "sha256": "ff571817bca97f5bf06f95e49006138a2ac1432ae135b492188633b7c9e3141e",
+      "role": "capture"
+    },
+    {
+      "path": "docs/manuals/capturas/salto-linea-despues.png",
+      "sha256": "2eeb3b4433e94c0a26d52b38efc56f0d3db7ae5fc707a76de6bb090e53f63977",
       "role": "capture"
     },
     {
@@ -108,12 +118,12 @@
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.tex",
-      "sha256": "67bf4251c2e38cc95a1fe2a1a22ec9d20552fdc3e714e582e7d27cb1cfbc2b1a",
+      "sha256": "4a74dbdddaff239f1a9db048768559bc3fc1339f3896a2be62d99810dbac4d5f",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Uso_Compas_a_compas.pdf",
-      "sha256": "a2cb7623f42603dc133c7a79575acc33ad36c75934fbbcb37237e14c72caab40",
+      "sha256": "cc43857d32499a8eb2ea1a79d67ade618ae71d1acbcbc79789a853fbf3528d85",
       "role": "pdf"
     }
   ]
