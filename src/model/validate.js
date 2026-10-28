@@ -98,6 +98,7 @@ const measureShape = object({
     widthPercent: (v, p, e) => { if (!Number.isInteger(v) || v < 10 || v > 100) fail(e, p, 'debe ser un entero entre 10 y 100 (porcentaje del ancho útil; sin el campo, ancho automático)'); },
     fillToEdge: boolean,
     breakBefore: boolean,
+    breakAfter: boolean,
   },
 });
 // Un compás de repetición no lleva tarjetas propias: ambas representaciones a la vez serían ambiguas.

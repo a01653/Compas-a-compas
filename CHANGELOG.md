@@ -1,5 +1,12 @@
 # Cambios
 
+## 0.10.0 — 28/10/2026
+
+- **Filas compactas**: si un compás no cabe a lo ancho en la línea, se prueba la línea entera con las tarjetas estrechadas hasta el ancho de su mástil con los números de cuerda y de traste; si así cabe, la línea se compacta en lugar de pasar el compás a la siguiente o partirlo. Cuatro compases de dos tarjetas de tres trastes caben ahora en una línea aunque lleven barras de repetición. El mástil no cambia y el máximo de compases por línea se respeta. Se ve igual en la vista previa, el HTML y la impresión.
+- **Salto de línea después** (menú del compás y clic derecho): el compás termina su línea y el siguiente empieza otra aunque quepa. Una marca ↵ abajo a la derecha del compás lo indica en la vista previa y lo quita al pulsarla. Nuevo campo opcional `breakAfter`; sin cambio de `schemaVersion`. La opción de antes pasa a decir **Quitar salto de línea antes** cuando está activa.
+- Corregido: en una línea sin ajustar al ancho que iba justa, una columna más ancha que las demás (por ejemplo la que lleva la barra de inicio de repetición) podía quedar más estrecha que su tarjeta, con el mástil asomando por el borde. Cada columna parte ahora de su ancho medido.
+- Manual de uso (filas compactas, salto de línea antes y después) con capturas nuevas; DTS, DATOS, requisitos (R40–R41) y validación (V43–V44) actualizados.
+
 ## 0.9.0 — 27/10/2026
 
 - **Hoja de ejemplo al arrancar**: un II–V–I mayor en Do en cuatro compases (Dm7 y G7 | Cmaj7 | Dm7 y G7 | Cmaj7) con voicings Drop 2 del set 1, grados 1, 3, 5 y 7 en sus colores y la inversión en la anotación («Drop 2 Set 1 · 2ª inversión»). Título «Nombre del tema», tonalidad «Tonalidad» y sin marcas (`examples/ii-v-i-mayor-do.json`).

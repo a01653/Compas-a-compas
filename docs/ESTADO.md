@@ -1,5 +1,22 @@
 # Estado de trabajo
 
+## Filas compactas y salto de línea después (0.10.0) — 28/10/2026
+
+Rama `feature/tarjetas-compactas-salto-despues`. Peticiones del usuario sobre su canción «Oh Christmas Tree» (JSON aportado para la revisión; se borró a petición suya y no está en el repositorio):
+
+1. Los compases 21–24 (hoja 3) deben caber en una línea; en general, cuatro compases de dos tarjetas deben caber, estrechando las tarjetas hasta el ancho del mástil con sus números como mínimo.
+2. **Salto de línea después**, como el de antes, con un símbolo que se vea fácilmente.
+
+- **Diagnóstico**: la línea 21–24 necesitaba unos 1120 px (ocho tarjetas de 127 px más barras de repetición) para 1084 px de área útil. El relleno lateral de 5 px por lado de cada tarjeta es lo que sobra: sin él, unos 1056 px.
+- **Decisiones**: compactar es automático y por línea, solo cuando un compás no cabe a lo ancho y la línea entera sí cabe compacta; respeta el máximo por línea y no se guarda en el JSON. Relleno lateral de 1 px (3 px para nombre, grado y leyenda); el mástil SVG no cambia, de acuerdo con «no alterar el dibujo». Separaciones entre tarjetas y compases sin cambios. Con sitio libre o ajuste al ancho, las tarjetas de la línea compacta crecen y el mástil queda centrado. El salto después es un campo propio (`breakAfter`) y no un salto antes en el compás siguiente, para que siga al compás al moverlo. Su marca ↵ va dentro del compás, abajo a la derecha (arriba en el margen derecho está el botón ↔ de la línea); la de antes no cambia de sitio. Con dos opciones, la etiqueta activa de la de antes pasa a «Quitar salto de línea antes».
+- **Fallo previo corregido**: las pistas de las filas no ajustadas eran `minmax(min-content, tope)`, pero el min-content de una columna de tarjeta es 0 (`minmax(0, 1fr)` interno) y, en una fila justa, el navegador repartía a partes iguales: la columna con la barra de inicio de repetición quedaba 2 px más estrecha que su mástil. Ahora el mínimo es el ancho medido.
+- **Archivos**: `src/layout/paginate.js` (`measureCompact`, `fitsCompact`, `compactRow`, `place`, salto después), `src/layout/compute.js`, `src/layout/measurer.js`, `src/layout/atoms.js`, `src/render/sheet.js` (`fila-compacta`, `rowColumns`, `breakAfterButton`), `styles/sheet.css`, `styles/app.css`, `src/model/song.js` (`toggleBreakAfter`), `src/model/validate.js`, `schemas/song.schema.json`, `src/model/measureOps.js`, `src/ui/measureActions.js`, `src/ui/measures.js`, `src/ui/preview.js`; prueba nueva `tests/compact-break-after.test.js`. Versión 0.10.0 en `package.json`, pie de `index.html`, cabeceras de manuales y DTS, plantilla LaTeX y manifiesto de construcción.
+- **Pruebas**: `npm test`, 318 superadas (15 nuevas). `node scripts/build-pages.mjs` correcto.
+- **Revisión en navegador** (Edge sin cabeza en Windows, servidor local en el puerto 5191): con «Oh Christmas Tree» la hoja 3 pasa de «20 · 21,22,23 · 24» a «20 · 21,22,23,24 (compacta) · 25,26,27,28» y la canción sigue en 4 hojas; tarjetas de la línea compacta de 124 px con ajuste al ancho y de 123 px sin él, con mástil de 114 px; ninguna tarjeta más estrecha que su mástil en ninguna fila. Menú contextual con **Salto de línea antes** y **Salto de línea después** (desactivado en el último compás), aviso con Deshacer, etiqueta «Quitar salto de línea después» en el menú del compás, marca ↵ tras el compás 22 y quitarla con ella. HTML exportado (interceptando `showSaveFilePicker`) con el mismo reparto, la clase `fila-compacta` y su regla CSS, saltos después respetados, sin marcas ni scripts.
+- **Documentación**: manual de uso (filas compactas, salto de línea antes y después, problemas frecuentes), README, ayuda, DISEÑO, DATOS, DTS (sección nueva y tabla de comprobaciones), REQUISITOS (R40–R41), VALIDACIÓN (V43–V44), CHANGELOG e índice de manuales. Capturas retomadas: `opciones-compas` y `menu-contextual`; nuevas: `salto-linea-despues` y `fila-compacta`. Los tres documentos regenerados con `python scripts/build_docs.py --engine xelatex`; revisadas las páginas 17–19 y 23 del manual de uso, 16–19 del DTS y la portada del de instalación.
+
+Pendiente: Firefox y Safari; impresión real a PDF de una línea compacta (el HTML exportado sí se revisó); sin commit ni publicación (requieren autorización).
+
 ## Hoja de ejemplo, Ejemplos, Nuevo, salto de línea e intercambio de tarjetas (0.9.0) — 27/10/2026
 
 Rama `feature/ejemplo-inicial`. Tres peticiones del usuario en la misma sesión:

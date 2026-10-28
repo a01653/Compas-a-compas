@@ -141,13 +141,16 @@ Dos campos opcionales de `measures[]`, solo de presentación y siempre relativos
 
 Si la composición de la línea cambia (otro máximo por línea, otro ancho, edición), la marca sigue en su compás y el reparto se recalcula con los compases que realmente caben. Los archivos sin estos campos no cambian al abrirse ni guardarse; las versiones anteriores a 0.7.0 rechazan los campos nuevos.
 
-### Salto de línea forzado (0.9.0)
+### Saltos de línea forzados (0.9.0 y 0.10.0)
 
 | Campo | Tipo | Significado |
 |-------|------|-------------|
-| `breakBefore` | booleano | `true` hace que el compás empiece una línea nueva aunque quepa en la anterior. Se guarda solo `true`; automático = campo ausente. No tiene efecto en el primer compás de una hoja ni en el segundo destino de una repetición de dos compases, que va siempre junto al primero. Si la línea nueva no cabe, el reparto sigue sus reglas habituales (partir entre tarjetas, otra hoja). Las copias, pegados y duplicados no lo heredan; sustituir no lo cambia. |
+| `breakBefore` | booleano | Salto de línea antes (0.9.0): `true` hace que el compás empiece una línea nueva aunque quepa en la anterior. Se guarda solo `true`; automático = campo ausente. No tiene efecto en el primer compás de una hoja ni en el segundo destino de una repetición de dos compases, que va siempre junto al primero. Si la línea nueva no cabe, el reparto sigue sus reglas habituales (partir entre tarjetas, otra hoja). Las copias, pegados y duplicados no lo heredan; sustituir no lo cambia. |
+| `breakAfter` | booleano | Salto de línea después (0.10.0): `true` hace que el compás termine su línea y el siguiente empiece otra aunque quepa. Mismas reglas que `breakBefore`: solo `true`, sin efecto en el último compás ni en el primer destino de una repetición de dos compases, no lo heredan las copias y sustituir no lo cambia. Un salto después de un compás y otro antes del siguiente dan una sola línea nueva. |
 
-Compatibilidad: `schemaVersion` sigue siendo 1. Los archivos sin `breakBefore` no cambian al abrirse ni guardarse; las versiones anteriores a 0.9.0 rechazan ese campo por desconocido.
+Compatibilidad: `schemaVersion` sigue siendo 1. Los archivos sin estos campos no cambian al abrirse ni guardarse; las versiones anteriores a 0.9.0 rechazan `breakBefore`, y las anteriores a 0.10.0 rechazan `breakAfter`, por desconocidos.
+
+Las filas compactas (0.10.0) no se guardan: el reparto las decide en cada paginación a partir de las medidas.
 
 ## Colores predeterminados: `config/palette-defaults.json` (0.7.0)
 

@@ -1,4 +1,4 @@
-% Source-SHA256: 280ff1de5c003a7072e6de66b44c619d3a44eddd5d1b9476b4a1cfed2a75e084
+% Source-SHA256: 45a5bb5c7712099c8d036adbba2438bd1fffee4dc5d69586e378902b75f2edcb
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.9.0 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.10.0 · 28/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.9.0 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.10.0 · 28/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.9.0 · Esquema de canción 1 · Edición del DTS: 27/10/2026.
+Aplicación 0.10.0 · Esquema de canción 1 · Edición del DTS: 28/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -607,11 +607,13 @@ contiene el texto de la canción.
 
 \texttt{computeLayout} coordina el medidor y \texttt{paginate}, que
 decide el reparto sin acceder al DOM. No fija cuatro compases por fila.
-Primero intenta colocar el compás completo y, si no cabe ni en una fila
-propia, lo divide entre tarjetas. Los fragmentos mantienen etiqueta y
-orden e indican continuación. Inicio y final de repetición aparecen solo
-en el primer y último fragmento; casillas y rangos pueden continuar
-entre filas y páginas.
+Primero intenta colocar el compás completo; si no cabe a lo ancho,
+prueba la fila entera con tarjetas compactas (ver «Filas compactas y
+salto de línea después») y, si no cabe ni en una fila propia, lo divide
+entre tarjetas. Los fragmentos mantienen etiqueta y orden e indican
+continuación. Inicio y final de repetición aparecen solo en el primer y
+último fragmento; casillas y rangos pueden continuar entre filas y
+páginas.
 
 Las filas visibles distribuyen el ancho sobrante entre compases mediante
 flex. Dentro de cada fragmento, una rejilla con subgrid comparte tres
@@ -742,6 +744,23 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.10.0 & 318 superadas en Windows (Node 24.14.1);
+\texttt{tests/compact-break-after.test.js}: fila compacta cuando no cabe
+un compás, medida compacta de lo ya colocado y de lo que se añade
+después, sin compactar si cabe, tope por línea, compás que no se parte,
+pareja de repetición, altura, 300 repartos aleatorios con saltos después
+y tope; salto de línea después en la paginación, en el último compás,
+junto a uno antes, en una pareja, activación múltiple, validación y
+copias \\
+Interfaz 0.10.0 & Edge sin cabeza en Windows, servidor local: canción
+del usuario «Oh Christmas Tree» (32 compases): la hoja 3 pasa de
+«21,22,23 · 24» a «21,22,23,24» en una fila compacta (tarjetas de 123 px
+con mástil de 114 px, sin ajustar al ancho; con ajuste, 124 px); ninguna
+tarjeta más estrecha que su mástil en ninguna fila; menú contextual con
+\textbf{Salto de línea antes} y \textbf{Salto de línea después},
+desactivado en el último compás; marca ↵ tras el compás y quitarla con
+ella; HTML exportado igual que la vista previa (fila compacta con su
+clase y la regla en el CSS, saltos respetados, sin marcas ni scripts) \\
 Pruebas Node, 0.9.0 & 303 superadas en Windows (Node 24.14.1);
 \texttt{tests/examples.test.js} (catálogo frente a la carpeta
 \texttt{examples/}, validez de todos los ejemplos, II--V--I inicial
@@ -885,11 +904,12 @@ manuales parten de la carpeta principal.
   (de \texttt{maxMeasuresPerRow}; 0 = automático). El segundo destino no
   cuenta contra el tope. El medidor lee el ancho natural de cada columna
   (\texttt{columns}) y la fila se dibuja con
-  \texttt{grid-template-columns:\ minmax(min-content,\ natural\ ×\ (1\ +\ MAX\_ROW\_EXPANSION))}
-  por columna (\texttt{MAX\_ROW\_EXPANSION\ =\ 0.25} en
-  \texttt{layout/spec.js}): ninguna tarjeta supera su tope, el espacio
-  se reparte entre las que aún pueden crecer y el sobrante queda a la
-  derecha (\texttt{justify-content:\ start}).
+  \texttt{grid-template-columns:\ minmax(natural,\ natural\ ×\ (1\ +\ MAX\_ROW\_EXPANSION))}
+  por columna (hasta 0.9.0 el mínimo era \texttt{min-content}, que en
+  una columna de tarjeta vale 0) (\texttt{MAX\_ROW\_EXPANSION\ =\ 0.25}
+  en \texttt{layout/spec.js}): ninguna tarjeta supera su tope, el
+  espacio se reparte entre las que aún pueden crecer y el sobrante queda
+  a la derecha (\texttt{justify-content:\ start}).
 \item
   \textbf{Numeración}: con \texttt{showMeasureNumbers:\ false} el
   renderizador omite el texto de la etiqueta pero conserva su hueco, de
@@ -1087,5 +1107,59 @@ manuales parten de la carpeta principal.
   tarjetas marcadas: el menú contextual la omite y el menú de tarjeta
   (\texttt{ui/chord.js}) oculta su botón. Ambas tarjetas quedan marcadas
   y el paso se deshace de una vez.
+\end{itemize}
+
+\Needspace{3.5cm}
+\section{Filas compactas y salto de línea después
+(0.10.0)}\label{filas-compactas-y-salto-de-luxednea-despuuxe9s-0100}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Filas compactas}: \texttt{paginate} acepta
+  \texttt{measureCompact(ui,\ from,\ to)}, que \texttt{computeLayout}
+  resuelve con \texttt{measurer.fragment(...,\ \{\ compact:\ true\ \})}:
+  la misma medida con la clase \texttt{fila-compacta} en la fila de
+  medición. En \texttt{sheet.css}, \texttt{.fila-compacta\ .tarjeta}
+  deja 1 px de relleno lateral (de 5 px) y \texttt{.t-cab} y
+  \texttt{.t-leyenda} recuperan 3 px para que nombre, grado y leyenda no
+  toquen el borde; el mástil (con sus números de cuerda y traste) es el
+  límite inferior y no cambia. \texttt{place} coloca un fragmento si
+  cabe con las medidas del modo de la fila; si no, \texttt{fitsCompact}
+  mide toda la fila compacta (lo colocado más lo nuevo) y, si cabe en
+  ancho y alto sin superar \texttt{maxPerRow}, \texttt{compactRow}
+  vuelve a colocar lo ya puesto con sus medidas compactas y marca
+  \texttt{row.compact}. Lo que se añade después se mide compacto. Se
+  prueba antes de cerrar la fila, de pasar de hoja (\texttt{fitsEmpty})
+  y de partir un compás, y también para la pareja de repetición. Las
+  filas que caben no se miden compactas. \texttt{pageNode} añade
+  \texttt{fila-compacta} a la fila, así que vista previa, HTML e
+  impresión coinciden; en una fila ajustada o con sitio libre las
+  tarjetas crecen como siempre y el mástil queda centrado.
+\item
+  \textbf{Pistas de fila}: \texttt{rowColumns} usa como mínimo de cada
+  pista su ancho natural medido (\texttt{minmax(natural,\ tope)}). Con
+  \texttt{min-content} el mínimo de una columna de tarjeta era 0 (su
+  rejilla interna es \texttt{minmax(0,\ 1fr)}) y, en una fila justa, el
+  reparto a partes iguales estrechaba las columnas más anchas por debajo
+  de su contenido.
+\item
+  \textbf{Salto de línea después}: \texttt{breakAfter} en
+  \texttt{measures{[}{]}}; \texttt{buildUnits} lo copia y
+  \texttt{paginate} cierra la fila antes del compás siguiente
+  (\texttt{unit.breakBefore\ \textbar{}\textbar{}\ units{[}ui\ -\ 1{]}?.breakAfter},
+  salvo
+  \texttt{repeatPair\ ===\ \textquotesingle{}second\textquotesingle{}}).
+  \texttt{toggleBreakAfter} y \texttt{toggleBreakBefore} comparten
+  \texttt{toggleMeasureFlag} (\texttt{model/song.js}). La acción
+  \texttt{lineBreakAfter} (\texttt{ui/measureActions.js}) excluye el
+  último compás y el primer destino de una pareja; la de antes cambia su
+  etiqueta activa a «Quitar salto de línea antes». En la vista previa,
+  \texttt{breakAfterButton} (\texttt{render/sheet.js}) añade un botón ↵
+  (\texttt{.fila-salto-despues}, en \texttt{app.css}) dentro del último
+  fragmento del compás, abajo a la derecha, solo si el salto tiene
+  efecto; \texttt{onBreakRow} recibe
+  \texttt{side:\ \textquotesingle{}before\textquotesingle{}\ \textbar{}\ \textquotesingle{}after\textquotesingle{}}.
+  \texttt{pasteMeasures} no copia el campo.
 \end{itemize}
 \end{document}

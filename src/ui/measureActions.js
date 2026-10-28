@@ -1,4 +1,4 @@
-import { findMeasure, repeatPairOf, toggleBreakBefore } from '../model/song.js';
+import { findMeasure, repeatPairOf, toggleBreakAfter, toggleBreakBefore } from '../model/song.js';
 import { flatCards } from '../model/cards.js';
 import { measureConsequences } from '../model/structure.js';
 import {
@@ -185,14 +185,19 @@ export function createMeasureActions(store, clipboard) {
   }
 
   /**
-   * Compases en los que un salto de línea forzado tiene efecto: no el primero (ya empieza línea) ni el segundo destino de una
-   * pareja de repetición, que va siempre junto al primero.
+   * Compases en los que un salto de línea forzado tiene efecto. Antes: no el primero (ya empieza línea) ni el segundo destino de una
+   * pareja de repetición, que va siempre junto al primero. Después: no el último (no hay línea siguiente) ni el primer destino de una
+   * pareja.
    */
   const breakable = (ids) => ids.filter((id) => {
     const index = song().measures.findIndex((m) => m.id === id);
     return index > 0 && repeatPairOf(song(), id)?.second.id !== id;
   });
-  const breakActive = (ids) => ids.length > 0 && ids.every((id) => findMeasure(song(), id)?.breakBefore === true);
+  const breakableAfter = (ids) => ids.filter((id) => {
+    const index = song().measures.findIndex((m) => m.id === id);
+    return index >= 0 && index < song().measures.length - 1 && repeatPairOf(song(), id)?.first.id !== id;
+  });
+  const breakActive = (ids, key = 'breakBefore') => ids.length > 0 && ids.every((id) => findMeasure(song(), id)?.[key] === true);
 
   function lineBreak() {
     const ids = breakable(targets());
@@ -201,8 +206,19 @@ export function createMeasureActions(store, clipboard) {
     const { on } = toggleBreakBefore(song(), ids);
     store.emit('structure');
     const which = ids.length === 1 ? `el compás ${labelsOf(ids)[0]}` : `los compases ${labelsOf(ids).join(', ')}`;
-    notify(on ? `Salto de línea forzado: ${which} ${ids.length === 1 ? 'empieza' : 'empiezan'} una línea nueva en la hoja.`
-      : `Se quitó el salto de línea forzado de ${which}.`, { action: undoNotice(store) });
+    notify(on ? `Salto de línea antes: ${which} ${ids.length === 1 ? 'empieza' : 'empiezan'} una línea nueva en la hoja.`
+      : `Se quitó el salto de línea antes de ${which}.`, { action: undoNotice(store) });
+  }
+
+  function lineBreakAfter() {
+    const ids = breakableAfter(targets());
+    if (!ids.length) return;
+    store.endEdit();
+    const { on } = toggleBreakAfter(song(), ids);
+    store.emit('structure');
+    const which = ids.length === 1 ? `el compás ${labelsOf(ids)[0]}` : `los compases ${labelsOf(ids).join(', ')}`;
+    notify(on ? `Salto de línea después: ${which} ${ids.length === 1 ? 'termina' : 'terminan'} su línea y lo siguiente empieza otra.`
+      : `Se quitó el salto de línea después de ${which}.`, { action: undoNotice(store) });
   }
 
   async function remove() {
@@ -252,7 +268,7 @@ export function createMeasureActions(store, clipboard) {
     insertBefore: () => insert('before'),
     insertAfter: () => insert('after'),
     append: () => insert('after', []),
-    copy, cut, replace, duplicate, swap, lineBreak, remove, renumberNow, toggleSelectMode,
+    copy, cut, replace, duplicate, swap, lineBreak, lineBreakAfter, remove, renumberNow, toggleSelectMode,
     pasteBefore: () => paste('before'),
     pasteAfter: () => paste('after'),
     moveUp: () => move(-1),
@@ -301,10 +317,20 @@ export function createMeasureActions(store, clipboard) {
       case 'lineBreak': {
         const usable = breakable(ids);
         return {
-          ...base, label: breakActive(usable) ? 'Quitar salto de línea' : 'Salto de línea antes', disabled: !usable.length,
+          ...base, label: breakActive(usable) ? 'Quitar salto de línea antes' : 'Salto de línea antes', disabled: !usable.length,
           title: !usable.length ? (none ? 'Selecciona un compás.' : 'El primer compás ya empieza línea, y el segundo de una repetición de dos compases va siempre junto al primero.')
             : breakActive(usable) ? 'Vuelve al reparto automático: el compás puede compartir línea con los anteriores.'
               : 'El compás empieza una línea nueva en la hoja, aunque quepa en la anterior; los siguientes van detrás. No cambia el contenido.',
+        };
+      }
+      case 'lineBreakAfter': {
+        const usable = breakableAfter(ids);
+        const on = breakActive(usable, 'breakAfter');
+        return {
+          ...base, label: on ? 'Quitar salto de línea después' : 'Salto de línea después', disabled: !usable.length,
+          title: !usable.length ? (none ? 'Selecciona un compás.' : 'El último compás no tiene línea siguiente, y el primero de una repetición de dos compases va siempre junto al segundo.')
+            : on ? 'Vuelve al reparto automático: el compás siguiente puede compartir línea con este.'
+              : 'El compás termina su línea en la hoja y el siguiente empieza otra, aunque quepa. No cambia el contenido.',
         };
       }
       case 'remove': return { ...base, label: ids.length > 1 ? `Borrar ${ids.length} compases` : 'Borrar', disabled: none, danger: true };
@@ -341,7 +367,7 @@ export function createMeasureActions(store, clipboard) {
         { separator: true },
         ...pick('duplicate', 'moveUp', 'moveDown', 'swap'),
         { separator: true },
-        item('lineBreak'),
+        ...pick('lineBreak', 'lineBreakAfter'),
         { separator: true },
         ...pick('toggleMark', 'clearMarked'),
         { separator: true },

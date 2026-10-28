@@ -170,6 +170,12 @@
 .mastil-aviso { box-sizing: border-box; max-width: 210px; min-height: 86px; padding: 8px; border: 1.5px dashed #b3261e; border-radius: 6px; font: 13px/1.25 var(--f-hand); color: #7a1f1a; background: #fff8f7; overflow-wrap: anywhere; }
 .mastil text { font-family: var(--f-hand); }
 
+/* Fila compacta (la decide layout/paginate.js cuando así cabe un compás más): las tarjetas se estrechan hasta el ancho del mástil
+   con sus números de cuerda y de traste, que no cambia. Nombre, grado, textos y leyenda conservan un pequeño margen interior.
+   Si la fila tiene sitio de sobra, la tarjeta crece como siempre y el mástil queda centrado. */
+.fila-compacta .tarjeta { padding-left: 1px; padding-right: 1px; }
+.fila-compacta .t-cab, .fila-compacta .t-leyenda { padding-left: 3px; padding-right: 3px; }
+
 /* Con la numeración oculta desaparecen las líneas verticales entre compases (el borde conserva su ancho para no mover nada).
    Quedan las líneas de las tarjetas y los signos de repetición, que son marcas musicales. */
 .hoja.sin-numeros .t-pos-lead { border-left-color: transparent; }

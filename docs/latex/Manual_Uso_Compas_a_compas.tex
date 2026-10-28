@@ -1,4 +1,4 @@
-% Source-SHA256: 4ef5287fa624ea05d38a5ba89fccecea4b7b1c94526a059378628a56ddf0fddc
+% Source-SHA256: 9cf73ee0b2c651926c4fb125b9f8e73e1ffff730b20a0aaf9443d51a5ac806ec
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Manual de uso}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.9.0 · 27/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.10.0 · 28/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Editar, guardar e imprimir hojas de acordes\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.9.0 · 27/10/2026\par}
+{\sffamily\small Aplicación 0.10.0 · 28/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.9.0 · Edición del manual: 27/10/2026. Autor del proyecto:
+Aplicación 0.10.0 · Edición del manual: 28/10/2026. Autor del proyecto:
 Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -794,38 +794,68 @@ individuales.
 Las filas ya no se estiran a todo el ancho: cada tarjeta crece como
 mucho un 25 \% sobre su ancho natural y el sobrante queda a la derecha.
 
+\textbf{Filas compactas.} Si un compás no cabe a lo ancho en la línea,
+antes de pasarlo a la siguiente se prueba la línea entera con las
+tarjetas más estrechas: pierden el margen interior hasta quedarse en el
+ancho del mástil con sus números de cuerda y de traste, que no cambia.
+Si así cabe, la línea se compacta. Por ejemplo, cuatro compases de dos
+tarjetas de tres trastes caben en una línea aunque lleven las barras de
+una repetición. No hay que hacer nada: ocurre solo cuando hace falta,
+respeta el máximo de compases por línea y se ve igual en el HTML y en la
+impresión. Si la línea compacta tiene sitio libre, o está ajustada al
+ancho, las tarjetas vuelven a crecer y el mástil queda centrado. Para
+que un compás no comparta línea, usa un salto de línea.
+
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/fila-compacta.png}}
+
 \subsection{Salto de línea forzado}\label{salto-de-luxednea-forzado}
 
-Para que un compás empiece una línea nueva aunque quepa en la anterior,
-por ejemplo para que cada frase quede en su propia línea o para que la
-línea cuadre mejor:
+Para cortar la línea en un compás concreto aunque quepa más, por ejemplo
+para que cada frase quede en su propia línea o para que la línea cuadre
+mejor, hay dos opciones:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Salto de línea antes}: el compás empieza una línea nueva.
+\item
+  \textbf{Salto de línea después}: el compás termina su línea y el
+  siguiente empieza otra.
+\end{itemize}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Selecciona el compás que debe empezar la línea.
+  Selecciona el compás.
 \item
   Abre el menú de tres puntos del bloque \textbf{Compás}, o pulsa ese
   compás en la hoja con el botón derecho fuera de sus tarjetas.
 \item
-  Elige \textbf{Salto de línea antes}.
+  Elige \textbf{Salto de línea antes} o \textbf{Salto de línea después}.
 \end{enumerate}
 
-El compás y los que le siguen pasan a la línea siguiente. En la vista
-previa aparece una marca ↵ en el margen izquierdo de esa línea. Para
-volver al reparto automático, pulsa la marca o elige \textbf{Quitar
-salto de línea} en el mismo menú. Con varios compases seleccionados se
-aplica a todos. No tiene efecto en el primer compás ni en el segundo de
-una repetición de dos compases, que va siempre junto al primero. El HTML
-exportado y la impresión respetan el salto, sin la marca ↵. Si la línea
-nueva tampoco cabe en el ancho, se reparte como siempre. Las copias de
-un compás no heredan el salto.
+En la vista previa cada salto lleva una marca ↵ azul: el de antes en el
+margen izquierdo de la línea que empieza; el de después abajo a la
+derecha del compás que termina la línea. Para volver al reparto
+automático, pulsa la marca o elige \textbf{Quitar salto de línea antes}
+o \textbf{Quitar salto de línea después} en el mismo menú. Con varios
+compases seleccionados se aplica a todos. El salto antes no tiene efecto
+en el primer compás ni en el segundo de una repetición de dos compases;
+el salto después, en el último compás ni en el primero de esa
+repetición, porque los dos van siempre juntos. El HTML exportado y la
+impresión respetan los saltos, sin las marcas. Si la línea nueva tampoco
+cabe en el ancho, se reparte como siempre. Las copias de un compás no
+heredan los saltos.
 
 \pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/salto-linea.png}}
 
-El salto se guarda en el JSON como \texttt{breakBefore} solo cuando se
-usa; las versiones anteriores a 0.9.0 no abren archivos que lo incluyan.
+\pandocbounded{\includegraphics[width=\linewidth,height=0.44\textheight,keepaspectratio]{../manuals/capturas/salto-linea-despues.png}}
+
+Los saltos se guardan en el JSON solo cuando se usan, como
+\texttt{breakBefore} y \texttt{breakAfter}; las versiones anteriores a
+0.9.0 no abren archivos con \texttt{breakBefore}, y las anteriores a
+0.10.0, con \texttt{breakAfter}.
 
 \Needspace{3.5cm}
 \section{Añadir varios compases mediante una
@@ -1026,8 +1056,13 @@ quita la selección de varias. \\
 No aparece Intercambiar las dos tarjetas & Solo aparece con exactamente
 dos tarjetas seleccionadas: marca la segunda con Ctrl+clic. \\
 Un compás empieza línea aunque cabría en la anterior & Tiene un salto de
-línea forzado: pulsa la marca ↵ del margen izquierdo o \textbf{Quitar
-salto de línea} en el menú del compás. \\
+línea antes, o el compás anterior uno después: pulsa la marca ↵ (en el
+margen izquierdo de la línea o tras el compás anterior) o elige
+\textbf{Quitar salto de línea antes} o \textbf{Quitar salto de línea
+después} en el menú del compás. \\
+Las tarjetas de una línea son más estrechas que las de otras & Es una
+línea compacta: así cabe un compás más. Si prefieres el ancho normal,
+pon un salto de línea antes del último compás de esa línea. \\
 Una canción nueva no muestra la tonalidad en las tarjetas &
 \textbf{Nuevo} oculta las franjas de tonalidad: activa \textbf{Mostrar
 tonalidades de las tarjetas} en los datos de la canción. \\

@@ -129,17 +129,20 @@ export function headerNode(song, pageText) {
 }
 
 /**
- * Pistas de la fila con tope individual: cada columna crece desde su contenido hasta, como mucho, su ancho natural medido más
+ * Pistas de la fila con tope individual: cada columna crece desde su ancho natural medido hasta, como mucho, ese ancho más
  * MAX_ROW_EXPANSION. El espacio se reparte en partes iguales entre las columnas que aún pueden crecer, nunca por encima del tope
  * de ninguna, y el sobrante queda a la derecha. Sin anchos medidos, las columnas no se estiran (tamaño natural).
+ * El mínimo es el ancho medido y no `min-content`: el de una columna de tarjeta es 0 (su rejilla interna es minmax(0, 1fr)), y en
+ * una fila justa el navegador repartiría a partes iguales, estrechando las columnas más anchas por debajo de su contenido.
  */
 function rowColumns(row) {
   const parts = row.fragments.map((f) => f.tracks || f.columns || []);
   const expected = row.fragments.reduce((sum, f) => sum + Math.max(1, f.to - f.from), 0);
   if (parts.some((p, i) => p.length !== Math.max(1, row.fragments[i].to - row.fragments[i].from)) || parts.flat().length !== expected) return null;
+  const floor = (n) => `${Math.floor(n * 100) / 100}px`;
   const cap = (n) => `${Math.ceil(n * (1 + MAX_ROW_EXPANSION) * 100) / 100}px`;
   // Pistas fijas (ancho manual o línea ajustada) o con tope individual de expansión (automático).
-  return `grid-template-columns:${row.fragments.map((f, i) => (f.tracks ? parts[i].map((n) => `${n}px`) : parts[i].map((n) => `minmax(min-content,${cap(n)})`))).flat().join(' ')}`;
+  return `grid-template-columns:${row.fragments.map((f, i) => (f.tracks ? parts[i].map((n) => `${n}px`) : parts[i].map((n) => `minmax(${floor(n)},${cap(n)})`))).flat().join(' ')}`;
 }
 
 export function pageNode(ctx, page, number, total, { onSelect, onFitRow, onBreakRow } = {}) {
@@ -150,8 +153,11 @@ export function pageNode(ctx, page, number, total, { onSelect, onFitRow, onBreak
   },
     headerNode(ctx.song, `${number}/${total}`),
     h('div', { class: 'hoja-cuerpo' }, page.rows.map((row) => {
-      const line = h('div', { class: row.fill ? 'fila fila-ajustada' : 'fila', style: rowColumns(row) },
-        row.fragments.map((f) => fragmentNode(ctx, f.unitIndex, f.from, f.to, { onSelect })));
+      const nodes = row.fragments.map((f) => fragmentNode(ctx, f.unitIndex, f.from, f.to, { onSelect }));
+      const after = onBreakRow ? breakAfterButton(row, ctx, onBreakRow) : null;
+      if (after) nodes[nodes.length - 1].append(after);
+      const line = h('div', { class: ['fila', row.fill ? 'fila-ajustada' : '', row.compact ? 'fila-compacta' : ''].filter(Boolean).join(' '), style: rowColumns(row) },
+        nodes);
       // Solo la vista previa envuelve la fila para colocar sus botones en los márgenes; la exportación dibuja la fila sola.
       return onFitRow ? h('div', { class: 'fila-caja' }, onBreakRow ? breakRowButton(row, ctx, onBreakRow) : null, line, fitRowButton(row, ctx, onFitRow)) : line;
     })));
@@ -167,15 +173,30 @@ function fitRowButton(row, ctx, onFitRow) {
   }, '↔');
 }
 
-/** Marca de la vista previa (no existe en el HTML exportado), en el margen izquierdo de una línea forzada por un salto de línea. */
+/** Marca de la vista previa (no existe en el HTML exportado), en el margen izquierdo de una línea forzada por un salto de línea antes. */
 function breakRowButton(row, ctx, onBreakRow) {
   const first = row.fragments[0];
   const unit = first && first.from === 0 ? ctx.units[first.unitIndex] : null;
   if (!unit?.breakBefore || unit.repeatPair === 'second') return null;
-  const label = `Salto de línea forzado en el compás ${unit.label}. Pulsa para quitarlo.`;
+  const label = `Salto de línea antes del compás ${unit.label}. Pulsa para quitarlo.`;
   return h('button', {
     type: 'button', class: 'fila-salto', title: label, 'aria-label': label,
-    onclick: (e) => { e.stopPropagation(); onBreakRow({ measureId: unit.measureId, label: unit.label }); },
+    onclick: (e) => { e.stopPropagation(); onBreakRow({ measureId: unit.measureId, label: unit.label, side: 'before' }); },
+  }, '↵');
+}
+
+/**
+ * Marca de la vista previa (no existe en el HTML exportado) junto al final del compás que lleva salto de línea después, abajo a su
+ * derecha: solo en su último fragmento y si el salto tiene efecto (hay compás detrás y no es el primero de una pareja de repetición).
+ */
+function breakAfterButton(row, ctx, onBreakRow) {
+  const last = row.fragments[row.fragments.length - 1];
+  const unit = last ? ctx.units[last.unitIndex] : null;
+  if (!unit?.breakAfter || last.to < unit.atoms.length || !ctx.units[last.unitIndex + 1] || unit.repeatPair === 'first') return null;
+  const label = `Salto de línea después del compás ${unit.label}. Pulsa para quitarlo.`;
+  return h('button', {
+    type: 'button', class: 'fila-salto fila-salto-despues', title: label, 'aria-label': label,
+    onclick: (e) => { e.stopPropagation(); onBreakRow({ measureId: unit.measureId, label: unit.label, side: 'after' }); },
   }, '↵');
 }
 

@@ -1,39 +1,39 @@
 {
   "document": "dts",
-  "applicationVersion": "0.9.0",
-  "edition": "2026-10-27",
+  "applicationVersion": "0.10.0",
+  "edition": "2026-10-28",
   "source": "docs/DTS.md",
   "command": "python scripts/build_docs.py",
   "engine": "xelatex",
   "files": [
     {
       "path": "docs/DTS.md",
-      "sha256": "280ff1de5c003a7072e6de66b44c619d3a44eddd5d1b9476b4a1cfed2a75e084",
+      "sha256": "45a5bb5c7712099c8d036adbba2438bd1fffee4dc5d69586e378902b75f2edcb",
       "role": "source"
     },
     {
       "path": "docs/latex/document-template.tex",
-      "sha256": "64a521b15d56b68653e329fc97310764ebb354d59ac93414a2fdcece3824638a",
+      "sha256": "4b408e833111c6511f114e9462537ca53514373e7b5b93f28f35bf9e08f5b37e",
       "role": "template"
     },
     {
       "path": "scripts/build_docs.py",
-      "sha256": "e26a57ea5acb1612ba6510672182b6e0b4fd6261b4127111392fb67c9b7ee30a",
+      "sha256": "3af2596d03ce8d2dad37d842c17aad0a1798ef4b7ef9e79ede53016ee9f798bf",
       "role": "generator"
     },
     {
       "path": "package.json",
-      "sha256": "e2cf17394e1373594f1b5b64d5aac212eb4605e52789ca041c8d7e94fd6a1478",
+      "sha256": "1402bf4cd8fe44851393a3caa1dcaef0a9afc4f011d6c4b93c9a4e57350e1cf5",
       "role": "application-version"
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.tex",
-      "sha256": "e4b837c8780e417d718ef9064e3c7e0160a1a30bf49e525b00bb44a1d6158c65",
+      "sha256": "ee9d4e04b4363c75d74cb63b295934e4423f944baf559251133029863068c569",
       "role": "latex"
     },
     {
       "path": "docs/latex/DTS_Compas_a_compas.pdf",
-      "sha256": "b2ad50f6ad7d5b7246de455764b146505090c57bf939d19fba98a7a76e7cd26e",
+      "sha256": "331c57fc3c036a40a215a64d62752695879cffacbc76200eb3264ea2c5e2517e",
       "role": "pdf"
     }
   ]
