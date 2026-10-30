@@ -37,7 +37,7 @@ function repeatBar(side) {
 
 /**
  * Elementos de marcas de un fragmento de compás (ver fragmentMarks):
- * { classes, barStart, barEnd: barras de repetición (o null), strip: bloque superior en flujo o null }.
+ * { classes, barStart, barEnd: barras de repetición (o null), times: ×N de la barra de fin (o null), strip: bloque superior en flujo o null }.
  * Las barras las coloca quien dibuja las tarjetas, dentro de la zona del compás (de la línea del número hacia abajo).
  * El bloque superior ocupa espacio propio y apila varias marcas sin superponerlas.
  */
@@ -47,17 +47,19 @@ export function marksParts(f) {
   let barEnd = null;
   if (f.repeatStarts.length) { classes.push('rep-ini'); barStart = repeatBar('ini'); }
   if (f.repeatEnds.length) { classes.push('rep-fin'); barEnd = repeatBar('fin'); }
-  if (f.spans.length) classes.push('en-rep');
 
   const rows = [];
   for (const e of f.endings) rows.push(endingNode(e));
 
-  const times = f.repeatEnds.map((r) => h('span', { class: 'm-veces', title: `Repetición: ${r.times} pasadas en total` }, `×${r.times}`));
-  const conts = f.spans.filter((r) => (r.continuesBefore || r.continuesAfter) && !f.repeatEnds.some((x) => x.id === r.id) && r.continuesBefore)
-    .map((r) => h('span', { class: 'm-cont', title: 'La repetición continúa en este compás' }, `cont. ×${r.times}`));
-  const left = [...f.before.map(markItem), ...conts];
-  const right = [...f.after.map(markItem), ...times];
+  const left = f.before.map(markItem);
+  const right = f.after.map(markItem);
   if (left.length || right.length) rows.push(h('div', { class: 'marcas-fila' }, h('div', { class: 'marcas-izq' }, left), h('div', { class: 'marcas-der' }, right)));
 
-  return { classes, barStart, barEnd, strip: rows.length ? h('div', { class: 'marcas' }, rows) : null };
+  // Como en una partitura, la repetición solo lleva sus barras y el ×N encima de la barra de fin (ver .rep-veces en sheet.css);
+  // los compases intermedios no repiten la indicación.
+  const times = f.repeatEnds.length
+    ? h('div', { class: 'rep-veces' }, f.repeatEnds.map((r) => h('span', { class: 'm-veces', title: `Repetición: ${r.times} pasadas en total` }, `×${r.times}`)))
+    : null;
+
+  return { classes, barStart, barEnd, times, strip: rows.length ? h('div', { class: 'marcas' }, rows) : null };
 }

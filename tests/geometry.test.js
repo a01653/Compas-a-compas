@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { GEOM, findUndrawableVoicings, fretRange, layoutFretboard, spanMessage } from '../src/geometry/fretboard.js';
+import { GEOM, MIN_FRETBOARD_WIDTH, findUndrawableVoicings, fretRange, layoutFretboard, spanMessage } from '../src/geometry/fretboard.js';
 import { clone, loadDemo } from './helpers.js';
 
 const x = null;
@@ -133,6 +133,14 @@ test('el máximo cabe en una fila A4 apaisada (1123 px menos márgenes y relleno
   const usable = 1123 - 38 - 48;
   assert.ok(GEOM.zone + GEOM.maxFrets * GEOM.cell + 4 <= usable);
   assert.equal(layoutFretboard([1, x, x, x, x, GEOM.maxFrets]).width, GEOM.zone + GEOM.maxFrets * GEOM.cell + 4);
+});
+
+test('MIN_FRETBOARD_WIDTH es el ancho del mástil más estrecho, el que ocupa el compás de repetición', () => {
+  assert.equal(MIN_FRETBOARD_WIDTH, 114);
+  for (const frets of [[x, 3, 5, 3, 4, x], [0, 0, 0, 0, 0, 0], [x, x, x, x, x, x], [x, 1, 1, 1, 1, 1]]) {
+    assert.equal(layoutFretboard(frets).width, MIN_FRETBOARD_WIDTH);
+  }
+  assert.ok(layoutFretboard([x, 3, 6, 3, 4, x]).width > MIN_FRETBOARD_WIDTH);
 });
 
 test('la geometría pura no usa require ni importa módulos de interfaz', async () => {

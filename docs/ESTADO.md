@@ -1,5 +1,43 @@
 # Estado de trabajo
 
+## Compás de repetición en líneas compactas y repeticiones como en una partitura (0.10.1) — 30/10/2026
+
+Rama `fix/repeticion-ancho-compacto`. Petición del usuario con su canción «Havana · Acordes completos 2» (JSON aportado para la revisión en la raíz, sin versionar): al sustituir por el signo de repetición el último compás (97), este salta de línea y no debería.
+
+- **Diagnóstico** (Edge sin cabeza, servidor local): la última línea, 92–97, solo cabe compacta (1062 px de 1083,7 px útiles). El compás de repetición medía 146 px en cualquier línea (`min-width: 140px` del signo más la barra), frente a 132 px de un compás de una tarjeta de tres trastes (124 px compacto), y no se estrechaba en las líneas compactas. Con el 97 como signo la línea pasaba a 1084 px y el 97 se iba solo a una sexta hoja.
+- **Corrección**: el compás de repetición ocupa lo mismo que un compás de una tarjeta con el mástil más estrecho. `render/sheet.js` pone `--mastil-min` (`MIN_FRETBOARD_WIDTH`, nuevo en `geometry/fretboard.js`, por la escala de mástiles) en `.t-pos-repite`; `sheet.css` le suma relleno y borde de la tarjeta (12 px, 4 px en `.fila-compacta`) y quita el relleno lateral propio del signo, que va centrado.
+- **Efecto secundario**: el signo es más estrecho que antes (132 px y 124 px compacto, frente a 146 px), así que algunas líneas con signos admiten un compás más. En «Havana» la segunda línea pasa de 29–34 a 29–35, 68–71 sube a la hoja 3 y la hoja 5 queda en dos líneas; la canción sigue en 5 hojas.
+- **Archivos**: `styles/sheet.css`, `src/render/sheet.js`, `src/geometry/fretboard.js`, `tests/geometry.test.js` (prueba de `MIN_FRETBOARD_WIDTH`); DISEÑO, DTS y CHANGELOG.
+- **Revisión en navegador**: anchos medidos con el medidor real; compás de una tarjeta de tres trastes frente a compás de repetición, normal y compacto, a escala 100, 90, 80, 70 y 60 %: iguales en todos los casos (132/124 px a 100 %; 86,4/78,4 px a 60 %). Con el 97 como signo, la línea 92–97 sigue entera y compacta (1062 px). Captura de las hojas 1 y 5 revisada.
+- **Pruebas**: `node --test tests/geometry.test.js`, 16 superadas; `npm test`, 319 superadas.
+
+### Sin «cont. ×N» en los compases intermedios de una repetición
+
+Segunda petición de la misma revisión: en la repetición ×5 de 88–91 aparecía «cont. ×5» sobre 89 y 90, pero no sobre 88 ni 91. El usuario indica que en una partitura solo aparece el ×5 del final y el lector vuelve a la barra de inicio anterior.
+
+- **Causa**: desde la fase de marcas (`327e59d`), `marksParts` escribía «cont. ×N» en todo compás de la repetición que no fuera el primero (que lleva la barra de inicio) ni el último (que lleva ×N). No dependía de cruzar fila u hoja.
+- **Corrección**: `src/render/marks.js` deja de dibujar ese texto y `styles/sheet.css` pierde la regla `.m-cont`. Las casillas conservan su «cont.» al continuar en otra fila. La proyección (`spans` con `continuesBefore`/`continuesAfter`) no cambia; tras la tercera petición ya no se dibuja.
+- **Revisión en navegador**: hoja 5 de «Havana» redibujada: 88–91 con barras de inicio y fin y ×5 solo al final; 92–93 con ×3 al final.
+- **Documentación**: DTS (repeticiones y saltos), manual de uso (tabla de marcas) y CHANGELOG.
+
+### ×N encima de la barra de fin y sin línea de tramo
+
+Tercera petición: quitar también la línea tenue sobre los compases de una repetición y bajar el ×N, que salía en el bloque de marcas de lo alto de la fila, pegado a la línea de arriba y engañoso; debe ir sobre la barra final con los dos puntos.
+
+- **Línea**: era la sombra interior de `.compas.en-rep`. Se quitan la clase (`render/marks.js`), su regla en `sheet.css` y las dos reglas de selección que solo existían para taparla (`app.css`, `workspace.css`).
+- **×N**: `marksParts` lo devuelve aparte (`times`) y `fragmentNode` lo añade al compás; `.rep-veces` lo coloca en las pistas de título y franja de la última columna, al pie y alineado con el borde exterior de la barra de fin, dentro del relleno de 24 px de `rep-fin`, sin ensanchar la columna. Si la fila no tiene títulos ni franjas, esas pistas crecen lo justo. Con dos cifras entra unos píxeles sobre la franja de la última tarjeta y se pinta por encima (`z-index`) para que se lea.
+- **Revisión en navegador**: «Havana» hoja 5 (88–91 ×5 y 92–93 ×3, con título de sección y sin franjas) y `examples/cancion-demo.json` (con franjas, casillas, To Coda y D.S. al Coda) con ×3 y con ×12, ampliados: el ×N queda justo encima de la barra fina y gruesa; vista previa con los botones ↵ y ↔, que no lo tapan. El reparto de «Havana» no cambia.
+- **Pruebas**: `npm test`, 319 superadas.
+
+### Cierre de la 0.10.1
+
+- **Versión** 0.10.1 en `package.json`, pie de `index.html`, cabeceras de manuales y DTS, plantilla LaTeX y manifiesto de construcción (edición 30/10/2026).
+- **Capturas retomadas** (Edge sin cabeza en Windows, 1440 × 960 px, escala 1,5, servidor local, JSON abierto por el selector de archivo de la aplicación): `textos-deshacer`, `menu-contextual`, `seleccion-compases`, `seleccion-tarjetas` y `aviso-corregir` (1440 × 560 px), que mostraban el ×3 en lo alto de la fila o «cont. ×3»; `fila-compacta` pasa a la línea compacta 92–97 de «Havana» con la repetición 92–93 ×3, porque el JSON de «Oh Christmas Tree» ya no está. `marcas-compas` es el diálogo de marcas y no cambia.
+- **Documentación**: además de lo indicado arriba, README (continuaciones), VALIDACIÓN (V45–V46), tabla de comprobaciones del DTS, índice de manuales y pie de la captura de línea compacta. Los tres documentos regenerados con `python scripts/build_docs.py --engine xelatex`; revisadas las páginas 7–11, 14, 18 y 21 del manual de uso, 10 y 13 del DTS y la portada del de instalación.
+- **Batería final**: `npm test`, 319 superadas; `node scripts/build-pages.mjs` correcto; `git diff --check` sin avisos.
+
+Pendiente: Firefox y Safari.
+
 ## Filas compactas y salto de línea después (0.10.0) — 28/10/2026
 
 Rama `feature/tarjetas-compactas-salto-despues`. Peticiones del usuario sobre su canción «Oh Christmas Tree» (JSON aportado para la revisión; se borró a petición suya y no está en el repositorio):

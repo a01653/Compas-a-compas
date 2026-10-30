@@ -29,6 +29,7 @@ En móvil, apilar paneles; no encoger controles hasta volverlos ilegibles. La vi
 - El grado del voicing, las anotaciones y las tonalidades se escriben manualmente. No generar función romana ni familia/inversión obligatoria.
 - No dibujar agrupaciones por acorde, líneas de color bajo las tarjetas ni separadores verticales entre tarjetas de un mismo compás. Las barras de compás y de repetición conservan su función musical.
 - El relleno lateral de las tarjetas es de 5 px desde 0.6.3, con holgura para el redondeo de bordes a escalas fraccionarias. En una fila compacta (0.10.0) baja a 1 px para que quepa un compás más: el límite inferior es el mástil con sus números de cuerda y de traste, que no se reduce; nombre, grado y leyenda conservan 3 px.
+- El compás de repetición (signo de un compás o pareja de dos) ocupa lo mismo que un compás de una tarjeta con el mástil más estrecho (tres trastes), a la escala de mástiles de la canción y también en una fila compacta. Sustituir un compás así por el signo nunca alarga la línea ni la hace saltar.
 - El ancho crece al añadir trastes; la fila y la página se reorganizan. No estrechar indefinidamente cada celda para mantener cuatro compases por fila.
 
 ## Geometría del mástil

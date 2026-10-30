@@ -337,7 +337,7 @@
 .vista-hojas .tarjeta.marcado { box-shadow: 0 0 0 3px rgba(255, 196, 61, 0.95), 0 0 0 5px rgba(196, 128, 0, 0.7); }
 .vista-hojas .tarjeta.sel.marcado { outline-width: 2px; outline-offset: 7px; }
 /* Lo señalado se resalta más: con una tarjeta señalada el compás activo queda en segundo plano, y al revés. */
-.vista-hojas.apunta-tarjeta .compas.sel, .vista-hojas.apunta-tarjeta .compas.sel.en-rep { background: rgba(166, 203, 233, 0.08); box-shadow: 0 0 0 1px rgba(47, 107, 255, 0.22); }
+.vista-hojas.apunta-tarjeta .compas.sel { background: rgba(166, 203, 233, 0.08); box-shadow: 0 0 0 1px rgba(47, 107, 255, 0.22); }
 .vista-hojas:not(.apunta-tarjeta) .tarjeta.sel { outline: 2px solid rgba(47, 107, 255, 0.35); }
 
 /* ---------- Nuevo y Ejemplos (0.9.0) ---------- */

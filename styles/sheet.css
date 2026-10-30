@@ -94,7 +94,6 @@
 .m-fine { font-style: italic; border-right: 3px double var(--ink-deep); padding-right: 6px; }
 .m-salto { font-size: 17px; }
 .m-veces { font: 22px/1 var(--f-marker); }
-.m-cont { font: 14px/1 var(--f-hand); color: var(--ink-mute); }
 .glifo { flex: none; display: block; }
 .casilla { box-sizing: border-box; min-height: 20px; padding: 1px 8px 0 6px; border-top: 1.8px solid var(--ink-deep); font: 15px/1.2 var(--f-hand); white-space: nowrap; }
 .casilla.abre { border-left: 1.8px solid var(--ink-deep); }
@@ -118,9 +117,17 @@
 .barra-rep.fin .punto { right: 13px; }
 .barra-rep .punto.a { top: calc(50% - 9px); }
 .barra-rep .punto.b { top: calc(50% + 4px); }
-.compas.en-rep { box-shadow: inset 0 3px 0 -1px rgba(27, 42, 120, 0.12); }
+/* ×N de la repetición, encima de la barra de fin como en una partitura: al pie de las pistas de título y franja de la última
+   columna, alineado con el borde exterior de la barra, en el relleno derecho del compás (rep-fin), sin ensanchar la columna.
+   Si la fila no tiene títulos ni franjas, esas pistas crecen lo justo para él. Un ×N de dos cifras no cabe en el relleno y entra
+   un poco sobre la franja de la última tarjeta: se pinta por encima de ella para que siga legible. */
+.compas > .rep-veces { z-index: 1; grid-row: 2 / span 2; grid-column: -2 / -1; align-self: end; justify-self: end; display: flex; gap: 8px; margin: 0 -24px 3px 0; color: var(--ink-deep); }
 
-.compas-repite { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; min-width: 140px; min-height: 96px; padding: 10px 24px; color: var(--ink-deep); }
+/* El compás de repetición ocupa lo mismo que uno de una tarjeta con el mástil más estrecho (--mastil-min, ya a la escala de la
+   canción) más el relleno lateral y el borde de la tarjeta, también en una fila compacta: sustituir ese compás por el signo nunca
+   alarga la línea. El signo va centrado, sin relleno lateral propio. */
+.compas-repite { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; min-width: calc(var(--mastil-min, 114px) + 12px); min-height: 96px; padding: 10px 0; color: var(--ink-deep); }
+.fila-compacta .compas-repite { min-width: calc(var(--mastil-min, 114px) + 4px); }
 .compas-repite-doble { position: absolute; z-index: 2; top: 50%; right: 0; transform: translate(calc(50% + 4px), -50%); padding: 2px 3px; border-radius: 6px; background: #fff; color: var(--ink-deep); }
 .repite-signo-doble { display: block; width: 84px; height: 64px; }
 .repite-signo { display: block; flex: none; width: 64px; height: 64px; }

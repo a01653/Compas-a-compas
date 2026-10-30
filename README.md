@@ -86,7 +86,7 @@ El botón **Marcas**, dentro del bloque Compás, abre **Marcas del compás selec
 
 ### Continuaciones
 
-Si un compás no cabe a lo ancho en una fila, la fila se compacta (las tarjetas se estrechan hasta el ancho de su mástil con sus números) cuando así cabe; si no, pasa a la siguiente, y si no cabe ni así, se parte entre tarjetas en fragmentos con la misma etiqueta y la marca «continuación». Inicio y fin de repetición solo aparecen en el primer y último fragmento; casillas y repeticiones se muestran como continuación al cruzar fila u hoja. Todas las tarjetas se conservan en orden.
+Si un compás no cabe a lo ancho en una fila, la fila se compacta (las tarjetas se estrechan hasta el ancho de su mástil con sus números) cuando así cabe; si no, pasa a la siguiente, y si no cabe ni así, se parte entre tarjetas en fragmentos con la misma etiqueta y la marca «continuación». Inicio y fin de repetición solo aparecen en el primer y último fragmento, con el ×N encima de la barra de fin; las casillas se muestran como continuación al cruzar fila u hoja. Todas las tarjetas se conservan en orden.
 
 ### Guardar, exportar e imprimir
 
