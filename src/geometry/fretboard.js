@@ -10,6 +10,9 @@ export const GEOM = {
   maxFrets: 32,   // capacidad legible de UNA fila A4 (1123 - 38 márgenes - 48 barra/relleno - 26 zone+4) / 28 = 36 trastes; se mantiene 32 con holgura
 };
 
+/** Ancho del mástil más estrecho (GEOM.minFrets trastes) a escala 100 %. */
+export const MIN_FRETBOARD_WIDTH = GEOM.zone + GEOM.minFrets * GEOM.cell + 4;
+
 const isFret = (f) => Number.isInteger(f) && f >= 0;
 
 /**
@@ -55,7 +58,7 @@ export function layoutFretboard(frets, degrees, anchorFret = null) {
   const reason = spanMessage(range);
   if (reason) {
     // No se construye ninguna lista por traste: el coste no depende del valor de las notas.
-    return { ...range, drawable: false, reason, width: zone + GEOM.minFrets * cell + 4, height, stringsBottom, strings: [], fretLines: [], labels: [], marks: [], anchor: null };
+    return { ...range, drawable: false, reason, width: MIN_FRETBOARD_WIDTH, height, stringsBottom, strings: [], fretLines: [], labels: [], marks: [], anchor: null };
   }
 
   const width = zone + count * cell + 4;

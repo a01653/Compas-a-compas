@@ -8,6 +8,7 @@ import { buildUnits, fragmentFlags, groupAtoms, titleSpans } from '../layout/ato
 import { MAX_ROW_EXPANSION, pageStyleVars } from '../layout/spec.js';
 import { deriveTonalityContext, tonalitiesVisible } from '../model/tonality.js';
 import { effectiveText, measureNumbersVisible } from '../model/song.js';
+import { MIN_FRETBOARD_WIDTH } from '../geometry/fretboard.js';
 
 /**
  * Renderizador único de hojas: la vista previa, la medición y el HTML exportado dibujan con estas funciones.
@@ -99,7 +100,9 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
       tail: i === groups.length - 1 ? parts.barEnd : null,
     })))
     : unit.repeatPrevious || unit.repeatPair
-      ? h('div', { class: `t-pos t-pos-lead t-pos-repite${unit.repeatPair ? ' t-pos-repite-doble' : ''}` },
+      // --mastil-min: mástil más estrecho a la escala de la canción; el signo ocupa lo que una tarjeta con él (ver .compas-repite).
+      ? h('div', { class: `t-pos t-pos-lead t-pos-repite${unit.repeatPair ? ' t-pos-repite-doble' : ''}`,
+        style: `--mastil-min:${(MIN_FRETBOARD_WIDTH * (ctx.song.fretboardScalePercent ?? 100)) / 100}px` },
         h('div', { class: 't-num' }, label === null ? null : h('span', { class: 'compas-num' }, label)),
         parts.barStart, parts.barEnd, unit.repeatPair === 'second' ? h('div', { class: 'compas-repite' }) : unit.repeatPair ? [h('div', { class: 'compas-repite' }), repeatSymbolTwo()] : repeatSymbol())
       : h('div', { class: 't-pos t-pos-lead t-pos-vacio' },
@@ -116,6 +119,7 @@ export function fragmentNode(ctx, unitIndex, from, to, { onSelect } = {}) {
   },
     parts.strip,
     groups.length ? titleNodes(ctx, groups, unit.measureId, onSelect) : null,
+    parts.times,
     body);
 }
 

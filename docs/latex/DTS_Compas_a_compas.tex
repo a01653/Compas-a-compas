@@ -1,4 +1,4 @@
-% Source-SHA256: 45a5bb5c7712099c8d036adbba2438bd1fffee4dc5d69586e378902b75f2edcb
+% Source-SHA256: 339b97189cd09c3c1dcc69a59f3730d90aa1be1961ad2e3711769c9883e368fe
 % !TeX program = xelatex
 \documentclass[a4paper,11pt]{article}
 \usepackage{fontspec}
@@ -33,7 +33,7 @@
 \fancyhf{}
 \fancyhead[L]{\small\sffamily\color{softgray}Compás a compás}
 \fancyhead[R]{\small\sffamily\color{softgray}Diseño técnico del software}
-\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.10.0 · 28/10/2026}
+\fancyfoot[L]{\small\sffamily\color{softgray}Aplicación 0.10.1 · 30/10/2026}
 \fancyfoot[R]{\small\sffamily\color{softgray}\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \usepackage{array,longtable,booktabs,calc}
@@ -92,7 +92,7 @@
 {\sffamily\fontsize{14}{20}\selectfont\color{lightblue} Arquitectura, datos, paginación y operación local\par}
 \vfill
 {\sffamily\small Autor del proyecto: Jesús Quevedo Rodríguez\par}
-{\sffamily\small Aplicación 0.10.0 · 28/10/2026\par}
+{\sffamily\small Aplicación 0.10.1 · 30/10/2026\par}
 {\sffamily\small Repositorio: a01653/Compas-a-compas\par}
 \vspace{2cm}
 \end{center}
@@ -102,7 +102,7 @@
 \setcounter{page}{2}
 \tableofcontents
 \newpage
-Aplicación 0.10.0 · Esquema de canción 1 · Edición del DTS: 28/10/2026.
+Aplicación 0.10.1 · Esquema de canción 1 · Edición del DTS: 30/10/2026.
 Autor del proyecto: Jesús Quevedo Rodríguez.
 
 \Needspace{3.5cm}
@@ -563,7 +563,18 @@ legibles, manteniendo los IDs internamente.
 El borrado de un compás presenta las consecuencias para la estructura y
 permite cancelar. Las referencias que queden pendientes se conservan y
 se señalan. \texttt{marksProjection.js} transforma la estructura para
-dibujar barras, corchetes y símbolos. No interpreta indicaciones
+dibujar barras, corchetes y símbolos. Una repetición se dibuja como en
+una partitura: barra de inicio en el primer compás, barra de fin y ×N en
+el último; los compases intermedios no llevan texto ni otra señal de
+continuación, también cuando la repetición cruza fila u hoja.
+\texttt{marksParts} devuelve el ×N aparte (\texttt{times}) y
+\texttt{fragmentNode} lo coloca como hijo del compás en las pistas de
+título y franja de su última columna (\texttt{.rep-veces}: al pie,
+alineado con el borde exterior de la barra de fin y dentro del relleno
+\texttt{rep-fin}), de modo que queda justo encima de la barra con los
+dos puntos y no en el bloque de marcas superior. La proyección sigue
+calculando \texttt{spans}, aunque ya no se dibujan. Las casillas sí
+indican «cont.» al continuar en otra fila. No interpreta indicaciones
 escritas como texto libre ni comprueba que el recorrido termine.
 
 \Needspace{3.5cm}
@@ -744,6 +755,19 @@ Comprobación registrada & Resultado y entorno \\
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
+Pruebas Node, 0.10.1 & 319 superadas en Windows (Node 24.14.1);
+\texttt{tests/geometry.test.js} añade \texttt{MIN\_FRETBOARD\_WIDTH}
+(114 px, igual al mástil de los voicings de tres trastes y a los no
+dibujables) \\
+Interfaz 0.10.1 & Edge sin cabeza en Windows, servidor local: canción
+del usuario «Havana» (5 hojas): con el último compás (97) sustituido por
+el signo, la línea 92--97 sigue entera y compacta (1062 px de 1083,7 px
+útiles); compás de repetición igual a un compás de una tarjeta de tres
+trastes, normal y compacto, a escala de mástiles 100, 90, 80, 70 y 60
+\%; repeticiones 88--91 ×5 y 92--93 ×3 sin «cont. ×N» ni línea de tramo
+y con el ×N encima de la barra de fin;
+\texttt{examples/cancion-demo.json} con franjas, casillas y ×3 y ×12;
+vista previa con los botones ↵ y ↔ sin tapar el ×N \\
 Pruebas Node, 0.10.0 & 318 superadas en Windows (Node 24.14.1);
 \texttt{tests/compact-break-after.test.js}: fila compacta cuando no cabe
 un compás, medida compacta de lo ya colocado y de lo que se añade
@@ -897,7 +921,14 @@ manuales parten de la carpeta principal.
   dibuja el signo SVG de \texttt{render/repeat.js} en lugar de tarjetas;
   el signo de dos compases lo dibuja el primer destino centrado en su
   borde derecho, sobre la barra común. La medición y el reparto usan los
-  mismos nodos.
+  mismos nodos. El ancho del compás de repetición es el de un compás de
+  una tarjeta con el mástil más estrecho: el renderizador pone en
+  \texttt{.t-pos-repite} la variable \texttt{-\/-mastil-min}
+  (\texttt{MIN\_FRETBOARD\_WIDTH} de \texttt{geometry/fretboard.js} por
+  \texttt{fretboardScalePercent}) y \texttt{sheet.css} le suma el
+  relleno lateral y el borde de la tarjeta (12 px; 4 px en
+  \texttt{.fila-compacta}). Así el signo nunca es más ancho que la
+  tarjeta que sustituye, a cualquier escala y en cualquier modo de fila.
 \item
   \textbf{Reparto}: \texttt{paginate} conserva juntos los dos destinos
   de una pareja (se miden como un bloque) y aplica \texttt{maxPerRow}

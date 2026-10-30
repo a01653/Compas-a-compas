@@ -1,5 +1,11 @@
 # Cambios
 
+## 0.10.1 — 30/10/2026
+
+- Corregido: el compás de repetición medía 146 px en cualquier línea, más que un compás de una tarjeta (132 px; 124 px en una línea compacta), y no se estrechaba en las líneas compactas. Sustituir por el signo el último compás de una línea justa podía mandarlo solo a la línea o la hoja siguiente. Ahora ocupa lo mismo que un compás de una tarjeta con el mástil más estrecho, también con los mástiles reducidos y en las líneas compactas; como es algo más estrecho que antes, algunas líneas con signos de repetición admiten un compás más.
+- Las repeticiones se dibujan como en una partitura: el ×N va justo encima de la barra de fin con los dos puntos (antes salía en lo alto de la línea, pegado a la de arriba), y los compases intermedios ya no llevan «cont. ×N» ni la línea tenue superior.
+- Manual de uso con las capturas de repeticiones retomadas; README, DTS y validación (V45–V46) actualizados.
+
 ## 0.10.0 — 28/10/2026
 
 - **Filas compactas**: si un compás no cabe a lo ancho en la línea, se prueba la línea entera con las tarjetas estrechadas hasta el ancho de su mástil con los números de cuerda y de traste; si así cabe, la línea se compacta en lugar de pasar el compás a la siguiente o partirlo. Cuatro compases de dos tarjetas de tres trastes caben ahora en una línea aunque lleven barras de repetición. El mástil no cambia y el máximo de compases por línea se respeta. Se ve igual en la vista previa, el HTML y la impresión.

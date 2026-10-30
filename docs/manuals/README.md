@@ -1,6 +1,6 @@
 # Manuales y DTS
 
-Documentación de Compás a compás **0.10.0**, edición **28/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
+Documentación de Compás a compás **0.10.1**, edición **30/10/2026**, organizada por tareas y pasos de uso, con capturas explicadas, fuentes editables e índice común.
 
 | Documento | PDF | Fuente |
 | --- | --- | --- |
@@ -43,6 +43,8 @@ La captura textos-deshacer.png usa examples/textos-tonalidades.json, con ocho po
 Capturas de 0.9.0 (27/10/2026), con el mismo procedimiento (Edge sin cabeza en Windows, ventana de 1440 × 960 px, escala 1,5, servidor local): `editor-general.png` muestra ahora la hoja de ejemplo con que arranca la aplicación y la cabecera con **Nuevo** y **Ejemplos**; `opciones-compas.png` y `menu-contextual.png` se retomaron con **Salto de línea antes**, abriendo `examples/cancion-demo.json` desde **Ejemplos** (clic derecho sobre el compás 2, como antes); `textos-deshacer.png` se retomó por la cabecera y la versión del pie. Nuevas: `menu-ejemplos.png` (menú Ejemplos abierto, recortado a la barra de archivo; retomada al añadir el catálogo de voicings Drop, con ocho entradas), `salto-linea.png` (hoja de ejemplo tras **Salto de línea antes** en el compás 3) e `intercambiar-tarjetas.png` (Dm7 del compás 1 y Cmaj7 del compás 4 marcadas con Ctrl+clic y su menú contextual).
 
 Capturas de 0.10.0 (28/10/2026), con el mismo procedimiento (Edge sin cabeza en Windows, ventana de 1440 × 960 px, escala 1,5, servidor local, abriendo cada JSON como copia de recuperación): `opciones-compas.png` y `menu-contextual.png` se retomaron con **Salto de línea después** (`examples/cancion-demo.json`, compás 1 y clic derecho sobre el compás 2). Nuevas: `salto-linea-despues.png` (hoja de ejemplo tras **Salto de línea después** en el compás 2, con la marca ↵ junto a él) y `fila-compacta.png` (línea de los compases 21–24 de «Oh Christmas Tree», canción aportada por el usuario que no está en `examples/`, recortada a la línea).
+
+Capturas de 0.10.1 (30/10/2026), con el mismo procedimiento (Edge sin cabeza en Windows, ventana de 1440 × 960 px, escala 1,5, servidor local, abriendo cada JSON por el selector de archivo de la aplicación), retomadas porque el ×N de las repeticiones pasa encima de la barra de fin y desaparece «cont. ×N»: `textos-deshacer.png` (también por la versión del pie), `menu-contextual.png`, `seleccion-compases.png`, `seleccion-tarjetas.png` y `aviso-corregir.png` (ventana de 1440 × 560 px), con los mismos pasos que en 0.8.0. `fila-compacta.png` muestra ahora la línea compacta de los compases 92–97 de «Havana», otra canción aportada por el usuario que no está en `examples/`, con la repetición 92–93 ×3.
 
 ## Botón Manual de la aplicación
 

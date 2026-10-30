@@ -1,6 +1,6 @@
 # Manual de uso — Compás a compás
 
-Aplicación 0.10.0 · Edición del manual: 28/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
+Aplicación 0.10.1 · Edición del manual: 30/10/2026. Autor del proyecto: Jesús Quevedo Rodríguez.
 
 ## Preparar una canción
 
@@ -251,7 +251,7 @@ Las filas ya no se estiran a todo el ancho: cada tarjeta crece como mucho un 25 
 
 **Filas compactas.** Si un compás no cabe a lo ancho en la línea, antes de pasarlo a la siguiente se prueba la línea entera con las tarjetas más estrechas: pierden el margen interior hasta quedarse en el ancho del mástil con sus números de cuerda y de traste, que no cambia. Si así cabe, la línea se compacta. Por ejemplo, cuatro compases de dos tarjetas de tres trastes caben en una línea aunque lleven las barras de una repetición. No hay que hacer nada: ocurre solo cuando hace falta, respeta el máximo de compases por línea y se ve igual en el HTML y en la impresión. Si la línea compacta tiene sitio libre, o está ajustada al ancho, las tarjetas vuelven a crecer y el mástil queda centrado. Para que un compás no comparta línea, usa un salto de línea.
 
-![Línea compacta: los compases 21 a 24, con la repetición, caben en una línea con las tarjetas estrechadas hasta su mástil.](capturas/fila-compacta.png)
+![Línea compacta: los compases 92 a 97, con la repetición ×3 de 92–93, caben en una línea con las tarjetas estrechadas hasta su mástil.](capturas/fila-compacta.png)
 
 ### Salto de línea forzado
 
@@ -304,7 +304,7 @@ El formulario permite añadir y editar la estructura escrita:
 
 | Marca | Cómo prepararla |
 | --- | --- |
-| Repetición | Elige el compás inicial, el final y el número total de pasadas. ×3 significa tres pasadas en total. |
+| Repetición | Elige el compás inicial, el final y el número total de pasadas. ×3 significa tres pasadas en total. Como en una partitura, la hoja dibuja la barra de inicio y la de fin, con el ×3 justo encima de la barra de fin; los compases intermedios no llevan ninguna indicación. |
 | Casilla | Elige su inicio y final, las pasadas y, cuando corresponda, la repetición a la que pertenece. |
 | Segno, Coda y Fine | Coloca la marca antes o después del compás elegido. |
 | D.C., D.S. y variantes | Elige el salto y los destinos Segno, Coda o Fine que solicite el formulario. |

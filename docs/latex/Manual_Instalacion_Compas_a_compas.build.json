@@ -1,39 +1,39 @@
 {
   "document": "instalacion",
-  "applicationVersion": "0.10.0",
-  "edition": "2026-10-28",
+  "applicationVersion": "0.10.1",
+  "edition": "2026-10-30",
   "source": "docs/manuals/INSTALACION.md",
   "command": "python scripts/build_docs.py",
   "engine": "xelatex",
   "files": [
     {
       "path": "docs/manuals/INSTALACION.md",
-      "sha256": "a2902618fb5c29c94fbe39eeec22d23aff19e504606113e6944afcf3c2668062",
+      "sha256": "7e24656c519761797df207201d0d9824898d8085c7364d686b2349ab137dfd9a",
       "role": "source"
     },
     {
       "path": "docs/latex/document-template.tex",
-      "sha256": "4b408e833111c6511f114e9462537ca53514373e7b5b93f28f35bf9e08f5b37e",
+      "sha256": "f0c8308033cc245697a73412a8ee715bf0cf3cd6c72a42dc6d330c8b31b1b74e",
       "role": "template"
     },
     {
       "path": "scripts/build_docs.py",
-      "sha256": "3af2596d03ce8d2dad37d842c17aad0a1798ef4b7ef9e79ede53016ee9f798bf",
+      "sha256": "4895943138f88f4f252fb73aed72c7e549bb95be10d802d349d4861d350e7167",
       "role": "generator"
     },
     {
       "path": "package.json",
-      "sha256": "1402bf4cd8fe44851393a3caa1dcaef0a9afc4f011d6c4b93c9a4e57350e1cf5",
+      "sha256": "475c651f4d5217aaff421700aadbc3594de4e888f41410060a848ac6a0ad67f7",
       "role": "application-version"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.tex",
-      "sha256": "5d72603de44d80ab9305537f09faf3942470e62169aafeae07796e3ffbdc7441",
+      "sha256": "1a73446b3f620bb820de6d067bde1646281b41305182df467293c0f26ac3dca9",
       "role": "latex"
     },
     {
       "path": "docs/latex/Manual_Instalacion_Compas_a_compas.pdf",
-      "sha256": "84154b20336716f69c69b61baa10409eb62e13da6017b0f0f1dfae2b59b283d2",
+      "sha256": "7764771c525667cc0573453362ffd4581e2b8ba24d8886822fa08e98f1def02f",
       "role": "pdf"
     }
   ]
