@@ -38,6 +38,8 @@ Tercera petición: quitar también la línea tenue sobre los compases de una rep
 
 Pendiente: Firefox y Safari.
 
+Integrado en `main` con el merge `5cc2c4e` (commit `d459c86`), con autorización expresa del usuario, y publicado por GitHub Actions (ejecución 41068713567, `build` y `deploy` correctos; 319 pruebas superadas en el ejecutor). El árbol de `main` tras la fusión es idéntico al validado en la rama. La web de Pages muestra «Versión 0.10.1», sirve `styles/sheet.css` con la regla `rep-veces` y el manual de uso en PDF; abierta en Edge sin cabeza con `examples/cancion-demo.json`, el ×3 queda justo encima de la barra de fin (mismo borde derecho, 2 px por encima) y la hoja no tiene «cont. ×» ni clase `en-rep`. El JSON «Havana» del usuario se borró de la carpeta a petición suya; nunca se versionó.
+
 ## Filas compactas y salto de línea después (0.10.0) — 28/10/2026
 
 Rama `feature/tarjetas-compactas-salto-despues`. Peticiones del usuario sobre su canción «Oh Christmas Tree» (JSON aportado para la revisión; se borró a petición suya y no está en el repositorio):
