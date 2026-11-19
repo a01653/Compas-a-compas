@@ -1,0 +1,25 @@
+{
+  "source_path": "AGENTS.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Instrucciones de trabajo",
+  "summary": "Instrucciones de trabajo para desarrollar Compás a compás: prioridades, implementación por fases, flujo de ramas, validación de cierre y mantenimiento de manuales, DTS y README.",
+  "scope": ["Compás a compás", "flujo de trabajo", "ramas git", "validación de cierre", "manuales de uso e instalación", "DTS", "README", "fases de implementación", "arquitectura JSON", "referencias visuales"],
+  "cross_refs": [
+    "docs/encargos/repeticion-compas-y-ajustes-tarjetas.md",
+    "docs/REQUISITOS.md",
+    "docs/DISENO.md",
+    "docs/DATOS.md",
+    "docs/diseno/textos-y-tonalidades.md",
+    "docs/PLAN.md",
+    "docs/ESTADO.md",
+    "docs/DTS.md",
+    "docs/manuals/*.md",
+    "references/",
+    "README.md"
+  ],
+  "locked": false,
+  "precedence": 0,
+  "notes": "Clasificación fijada por MANIFEST_TYPE=DOC (manifest_override true); no se aplicó heurística ni análisis de contenido para el tipo. Precedencia fijada por MANIFEST_PRECEDENCE=0. Limitación: el hash del nombre de archivo (primeros 8 caracteres hex de SHA-256 de la ruta completa) no pudo calcularse porque el clasificador no dispone de herramienta de shell; el archivo se nombra AGENTS-hashunavailable.json y debe renombrarse con el hash correcto si el sintetizador depende del patrón de nombre."
+}

@@ -1,0 +1,32 @@
+# Manifiesto de importación a GSD: Compás a compás 0.10.1 (definitivo)
+# Uso: /gsd-ingest-docs --mode new --manifest .planning/ingest-manifest.yaml
+#
+# precedence: un número menor gana.
+#   AGENTS.md y CLAUDE.md son las instrucciones operativas prioritarias (DOC, no ADR).
+#   Después, REQUISITOS > DISENO > DATOS, como fija AGENTS.md.
+#   La ampliación de 0.5.0 queda por debajo de DISENO, que la actualiza en 0.6.0.
+#
+# Excluidos: docs/ESTADO.md y docs/PLAN.md (historial y fases completadas),
+#   docs/encargos/, docs/diseno/editor-compacto/, docs/VALIDACION.md, DTS,
+#   manuales, WEB.md e INICIO_CLAUDE.md. .planning/codebase/ no se reimporta.
+# Las referencias cruzadas de los documentos originales no se tocan.
+
+docs:
+  - path: AGENTS.md
+    type: DOC
+    precedence: 0
+  - path: CLAUDE.md
+    type: DOC
+    precedence: 1
+  - path: docs/REQUISITOS.md
+    type: PRD
+    precedence: 2
+  - path: docs/DISENO.md
+    type: SPEC
+    precedence: 3
+  - path: docs/DATOS.md
+    type: SPEC
+    precedence: 4
+  - path: docs/diseno/textos-y-tonalidades.md
+    type: SPEC
+    precedence: 5

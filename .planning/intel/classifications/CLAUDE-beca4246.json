@@ -1,0 +1,13 @@
+{
+  "source_path": "CLAUDE.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Claude Code: punto de entrada",
+  "summary": "Entry-point instructions for Claude Code in Compás a compás: required reading order, app status pointer, and project context.",
+  "scope": ["Compás a compás", "Claude Code onboarding", "reading order", "project status (ESTADO)", "branch and closing workflow (AGENTS.md)", "data model (DATOS, song.schema.json)", "references"],
+  "cross_refs": ["AGENTS.md", "docs/REQUISITOS.md", "docs/DISENO.md", "docs/DATOS.md", "schemas/song.schema.json", "references/README.md", "docs/PLAN.md", "docs/VALIDACION.md", "docs/ESTADO.md", "docs/INICIO_CLAUDE.md"],
+  "locked": false,
+  "precedence": 1,
+  "notes": ""
+}

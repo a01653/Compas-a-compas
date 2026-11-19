@@ -1,0 +1,13 @@
+{
+  "source_path": "docs/DISENO.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Diseño de aplicación y hojas",
+  "summary": "Design and implementation rules for the app's visual identity, editor layout, chord cards, fretboard geometry and repeat-bar sizing.",
+  "scope": ["Compás a compás application", "editor", "chord cards (tarjetas)", "fretboard geometry (mástil)", "repeat bar", "song data marks", "preview", "header icon", "Caveat Brush and Gochi Hand fonts", "sheet output"],
+  "cross_refs": ["referencia-tarjetas.html", "diseno.css", "references/fonts.css", "examples/index.json", "ESTADO.md"],
+  "locked": false,
+  "precedence": 3,
+  "notes": "Type and precedence set by MANIFEST_TYPE=SPEC and MANIFEST_PRECEDENCE=3. Content contains implementation rules and a geometry table, consistent with SPEC. The source_hash component of the filename could not be computed (no shell or hashing tool available to this classifier), so the file is written as DISENO-unhashed.json instead of the DISENO-{hash8}.json pattern. The orchestrator should rename it or compute the hash."
+}

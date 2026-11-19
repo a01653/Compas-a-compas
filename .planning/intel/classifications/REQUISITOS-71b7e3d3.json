@@ -1,0 +1,13 @@
+{
+  "source_path": "docs/REQUISITOS.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Requisitos acordados",
+  "summary": "Requisitos funcionales de Compás a compás para crear y editar hojas de acordes de guitarra por compás, con guardado JSON, exportación HTML/PDF e interfaz.",
+  "scope": ["Compás a compás", "hojas de acordes", "compases", "tarjetas de acordes", "digitaciones", "marcas de repetición", "guardado JSON", "exportación HTML", "impresión PDF", "interfaz"],
+  "cross_refs": ["diseno/textos-y-tonalidades.md"],
+  "locked": false,
+  "precedence": 2,
+  "notes": ""
+}

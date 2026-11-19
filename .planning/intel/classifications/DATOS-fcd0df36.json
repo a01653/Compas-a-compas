@@ -1,0 +1,13 @@
+{
+  "source_path": "docs/DATOS.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Contrato de datos propuesto, versión 1",
+  "summary": "Defines the v1 song JSON data contract: measure/chord/voicing hierarchy, fret encoding, navigation structure, palette, and per-version schema extensions.",
+  "scope": ["Song JSON format", "measures", "chordEvents", "voicings", "frets", "degrees", "structure (repeats, endings, markers, jumps)", "palette", "tonality", "repeatPrevious", "repeatPreviousTwo", "widthPercent", "fillToEdge", "breakBefore", "breakAfter", "palette-defaults", "measure operations"],
+  "cross_refs": ["schemas/song.schema.json", "config/palette-defaults.json", "src/model/measureOps.js", "styles/tokens.css", "tests/setup.mjs", "scripts/build-pages.mjs"],
+  "locked": false,
+  "precedence": 4,
+  "notes": ""
+}
